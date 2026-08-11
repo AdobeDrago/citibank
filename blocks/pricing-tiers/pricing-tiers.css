@@ -1,0 +1,95 @@
+.pricing-tiers .pricing-tiers-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+}
+
+.pricing-tiers .pricing-tiers-card {
+  display: flex;
+  flex-direction: column;
+  background-color: var(--background-color);
+  border-radius: var(--citi-card-radius);
+  box-shadow: var(--citi-card-shadow);
+  border-top: 6px solid var(--citi-blue);
+  padding: 25px;
+}
+
+.pricing-tiers .pricing-tiers-name {
+  font-family: var(--heading-font-family);
+}
+
+.pricing-tiers .pricing-tiers-name p {
+  margin: 0;
+  font-size: var(--heading-font-size-s);
+  font-weight: 700;
+  color: var(--citi-navy);
+}
+
+.pricing-tiers .pricing-tiers-balance p {
+  margin: 4px 0 16px;
+  color: var(--dark-color);
+  font-size: var(--body-font-size-xs);
+}
+
+.pricing-tiers .pricing-tiers-benefits ul {
+  flex: 1;
+  margin: 0 0 20px;
+  padding-left: 20px;
+}
+
+.pricing-tiers .pricing-tiers-benefits li {
+  margin-bottom: 8px;
+}
+
+.pricing-tiers .pricing-tiers-cta {
+  margin-top: auto;
+}
+
+.pricing-tiers .pricing-tiers-cta .button-wrapper {
+  margin: 0;
+}
+
+.pricing-tiers .pricing-tiers-cta .button {
+  width: 100%;
+  background-color: var(--citi-blue);
+  border-color: var(--citi-blue);
+}
+
+/* tier-specific accent overrides, grouped last so specificity only ascends */
+.pricing-tiers .pricing-tiers-card[data-tier="citi-priority"] {
+  border-top-color: var(--citi-navy);
+}
+
+.pricing-tiers .pricing-tiers-card[data-tier="citigold"] {
+  border-top-color: var(--citi-gold);
+}
+
+.pricing-tiers .pricing-tiers-card[data-tier="citigold-private-client"] {
+  border-top-color: var(--citi-private-client);
+}
+
+.pricing-tiers .pricing-tiers-card[data-tier="citigold"] .pricing-tiers-name p {
+  color: var(--citi-gold);
+}
+
+.pricing-tiers .pricing-tiers-card[data-tier="citigold-private-client"] .pricing-tiers-name p {
+  color: var(--citi-private-client);
+}
+
+.pricing-tiers .pricing-tiers-card[data-tier="citi-priority"] .pricing-tiers-cta .button {
+  background-color: var(--citi-navy);
+  border-color: var(--citi-navy);
+}
+
+.pricing-tiers .pricing-tiers-card[data-tier="citigold"] .pricing-tiers-cta .button {
+  background-color: var(--citi-gold);
+  border-color: var(--citi-gold);
+}
+
+.pricing-tiers .pricing-tiers-card[data-tier="citigold-private-client"] .pricing-tiers-cta .button {
+  background-color: var(--citi-private-client);
+  border-color: var(--citi-private-client);
+}
