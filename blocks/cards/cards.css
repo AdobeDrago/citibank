@@ -25,3 +25,43 @@
   aspect-ratio: 4 / 3;
   object-fit: cover;
 }
+
+/*
+ * benefits-grid variant: small icon + title + description cards on a colored
+ * band (e.g. the Citigold "See what Citigold has to offer" feature grid).
+ * Author adds the "benefits-grid" style to the block (Cards (benefits grid)).
+ */
+.cards.benefits-grid > ul {
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.cards.benefits-grid > ul > li {
+  border: none;
+  border-radius: var(--citi-card-radius);
+  box-shadow: var(--citi-card-shadow);
+  padding: 24px;
+  text-align: center;
+}
+
+.cards.benefits-grid .cards-card-body {
+  margin: 0;
+}
+
+.cards.benefits-grid .cards-card-image {
+  margin: 0 auto 12px;
+  width: 56px;
+}
+
+.cards.benefits-grid .cards-card-image img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: contain;
+  border-radius: 50%;
+}
+
+.cards.benefits-grid .cards-card-body p:first-child {
+  font-family: var(--heading-font-family);
+  font-weight: 700;
+  color: var(--citi-navy);
+}

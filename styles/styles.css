@@ -11,17 +11,28 @@
  */
 
 :root {
-  /* colors */
+  /* colors - Citigold Featured Offer (banking.citi.com), extracted 2026-08-11 */
   --background-color: white;
   --light-color: #f8f8f8;
   --dark-color: #505050;
-  --text-color: #131313;
-  --link-color: #3b63fb;
-  --link-hover-color: #1d3ecf;
+  --text-color: #333;
+  --link-color: #255be3;
+  --link-hover-color: #1d47b8;
+
+  /* Citi brand tokens */
+  --citi-navy: #0f1632;
+  --citi-blue: #255be3;
+  --citi-gold: #8e6f32;
+  --citi-private-client: #281814;
+  --citi-pale-blue-bg: #ecf6fe;
+  --citi-card-shadow: 0 2px 11px 2px rgb(0 42 84 / 16%);
+  --citi-card-radius: 20px;
+  --citi-button-radius: 100px;
 
   /* fonts */
-  --body-font-family: roboto, roboto-fallback, sans-serif;
-  --heading-font-family: roboto-condensed, roboto-condensed-fallback, sans-serif;
+  --body-font-family: "Citi Sans Text", citi-sans-text-fallback, sans-serif;
+  --heading-font-family: "Citi Sans Display", citi-sans-display-fallback, sans-serif;
+  --accent-font-family: "Citi Serif Display", citi-serif-display-fallback, serif;
 
   /* body sizes */
   --body-font-size-m: 22px;
@@ -40,17 +51,31 @@
   --nav-height: 64px;
 }
 
-/* fallback fonts */
+/*
+ * Fallback fonts.
+ * "Citi Sans" / "Citi Serif Display" are Citi's proprietary licensed typefaces -
+ * their actual font files live on Citi's internal CDN and must NOT be scraped
+ * or redistributed from the live site. Until licensed woff2 files are provided
+ * through proper channels and dropped into /fonts, these fall back to Source
+ * Sans 3 (open, Google Fonts) - notably the SAME fallback family
+ * (Source Sans Pro) that Citi's own production page falls back to.
+ */
 @font-face {
-  font-family: roboto-condensed-fallback;
-  size-adjust: 88.82%;
-  src: local('Arial');
+  font-family: citi-sans-text-fallback;
+  size-adjust: 100%;
+  src: local('Source Sans 3'), local('Arial');
 }
 
 @font-face {
-  font-family: roboto-fallback;
-  size-adjust: 99.529%;
-  src: local('Arial');
+  font-family: citi-sans-display-fallback;
+  size-adjust: 95%;
+  src: local('Source Sans 3'), local('Arial');
+}
+
+@font-face {
+  font-family: citi-serif-display-fallback;
+  size-adjust: 100%;
+  src: local('Georgia'), local('Times New Roman');
 }
 
 @media (width >= 900px) {
@@ -179,7 +204,7 @@ button.button {
   max-width: 100%;
   margin: 0;
   border: 2px solid transparent;
-  border-radius: 2.4em;
+  border-radius: var(--citi-button-radius);
   padding: 0.5em 1.2em;
   font: inherit;
   font-weight: 500;
@@ -199,8 +224,8 @@ button.button:disabled {
 
 a.button.primary,
 button.button.primary {
-  border-color: var(--text-color);
-  background-color: var(--text-color);
+  border-color: var(--citi-navy);
+  background-color: var(--citi-navy);
   color: var(--background-color);
 }
 
@@ -278,6 +303,33 @@ button.button.accent:disabled:focus-visible {
   color: var(--dark-color);
 }
 
+/* Citigold-tier call-to-action */
+a.button.gold,
+button.button.gold {
+  border-color: var(--citi-gold);
+  background-color: var(--citi-gold);
+  color: var(--background-color);
+}
+
+a.button.gold:hover,
+a.button.gold:focus-visible,
+button.button.gold:hover,
+button.button.gold:focus-visible {
+  border-color: #715930;
+  background-color: #715930;
+}
+
+a.button.gold[aria-disabled="true"],
+a.button.gold[aria-disabled="true"]:hover,
+a.button.gold[aria-disabled="true"]:focus-visible,
+button.button.gold:disabled,
+button.button.gold:disabled:hover,
+button.button.gold:disabled:focus-visible {
+  background-color: var(--light-color);
+  border-color: var(--light-color);
+  color: var(--dark-color);
+}
+
 main img {
   max-width: 100%;
   width: auto;
@@ -320,6 +372,44 @@ main > .section:first-of-type {
 main .section.light,
 main .section.highlight {
   background-color: var(--light-color);
+  margin: 0;
+  padding: 40px 0;
+}
+
+main .section.navy {
+  background-color: var(--citi-navy);
+  color: var(--background-color);
+  margin: 0;
+  padding: 40px 0;
+}
+
+main .section.navy h1,
+main .section.navy h2,
+main .section.navy h3,
+main .section.navy h4,
+main .section.navy h5,
+main .section.navy h6 {
+  color: var(--background-color);
+}
+
+main .section.gold {
+  background-color: var(--citi-gold);
+  color: var(--background-color);
+  margin: 0;
+  padding: 40px 0;
+}
+
+main .section.gold h1,
+main .section.gold h2,
+main .section.gold h3,
+main .section.gold h4,
+main .section.gold h5,
+main .section.gold h6 {
+  color: var(--background-color);
+}
+
+main .section.pale-blue {
+  background-color: var(--citi-pale-blue-bg);
   margin: 0;
   padding: 40px 0;
 }

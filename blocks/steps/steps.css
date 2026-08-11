@@ -1,0 +1,65 @@
+.steps {
+  background-color: var(--background-color);
+  border-radius: var(--citi-card-radius);
+  box-shadow: var(--citi-card-shadow);
+  padding: 32px 24px;
+}
+
+.steps .steps-list {
+  counter-reset: steps-counter;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.steps .steps-item {
+  position: relative;
+  padding-left: 56px;
+}
+
+.steps .steps-item::before {
+  counter-increment: steps-counter;
+  content: counter(steps-counter);
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background-color: var(--citi-blue);
+  color: var(--background-color);
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.steps .steps-title {
+  margin: 0 0 4px;
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-xs);
+}
+
+.steps .steps-title p {
+  margin: 0;
+  font-weight: 700;
+}
+
+.steps .steps-body p {
+  margin: 0;
+  color: var(--dark-color);
+}
+
+@media (width >= 900px) {
+  .steps .steps-list {
+    flex-direction: row;
+    gap: 32px;
+  }
+
+  .steps .steps-item {
+    flex: 1;
+  }
+}
