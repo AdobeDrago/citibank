@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Banking ELP + Pega Personalization — EDS Migration Pilot Proposal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@300;400;600;700&family=Source+Code+Pro:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    /* Citi brand */
+    --citi-navy: #00274d;
+    --citi-blue: #0468b1;
+    --citi-blue-hover: #035185;
+    --citi-text: #0d1c3d;
+    --citi-grey-text: #677083;
+    --citi-pale-blue: #eaf3fb;
+    --accent: var(--citi-blue);
+
+    --gray-50: #ffffff;
+    --gray-75: #fafafa;
+    --gray-100: #f5f5f5;
+    --gray-200: #eaeaea;
+    --gray-300: #e1e1e1;
+    --gray-400: #cacaca;
+    --gray-500: #b3b3b3;
+    --gray-600: #8e8e8e;
+    --gray-700: #6e6e6e;
+    --gray-800: #4b4b4b;
+    --gray-900: #2c2c2c;
+
+    --font: 'Source Sans 3', ui-sans-serif, system-ui, -apple-system, sans-serif;
+    --mono: 'Source Code Pro', 'Fira Mono', 'Courier New', monospace;
+    --sidebar-width: 260px;
+    --content-max: 880px;
+    --header-h: 56px;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font);
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--gray-900);
+    background: var(--gray-50);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  /* ── TOP NAV ── */
+  .topnav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    height: var(--header-h);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    padding: 0 24px;
+    gap: 16px;
+    z-index: 100;
+    box-shadow: 0 1px 0 var(--gray-200);
+  }
+  .topnav-logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    color: var(--citi-navy);
+    font-size: 15px;
+    letter-spacing: -0.01em;
+  }
+  .topnav-logo-mark {
+    height: 22px;
+    width: auto;
+    flex-shrink: 0;
+    display: block;
+  }
+  .topnav-divider { width: 1px; height: 20px; background: var(--gray-300); }
+  .topnav-title {
+    color: var(--gray-800);
+    font-size: 14px;
+    font-weight: 400;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .topnav-badge {
+    margin-left: auto;
+    background: var(--citi-pale-blue);
+    color: var(--citi-blue);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 12px;
+    letter-spacing: 0.04em;
+    font-weight: 700;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  /* ── LAYOUT ── */
+  .layout { display: flex; margin-top: var(--header-h); min-height: calc(100vh - var(--header-h)); }
+
+  /* ── SIDEBAR ── */
+  .sidebar {
+    width: var(--sidebar-width);
+    flex-shrink: 0;
+    position: sticky;
+    top: var(--header-h);
+    height: calc(100vh - var(--header-h));
+    overflow-y: auto;
+    border-right: 1px solid var(--gray-200);
+    background: var(--gray-75);
+    padding: 24px 0 40px;
+  }
+  .sidebar-section { margin-bottom: 8px; }
+  .sidebar-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--gray-600);
+    padding: 8px 20px 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+  .sidebar-link {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 20px;
+    font-size: 13px;
+    color: var(--gray-800);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    transition: background 0.1s, color 0.1s, border-color 0.1s;
+  }
+  .sidebar-link:hover { background: var(--gray-200); color: var(--gray-900); }
+  .sidebar-link.active {
+    background: var(--citi-pale-blue);
+    color: var(--citi-blue);
+    border-left-color: var(--citi-blue);
+    font-weight: 700;
+  }
+  .sidebar-link .icon { width: 16px; height: 16px; opacity: 0.6; flex-shrink: 0; }
+  .sidebar-link.active .icon { opacity: 1; }
+
+  /* ── MAIN ── */
+  .main { flex: 1; min-width: 0; padding: 48px 56px 80px; }
+  .main-inner { max-width: var(--content-max); }
+
+  /* ── PAGE HERO ── */
+  .page-hero {
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--gray-200);
+    margin-bottom: 48px;
+  }
+  .page-hero-eyebrow {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--citi-blue);
+    margin-bottom: 8px;
+  }
+  .page-hero h1 {
+    font-size: 32px;
+    font-weight: 700;
+    color: var(--citi-navy);
+    line-height: 1.2;
+    margin-bottom: 12px;
+  }
+  .page-hero-sub { font-size: 16px; color: var(--gray-700); max-width: 680px; line-height: 1.5; }
+
+  /* ── SECTIONS ── */
+  .doc-section { margin-bottom: 56px; scroll-margin-top: calc(var(--header-h) + 24px); }
+  .doc-section h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--citi-navy);
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    flex-wrap: wrap;
+  }
+  .section-rule { height: 1px; background: var(--gray-200); margin: 12px 0 24px; }
+  .doc-section h3 { font-size: 14px; font-weight: 700; color: var(--gray-900); margin: 24px 0 8px; }
+  .doc-section p { font-size: 14px; color: var(--gray-800); margin-bottom: 12px; line-height: 1.65; }
+
+  /* ── SECTION ICON BADGE ── */
+  .section-icon {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .icon-blue   { background: #e9f1fc; color: var(--citi-blue); }
+  .icon-navy   { background: #e6eef7; color: var(--citi-navy); }
+  .icon-green  { background: #eaf6f1; color: #268e6c; }
+  .icon-purple { background: #f3edfb; color: #7240ab; }
+  .icon-seafoam{ background: #e6f4f4; color: #16878c; }
+  .icon-orange { background: #fff4e5; color: #da7b11; }
+
+  /* ── URL CARDS ── */
+  .url-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+  .url-card {
+    background: var(--gray-50);
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    padding: 14px 16px;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .url-card:hover { border-color: var(--citi-blue); box-shadow: 0 0 0 1px var(--citi-blue); }
+  .url-card-label {
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--gray-600);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .url-card-label .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .dot-blue   { background: var(--citi-blue); }
+  .dot-navy   { background: var(--citi-navy); }
+  .dot-green  { background: #268e6c; }
+  .dot-purple { background: #7240ab; }
+  .dot-orange { background: #da7b11; }
+  .url-card-title { font-size: 13px; font-weight: 700; color: var(--gray-900); }
+  .url-card-url { font-size: 12px; font-family: var(--mono); color: var(--citi-blue); word-break: break-all; }
+  .url-card-desc { font-size: 12px; color: var(--gray-600); margin-top: 2px; }
+
+  /* ── STEPS ── */
+  .steps { counter-reset: step; list-style: none; display: flex; flex-direction: column; gap: 0; position: relative; }
+  .steps::before {
+    content: '';
+    position: absolute;
+    left: 15px; top: 30px; bottom: 30px;
+    width: 1px;
+    background: var(--gray-300);
+  }
+  .step { display: flex; gap: 16px; padding-bottom: 24px; position: relative; }
+  .step:last-child { padding-bottom: 0; }
+  .step-num {
+    counter-increment: step;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--citi-blue);
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+  }
+  .step-num::after { content: counter(step); }
+  .step-body { padding-top: 5px; flex: 1; }
+  .step-title { font-size: 14px; font-weight: 700; color: var(--gray-900); margin-bottom: 6px; }
+  .step-body p { font-size: 13px; color: var(--gray-700); margin-bottom: 8px; }
+
+  /* ── CODE BLOCKS ── */
+  .code-block {
+    background: var(--gray-900);
+    color: #d4d4d4;
+    border-radius: 6px;
+    padding: 14px 16px;
+    font-family: var(--mono);
+    font-size: 12.5px;
+    line-height: 1.6;
+    overflow-x: auto;
+    margin: 8px 0 4px;
+    white-space: pre;
+  }
+  .code-block .cmt  { color: #6a9955; }
+  .code-block .str  { color: #ce9178; }
+  .code-block .kw   { color: #569cd6; }
+  .code-block .var  { color: #9cdcfe; }
+  .code-inline {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--gray-100);
+    border: 1px solid var(--gray-300);
+    color: var(--gray-900);
+    padding: 1px 5px;
+    border-radius: 4px;
+  }
+
+  /* ── NOTICES ── */
+  .notice {
+    border-radius: 6px;
+    padding: 12px 16px;
+    margin: 16px 0;
+    font-size: 13px;
+    display: flex;
+    gap: 10px;
+    align-items: flex-start;
+    line-height: 1.5;
+  }
+  .notice-icon { flex-shrink: 0; margin-top: 1px; }
+  .notice.info     { background: #e9f1fc; color: #0d51b5; border-left: 3px solid var(--citi-blue); }
+  .notice.tip      { background: #eaf6f1; color: #1a6b50; border-left: 3px solid #268e6c; }
+  .notice.warning  { background: #fff4e5; color: #8a4b08; border-left: 3px solid #da7b11; }
+  .notice.question { background: #f3edfb; color: #5b2d99; border-left: 3px solid #7240ab; }
+
+  /* ── SKILLS / THEME GRID ── */
+  .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
+  .skill-card { background: var(--gray-50); border: 1px solid var(--gray-200); border-radius: 8px; padding: 14px 16px; }
+  .skill-card-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+  .skill-tag {
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding: 2px 7px;
+    border-radius: 10px;
+  }
+  .tag-js  { background: #fff8d6; color: #8a5e00; }
+  .tag-css { background: #e9f1fc; color: #0d51b5; }
+  .tag-cfg { background: #eaf6f1; color: #1a6b50; }
+  .skill-card-name { font-size: 13px; font-weight: 700; color: var(--gray-900); }
+  .skill-card-desc { font-size: 12px; color: var(--gray-600); line-height: 1.5; }
+
+  /* ── PIPELINE DIAGRAM ── */
+  .arch-diagram { border: 1px solid var(--gray-200); border-radius: 8px; padding: 24px; background: var(--gray-75); margin: 16px 0; }
+  .arch-row { display: flex; gap: 8px; align-items: center; justify-content: center; flex-wrap: wrap; margin-bottom: 8px; }
+  .arch-node { padding: 8px 16px; border-radius: 6px; font-size: 12px; font-weight: 700; text-align: center; min-width: 110px; }
+  .arch-arrow { font-size: 18px; color: var(--gray-400); }
+
+  /* ── TABLE ── */
+  .spec-table { width: 100%; border-collapse: collapse; font-size: 13px; margin: 12px 0; }
+  .spec-table th {
+    text-align: left;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.07em;
+    color: var(--gray-600);
+    padding: 8px 12px;
+    border-bottom: 2px solid var(--gray-200);
+    background: var(--gray-75);
+  }
+  .spec-table td { padding: 9px 12px; border-bottom: 1px solid var(--gray-200); color: var(--gray-800); vertical-align: top; }
+  .spec-table tr:last-child td { border-bottom: none; }
+  .spec-table td:first-child { font-weight: 700; color: var(--gray-900); }
+
+  /* ── FOOTER ── */
+  .doc-footer {
+    border-top: 1px solid var(--gray-200);
+    margin-top: 40px;
+    padding-top: 20px;
+    font-size: 12px;
+    color: var(--gray-500);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+  }
+
+  /* ── SIDEBAR STATUS PILL ── */
+  .nav-status {
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 1px 6px;
+    border-radius: 8px;
+    text-transform: uppercase;
+  }
+  .ns-progress { background: #fff4e5; color: #8a4b08; }
+  .ns-planned  { background: var(--gray-200); color: var(--gray-600); }
+  .ns-done     { background: #eaf6f1; color: #1a6b50; }
+
+  /* ── SCENARIO STATUS BADGE (in section headers) ── */
+  .status-badge {
+    margin-left: auto;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    padding: 3px 10px;
+    border-radius: 12px;
+    text-transform: uppercase;
+  }
+  .sb-progress { background: #fff4e5; color: #8a4b08; }
+  .sb-planned  { background: var(--gray-100); color: var(--gray-600); }
+  .sb-done     { background: #eaf6f1; color: #1a6b50; }
+
+  /* ── VALIDATION CHECKLIST (pending pilot items) ── */
+  .checklist { list-style: none; display: flex; flex-direction: column; gap: 10px; margin: 4px 0; }
+  .check-item {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+    padding: 12px 14px;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    background: var(--gray-50);
+  }
+  .check-mark {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 1px;
+  }
+  .check-mark svg { width: 12px; height: 12px; }
+  .cm-done    { background: #eaf6f1; color: #268e6c; }
+  .cm-partial { background: #fff4e5; color: #da7b11; }
+  .cm-todo    { background: var(--gray-100); color: var(--gray-500); }
+  .check-body { flex: 1; }
+  .check-title { font-weight: 700; font-size: 13px; color: var(--gray-900); }
+  .check-note  { font-size: 12px; color: var(--gray-600); line-height: 1.5; }
+
+  .req-list { margin: 8px 0 0 18px; font-size: 13px; color: var(--gray-700); }
+  .req-list li { margin-bottom: 4px; }
+
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .main { padding: 24px 20px 60px; }
+    .page-hero h1 { font-size: 24px; }
+    .url-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <a class="topnav-logo" href="#overview">
+    <svg class="topnav-logo-mark" viewBox="16.5 28.3201 56 32.3599" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Citi">
+      <path d="M16.5485 50.2744C16.5485 44.5 21.2765 40.0045 27.4384 40.0045C31.0038 40.0045 34.2592 41.5934 36.1194 43.9962L33.4453 46.6702C32.7361 45.7621 31.8311 45.0257 30.7978 44.5157C29.7645 44.0058 28.6294 43.7355 27.4772 43.7249C23.7955 43.7249 20.8502 46.4765 20.8502 50.2744C20.8502 54.1111 23.7955 56.8626 27.4772 56.8626C28.6707 56.8612 29.8477 56.5841 30.9165 56.0531C31.9853 55.522 32.9171 54.7513 33.6391 53.801L36.2744 56.3976C34.4917 58.9166 31.0813 60.583 27.4384 60.583C21.2765 60.583 16.5485 56.0875 16.5485 50.2744Z" fill="#255BE3"/>
+      <path d="M39.7623 40.7021H43.9865V59.8855H39.7623V40.7021Z" fill="#255BE3"/>
+      <path d="M51.8537 54.7311V44.2675H47.2419V40.7021H52.0474V36.5941L56.0004 34.6564V40.7021H62.2786V44.2675H56.0004V54.0336C56.0004 55.9713 57.0855 56.8239 59.1395 56.8239C60.2082 56.8294 61.2656 56.6047 62.2398 56.165V59.808C61.0192 60.3435 59.697 60.608 58.3644 60.583C54.6052 60.583 51.8537 58.5291 51.8537 54.7311Z" fill="#255BE3"/>
+      <path d="M65.6115 40.7021H69.8357V59.8855H65.6115V40.7021Z" fill="#255BE3"/>
+      <path d="M54.7602 28.4945C58.2295 28.4862 61.6499 29.3129 64.7324 30.9047C67.815 32.4966 70.4692 34.8069 72.471 37.6405H67.5492C65.9359 35.8474 63.9637 34.4136 61.7605 33.4321C59.5572 32.4506 57.1722 31.9434 54.7602 31.9434C52.3483 31.9434 49.9632 32.4506 47.76 33.4321C45.5567 34.4136 43.5845 35.8474 41.9713 37.6405H37.0495C39.0512 34.8069 41.7055 32.4966 44.788 30.9047C47.8706 29.3129 51.2909 28.4862 54.7602 28.4945Z" fill="#FF3C28"/>
+    </svg>
+    Citibank Pilot
+  </a>
+  <div class="topnav-divider"></div>
+  <span class="topnav-title">Banking ELP + Pega Personalization — EDS Migration Pilot Proposal</span>
+  <span class="topnav-badge">Proposal</span>
+</nav>
+
+<!-- LAYOUT -->
+<div class="layout">
+
+  <!-- SIDEBAR -->
+  <nav class="sidebar" aria-label="Page navigation">
+    <div class="sidebar-section">
+      <div class="sidebar-label">Pilot</div>
+      <a class="sidebar-link active" href="#overview">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h5v5H2zm7 0h5v5H9zM2 9h5v5H2zm7 0h5v5H9z"/></svg>
+        Overview
+      </a>
+      <a class="sidebar-link" href="#references">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"/></svg>
+        Key references
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Scenario 1 · Citigold ELP <span class="nav-status ns-planned">Proposed</span></div>
+      <a class="sidebar-link" href="#scenario-1">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2zm5.5 0A1.5 1.5 0 018 2h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 7H8A1.5 1.5 0 016.5 5.5v-2zm-5.5 5A1.5 1.5 0 012.5 7h2A1.5 1.5 0 016 8.5v2A1.5 1.5 0 014.5 12h-2A1.5 1.5 0 011 10.5v-2zm5.5 0A1.5 1.5 0 018 7h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 12H8A1.5 1.5 0 016.5 10.5v-2z"/></svg>
+        Featured Offer landing page
+      </a>
+      <a class="sidebar-link" href="#s1-pega-e2e">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+        Pega banner E2E gate
+      </a>
+      <a class="sidebar-link" href="#s1-open-questions">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+        Open questions
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Scenario 2 · Pega banners <span class="nav-status ns-planned">Proposed</span></div>
+      <a class="sidebar-link" href="#scenario-2">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M4.5 2A2.5 2.5 0 002 4.5v7A2.5 2.5 0 004.5 14h7a2.5 2.5 0 002.5-2.5v-7A2.5 2.5 0 0011.5 2h-7zM5 5.5A.5.5 0 015.5 5h5a.5.5 0 010 1h-5A.5.5 0 015 5.5zm0 2.5a.5.5 0 01.5-.5h5a.5.5 0 010 1h-5A.5.5 0 015 8zm.5 2a.5.5 0 000 1h3a.5.5 0 000-1h-3z"/></svg>
+        Post-login personalized banners
+      </a>
+      <a class="sidebar-link" href="#s2-open-questions">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+        Open questions
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Scenario 3 · Explore Cards <span class="nav-status ns-planned">Proposed</span></div>
+      <a class="sidebar-link" href="#scenario-3">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85a1 1 0 00-.115-.099zM12 6.5a5.5 5.5 0 11-11 0 5.5 5.5 0 0111 0z"/></svg>
+        Credit Cards Explore page
+      </a>
+      <a class="sidebar-link" href="#s3-release-workflow">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0114.25 14H1.75A1.75 1.75 0 010 12.25v-8.5zm1.75-.25a.25.25 0 00-.25.25v.5h13v-.5a.25.25 0 00-.25-.25H1.75zM1.5 5.5v6.75c0 .138.112.25.25.25h12.5a.25.25 0 00.25-.25V5.5h-13z"/></svg>
+        Content release &amp; the branch model
+      </a>
+      <a class="sidebar-link" href="#s3-open-questions">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+        Open questions
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Cross-cutting</div>
+      <a class="sidebar-link" href="#themes">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5c-1.5 2.5-4 4.5-4 7a4 4 0 008 0c0-2.5-2.5-4.5-4-7z"/></svg>
+        Evaluation themes
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Reference</div>
+      <a class="sidebar-link" href="#next-steps">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
+        Next steps
+      </a>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <main class="main">
+    <div class="main-inner">
+
+      <!-- PAGE HERO -->
+      <div class="page-hero" id="overview">
+        <div class="page-hero-eyebrow">Citibank · EDS Migration Pilot Proposal</div>
+        <h1>Banking ELP + Pega Personalization Pilot</h1>
+        <p class="page-hero-sub">A proposal to validate migrating hosted <strong>External Landing Pages (ELP)</strong> and <strong>Pega-driven personalization</strong> into <strong>Edge Delivery Services (EDS)</strong>. Three candidate pages anchor the evaluation — a complex hosted ELP, a post-login Pega banner surface, and a headless credit-cards marketing page — chosen to stress-test session handling, personalization, authoring governance, content release workflows, and dynamic/real-time data integration together.</p>
+      </div>
+
+      <!-- PROJECT OVERVIEW -->
+      <section class="doc-section">
+        <h2>
+          <span class="section-icon icon-navy">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2zm5.5 0A1.5 1.5 0 018 2h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 7H8A1.5 1.5 0 016.5 5.5v-2zm-5.5 5A1.5 1.5 0 012.5 7h2A1.5 1.5 0 016 8.5v2A1.5 1.5 0 014.5 12h-2A1.5 1.5 0 011 10.5v-2zm5.5 0A1.5 1.5 0 018 7h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 12H8A1.5 1.5 0 016.5 10.5v-2z"/></svg>
+          </span>
+          Project overview
+        </h2>
+        <div class="section-rule"></div>
+        <p>This is a <strong>pilot proposal</strong> to validate whether Citibank's hosted pages and Pega-driven personalization surfaces can migrate cleanly to <strong>Edge Delivery Services</strong>, without losing session-aware personalization, authoring governance, or release control. None of the three scenarios below is built yet — this document scopes what each one is meant to prove and what still needs an answer before pilot kickoff.</p>
+
+        <h3>Purpose</h3>
+        <ul class="req-list">
+          <li>Validate a <strong>hosted-page migration path</strong> from the existing <code class="code-inline">banking.citi.com</code> ELP platform into EDS.</li>
+          <li>Validate the <strong>authoring workflow and governance model</strong> changes EDS requires for hosted pages.</li>
+          <li>Validate <strong>dynamic, real-time data rendering</strong> — Pega decisioning and AEM GraphQL-backed personalization — inside an authored EDS page.</li>
+          <li>Validate <strong>headless-to-block</strong> migration for an existing Angular experience, including session-aware header/footer branding.</li>
+          <li>Validate an <strong>authoring &amp; release workflow</strong> that supports bi-weekly content releases without colliding with monthly engineering releases.</li>
+        </ul>
+
+        <h3>The three candidate scenarios</h3>
+        <table class="spec-table">
+          <thead><tr><th>Scenario</th><th>Validates</th><th>Auth</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><a href="#scenario-1" style="color:var(--citi-blue);">1 · Citigold Featured Offer (ELP)</a></td>
+              <td>Hosted-page migration · authoring governance · dynamic API integration · Pega banner E2E gate</td>
+              <td>Pre-login</td>
+              <td><span class="nav-status ns-planned">Proposed</span></td>
+            </tr>
+            <tr>
+              <td><a href="#scenario-2" style="color:var(--citi-blue);">2 · Post-Login Pega Banners</a></td>
+              <td>Session/identity integration · real-time Pega decisioning · slot-based placement</td>
+              <td>Post-login</td>
+              <td><span class="nav-status ns-planned">Proposed</span></td>
+            </tr>
+            <tr>
+              <td><a href="#scenario-3" style="color:var(--citi-blue);">3 · Credit Cards Explore page</a></td>
+              <td>Headless (Angular→EDS) · segment personalization · engagement modules · bi-weekly release governance</td>
+              <td>Pre-login (session-aware)</td>
+              <td><span class="nav-status ns-planned">Proposed</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="notice info">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+          <span><strong>Why these three together.</strong> Individually, each scenario is a strong but narrow test. Together they cover the full surface we need EDS to prove out: <strong>session handling</strong> (pre-login and post-login), <strong>personalization at scale</strong> (Pega decisioning, customer-segment offers, engagement modules), <strong>authoring governance</strong> (hosted-page transition, Universal Editor/DA model for a complex ELP), <strong>content release workflows</strong> (bi-weekly content vs. monthly tech releases, conflict detection), and <strong>dynamic API integration</strong> (Pega, Content Hub/AEM GraphQL, Lucid-style search). See <a href="#themes" style="color:#0d51b5;">Evaluation themes</a> for the coverage matrix.</span>
+        </div>
+
+        <table class="spec-table" style="margin-top:16px;">
+          <thead><tr><th>Attribute</th><th>Value</th></tr></thead>
+          <tbody>
+            <tr><td>Effort</td><td>Hosted ELP + Pega personalization → Edge Delivery Services migration pilot</td></tr>
+            <tr><td>Candidate pages</td><td>3 (Citigold ELP · Post-login Pega banners · Credit Cards Explore)</td></tr>
+            <tr><td>Personalization engine</td><td>Pega (real-time decisioning) · AEM GraphQL persisted queries (<code class="code-inline">pz/get-pz-offers</code>)</td></tr>
+            <tr><td>Migration source</td><td>Hosted AEM page (Citigold ELP) · Angular headless (Credit Cards)</td></tr>
+            <tr><td>Content release cadence</td><td>Bi-weekly content releases (Credit Cards) · monthly engineering/tech releases</td></tr>
+            <tr><td>Reference sites</td><td><code class="code-inline">banking.citi.com</code> · <code class="code-inline">www.citi.com</code> · <code class="code-inline">qa3.aemapi.citi.com</code></td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- KEY REFERENCES -->
+      <section class="doc-section" id="references">
+        <h2>
+          <span class="section-icon icon-seafoam">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M7.775 3.275a.75.75 0 001.06 1.06l1.25-1.25a2 2 0 112.83 2.83l-2.5 2.5a2 2 0 01-2.83 0 .75.75 0 00-1.06 1.06 3.5 3.5 0 004.95 0l2.5-2.5a3.5 3.5 0 00-4.95-4.95l-1.25 1.25zm-4.69 9.64a2 2 0 010-2.83l2.5-2.5a2 2 0 012.83 0 .75.75 0 001.06-1.06 3.5 3.5 0 00-4.95 0l-2.5 2.5a3.5 3.5 0 004.95 4.95l1.25-1.25a.75.75 0 00-1.06-1.06l-1.25 1.25a2 2 0 01-2.83 0z"/></svg>
+          </span>
+          Key references
+        </h2>
+        <div class="section-rule"></div>
+
+        <h3>Live pages — production (migration source)</h3>
+        <div class="url-grid">
+          <a class="url-card" href="https://banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm" target="_blank" rel="noopener">
+            <div class="url-card-label"><span class="dot dot-navy"></span>Scenario 1 — Hosted ELP</div>
+            <div class="url-card-title">Citigold Featured Offer</div>
+            <div class="url-card-url">banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm</div>
+            <div class="url-card-desc">Complex hosted ELP · dynamic API-driven content · Pega banner on the Apply Now path</div>
+          </a>
+          <a class="url-card" href="https://www.citi.com/credit-cards/?intc=citihpmenu~creditcards~explore" target="_blank" rel="noopener">
+            <div class="url-card-label"><span class="dot dot-purple"></span>Scenario 3 — Headless</div>
+            <div class="url-card-title">Credit Cards — Explore Cards</div>
+            <div class="url-card-url">www.citi.com/credit-cards/?intc=citihpmenu~creditcards~explore</div>
+            <div class="url-card-desc">Current Angular implementation · pre-login banners · engagement modules</div>
+          </a>
+        </div>
+
+        <h3>Post-login banners — no direct URL (authenticated surface)</h3>
+        <p>Scenario 2 renders only after customer authentication, so there is no shareable page URL. The banner content is sourced through the AEM personalization (Pega) GraphQL endpoint below; a screenshot of the rendered banner placements was referenced by the requesting team but has not yet been attached to this repo — see <a href="#s2-open-questions" style="color:var(--citi-blue);">open questions</a>.</p>
+        <div class="url-grid">
+          <a class="url-card" href="https://qa3.aemapi.citi.com/graphql/execute.json/pz/get-pz-offers;path=/content/dam/cfs/uspb/pz/en/offers/cbol/PLCTA01_2a" target="_blank" rel="noopener">
+            <div class="url-card-label"><span class="dot dot-orange"></span>QA3 · AEM GraphQL</div>
+            <div class="url-card-title">get-pz-offers persisted query</div>
+            <div class="url-card-url">qa3.aemapi.citi.com/graphql/execute.json/pz/get-pz-offers</div>
+            <div class="url-card-desc">Path selector: <code class="code-inline">/content/dam/cfs/uspb/pz/en/offers/cbol/PLCTA01_2a</code></div>
+          </a>
+        </div>
+
+        <div class="notice info">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+          <span>All three scenarios are still <strong>pre-implementation</strong>. This page tracks scope and open questions only — there is no EDS preview/live URL to link yet. Once a candidate is built, add its <code class="code-inline">{branch}--{repo}--{owner}.aem.page</code> / <code class="code-inline">.aem.live</code> URLs to the relevant scenario section.</span>
+        </div>
+      </section>
+
+      <!-- SCENARIO 1 -->
+      <section class="doc-section" id="scenario-1">
+        <h2>
+          <span class="section-icon icon-navy">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2zm5.5 0A1.5 1.5 0 018 2h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 7H8A1.5 1.5 0 016.5 5.5v-2zm-5.5 5A1.5 1.5 0 012.5 7h2A1.5 1.5 0 016 8.5v2A1.5 1.5 0 014.5 12h-2A1.5 1.5 0 011 10.5v-2zm5.5 0A1.5 1.5 0 018 7h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 12H8A1.5 1.5 0 016.5 10.5v-2z"/></svg>
+          </span>
+          Scenario 1 — Citigold Featured Offer (ELP)
+          <span class="status-badge sb-planned">Proposed</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p><strong>Live (production, migration source):</strong> <a href="https://banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm" target="_blank" rel="noopener" style="color:var(--citi-blue);">banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm</a></p>
+        <p>This is one of our most complex hosted <strong>External Landing Pages (ELP)</strong> and a strong fit for the prototype because it exercises three things at once: whether a hosted page can transition into EDS, how the authoring and governance model needs to evolve for hosted pages, and whether EDS can render dynamic API data reliably inside an authored page.</p>
+
+        <h3>What this validates</h3>
+        <ul class="req-list">
+          <li><strong>Hosted page migration path</strong> — demonstrates how a hosted page could transition into EDS as part of the broader cloud migration strategy.</li>
+          <li><strong>Authoring workflow changes</strong> — surfaces how the authoring experience and governance model need to evolve for hosted pages moving to EDS.</li>
+          <li><strong>Dynamic API integration</strong> — the page consumes dynamic API data; validates how EDS handles real-time data rendering inside an authored page structure.</li>
+        </ul>
+
+        <ul class="checklist" style="margin-top:16px;">
+          <li class="check-item">
+            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Render the hosted ELP structure through EDS</div>
+              <div class="check-note">Reproduce the Citigold Featured Offer layout, content model, and section structure as authorable EDS blocks.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Fetch and render dynamic API data</div>
+              <div class="check-note">Confirm the offer/eligibility data that currently comes from the hosted page's backend can be fetched and rendered client-side (or edge-side) from an EDS page.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Preserve session handling</div>
+              <div class="check-note">Confirm any session state the hosted page relies on carries across into the EDS-rendered page without breaking eligibility/offer logic.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Define the authoring &amp; governance model</div>
+              <div class="check-note">Decide who authors this page, what approvals are required, and how content release maps onto the existing hosted-page release process.</div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- SCENARIO 1 - PEGA E2E GATE -->
+      <section class="doc-section" id="s1-pega-e2e">
+        <h2>
+          <span class="section-icon icon-orange">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8.22 1.754a.25.25 0 00-.44 0L1.698 13.132a.25.25 0 00.22.368h12.164a.25.25 0 00.22-.368L8.22 1.754zm-1.763-.707c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0114.082 15H1.918a1.75 1.75 0 01-1.543-2.575L6.457 1.047zM9 11a1 1 0 11-2 0 1 1 0 012 0zm-.25-5.25a.75.75 0 00-1.5 0v2.5a.75.75 0 001.5 0v-2.5z"/></svg>
+          </span>
+          Pega banner E2E gate — publish blocker
+        </h2>
+        <div class="section-rule"></div>
+        <p>This page carries a <strong>hard release requirement</strong>: it must be validated end-to-end with Pega banner testing before it is ever published live.</p>
+        <div class="notice warning">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8.22 1.754a.25.25 0 00-.44 0L1.698 13.132a.25.25 0 00.22.368h12.164a.25.25 0 00.22-.368L8.22 1.754zm-1.763-.707c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0114.082 15H1.918a1.75 1.75 0 01-1.543-2.575L6.457 1.047zM9 11a1 1 0 11-2 0 1 1 0 012 0zm-.25-5.25a.75.75 0 00-1.5 0v2.5a.75.75 0 001.5 0v-2.5z"/></svg>
+          <span><strong>Release gate.</strong> The EDS preview page must have its <strong>Apply Now</strong> click-through pointed at <strong>Citi UAT</strong> for Pega banner testing, and that end-to-end path must be verified <em>before</em> the page is published to live. Publish should be blocked until this test passes.</span>
+        </div>
+        <ol class="steps">
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Point preview's Apply Now to Citi UAT</div>
+            <p>Configure the EDS preview environment so the Apply Now CTA on the Pega banner routes to the Citi UAT environment, not production.</p>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Run the Pega banner E2E test on preview</div>
+            <p>Validate the banner renders correctly, the decisioning call resolves, and the Apply Now click-through completes against Citi UAT.</p>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Re-point to production before publish</div>
+            <p>Once the UAT-backed E2E test passes, switch the Apply Now target to production and only then promote the page to live.</p>
+          </div></li>
+        </ol>
+      </section>
+
+      <!-- SCENARIO 1 - OPEN QUESTIONS -->
+      <section class="doc-section" id="s1-open-questions">
+        <h2>
+          <span class="section-icon icon-purple">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+          </span>
+          Open questions
+        </h2>
+        <div class="section-rule"></div>
+        <div class="notice question">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+          <span><strong>1. How is the preview → UAT / live → production banner-target switch mechanized?</strong> Is this an environment variable, a page-level config, or a manual step before promotion — and how do we prevent a page from accidentally publishing with the UAT target still wired in?</span>
+        </div>
+        <div class="notice question">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+          <span><strong>2. What exactly is the dynamic API data on this page, and where does it come from?</strong> The requirements only say the page "consumes dynamic API data" without naming the API, its payload, or its source (offer eligibility, pricing, terms?). Confirm the source, its auth model, and whether it can be called from an EDS-rendered page without a server-side proxy. Flagged again during the initial engineering review as still unclear.</span>
+        </div>
+        <div class="notice question">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+          <span><strong>3. Who owns approval for the authoring/governance model change?</strong> Hosted pages today likely have a different review chain than EDS-authored pages — this needs sign-off before the pilot can be considered representative of the real migration.</span>
+        </div>
+        <div class="notice question">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+          <span><strong>4. The Citi brief describes this scenario relative to two related pages, but only one URL was provided</strong> (<code class="code-inline">.../featured-offer/default.htm</code>). Confirm what the second page is and get its URL before scoping the ELP structure further — it may change the content model.</span>
+        </div>
+      </section>
+
+      <!-- SCENARIO 2 -->
+      <section class="doc-section" id="scenario-2">
+        <h2>
+          <span class="section-icon icon-purple">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M4.5 2A2.5 2.5 0 002 4.5v7A2.5 2.5 0 004.5 14h7a2.5 2.5 0 002.5-2.5v-7A2.5 2.5 0 0011.5 2h-7zM5 5.5A.5.5 0 015.5 5h5a.5.5 0 010 1h-5A.5.5 0 015 5.5zm0 2.5a.5.5 0 01.5-.5h5a.5.5 0 010 1h-5A.5.5 0 015 8zm.5 2a.5.5 0 000 1h3a.5.5 0 000-1h-3z"/></svg>
+          </span>
+          Scenario 2 — Personalized Post-Login Banners
+          <span class="status-badge sb-planned">Proposed</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p>A third use case: <strong>post-login personalized banners</strong> powered by Pega and rendered dynamically across specific placements on post-login pages. Because these are post-login experiences, there is no shareable page URL — the content is fetched from the AEM personalization endpoint below.</p>
+
+        <h3>What this validates</h3>
+        <ul class="req-list">
+          <li><strong>Post-login context</strong> — banners render only after customer authentication, so EDS must integrate with session and identity state.</li>
+          <li><strong>Pega integration</strong> — content is driven in real time by the Pega decisioning engine based on customer profile and segment data.</li>
+          <li><strong>Placement flexibility</strong> — banners appear across multiple placements on post-login pages, so EDS needs to support dynamic, slot-based rendering.</li>
+        </ul>
+
+        <h3>AEM Content Endpoint</h3>
+        <p>Personalized offer content is fetched from a persisted GraphQL query against the <code class="code-inline">qa3</code> (QA/UAT) AEM instance:</p>
+        <div class="code-block"><span class="kw">GET</span> https://qa3.aemapi.citi.com/graphql/execute.json/pz/get-pz-offers<span class="str">;path=/content/dam/cfs/uspb/pz/en/offers/cbol/PLCTA01_2a</span>
+
+<span class="cmt"># persisted query:</span> pz/get-pz-offers
+<span class="cmt"># path selector:</span>   /content/dam/cfs/uspb/pz/en/offers/cbol/PLCTA01_2a
+<span class="cmt"># environment:</span>     qa3 (pre-production)</div>
+
+        <ul class="checklist" style="margin-top:16px;">
+          <li class="check-item">
+            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Fetch personalized banner content post-login</div>
+              <div class="check-note">Call the <code class="code-inline">get-pz-offers</code> persisted query from an EDS-rendered post-login page and confirm the response resolves per-customer.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Render into named, slot-based placements</div>
+              <div class="check-note">Model each banner placement as an EDS block instance that can be positioned independently across post-login page templates.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Preserve session/identity context in EDS</div>
+              <div class="check-note">Confirm the customer's authenticated session is available to the block making the Pega/AEM call, without leaking credentials client-side.</div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- SCENARIO 2 - OPEN QUESTIONS -->
+      <section class="doc-section" id="s2-open-questions">
+        <h2>
+          <span class="section-icon icon-purple">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+          </span>
+          Open questions
+        </h2>
+        <div class="section-rule"></div>
+        <div class="notice question">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+          <span><strong>1. Screenshot pending.</strong> The requesting team referenced a screenshot of the rendered banner placements that has not yet been shared into this repo. Attach it (e.g. under an <code class="code-inline">assets/</code> or design-reference folder) so the block layout can be modeled against it.</span>
+        </div>
+        <div class="notice question">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+          <span><strong>2. What authenticates the browser's call to <code class="code-inline">qa3.aemapi.citi.com</code>?</strong> Since this is a post-login surface, confirm whether the customer's session token/cookie is forwarded directly, or whether a server-side/edge proxy is required to avoid exposing internal AEM endpoints to the client.</span>
+        </div>
+        <div class="notice tip">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+          <span><strong>Working assumption (from engineering review), pending confirmation:</strong> the login flow returns identifying cookies that are then forwarded to Pega for decisioning. If that holds, question 2 above shouldn't be a blocker — but it's still worth getting Citi to confirm the mechanism rather than assuming it.</span>
+        </div>
+        <div class="notice question">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+          <span><strong>3. Personalized content is inherently uncacheable at the edge.</strong> Confirm the intended caching strategy (e.g. no-cache for the banner block's data call, cache everything else) so this doesn't regress EDS's default performance profile.</span>
+        </div>
+        <div class="notice question">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+          <span><strong>4. What are the actual post-login page(s) and placements in scope for the pilot?</strong> No production URL exists for this scenario — we need at least one representative post-login template to author the block against.</span>
+        </div>
+        <div class="notice question">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+          <span><strong>5. What determines which slot a given piece of content renders into?</strong> Is the placement/slot identifier part of the <code class="code-inline">get-pz-offers</code> response, or is it hardcoded per block instance on the page? This decides whether "slot-based rendering" is a data-driven or an authoring-driven concern.</span>
+        </div>
+      </section>
+
+      <!-- SCENARIO 3 -->
+      <section class="doc-section" id="scenario-3">
+        <h2>
+          <span class="section-icon icon-blue">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85a1 1 0 00-.115-.099zM12 6.5a5.5 5.5 0 11-11 0 5.5 5.5 0 0111 0z"/></svg>
+          </span>
+          Scenario 3 — Credit Cards Explore Cards Page
+          <span class="status-badge sb-planned">Proposed</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p><strong>Live (production, migration source):</strong> <a href="https://www.citi.com/credit-cards/?intc=citihpmenu~creditcards~explore" target="_blank" rel="noopener" style="color:var(--citi-blue);">www.citi.com/credit-cards/?intc=citihpmenu~creditcards~explore</a></p>
+        <p>This page includes pre-login banners and demonstrates several critical capabilities we need EDS to support: headless complexity, dynamic content, session-aware branding, personalization, engagement modules, and — distinct from the other two scenarios — a demanding bi-weekly content release cadence.</p>
+
+        <div class="notice info">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+          <span><strong>Engineering review note.</strong> The current implementation appears to be <strong>server-side-rendered Angular (SSR)</strong>, not a pure client-side SPA — worth confirming, since "headless → EDS" means something different for SSR (re-rendering equivalent server-side output as EDS blocks) than for a client-side app (replacing hydration/rendering logic entirely). Reviewers also observed that <strong>GraphQL is used to pull in the banner and some navigation content</strong> today, which is a second, separate data source from the AEM GraphQL endpoint used in Scenario 2 and should be tracked as its own integration point.</span>
+        </div>
+
+        <h3>What this validates</h3>
+        <ul class="req-list">
+          <li><strong>Headless complexity</strong> — how a more complex headless architecture (the current Angular implementation) translates into EDS.</li>
+          <li><strong>Dynamic content</strong> — the page surfaces dynamic content and offers that vary based on customer context.</li>
+          <li><strong>Session management</strong> — the page requires active session awareness to drive personalized experiences, including branding the header/footer for a logged-in customer.</li>
+          <li><strong>Personalization</strong> — banners, offer content, and pricing information are all customer-segment-driven, requiring EDS to handle personalized rendering at scale.</li>
+          <li><strong>Engagement modules</strong> — several tiles rely on customer cookies and behavioral signals for personalized content delivery.</li>
+        </ul>
+
+        <ul class="checklist" style="margin-top:16px;">
+          <li class="check-item">
+            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Re-model the Angular headless page as EDS blocks</div>
+              <div class="check-note">Map the current component boundaries to block boundaries without collapsing the personalization or engagement-module logic each one depends on.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Session-aware header/footer branding</div>
+              <div class="check-note">Confirm the shared header/footer can re-render (or re-hydrate) based on logged-in state without duplicating the global nav per page.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Segment-driven banners, offers, and pricing</div>
+              <div class="check-note">Validate personalized rendering at scale — this is the highest-traffic of the three scenarios, so performance under personalization matters here specifically.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Cookie/behavioral-driven engagement modules</div>
+              <div class="check-note">Confirm engagement-module tiles can read the same customer cookies/signals used today, and that doing so complies with privacy/consent requirements.</div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- SCENARIO 3 - RELEASE WORKFLOW -->
+      <section class="doc-section" id="s3-release-workflow">
+        <h2>
+          <span class="section-icon icon-green">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0114.25 14H1.75A1.75 1.75 0 010 12.25v-8.5zm1.75-.25a.25.25 0 00-.25.25v.5h13v-.5a.25.25 0 00-.25-.25H1.75zM1.5 5.5v6.75c0 .138.112.25.25.25h12.5a.25.25 0 00.25-.25V5.5h-13z"/></svg>
+          </span>
+          Content release &amp; the branch model
+        </h2>
+        <div class="section-rule"></div>
+        <p>The original brief asked for: sync production content to lower environments immediately post-release; if conflicts exist there, generate a conflict report and halt the merge rather than auto-resolving; and monthly tech releases must never override the regular content releases.</p>
+
+        <div class="notice tip">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+          <span><strong>This isn't actually an EDS problem.</strong> That requirement describes a topology with separate author/stage/dev instances, each holding its own copy of content that can drift out of sync with production — which is how AEM Managed Services works, but not how EDS works. In EDS there is exactly <strong>one</strong> content source (the authoring tool — Document Authoring or AEM), and every environment renders that same source through the Admin API: Preview always reflects the current authored state, Live always reflects the last-published state, and every git branch gets its own preview of that <em>same</em> content. There's no separate "lower environment" copy of content to sync into or drift out of sync with, so there's nothing to conflict-check or halt on.</span>
+        </div>
+
+        <h3>How branches replace lower environments</h3>
+        <p>The isolation "lower environments" used to provide for engineering work comes from <strong>git branches</strong> instead of separate deployed instances:</p>
+        <ul class="req-list">
+          <li>Every branch gets a live preview automatically at <code class="code-inline">{branch}--{repo}--{owner}.aem.page</code> — no provisioning, no deploy step, no separate environment to keep in sync.</li>
+          <li>That branch preview renders the <strong>same authored content</strong> as production, through whatever code is on that branch — an engineer testing a monthly tech change sees real, current content rendered against their in-progress code, not a stale or duplicated copy.</li>
+          <li>Promoting a tech change is a normal PR merge to <code class="code-inline">main</code>, which only touches code. It can't overwrite a content release because content documents live in the authoring tool, not in the code repo or the merge.</li>
+          <li>Publishing a content change (bi-weekly or otherwise) is a Preview/Publish action in the authoring tool, independent of whatever engineering branches happen to be open at the time.</li>
+        </ul>
+
+        <div class="arch-diagram">
+          <div class="arch-row">
+            <div class="arch-node" style="background:#e6eef7;color:var(--citi-navy);min-width:220px;">Authored content — one source (DA / AEM)</div>
+          </div>
+          <div class="arch-row" style="margin:4px 0;"><div class="arch-arrow" style="font-size:22px;">↓ same content, every time</div></div>
+          <div class="arch-row">
+            <div class="arch-node" style="background:#eaf6f1;color:#1a6b50;">main branch → preview + live</div>
+            <div class="arch-node" style="background:#fff8d6;color:#5a3e00;">any other branch → preview only</div>
+          </div>
+        </div>
+
+        <div class="notice question">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+          <span><strong>Residual question for Citi.</strong> Worth confirming they don't mean a different, real concern that DA/AEM already solves separately — e.g. two authors editing the same document at the same time. That's a content-locking/versioning question the authoring tool handles on its own, and it's a genuinely different problem from the prod→lower-env sync described in the brief.</span>
+        </div>
+      </section>
+
+      <!-- SCENARIO 3 - OPEN QUESTIONS -->
+      <section class="doc-section" id="s3-open-questions">
+        <h2>
+          <span class="section-icon icon-purple">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+          </span>
+          Open questions
+        </h2>
+        <div class="section-rule"></div>
+        <div class="notice question">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+          <span><strong>1. What cookies/behavioral signals do the engagement modules read today,</strong> and is there an existing consent/privacy review that needs to carry over into the EDS implementation?</span>
+        </div>
+        <div class="notice question">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+          <span><strong>2. Where/how is the credit card product data stored,</strong> and what serves it to the page today — the same GraphQL layer used for the banner and nav, a separate product-catalog API, or something else?</span>
+        </div>
+        <div class="notice question">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+          <span><strong>3. How do sessions and personalization work for an unauthenticated visitor?</strong> This page doesn't require login, so it isn't obvious what identity signal drives the segment-driven banners/pricing for an anonymous user — a device cookie, IP/geo, a prior-visit signal, something else? Need Citi to walk through the mechanism before "personalization at scale" can be scoped.</span>
+        </div>
+      </section>
+
+      <!-- CROSS-CUTTING THEMES -->
+      <section class="doc-section" id="themes">
+        <h2>
+          <span class="section-icon icon-seafoam">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5c-1.5 2.5-4 4.5-4 7a4 4 0 008 0c0-2.5-2.5-4.5-4-7z"/></svg>
+          </span>
+          Evaluation themes
+        </h2>
+        <div class="section-rule"></div>
+        <p>Each scenario was chosen to cover specific, overlapping themes. Taken together, they form a realistic test bed rather than three isolated demos.</p>
+        <table class="spec-table">
+          <thead><tr><th>Theme</th><th>Scenario 1 · Citigold ELP</th><th>Scenario 2 · Pega banners</th><th>Scenario 3 · Credit Cards</th></tr></thead>
+          <tbody>
+            <tr><td>Session handling</td><td>Pre-login, hosted-page session</td><td>Post-login, identity-bound</td><td>Session-aware header/footer</td></tr>
+            <tr><td>Personalization</td><td>Offer/eligibility data</td><td>Pega real-time decisioning</td><td>Segment-driven banners/pricing</td></tr>
+            <tr><td>Authoring governance</td><td>Hosted-page → EDS transition</td><td>—</td><td>Headless → block model</td></tr>
+            <tr><td>Content release workflows</td><td>Pega E2E gate before publish</td><td>—</td><td>Content/code decoupling — native to EDS, no custom sync needed</td></tr>
+            <tr><td>Dynamic API integration</td><td>Hosted-page backend API</td><td>AEM GraphQL (<code class="code-inline">get-pz-offers</code>)</td><td>Engagement-module signals</td></tr>
+          </tbody>
+        </table>
+      </section>
+
+      <!-- NEXT STEPS -->
+      <section class="doc-section" id="next-steps">
+        <h2>
+          <span class="section-icon icon-orange">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
+          </span>
+          Next steps
+        </h2>
+        <div class="section-rule"></div>
+        <div class="skills-grid">
+          <div class="skill-card">
+            <div class="skill-card-header"><span class="skill-tag tag-cfg">1</span><span class="skill-card-name">Resolve open questions</span></div>
+            <p class="skill-card-desc">Close the environment-switching, auth, and ownership questions raised in each scenario before scoping engineering work.</p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-card-header"><span class="skill-tag tag-cfg">2</span><span class="skill-card-name">Attach the Scenario 2 screenshot</span></div>
+            <p class="skill-card-desc">Get the referenced post-login banner screenshot into the repo so block layout can be modeled against it.</p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-card-header"><span class="skill-tag tag-cfg">3</span><span class="skill-card-name">Pick a build order</span></div>
+            <p class="skill-card-desc">Recommend starting with Scenario 1 (single hosted page, clear release gate) before layering in Scenario 2's session dependency and Scenario 3's release-workflow complexity.</p>
+          </div>
+          <div class="skill-card">
+            <div class="skill-card-header"><span class="skill-tag tag-cfg">4</span><span class="skill-card-name">Educate Citi on the branch model</span></div>
+            <p class="skill-card-desc">Walk Citi's team through how EDS's single content source + git branches already satisfy their prod/lower-env sync and release-isolation requirement, and confirm they didn't mean concurrent-author conflicts instead.</p>
+          </div>
+        </div>
+      </section>
+
+      <div class="doc-footer">
+        <svg width="12" height="12" viewBox="0 0 16 16" fill="#b3b3b3"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
+        Citibank EDS Migration Pilot Proposal &nbsp;·&nbsp; Draft &nbsp;·&nbsp; Banking ELP + Pega Personalization &nbsp;·&nbsp; Generated August 2026
+      </div>
+
+    </div>
+  </main>
+</div>
+
+<script>
+  const links = document.querySelectorAll('.sidebar-link');
+  const sections = document.querySelectorAll('.doc-section[id], .page-hero[id]');
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const id = entry.target.id;
+        links.forEach((l) => {
+          l.classList.toggle('active', l.getAttribute('href') === '#' + id);
+        });
+      }
+    });
+  }, { rootMargin: '-20% 0px -70% 0px' });
+
+  sections.forEach((s) => observer.observe(s));
+</script>
+</body>
+</html>
