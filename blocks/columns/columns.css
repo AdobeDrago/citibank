@@ -1,33 +1,346 @@
+/*
+ * columns block - Citi credit-cards PDP
+ * Values extracted from computed styles of citi.com/credit-cards/citi-double-cash-credit-card
+ * Four authored variants render from this file:
+ *   - columns-1-cols                  -> single "how it works" text column
+ *   - columns-5-cols                  -> rates & fees stat tiles + full-width disclaimer row
+ *   - columns-2-cols (with .columns-img-col, usually in .section.pale-blue) -> image + text promo banner
+ *   - columns-2-cols (no image cell)  -> accelerator: two colored feature tiles (blue + navy)
+ * Variant rules are ordered simplest-selector-first to keep specificity ascending.
+ */
+
+/* ---------- base layout (mobile-first: stacked) ---------- */
 .columns > div {
   display: flex;
   flex-direction: column;
+  gap: 24px;
 }
 
 .columns img {
+  display: block;
   width: 100%;
-}
-
-.columns > div > div {
-  order: 1;
-}
-
-.columns > div > .columns-img-col {
-  order: 0;
 }
 
 .columns > div > .columns-img-col img {
   display: block;
 }
 
+/* shared typography inside columns (source: Citi_Sans / Citi_Sans_Display) */
+.columns h2 {
+  margin: 0 0 4px;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 1.12;
+  letter-spacing: normal;
+  color: rgb(58 62 64);
+}
+
+.columns h3 {
+  margin: 0 0 4px;
+  font-size: 20px;
+  font-weight: 400; /* Citi credit-cards feature/accelerator headings are light; stat numbers keep their own 700 in columns-5-cols */
+  line-height: 26px;
+  letter-spacing: 0.2px;
+  color: rgb(58 62 64);
+}
+
+.columns p {
+  margin: 0 0 4px;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.14px;
+  color: rgb(58 62 64);
+}
+
 @media (width >= 900px) {
   .columns > div {
-    align-items: center;
-    flex-direction: unset;
+    flex-direction: row;
+    align-items: stretch;
     gap: 24px;
   }
 
   .columns > div > div {
     flex: 1;
-    order: unset;
+  }
+
+  .columns h2 {
+    font-size: 48px;
+    line-height: 53.76px;
   }
 }
+
+/* Variant rules below target mutually-exclusive columns-N-cols DOM, so
+ * source order does not create real cascade conflicts. */
+/* stylelint-disable no-descending-specificity */
+
+/* =========================================================
+ * Variant - "Here's how it works" single text column (columns-1-cols)
+ * Source h2 48px rgb(58,62,64); h3 20px/26px ls .2px; p 14px/18px ls .14px; gap 16px.
+ * ========================================================= */
+.columns.columns-1-cols > div {
+  gap: 16px;
+}
+
+.columns.columns-1-cols > div > div {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.columns.columns-1-cols h2 {
+  margin: 0 0 8px;
+}
+
+.columns.columns-1-cols h3 {
+  margin: 0;
+}
+
+.columns.columns-1-cols p {
+  margin: 0;
+}
+
+/* =========================================================
+ * Variant - Rates & fees stat tiles (columns-5-cols)
+ * Row 1: 5 stat items; each = small label (p), big number (h3), description (p).
+ * Row 2: full-width centered disclaimer.
+ * Source: .rates-list-item gap 24px; number h3 20px/700 rgb(38,41,43) ls .2px;
+ * label 12px rgb(58,62,64); item gap 8px; thin vertical dividers between items.
+ * ========================================================= */
+.columns.columns-5-cols > div {
+  gap: 24px;
+}
+
+/* first row = the stat tiles */
+.columns.columns-5-cols > div:first-child > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.columns.columns-5-cols > div:first-child h3 {
+  order: 2;
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 26px;
+  letter-spacing: 0.2px;
+  color: rgb(38 41 43);
+}
+
+/* description (paragraphs after the number) */
+.columns.columns-5-cols > div:first-child p {
+  order: 3;
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15.96px;
+  color: rgb(58 62 64);
+}
+
+/* label (first paragraph) sits above the number */
+.columns.columns-5-cols > div:first-child p:first-of-type {
+  order: 1;
+}
+
+/* second row = disclaimer, spans full width and is centered */
+.columns.columns-5-cols > div:nth-child(2) {
+  display: block;
+  margin-top: 8px;
+  text-align: center;
+}
+
+.columns.columns-5-cols > div:nth-child(2) > div {
+  font-size: 14px;
+  line-height: 18px;
+  color: rgb(58 62 64);
+}
+
+.columns.columns-5-cols > div:nth-child(2) > div:empty {
+  display: none;
+}
+
+@media (width >= 900px) {
+  .columns.columns-5-cols > div:first-child {
+    align-items: flex-start;
+  }
+
+  /* thin vertical dividers between stat tiles */
+  .columns.columns-5-cols > div:first-child > div + div {
+    padding-left: 24px;
+    border-left: 1px solid rgb(214 219 221);
+  }
+}
+
+/* =========================================================
+ * Variant - Image + text promo banner (columns-2-cols with image cell)
+ * Usually inside .section.pale-blue. Source: 50/50 grid, image radius 16px,
+ * eyebrow 16px rgb(94,103,107), h2 48px rgb(38,41,43), text left / image right on desktop.
+ * ========================================================= */
+.columns.columns-2-cols:has(.columns-img-col) img {
+  border-radius: 16px;
+}
+
+.columns.columns-2-cols:has(.columns-img-col) h2 {
+  color: rgb(38 41 43);
+}
+
+/* eyebrow label = the first paragraph above the h2 */
+.columns.columns-2-cols:has(.columns-img-col) > div > div > p:first-child {
+  margin: 0 0 4px;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: normal;
+  color: rgb(94 103 107);
+}
+
+/* mobile: image on top, text below */
+.columns.columns-2-cols:has(.columns-img-col) > div > .columns-img-col {
+  order: 0;
+}
+
+.columns.columns-2-cols:has(.columns-img-col) > div > div {
+  order: 1;
+}
+
+/* CTA buttons (EDS decorates emphasized p>a into a.button) */
+.columns.columns-2-cols:has(.columns-img-col) .button-wrapper {
+  margin-top: 12px;
+}
+
+.columns.columns-2-cols:has(.columns-img-col) a.button:any-link {
+  background-color: var(--citi-navy);
+  border-color: var(--citi-navy);
+  color: rgb(255 255 255);
+  border-radius: var(--citi-button-radius);
+  padding: 0.6em 1.6em;
+  font-size: 16px;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.columns.columns-2-cols:has(.columns-img-col) a.button:any-link:hover {
+  background-color: var(--dark-color);
+  border-color: var(--dark-color);
+  color: rgb(255 255 255);
+}
+
+@media (width >= 900px) {
+  .columns.columns-2-cols:has(.columns-img-col) > div {
+    align-items: center;
+    gap: 48px;
+  }
+
+  /* desktop: text left, image right (matches source recap-section) */
+  .columns.columns-2-cols:has(.columns-img-col) > div > .columns-img-col {
+    order: 1;
+  }
+
+  .columns.columns-2-cols:has(.columns-img-col) > div > div {
+    order: 0;
+  }
+}
+
+/* =========================================================
+ * Variant - "Here's how it works" feature (columns-2-cols with an image
+ * cell AND h3 benefit headings; the promo banner above has no h3, so
+ * :has(h3) scopes this override to just this instance).
+ * Source: full-bleed framed photo (radius 16px) with a translucent white
+ * content card overlaid on top, floated to the right ~half.
+ * card: rgba(255,255,255,0.8), radius 8px, padding 72px, 16px inset.
+ * ========================================================= */
+@media (width >= 900px) {
+  .columns.columns-2-cols:has(.columns-img-col):has(h3) > div {
+    position: relative;
+    display: block; /* override the flex row; children are positioned */
+    gap: 0;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  /* full-bleed background image fills the whole block */
+  .columns.columns-2-cols:has(.columns-img-col):has(h3) > div > .columns-img-col {
+    position: absolute;
+    inset: 0;
+    margin: 0;
+  }
+
+  .columns.columns-2-cols:has(.columns-img-col):has(h3) > div > .columns-img-col img {
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    object-fit: cover;
+  }
+
+  /* translucent content card overlaid on the right half */
+  .columns.columns-2-cols:has(.columns-img-col):has(h3) > div > div:not(.columns-img-col) {
+    position: relative;
+    z-index: 1;
+    box-sizing: border-box;
+    width: 50%;
+    margin: 16px 16px 16px auto;
+    padding: 72px;
+    border-radius: 8px;
+    background-color: rgb(255 255 255 / 80%);
+  }
+}
+
+/* =========================================================
+ * Variant - Accelerator: two colored feature tiles
+ * (columns-2-cols with NO image cell)
+ * Source: .accelerator-bar - padding 24px, radius 16px, inner gap 4px,
+ * tile 1 bg rgb(37,91,227), tile 2 bg rgb(0,42,84), white text.
+ * ========================================================= */
+.columns.columns-2-cols:not(:has(.columns-img-col)) > div {
+  gap: 24px;
+}
+
+.columns.columns-2-cols:not(:has(.columns-img-col)) > div > div {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 32px;
+  border-radius: 16px;
+  color: rgb(255 255 255);
+}
+
+.columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:first-child {
+  background-color: var(--citi-blue); /* rgb(37,91,227) */
+}
+
+.columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) {
+  background-color: rgb(0 42 84);
+}
+
+.columns.columns-2-cols:not(:has(.columns-img-col)) h3 {
+  margin: 0;
+  font-size: 28px; /* mobile */
+  font-weight: 400; /* source accelerator tile headings are light, not bold */
+  line-height: 1.2;
+  letter-spacing: normal;
+  color: rgb(255 255 255);
+}
+
+@media (width >= 900px) {
+  /* source accelerator tile heading: 36px / 43px line-height */
+  .columns.columns-2-cols:not(:has(.columns-img-col)) h3 {
+    font-size: 36px;
+    line-height: 43px;
+  }
+}
+
+.columns.columns-2-cols:not(:has(.columns-img-col)) p {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: normal;
+  color: rgb(255 255 255);
+}
+
+.columns.columns-2-cols:not(:has(.columns-img-col)) a {
+  color: rgb(255 255 255);
+  text-decoration: underline;
+}
+
+/* stylelint-enable no-descending-specificity */

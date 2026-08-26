@@ -1,0 +1,11 @@
+{
+  "type": "da",
+  "sites": {
+    "citibank": {
+      "previewOrg": "adobedrago",
+      "previewSite": "citibank",
+      "contentHostUrl": "https://content.da.live/adobedrago/citibank/",
+      "libraryUrl": "https://main--citibank--adobedrago.aem.page/docs/library/blocks.json"
+    }
+  }
+}

@@ -7,11 +7,19 @@ export default function decorate(block) {
     const li = document.createElement('li');
     while (row.firstElementChild) li.append(row.firstElementChild);
     [...li.children].forEach((div) => {
-      if (div.children.length === 1 && div.querySelector('picture')) div.className = 'cards-card-image';
+      // Image cell = a lone image (either a <picture> or a bare <img>, e.g. an
+      // inline-SVG data-URI icon that isn't wrapped in a <picture>).
+      if (div.children.length === 1 && div.querySelector('picture, img')) div.className = 'cards-card-image';
       else div.className = 'cards-card-body';
     });
     ul.append(li);
   });
-  ul.querySelectorAll('picture > img').forEach((img) => img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }])));
+  // Optimize raster images only. createOptimizedPicture appends IS/rendition query
+  // params to the src, which corrupts inline-SVG data-URI icons (they are not
+  // servable through the image pipeline) — leave those as-is.
+  ul.querySelectorAll('picture > img').forEach((img) => {
+    if (img.src.startsWith('data:')) return;
+    img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]));
+  });
   block.replaceChildren(ul);
 }
