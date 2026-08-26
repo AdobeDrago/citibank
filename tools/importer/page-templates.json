@@ -1,0 +1,201 @@
+{
+  "metadata": {
+    "projectType": "da"
+  },
+  "templates": [
+    {
+      "name": "credit-card-pdp",
+      "urls": [
+        "https://www.citi.com/credit-cards/citi-double-cash-credit-card?category=%2F&intc=citihpmenu~creditcards~explore&afc=160"
+      ],
+      "coverageGaps": [],
+      "description": "Credit card product detail page (PDP) under /credit-cards. Angular SSR page with hero (card image + dynamic offer), accelerator (rewards/intro APR), rates & fees, feature grids ('Here's how it works', 'Your points. Your way'), primary benefits tiles, benefits + FAQ accordions, promo/apply banner, 'You may also like' related cards, pricing legal details, and a category nav list. Offer amounts (bonus, APR, fees) are populated dynamically via API.",
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "#page-container > tds-hero-banner.ng-star-inserted"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "#pdp-content-container > tds-accelerator.ng-star-inserted",
+            "#pdp-content-container > tds-ratesfees-container.ng-star-inserted",
+            "#pdp-content-container > tds-feature.ng-star-inserted:nth-of-type(1)",
+            "#pdp-content-container > tds-feature.ng-star-inserted:nth-of-type(2)"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "#pdp-content-container > tds-content-grid.ng-star-inserted:nth-of-type(1)",
+            "#pdp-content-container > tds-drawer.ng-star-inserted > section > div.benefits-container",
+            "#pdp-content-container > tds-content-grid.ng-star-inserted:nth-of-type(2)"
+          ]
+        },
+        {
+          "name": "accordion",
+          "instances": [
+            "#pdp-content-container > tds-drawer.ng-star-inserted > section > div.faq-container",
+            "#pdp-content-container > tds-faq.ng-star-inserted"
+          ]
+        },
+        {
+          "name": "primary-benefits",
+          "instances": [
+            "#pdp-content-container > tds-primary-benefits.ng-star-inserted"
+          ]
+        },
+        {
+          "name": "category-nav",
+          "instances": [
+            "#pdp-content-container > tds-category-nav-bar.ng-star-inserted"
+          ]
+        },
+        {
+          "name": "section-promo",
+          "instances": [
+            "#pdp-content-container > tds-feature.ng-star-inserted:nth-of-type(2)"
+          ],
+          "section": "pale-blue"
+        }
+      ],
+      "sections": [
+        {
+          "id": "rc1c2c1",
+          "name": "Hero (card image + dynamic offer)",
+          "selector": "#page-container > tds-hero-banner.ng-star-inserted",
+          "style": null,
+          "blocks": [
+            "hero"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc1c2c2c1",
+          "name": "Accelerator (2% cash back + intro APR)",
+          "selector": "#pdp-content-container > tds-accelerator.ng-star-inserted",
+          "style": null,
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc1c2c2c2",
+          "name": "Rates & fees list",
+          "selector": "#pdp-content-container > tds-ratesfees-container.ng-star-inserted",
+          "style": null,
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": [
+            "#pdp-content-container > tds-ratesfees-container.ng-star-inserted > section > tds-pdp-pricing.rates-text"
+          ]
+        },
+        {
+          "id": "rc1c2c2c3",
+          "name": "Here's how it works (3-up)",
+          "selector": "#pdp-content-container > tds-feature.ng-star-inserted:nth-of-type(1)",
+          "style": null,
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": [
+            "#pdp-content-container > tds-feature.ng-star-inserted:nth-of-type(1) h2"
+          ]
+        },
+        {
+          "id": "rc1c2c2c4",
+          "name": "Your points. Your way (3-up)",
+          "selector": "#pdp-content-container > tds-content-grid.ng-star-inserted:nth-of-type(1)",
+          "style": null,
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            "#pdp-content-container > tds-content-grid.ng-star-inserted:nth-of-type(1) h2"
+          ]
+        },
+        {
+          "id": "rc1c2c2c5",
+          "name": "Primary benefits (3 image tiles, expandable)",
+          "selector": "#pdp-content-container > tds-primary-benefits.ng-star-inserted",
+          "style": null,
+          "blocks": [
+            "primary-benefits"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc1c2c2c6",
+          "name": "Benefits + accordions",
+          "selector": "#pdp-content-container > tds-drawer.ng-star-inserted",
+          "style": "light-grey",
+          "blocks": [
+            "cards",
+            "accordion"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc1c2c2c7",
+          "name": "FAQs accordion",
+          "selector": "#pdp-content-container > tds-faq.ng-star-inserted",
+          "style": null,
+          "blocks": [
+            "accordion"
+          ],
+          "defaultContent": [
+            "#pdp-content-container > tds-faq.ng-star-inserted div.headline"
+          ]
+        },
+        {
+          "id": "rc1c2c2c8",
+          "name": "Promo (2% cash back + apply)",
+          "selector": "#pdp-content-container > tds-feature.ng-star-inserted:nth-of-type(2)",
+          "style": "pale-blue",
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rc1c2c2c9",
+          "name": "You may also like (3 cards)",
+          "selector": "#pdp-content-container > tds-content-grid.ng-star-inserted:nth-of-type(2)",
+          "style": null,
+          "blocks": [
+            "cards"
+          ],
+          "defaultContent": [
+            "#pdp-content-container > tds-content-grid.ng-star-inserted:nth-of-type(2) h2"
+          ]
+        },
+        {
+          "id": "rc1c2c2c10",
+          "name": "Pricing details (legal)",
+          "selector": "#pdp-content-container > tds-pdp-pricing.ng-star-inserted",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "#pdp-content-container > tds-pdp-pricing.ng-star-inserted"
+          ]
+        },
+        {
+          "id": "rc1c2c2c11",
+          "name": "Find the right card for you (category nav list)",
+          "selector": "#pdp-content-container > tds-category-nav-bar.ng-star-inserted",
+          "style": null,
+          "blocks": [
+            "category-nav"
+          ],
+          "defaultContent": [
+            "#pdp-content-container > tds-category-nav-bar.ng-star-inserted h2"
+          ]
+        }
+      ]
+    }
+  ]
+}

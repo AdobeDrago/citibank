@@ -1,29 +1,104 @@
+/* ============================================================
+   Cards block — Citi credit-cards PDP
+   Values extracted from source computed styles (see
+   migration-work/cards-extracted.css). Three source variants,
+   all authored as plain .cards, all 3-up tiles on desktop:
+     1. "Your points. Your way" — icon + title + text (centered)
+     2. Benefits grid           — icon + title + paragraph
+     3. "You may also like"     — card art + title + "Card details" link
+   ============================================================ */
+
 .cards > ul {
   list-style: none;
   margin: 0;
   padding: 0;
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(257px, 1fr));
-  gap: 24px;
+  grid-template-columns: 1fr;
+  gap: 40px; /* source 3-up grids ("Your points", "You may also like") use a 40px column gap */
 }
 
 .cards > ul > li {
+  display: flex;
+  flex-direction: column;
   border: 1px solid #dadada;
+  border-radius: 8px;
   background-color: var(--background-color);
+  overflow: hidden;
+  text-align: center;
 }
 
+/* text content cell */
 .cards .cards-card-body {
-  margin: 16px;
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+  padding: 24px;
 }
 
+/* source icons did not migrate — collapse the empty icon cell */
+.cards .cards-card-body:empty {
+  display: none;
+}
+
+.cards .cards-card-body h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: 0.2px;
+  color: #26292b;
+}
+
+.cards .cards-card-body p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.14px;
+  color: #5e676b;
+}
+
+/* "Card details" style link (instance 3) */
+.cards .cards-card-body a:any-link {
+  display: inline-block;
+  margin-top: 8px;
+  font-size: 14px;
+  font-weight: 400;
+  color: rgb(4 32 143);
+  text-decoration: none;
+}
+
+.cards .cards-card-body a:hover {
+  text-decoration: underline;
+}
+
+/* card-art image cell (instance 3) — small, centered, uncropped */
 .cards .cards-card-image {
   line-height: 0;
+  padding: 24px 24px 0;
+  text-align: center;
 }
 
-.cards > ul > li img {
-  width: 100%;
-  aspect-ratio: 4 / 3;
-  object-fit: cover;
+.cards .cards-card-image img {
+  width: auto;
+  max-width: 180px;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+}
+
+/* Inline-SVG icons (data-URI) are small glyphs, not card art — cap at the source's
+ * 40px (e.g. the "Your points. Your way" and benefits icons). Raster card art keeps
+ * the 180px rule above. */
+.cards .cards-card-image img[src^="data:image/svg"] {
+  width: 40px;
+  height: 40px;
+}
+
+
+@media (width >= 900px) {
+  .cards > ul {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
 }
 
 /*
@@ -45,16 +120,19 @@
 }
 
 .cards.benefits-grid .cards-card-body {
+  padding: 0;
   margin: 0;
 }
 
 .cards.benefits-grid .cards-card-image {
   margin: 0 auto 12px;
+  padding: 0;
   width: 56px;
 }
 
 .cards.benefits-grid .cards-card-image img {
   width: 100%;
+  max-width: none;
   aspect-ratio: 1 / 1;
   object-fit: contain;
   border-radius: 50%;
@@ -64,4 +142,14 @@
   font-family: var(--heading-font-family);
   font-weight: 700;
   color: var(--citi-navy);
+}
+
+/* Credit-cards PDP cards ("Your points. Your way", "You may also like") are
+ * borderless on the source — remove the default 1px card border/radius. Scoped
+ * to the template so other sites (e.g. Citigold) keep the bordered card style.
+ * Placed last so specificity stays ascending (no-descending-specificity). */
+body.credit-card-pdp .cards > ul > li {
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
 }

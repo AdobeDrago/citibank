@@ -25,6 +25,7 @@
   --citi-gold: #8e6f32;
   --citi-private-client: #281814;
   --citi-pale-blue-bg: #ecf6fe;
+  --citi-light-grey-bg: #f0f5f7; /* credit-cards section band (rgb(240,245,247)) */
   --citi-card-shadow: 0 2px 11px 2px rgb(0 42 84 / 16%);
   --citi-card-radius: 20px;
   --citi-button-radius: 100px;
@@ -412,4 +413,54 @@ main .section.pale-blue {
   background-color: var(--citi-pale-blue-bg);
   margin: 0;
   padding: 40px 0;
+}
+
+/* credit-cards section: soft blue-grey band used behind primary benefits */
+main .section.light-grey {
+  background-color: var(--citi-light-grey-bg);
+  margin: 0;
+  padding: 40px 0;
+}
+
+/*
+ * Credit-cards PDP template overrides.
+ * Scoped to body.credit-card-pdp (the class decorateTemplateAndTheme adds from the
+ * page's `template` metadata value) so these do NOT affect the Citigold pilot or other
+ * templates that share this global stylesheet. Values measured from the source page
+ * www.citi.com/credit-cards/citi-double-cash-credit-card at 1440px.
+ */
+
+/* Wider content column: source runs ~1296px, not the global 1200px. */
+body.credit-card-pdp main > .section > div {
+  max-width: 1296px;
+}
+
+/* Citi credit-cards headings are light (weight 400), not the global 600.
+ * These template-scoped rules intentionally appear after the section-color
+ * heading rules above; specificity ordering is not a concern here. */
+/* stylelint-disable no-descending-specificity */
+body.credit-card-pdp main h1,
+body.credit-card-pdp main h2,
+body.credit-card-pdp main h3,
+body.credit-card-pdp main h4,
+body.credit-card-pdp main h5,
+body.credit-card-pdp main h6 {
+  font-weight: 400;
+}
+/* stylelint-enable no-descending-specificity */
+
+/* Section-level default-content headings render centered on the source.
+ * Base size 28px (e.g. "Find the right card for you"). */
+body.credit-card-pdp main > .section > div > h2 {
+  font-size: 28px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* Cards-section headings ("Your points. Your way", "You may also like") are
+ * larger (36px) and centered on the source. The heading sits in its own
+ * .default-content-wrapper; the .cards block is a sibling wrapper in the same
+ * section, so scope to a section that contains a .cards block. */
+body.credit-card-pdp main > .section:has(.cards) > div > h2 {
+  font-size: 36px;
 }

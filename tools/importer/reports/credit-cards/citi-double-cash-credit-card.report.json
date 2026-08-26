@@ -1,0 +1,22 @@
+{
+  "status": "success",
+  "url": "https://www.citi.com/credit-cards/citi-double-cash-credit-card?category=%2F&intc=citihpmenu~creditcards~explore&afc=160",
+  "path": "credit-cards/citi-double-cash-credit-card",
+  "timestamp": "2026-08-26T21:20:58.017Z",
+  "title": "Citi Double Cash® Credit Card | Citi.com",
+  "template": "credit-card-pdp",
+  "blocks": [
+    "hero",
+    "columns",
+    "columns",
+    "columns",
+    "columns",
+    "cards",
+    "cards",
+    "cards",
+    "accordion",
+    "accordion",
+    "primary-benefits",
+    "category-nav"
+  ]
+}
