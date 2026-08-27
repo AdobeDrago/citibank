@@ -1,0 +1,14 @@
+{
+  "status": "success",
+  "url": "https://www.citi.com/credit-cards/wayfair-credit-cards?category=view-all-credit-cards&intc=citihpmenu~creditcards~explore&afc=161",
+  "path": "credit-cards/wayfair-credit-cards",
+  "timestamp": "2026-08-27T15:11:06.780Z",
+  "title": "Wayfair Credit Cards | Citi.com",
+  "template": "credit-card-retail-pdp",
+  "blocks": [
+    "hero",
+    "table",
+    "tabs",
+    "accordion"
+  ]
+}

@@ -2,7 +2,7 @@
 // eslint-disable-next-line import/no-unresolved
 import DA_SDK from 'https://da.live/nx/utils/sdk.js';
 
-const DATA_URL = 'https://da-sc.adobeaem.workers.dev/preview/demoamer275/northwell/data/dyn-codes';
+const DATA_URL = 'https://da-sc.adobeaem.workers.dev/preview/adobedrago/citibank/data/code-select-items';
 
 function showToast(message) {
   const existing = document.querySelector('.toast');

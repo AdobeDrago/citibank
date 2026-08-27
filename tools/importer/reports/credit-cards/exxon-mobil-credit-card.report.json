@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "https://www.citi.com/credit-cards/exxon-mobil-credit-card?category=view-all-credit-cards&intc=citihpmenu~creditcards~explore&afc=161",
+  "path": "credit-cards/exxon-mobil-credit-card",
+  "timestamp": "2026-08-27T15:02:49.977Z",
+  "title": "Exxon Mobil Smart Card+™ Credit Card | Citi.com",
+  "template": "credit-card-retail-pdp",
+  "blocks": [
+    "hero",
+    "rewards",
+    "tabs",
+    "accordion",
+    "columns"
+  ]
+}

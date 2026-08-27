@@ -55,3 +55,125 @@
 .tabs .tabs-panel[aria-hidden='true'] {
   display: none;
 }
+
+/* =========================================================
+ * Retail credit-card PDP tabs (body.credit-card-retail-pdp)
+ * Source: a row of rounded card/pill tab buttons, each with an icon stacked
+ * above its label; selected tab is Citi blue with white text + a soft shadow
+ * and a downward pointer triangle; unselected tabs are white with blue text.
+ * Below sits a white panel with a rounded top and a soft top shadow, holding
+ * the tab content in two columns. Scoped to the retail body class so the
+ * default (grey/bordered) tabs used elsewhere are unchanged.
+ * ========================================================= */
+body.credit-card-retail-pdp .tabs .tabs-list {
+  gap: 16px;
+  justify-content: center;
+  padding: 8px 4px 24px;
+  overflow: visible;
+}
+
+body.credit-card-retail-pdp .tabs .tabs-list button {
+  position: relative;
+  display: flex;
+  flex: 0 1 250px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  min-height: 120px;
+  border: 0;
+  border-radius: 20px;
+  padding: 24px 16px 28px;
+  background-color: #fff;
+  box-shadow: 0 0 5px 1px rgb(51 51 51 / 25%);
+  color: #056dae;
+  font-family: var(--heading-font-family);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.25;
+  text-align: center;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+/* icon stacked above the label */
+body.credit-card-retail-pdp .tabs .tabs-list button img {
+  width: 48px;
+  height: 40px;
+  object-fit: contain;
+}
+
+body.credit-card-retail-pdp .tabs .tabs-list button p {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+  margin: 0;
+}
+
+body.credit-card-retail-pdp .tabs .tabs-list button[aria-selected='true'] {
+  border: 0;
+  background-color: #005aa1;
+  color: #fff;
+}
+
+/* recolor the SVG icon white on the selected (blue) tab */
+body.credit-card-retail-pdp .tabs .tabs-list button[aria-selected='true'] img {
+  filter: brightness(0) invert(1);
+}
+
+/* downward pointer triangle under the active tab */
+body.credit-card-retail-pdp .tabs .tabs-list button[aria-selected='true']::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  width: 20px;
+  height: 20px;
+  background-color: #005aa1;
+  transform: translateX(-50%) rotate(45deg);
+  border-radius: 3px;
+}
+
+/* white rounded content panel with a soft top edge */
+body.credit-card-retail-pdp .tabs .tabs-panel {
+  margin-top: 0;
+  border: 0;
+  border-radius: 15px;
+  padding: 40px 32px;
+  background-color: #fff;
+  box-shadow: 0 -1px 6px rgb(51 51 51 / 12%);
+}
+
+/* panel content typography (source: navy subheads, dark-grey body) */
+body.credit-card-retail-pdp .tabs .tabs-panel h3 {
+  margin: 0 0 8px;
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.3;
+  color: rgb(45 45 45);
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+body.credit-card-retail-pdp .tabs .tabs-panel p {
+  margin: 0 0 20px;
+  font-size: 16px;
+  line-height: 1.5;
+  color: rgb(51 51 51);
+}
+
+/* content laid out in two columns on desktop (matches source) */
+@media (width >= 900px) {
+  body.credit-card-retail-pdp .tabs .tabs-panel {
+    column-count: 2;
+    column-gap: 64px;
+  }
+
+  body.credit-card-retail-pdp .tabs .tabs-panel h3 {
+    break-after: avoid;
+  }
+
+  body.credit-card-retail-pdp .tabs .tabs-panel p {
+    break-inside: avoid;
+  }
+}

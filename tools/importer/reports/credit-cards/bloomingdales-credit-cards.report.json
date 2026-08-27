@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "https://www.citi.com/credit-cards/bloomingdales-credit-cards?category=view-all-credit-cards&intc=citihpmenu~creditcards~explore&afc=161",
+  "path": "credit-cards/bloomingdales-credit-cards",
+  "timestamp": "2026-08-27T15:07:19.507Z",
+  "title": "Bloomingdale's Credit Cards | Citi.com",
+  "template": "credit-card-retail-pdp",
+  "blocks": [
+    "hero",
+    "table",
+    "tabs",
+    "accordion",
+    "columns"
+  ]
+}

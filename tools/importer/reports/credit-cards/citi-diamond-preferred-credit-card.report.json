@@ -1,0 +1,21 @@
+{
+  "status": "success",
+  "url": "https://www.citi.com/credit-cards/citi-diamond-preferred-credit-card?category=view-all-credit-cards&intc=citihpmenu~creditcards~explore&afc=161",
+  "path": "credit-cards/citi-diamond-preferred-credit-card",
+  "timestamp": "2026-08-26T21:33:46.708Z",
+  "title": "Citi® Diamond Preferred® Credit Card - Balance Transfer Credit Card | Citi.com",
+  "template": "credit-card-pdp",
+  "blocks": [
+    "hero",
+    "columns",
+    "columns",
+    "columns",
+    "cards",
+    "cards",
+    "cards",
+    "accordion",
+    "accordion",
+    "primary-benefits",
+    "category-nav"
+  ]
+}

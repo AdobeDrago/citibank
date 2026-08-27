@@ -153,3 +153,55 @@ body.credit-card-pdp .cards > ul > li {
   border-radius: 0;
   background-color: transparent;
 }
+
+/* ============================================================
+   Retail credit-card PDP offer cards (body.credit-card-retail-pdp).
+   A row of three equal bordered white cards with big navy number headlines,
+   left-aligned. The retail template does NOT match body.credit-card-pdp, so
+   the default 1px border is kept; these rules only adjust alignment, spacing,
+   and typography. Scoped to the retail template so tds-* cards are unchanged.
+   ============================================================ */
+body.credit-card-retail-pdp .cards > ul {
+  gap: 24px;
+  margin: 40px 0;
+}
+
+body.credit-card-retail-pdp .cards > ul > li {
+  border: 1px solid #d9d9d9;
+  border-radius: 6px;
+  text-align: left;
+}
+
+body.credit-card-retail-pdp .cards .cards-card-body {
+  padding: 32px;
+}
+
+body.credit-card-retail-pdp .cards .cards-card-body h3 {
+  margin: 0 0 12px;
+  color: var(--hero-cta-color, rgb(4 32 143));
+  font-weight: 700;
+  font-size: 40px;
+  line-height: 1.1;
+  letter-spacing: -0.5px;
+}
+
+body.credit-card-retail-pdp .cards .cards-card-body h3 sup {
+  font-size: 0.4em;
+  top: -0.9em;
+}
+
+/* Lower specificity than the benefits-grid p:first-child rule above, but the
+   retail template scope makes them mutually exclusive in practice. */
+/* stylelint-disable-next-line no-descending-specificity */
+body.credit-card-retail-pdp .cards .cards-card-body p {
+  color: var(--hero-body-color, #3a3e40);
+  font-size: 16px;
+  line-height: 1.4;
+  letter-spacing: normal;
+}
+
+@media (width >= 900px) {
+  body.credit-card-retail-pdp .cards > ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
