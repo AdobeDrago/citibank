@@ -1,20 +1,227 @@
+/* Citi footer — dark charcoal mega-footer. Mobile-first; min-width breakpoints only.
+   Bands: link columns (accordion on mobile, 5-col grid on desktop), app/social,
+   copyright + legal links, legal disclosures + logo. */
+
+:root {
+  --citi-footer-bg: #333;
+  --citi-footer-text: #fff;
+  --citi-footer-muted: #f4f4f4;
+  --citi-footer-divider: rgb(255 255 255 / 20%);
+}
+
 footer {
-  background-color: var(--light-color);
-  font-size: var(--body-font-size-xs);
+  background-color: var(--citi-footer-bg);
+  color: var(--citi-footer-text);
+  font-size: 12px;
 }
 
-footer .footer > div {
-  margin: auto;
-  max-width: 1200px;
-  padding: 40px 24px 24px;
+footer .footer-inner {
+  margin: 0 auto;
+  max-width: 1440px;
+  padding: 32px 24px 40px;
 }
 
-footer .footer p {
+footer .footer-nav a {
+  color: var(--citi-footer-text);
+  text-decoration: none;
+}
+
+footer .footer-nav ul {
   margin: 0;
+  padding: 0;
+  list-style: none;
 }
 
+footer .footer-nav p { margin: 0; }
+
+/* ---------- Link columns (mobile: stacked) ---------- */
+footer .footer-columns {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+footer .footer-column h2 {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--citi-footer-divider);
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.3;
+  cursor: pointer;
+}
+
+/* mobile: chevron indicator; column list collapsed until the heading is tapped */
+footer .footer-column h2::after {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(45deg);
+  transition: transform 0.2s ease;
+}
+
+footer .footer-column[aria-expanded='true'] h2::after { transform: rotate(-135deg); }
+
+footer .footer-column ul {
+  display: none;
+  padding: 12px 0;
+}
+
+footer .footer-column[aria-expanded='true'] ul { display: block; }
+
+footer .footer-column li { margin-bottom: 12px; }
+
+footer .footer-column a {
+  font-size: 12px;
+  font-weight: 300;
+}
+
+footer .footer-column img {
+  width: 44px;
+  height: auto;
+  margin-top: 8px;
+}
+
+/* ---------- App + social band ---------- */
+footer .footer-social {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  margin-top: 32px;
+  padding: 24px 0;
+  border-top: 1px solid var(--citi-footer-divider);
+  border-bottom: 1px solid var(--citi-footer-divider);
+}
+
+footer .footer-social p {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+footer .footer-social a { display: inline-flex; }
+
+footer .footer-social p:first-child img {
+  height: 40px;
+  width: auto;
+}
+
+footer .footer-social p:last-child img {
+  width: 20px;
+  height: 20px;
+}
+
+/* ---------- Copyright + legal links ---------- */
+footer .footer-legal { margin-top: 24px; }
+
+footer .footer-legal p {
+  margin-bottom: 12px;
+  font-size: 12px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+footer .footer-legal ul {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+footer .footer-legal a { font-size: 12px; }
+
+/* ---------- Legal disclosures + logo ---------- */
+footer .footer-disclosures { margin-top: 24px; }
+
+footer .footer-disclosures h4 {
+  margin: 0 0 12px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+footer .footer-disclosures p {
+  margin: 0 0 16px;
+  color: var(--citi-footer-muted);
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+footer .footer-disclosures img {
+  width: 64px;
+  height: auto;
+  margin-top: 8px;
+}
+
+/* hidden responsive-duplicate logo (kept for source content parity only) */
+footer .footer-logo-duplicate { display: none; }
+
+/* link hover (placed after all link rules to satisfy specificity ordering) */
+footer .footer-nav a:hover { text-decoration: underline; }
+
+/* ---------- Tablet (>= 600px) ---------- */
+@media (width >= 600px) {
+  /* columns stay stacked accordions until desktop (matches source < 900px) */
+  footer .footer-social {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+/* ---------- Desktop (>= 900px) ---------- */
 @media (width >= 900px) {
-  footer .footer > div {
-    padding: 40px 32px 24px;
+  footer .footer-inner { padding: 48px 96px 40px; }
+
+  footer .footer-columns {
+    flex-flow: row nowrap;
+    gap: 24px;
+  }
+
+  footer .footer-column {
+    flex: 1 1 0;
+    position: relative;
+  }
+
+  /* desktop: static headings, no accordion — every list always visible */
+  footer .footer-column h2 {
+    display: block;
+    padding: 0;
+    margin: 0 0 16px;
+    border-bottom: 0;
+    cursor: default;
+  }
+
+  footer .footer-column h2::after { content: none; }
+
+  footer .footer-column ul {
+    display: block;
+    padding: 0;
+  }
+
+  /* Equal Housing badge floats to the top-right of the columns band */
+  footer .footer-column:last-child img {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+  }
+
+  footer .footer-legal ul {
+    flex-flow: row wrap;
+    gap: 32px;
+  }
+
+  footer .footer-legal p { margin-bottom: 16px; }
+}
+
+@media (width >= 1200px) {
+  footer .footer-inner {
+    padding-left: 96px;
+    padding-right: 96px;
   }
 }
