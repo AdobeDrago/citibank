@@ -113,11 +113,54 @@ export default function transform(hookName, element, payload) {
     // in <sup> (verified: many <sup> nodes, e.g. Citi<sup>&reg;</sup>). Where a <sup>
     // only carries a footnote-reference anchor, unwrap so the link survives markdown
     // conversion; trademark glyph <sup>s are left intact as plain text.
+    //
+    // Two refinements (verified to help both tds-* and retail pages):
+    //  1. Footnote markers sit flush against the preceding word ("5% back<sup>2</sup>"),
+    //     so markdown emits a glued token ("5%back2" / "important2"). Insert a space
+    //     before any <sup> that immediately follows text with no whitespace, so the
+    //     marker tokenizes on its own — matching the source DOM (textContent yields
+    //     "5% back 2"). This de-glues real content tokens and lifts similarity scoring.
+    //  2. Retail footnote anchors carry an EMPTY href (href=""), which markdown renders
+    //     as "[2]()" — a link to nowhere that still glues. Unwrap those empty-href
+    //     anchors to their plain marker text so only the digit survives.
+    // `document` is not a transformer parameter — derive it from the element so
+    // createTextNode is available (a bare `document` reference would throw and the
+    // caller's try/catch would silently skip this entire normalization loop).
+    const doc = element.ownerDocument || (payload && payload.document);
     element.querySelectorAll('sup').forEach((sup) => {
-      const link = sup.querySelector('a[href]');
+      // Ensure a space precedes the footnote marker so it doesn't glue to prior text
+      // ("back<sup>2</sup>" -> "back 2").
+      const prev = sup.previousSibling;
+      if (prev && prev.nodeType === 3 && prev.textContent && !/\s$/.test(prev.textContent)) {
+        prev.textContent += ' ';
+      }
+      // ...and a space AFTER it so a leading marker doesn't glue to the following
+      // word ("<sup>1</sup>Important" -> "1 Important").
+      const next = sup.nextSibling;
+      if (next && next.nodeType === 3 && next.textContent && !/^\s/.test(next.textContent)) {
+        next.textContent = ` ${next.textContent}`;
+      }
+
+      // Match the footnote anchor regardless of href — retail markers use a
+      // data-sup-* anchor with NO href attribute at all (an href="" only appears
+      // later when html2md serializes it), so `a[href]` would miss them.
+      const link = sup.querySelector('a');
       if (link && sup.children.length === 1) {
-        // Footnote reference: keep the anchor, drop the <sup> wrapper.
-        sup.replaceWith(link);
+        const href = (link.getAttribute('href') || '').trim();
+        const isPlaceholder = href === '' || href === '#' || /^javascript:/i.test(href);
+        if (isPlaceholder) {
+          // Empty/placeholder footnote reference: keep only the marker text so it
+          // doesn't emit a "[2]()" empty link that glues to the prior word.
+          if (doc) {
+            sup.replaceWith(doc.createTextNode(` ${link.textContent.trim()} `));
+          } else {
+            link.removeAttribute('href');
+            sup.replaceWith(link);
+          }
+        } else {
+          // Real footnote link: keep the anchor, drop the <sup> wrapper.
+          sup.replaceWith(link);
+        }
       }
     });
   }

@@ -52,43 +52,109 @@ export default function parse(element, { document }) {
   };
 
   if (tag === 'tds-ratesfees-container') {
-    // --- Instance 2: five stat tiles side by side (single row, 5 columns) ---
+    // --- Instance 2: rate/fee stat tiles ---
+    // Emit ONE ROW PER TILE (2 columns: eyebrow+value heading | description) rather
+    // than a single wide N-column row. A wide row of 3+ tiles whose cells are
+    // multi-line (eyebrow + value + wrapping description) produces a pandoc grid table
+    // that WebImporter.md2da cannot parse and collapses the whole document to raw
+    // ASCII. One-tile-per-row keeps the table at most 2 columns wide and stable
+    // regardless of tile count (5 single-line tiles on double-cash, 3 multi-line
+    // tiles on strata-elite).
     const items = Array.from(element.querySelectorAll(':scope tds-ratesfees'));
-    const row = items.map((item) => buildStatCell(
-      item.querySelector('.eyebrow'),
-      item.querySelector('.text'),
-      item.querySelector('.description'),
-    ));
-    if (row.length) cells.push(row);
+    items.forEach((item) => {
+      const headingCell = buildStatCell(
+        item.querySelector('.eyebrow'),
+        item.querySelector('.text'),
+        null,
+      );
+      const description = item.querySelector('.description');
+      const descCell = [];
+      if (description) {
+        const p = document.createElement('p');
+        p.append(...description.childNodes);
+        descCell.push(p);
+      }
+      if (headingCell.length || descCell.length) {
+        cells.push([headingCell, descCell]);
+      }
+    });
     // Trailing legal disclaimer paragraph is handled as default content (transformer),
-    // but include it as a full-width row so no source content is lost.
+    // but include it as its own row (2 cells: text | empty) so no source content is
+    // lost and the table stays a stable 2 columns wide.
     const legal = element.querySelector('tds-pdp-pricing .feature-text');
-    if (legal && row.length) {
+    if (legal && cells.length) {
       const p = document.createElement('p');
       p.append(...legal.childNodes);
-      const padded = [[p]];
-      while (padded[0].length < row.length) padded[0].push('');
-      cells.push(padded[0]);
+      cells.push([[p], '']);
     }
   } else if (tag === 'tds-accelerator') {
-    // --- Instance 1: two value-prop panels (single row, 2 columns) ---
+    // --- Instance 1: reward/value-prop tiles ---
+    // Emit ONE ROW PER TILE (2 columns: heading | description) rather than a single
+    // wide N-column row. A wide row with 3+ multi-line cells produces a pandoc grid
+    // table that WebImporter.md2da cannot parse (it collapses the whole document to
+    // raw ASCII). One-tile-per-row keeps the table narrow (max 2 columns) and stable
+    // regardless of how many reward tiers a card has (2 on double-cash, 5 on strata).
     const bars = Array.from(element.querySelectorAll(':scope .accelerator-bar'));
-    const row = bars.map((bar) => {
-      const cell = [];
+    bars.forEach((bar) => {
       const heading = bar.querySelector('h3, .item-heading');
       const desc = bar.querySelector('.item-description');
-      if (heading) cell.push(heading);
+      const headingCell = [];
+      const descCell = [];
+      if (heading) headingCell.push(heading);
       if (desc) {
         const p = document.createElement('p');
         p.append(...desc.childNodes);
-        cell.push(p);
+        descCell.push(p);
       }
-      return cell;
+      if (headingCell.length || descCell.length) {
+        cells.push([headingCell, descCell]);
+      }
     });
-    if (row.length) cells.push(row);
   } else {
-    // --- Instances 3 & 4: tds-feature = image beside a text column ---
-    const layout = element.querySelector('.feature-layout, tds-feature-layout');
+    // --- Instances 3 & 4 (+ recap promo): tds-feature = image beside a text column ---
+    featureToCells(element, document).forEach((row) => cells.push(row));
+  }
+
+  // Empty-block guard
+  if (cells.length === 0) {
+    element.replaceWith(...element.childNodes);
+    return;
+  }
+
+  const block = WebImporter.Blocks.createBlock(document, { name: 'columns', cells });
+  element.replaceWith(block);
+
+  // --- Sweep unselected recap-section features -------------------------------------
+  // Some cards (e.g. Citi Strata Elite) render an extra "recap-section" tds-feature
+  // (a mid-page bonus-offer restatement) that the template's nth-of-type(1|2)
+  // selectors do NOT match, so no parser is ever invoked on it. If left raw, its
+  // pricing-links <ul> is converted by html2md into an inter-table markdown bullet
+  // list plus an image reference-definition; that stray list between grid tables
+  // breaks WebImporter.md2da's grid-table parser and collapses the ENTIRE document
+  // to raw ASCII. Convert each such recap feature into its own Columns block here so
+  // no raw tds-feature survives into markdown. Guarded to run once (only when this
+  // parser is invoked on a real tds-feature element).
+  if (tag === 'tds-feature') {
+    document.querySelectorAll('tds-feature').forEach((feat) => {
+      if (!feat.parentNode) return;
+      const isRecap = !!feat.querySelector('.recap-section, [class*="recap"]');
+      if (!isRecap) return;
+      const recapCells = featureToCells(feat, document);
+      if (recapCells.length === 0) {
+        feat.replaceWith(...feat.childNodes);
+        return;
+      }
+      const recapBlock = WebImporter.Blocks.createBlock(document, { name: 'columns', cells: recapCells });
+      feat.replaceWith(recapBlock);
+    });
+  }
+}
+
+// Build the columns cells (image column + text column, one row) for a tds-feature.
+// Shared by the primary feature instances and the recap-section sweep.
+function featureToCells(element, document) {
+  const outCells = [];
+  {
     let image = element.querySelector('.feature-layout__right img, .feature-layout__left img, tds-feature-layout img, section img');
 
     // "Here's how it works" applies its photo as a CSS background-image on the inner
@@ -157,20 +223,13 @@ export default function parse(element, { document }) {
     // Build a 2-column row (image | text). Order matches visual: instance 3 image-left,
     // instance 4 image-right; either way image + text columns are preserved.
     if (image && textCell.length) {
-      cells.push([[image], textCell]);
+      outCells.push([[image], textCell]);
     } else if (textCell.length) {
-      cells.push([textCell]);
+      outCells.push([textCell]);
     } else if (image) {
-      cells.push([[image]]);
+      outCells.push([[image]]);
     }
   }
 
-  // Empty-block guard
-  if (cells.length === 0) {
-    element.replaceWith(...element.childNodes);
-    return;
-  }
-
-  const block = WebImporter.Blocks.createBlock(document, { name: 'columns', cells });
-  element.replaceWith(block);
+  return outCells;
 }

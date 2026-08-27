@@ -464,3 +464,16 @@ body.credit-card-pdp main > .section > div > h2 {
 body.credit-card-pdp main > .section:has(.cards) > div > h2 {
   font-size: 36px;
 }
+
+/*
+ * Retail credit-cards PDP (body.credit-card-retail-pdp): give each section's
+ * heading room above its block. The section H2 sits in a .default-content-wrapper
+ * that is the section's first child, immediately followed by the block wrapper
+ * (columns/tabs/accordion) with only ~9px between them; the source gives the
+ * heading ~30-65px of breathing room. Add bottom spacing to that heading wrapper
+ * when a block wrapper follows it. Excludes the hero section (its own hero->cards
+ * gap is already correct) and single-wrapper sections (heading is also last child).
+ */
+body.credit-card-retail-pdp main > .section:not(.hero-container) > .default-content-wrapper:first-child:not(:last-child) {
+  margin-bottom: 24px;
+}

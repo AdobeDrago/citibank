@@ -1,0 +1,21 @@
+{
+  "status": "success",
+  "url": "https://www.citi.com/credit-cards/citi-aadvantage-globe-mastercard?category=view-all-credit-cards&intc=citihpmenu~creditcards~explore&afc=161",
+  "path": "credit-cards/citi-aadvantage-globe-mastercard",
+  "timestamp": "2026-08-26T23:16:53.092Z",
+  "title": "Citi® / AAdvantage® Globe™ Mastercard® | Citi.com",
+  "template": "credit-card-pdp",
+  "blocks": [
+    "hero",
+    "columns",
+    "columns",
+    "columns",
+    "columns",
+    "cards",
+    "cards",
+    "accordion",
+    "accordion",
+    "primary-benefits",
+    "category-nav"
+  ]
+}

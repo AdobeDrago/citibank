@@ -137,37 +137,73 @@ var CustomImportScript = (() => {
     };
     if (tag === "tds-ratesfees-container") {
       const items = Array.from(element.querySelectorAll(":scope tds-ratesfees"));
-      const row = items.map((item) => buildStatCell(
-        item.querySelector(".eyebrow"),
-        item.querySelector(".text"),
-        item.querySelector(".description")
-      ));
-      if (row.length) cells.push(row);
+      items.forEach((item) => {
+        const headingCell = buildStatCell(
+          item.querySelector(".eyebrow"),
+          item.querySelector(".text"),
+          null
+        );
+        const description = item.querySelector(".description");
+        const descCell = [];
+        if (description) {
+          const p = document2.createElement("p");
+          p.append(...description.childNodes);
+          descCell.push(p);
+        }
+        if (headingCell.length || descCell.length) {
+          cells.push([headingCell, descCell]);
+        }
+      });
       const legal = element.querySelector("tds-pdp-pricing .feature-text");
-      if (legal && row.length) {
+      if (legal && cells.length) {
         const p = document2.createElement("p");
         p.append(...legal.childNodes);
-        const padded = [[p]];
-        while (padded[0].length < row.length) padded[0].push("");
-        cells.push(padded[0]);
+        cells.push([[p], ""]);
       }
     } else if (tag === "tds-accelerator") {
       const bars = Array.from(element.querySelectorAll(":scope .accelerator-bar"));
-      const row = bars.map((bar) => {
-        const cell = [];
+      bars.forEach((bar) => {
         const heading = bar.querySelector("h3, .item-heading");
         const desc = bar.querySelector(".item-description");
-        if (heading) cell.push(heading);
+        const headingCell = [];
+        const descCell = [];
+        if (heading) headingCell.push(heading);
         if (desc) {
           const p = document2.createElement("p");
           p.append(...desc.childNodes);
-          cell.push(p);
+          descCell.push(p);
         }
-        return cell;
+        if (headingCell.length || descCell.length) {
+          cells.push([headingCell, descCell]);
+        }
       });
-      if (row.length) cells.push(row);
     } else {
-      const layout = element.querySelector(".feature-layout, tds-feature-layout");
+      featureToCells(element, document2).forEach((row) => cells.push(row));
+    }
+    if (cells.length === 0) {
+      element.replaceWith(...element.childNodes);
+      return;
+    }
+    const block = WebImporter.Blocks.createBlock(document2, { name: "columns", cells });
+    element.replaceWith(block);
+    if (tag === "tds-feature") {
+      document2.querySelectorAll("tds-feature").forEach((feat) => {
+        if (!feat.parentNode) return;
+        const isRecap = !!feat.querySelector('.recap-section, [class*="recap"]');
+        if (!isRecap) return;
+        const recapCells = featureToCells(feat, document2);
+        if (recapCells.length === 0) {
+          feat.replaceWith(...feat.childNodes);
+          return;
+        }
+        const recapBlock = WebImporter.Blocks.createBlock(document2, { name: "columns", cells: recapCells });
+        feat.replaceWith(recapBlock);
+      });
+    }
+  }
+  function featureToCells(element, document2) {
+    const outCells = [];
+    {
       let image = element.querySelector(".feature-layout__right img, .feature-layout__left img, tds-feature-layout img, section img");
       const framed = element.querySelector("div.feature-layout.framed, .feature-layout.framed");
       if (!image && framed) {
@@ -215,19 +251,14 @@ var CustomImportScript = (() => {
         textCell.push(link);
       });
       if (image && textCell.length) {
-        cells.push([[image], textCell]);
+        outCells.push([[image], textCell]);
       } else if (textCell.length) {
-        cells.push([textCell]);
+        outCells.push([textCell]);
       } else if (image) {
-        cells.push([[image]]);
+        outCells.push([[image]]);
       }
     }
-    if (cells.length === 0) {
-      element.replaceWith(...element.childNodes);
-      return;
-    }
-    const block = WebImporter.Blocks.createBlock(document2, { name: "columns", cells });
-    element.replaceWith(block);
+    return outCells;
   }
 
   // tools/importer/parsers/cards.js

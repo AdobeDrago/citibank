@@ -1,0 +1,21 @@
+{
+  "status": "success",
+  "url": "https://www.citi.com/credit-cards/costco-anywhere-visa-business-card?category=view-all-credit-cards&intc=citihpmenu~creditcards~explore&afc=161",
+  "path": "credit-cards/costco-anywhere-visa-business-card",
+  "timestamp": "2026-08-26T21:42:51.379Z",
+  "title": "Costco Anywhere Visa® Business Card by Citi| Citi.com",
+  "template": "credit-card-pdp",
+  "blocks": [
+    "hero",
+    "columns",
+    "columns",
+    "columns",
+    "columns",
+    "cards",
+    "cards",
+    "accordion",
+    "accordion",
+    "primary-benefits",
+    "category-nav"
+  ]
+}

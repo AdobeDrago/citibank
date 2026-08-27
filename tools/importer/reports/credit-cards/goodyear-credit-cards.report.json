@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "https://www.citi.com/credit-cards/goodyear-credit-cards?category=view-all-credit-cards&intc=citihpmenu~creditcards~explore&afc=161",
+  "path": "credit-cards/goodyear-credit-cards",
+  "timestamp": "2026-08-27T15:11:58.131Z",
+  "title": "Goodyear Credit Card | Citi.com",
+  "template": "credit-card-retail-pdp",
+  "blocks": [
+    "hero",
+    "rewards",
+    "tabs",
+    "accordion",
+    "columns"
+  ]
+}

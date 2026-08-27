@@ -1,0 +1,15 @@
+{
+  "status": "success",
+  "url": "https://www.citi.com/credit-cards/citi-macys-credit-card?category=view-all-credit-cards&intc=citihpmenu~creditcards~explore&afc=161",
+  "path": "credit-cards/citi-macys-credit-card",
+  "timestamp": "2026-08-27T15:06:27.303Z",
+  "title": "Macy's Credit Cards | Citi.com",
+  "template": "credit-card-retail-pdp",
+  "blocks": [
+    "hero",
+    "table",
+    "tabs",
+    "accordion",
+    "columns"
+  ]
+}

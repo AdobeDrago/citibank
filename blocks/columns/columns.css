@@ -343,4 +343,74 @@
   text-decoration: underline;
 }
 
+/* =========================================================
+ * Retail "REWARDS AND PROGRAM DETAILS" (credit-card-retail-pdp)
+ * A plain two-column layout: LEFT = reward items (bold title + copy),
+ * RIGHT = benefit lines with a vertical divider. Scoped to the retail
+ * body class so it overrides the tds-* accelerator-tile rules above
+ * (which retail never renders) without affecting them. The retail apply
+ * band is the OTHER columns block but it has a .columns-img-col, so the
+ * :not(:has(.columns-img-col)) guard keeps these two apart.
+ * Source: .rw-title 20px/500 rgb(45,45,45); body 16px rgb(51,51,51);
+ * right column divider 2px rgb(204,204,204) with ~60px inset.
+ * ========================================================= */
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div {
+  gap: 32px;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: rgb(51 51 51);
+}
+
+/* reward item = a title followed by its paragraph; space between items */
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) h3 {
+  margin: 0 0 8px;
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.3;
+  letter-spacing: normal;
+  color: rgb(45 45 45);
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) p {
+  margin: 0 0 24px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
+  color: rgb(51 51 51);
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) p:last-child {
+  margin-bottom: 0;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) a:any-link {
+  color: var(--link-color, rgb(4 32 143));
+  text-decoration: none;
+}
+
+@media (width >= 900px) {
+  body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div {
+    align-items: stretch;
+    gap: 48px;
+  }
+
+  /* right (benefits) column: vertical divider on its left edge, content centered
+     vertically against the taller left column (matches source) */
+  body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) {
+    justify-content: center;
+    border-left: 2px solid rgb(204 204 204);
+    padding-left: 48px;
+  }
+}
+
 /* stylelint-enable no-descending-specificity */

@@ -30,7 +30,17 @@ export default function decorate(block) {
   const links = [];
   const texts = [];
 
+  // Retail promo ribbon (e.g. "No annual fee¹"): a short paragraph authored BEFORE
+  // the card-art image. It carries a footnote <a>, so without this it would be
+  // misclassified as the CTA. Identify it as any <p> that precedes the card-art
+  // picture and pull it out so it can overlay the card art (retail branch below).
+  const cardArtIdx = kids.findIndex((el) => el.tagName === 'P' && el.querySelector('picture'));
+  const ribbon = cardArtIdx > 0
+    ? kids.find((el, i) => i < cardArtIdx && el.tagName === 'P' && !el.querySelector('picture'))
+    : null;
+
   kids.forEach((el) => {
+    if (el === ribbon) return;
     if (/^H[1-6]$/.test(el.tagName)) {
       headings.push(el);
       return;
@@ -46,6 +56,7 @@ export default function decorate(block) {
       texts.push(el);
     }
   });
+  if (ribbon) ribbon.classList.add('hero-ribbon');
 
   // Card art + h1 label share a header row.
   const h1 = headings.find((h) => h.tagName === 'H1');
@@ -89,12 +100,41 @@ export default function decorate(block) {
     const cta = links[0].querySelector('a');
     if (cta) cta.classList.add('button', 'primary');
   }
-  const footnotes = links.slice(1);
+  // The "Important Pricing & Terms Information +" link (retail) sits directly under
+  // the CTA in the source; pull it out of the footnotes group so it can be placed
+  // and styled on its own. Identified by its visible text.
+  const rest = links.slice(1);
+  const pricingLink = rest.find((p) => /important pricing/i.test(p.textContent));
+  if (pricingLink) pricingLink.classList.add('hero-pricing-link');
+  const footnotes = rest.filter((p) => p !== pricingLink);
   footnotes.forEach((p) => p.classList.add('hero-footnote'));
   if (footnotes.length) {
     const fnRow = document.createElement('div');
     fnRow.className = 'hero-footnotes';
     content.insertBefore(fnRow, footnotes[0]);
     fnRow.append(...footnotes);
+  }
+
+  // Retail credit-card PDP variant: no background image and a two-column white
+  // band (card art on the left, text on the right). The shared decoration above
+  // groups the card art and the h1 label together in `.hero-head`, which cannot
+  // be split into separate columns with CSS alone, so restructure here. Guarded
+  // by the template body class so tds-* PDP heroes are left untouched.
+  if (document.body.classList.contains('credit-card-retail-pdp')) {
+    const media = document.createElement('div');
+    media.className = 'hero-media';
+    const body = document.createElement('div');
+    body.className = 'hero-body';
+    if (ribbon) media.append(ribbon);
+    if (cardArt) media.append(cardArt);
+    if (h1) body.append(h1);
+    [...content.children].forEach((child) => {
+      if (child.classList.contains('hero-head')) {
+        child.remove();
+        return;
+      }
+      body.append(child);
+    });
+    content.append(media, body);
   }
 }

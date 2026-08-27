@@ -264,3 +264,201 @@
     letter-spacing: -0.36px;
   }
 }
+
+/* ============================================================
+   Retail credit-card PDP hero variant (body.credit-card-retail-pdp).
+   The retail source has NO background lifestyle image: it is a plain white
+   two-column band (card art left, text right). These rules neutralise the
+   tds-* full-bleed/background-overlay/translucent-card treatment above and
+   are scoped to the retail template so tds-* PDP heroes are unaffected.
+   The retail decorator (hero.js) restructures the content into
+   .hero-media (card art) + .hero-body (eyebrow, H2, sign-on line, CTA).
+   ============================================================ */
+body.credit-card-retail-pdp .hero.block {
+  display: block;
+  min-height: 0;
+  background: none;
+}
+
+/* The single authored row picks up both hero-bg and hero-content-row; keep it
+   in normal flow (the desktop base rule absolutely-positions .hero-bg) and kill
+   the background-strip image sizing. */
+body.credit-card-retail-pdp .hero .hero-bg {
+  position: static;
+  inset: auto;
+}
+
+body.credit-card-retail-pdp .hero .hero-bg picture,
+body.credit-card-retail-pdp .hero .hero-bg img {
+  width: auto;
+  height: auto;
+  object-fit: initial;
+}
+
+body.credit-card-retail-pdp .hero .hero-content {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 32px 24px;
+  background: none;
+}
+
+/* Card art (relative so the promo ribbon can overlay its top edge) */
+body.credit-card-retail-pdp .hero .hero-media {
+  position: relative;
+  display: inline-block;
+  margin: 0;
+}
+
+body.credit-card-retail-pdp .hero .hero-media .hero-card-art {
+  margin: 0;
+}
+
+body.credit-card-retail-pdp .hero .hero-media picture,
+body.credit-card-retail-pdp .hero .hero-media img {
+  display: block;
+  width: 100%;
+  max-width: 306px;
+  height: auto;
+}
+
+/* Green "No annual fee" promo ribbon pinned across the top of the card art */
+body.credit-card-retail-pdp .hero .hero-ribbon {
+  position: absolute;
+  top: 12px;
+  left: 0;
+  right: 0;
+  z-index: 1;
+  margin: 0 auto;
+  width: max-content;
+  max-width: calc(100% - 24px);
+  border-radius: 4px;
+  padding: 6px 24px;
+  background-color: var(--hero-badge-color);
+  color: rgb(255 255 255);
+  font-family: var(--heading-font-family);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  text-align: center;
+}
+
+body.credit-card-retail-pdp .hero .hero-ribbon a:any-link {
+  color: rgb(255 255 255);
+  text-decoration: none;
+  vertical-align: super;
+  font-size: 0.75em;
+}
+
+/* Text column */
+body.credit-card-retail-pdp .hero .hero-body {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+/* Card-name eyebrow (the H1 label) */
+body.credit-card-retail-pdp .hero .hero-body .hero-title {
+  order: 1;
+  margin: 0 0 12px;
+  color: var(--hero-muted-color);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* Offer headline */
+body.credit-card-retail-pdp .hero .hero-content h2 {
+  order: 2;
+  margin: 0 0 12px;
+  color: var(--hero-cta-color);
+  font-weight: 700;
+  font-size: 26px;
+  line-height: 1.2;
+  letter-spacing: -0.28px;
+}
+
+/* "Already have a card? Sign On ..." line (grouped as a footnote by hero.js) */
+body.credit-card-retail-pdp .hero .hero-footnotes {
+  order: 3;
+  display: block;
+  margin: 0 0 20px;
+  color: var(--hero-body-color);
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+body.credit-card-retail-pdp .hero .hero-footnote {
+  margin: 0;
+  font-size: 16px;
+}
+
+body.credit-card-retail-pdp .hero .hero-footnote a:any-link {
+  color: var(--hero-cta-color);
+  font-weight: 400;
+  text-decoration: underline;
+}
+
+/* Apply Now CTA */
+body.credit-card-retail-pdp .hero .button-container {
+  order: 4;
+  margin: 0;
+}
+
+body.credit-card-retail-pdp .hero a.button.primary:any-link {
+  min-width: 220px;
+  border-radius: 4px;
+  padding: 14px 48px;
+  font-weight: 700;
+}
+
+/* "Important Pricing & Terms Information +" link, directly under the CTA */
+body.credit-card-retail-pdp .hero .hero-pricing-link {
+  order: 5;
+  margin: 16px 0 0;
+}
+
+body.credit-card-retail-pdp .hero .hero-pricing-link a:any-link {
+  color: var(--hero-cta-color);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+body.credit-card-retail-pdp .hero .hero-pricing-link a:hover,
+body.credit-card-retail-pdp .hero .hero-pricing-link a:focus-visible {
+  text-decoration: underline;
+}
+
+@media (width >= 900px) {
+  body.credit-card-retail-pdp .hero .hero-content {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 48px;
+    padding: 48px 32px;
+  }
+
+  body.credit-card-retail-pdp .hero .hero-media {
+    flex: 0 0 auto;
+  }
+
+  body.credit-card-retail-pdp .hero .hero-media picture,
+  body.credit-card-retail-pdp .hero .hero-media img {
+    width: 306px;
+    max-width: none;
+  }
+
+  body.credit-card-retail-pdp .hero .hero-body {
+    flex: 1 1 auto;
+  }
+
+  body.credit-card-retail-pdp .hero .hero-content h2 {
+    font-size: 36px;
+    letter-spacing: -0.36px;
+  }
+}
