@@ -110,8 +110,11 @@ body.appear {
   display: block;
 }
 
+/* Two-row Citi header: reserve at least the fallback nav height to avoid CLS,
+   but allow the header to grow to fit both the utility bar and the main nav row
+   (a fixed height clips the second row and lets the hero paint over it). */
 header {
-  height: var(--nav-height);
+  min-height: var(--nav-height);
 }
 
 header .header,
