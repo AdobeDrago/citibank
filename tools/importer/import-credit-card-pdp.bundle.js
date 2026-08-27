@@ -262,6 +262,9 @@ var CustomImportScript = (() => {
   }
 
   // tools/importer/parsers/cards.js
+  function isSpriteSrc(src) {
+    return !!src && /sprite[^/"]*\.svg(\?|$)/i.test(src);
+  }
   function svgToImg(svg, document2, alt) {
     const clone = svg.cloneNode(true);
     if (!clone.getAttribute("xmlns")) clone.setAttribute("xmlns", "http://www.w3.org/2000/svg");
@@ -299,6 +302,7 @@ var CustomImportScript = (() => {
       element.querySelectorAll(":scope cds-column.grid-items-3, :scope .grid-items-container cds-column").forEach((col) => {
         if (col.classList.contains("grid-header-container") || col.querySelector(":scope > .heading, :scope > div.heading")) return;
         let cardImg = col.querySelector(".icon-wrapper img.img-recommended-cards") || col.querySelector(".icon-wrapper > img") || col.querySelector("cds-icon img") || col.querySelector("img");
+        if (cardImg && isSpriteSrc(cardImg.getAttribute("src"))) cardImg = null;
         const heading = col.querySelector(".item-heading h3, h3");
         let img = imageCell(cardImg);
         if (img === "") {
@@ -314,7 +318,8 @@ var CustomImportScript = (() => {
     } else {
       const scope = element.classList.contains("benefits-container") ? element : element.querySelector(".benefits-container") || element;
       scope.querySelectorAll(":scope tds-benefit, tds-benefit").forEach((benefit) => {
-        const icon = benefit.querySelector(".benefit-icon-container img, cds-icon img, img");
+        let icon = benefit.querySelector(".benefit-icon-container img, cds-icon img, img");
+        if (icon && isSpriteSrc(icon.getAttribute("src"))) icon = null;
         const heading = benefit.querySelector(".benefit-header h3, h3, .item-heading");
         let img = imageCell(icon);
         if (img === "") {
@@ -545,10 +550,30 @@ var CustomImportScript = (() => {
           if (el.getAttribute("class") === "") el.removeAttribute("class");
         }
       });
+      const doc = element.ownerDocument || payload && payload.document;
       element.querySelectorAll("sup").forEach((sup) => {
-        const link = sup.querySelector("a[href]");
+        const prev = sup.previousSibling;
+        if (prev && prev.nodeType === 3 && prev.textContent && !/\s$/.test(prev.textContent)) {
+          prev.textContent += " ";
+        }
+        const next = sup.nextSibling;
+        if (next && next.nodeType === 3 && next.textContent && !/^\s/.test(next.textContent)) {
+          next.textContent = ` ${next.textContent}`;
+        }
+        const link = sup.querySelector("a");
         if (link && sup.children.length === 1) {
-          sup.replaceWith(link);
+          const href = (link.getAttribute("href") || "").trim();
+          const isPlaceholder = href === "" || href === "#" || /^javascript:/i.test(href);
+          if (isPlaceholder) {
+            if (doc) {
+              sup.replaceWith(doc.createTextNode(` ${link.textContent.trim()} `));
+            } else {
+              link.removeAttribute("href");
+              sup.replaceWith(link);
+            }
+          } else {
+            sup.replaceWith(link);
+          }
         }
       });
     }

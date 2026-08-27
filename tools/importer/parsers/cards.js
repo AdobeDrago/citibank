@@ -19,6 +19,17 @@
  * so they survive the import and render via the block's image cell.
  */
 
+// Some Citi benefit tiles (e.g. the AAdvantage drawer) render their icon by
+// clipping a shared SVG *sprite sheet* as a CSS background, showing one 24x24
+// region. Captured as a plain <img src=".../sprite-*-icons-drawer.svg">, that would
+// (a) display the ENTIRE sprite (all icons stacked) and (b) ship a ~45KB SVG that
+// exceeds the 40KB preview/publish asset limit. Such sprite srcs can't be sliced to
+// a single icon from a bare <img>, so treat them as "no usable icon" (the card
+// renders text-only; the block CSS already collapses the empty icon cell).
+function isSpriteSrc(src) {
+  return !!src && /sprite[^/"]*\.svg(\?|$)/i.test(src);
+}
+
 // Convert an inline <svg> to an <img> with a UTF-8 data URI so it survives import.
 function svgToImg(svg, document, alt) {
   const clone = svg.cloneNode(true);
@@ -71,6 +82,9 @@ export default function parse(element, { document }) {
         || col.querySelector('.icon-wrapper > img')
         || col.querySelector('cds-icon img')
         || col.querySelector('img');
+      // Ignore sprite-sheet icons (see isSpriteSrc): shipping the whole 45KB sprite
+      // is over-limit and would show every icon at once.
+      if (cardImg && isSpriteSrc(cardImg.getAttribute('src'))) cardImg = null;
       const heading = col.querySelector('.item-heading h3, h3');
       let img = imageCell(cardImg);
       if (img === '') {
@@ -89,7 +103,11 @@ export default function parse(element, { document }) {
       ? element
       : element.querySelector('.benefits-container') || element;
     scope.querySelectorAll(':scope tds-benefit, tds-benefit').forEach((benefit) => {
-      const icon = benefit.querySelector('.benefit-icon-container img, cds-icon img, img');
+      let icon = benefit.querySelector('.benefit-icon-container img, cds-icon img, img');
+      // Ignore sprite-sheet icons (see isSpriteSrc) — the AAdvantage drawer tiles
+      // use a shared ~45KB sprite as a clipped background; a bare <img> can't slice
+      // it and it exceeds the 40KB publish limit.
+      if (icon && isSpriteSrc(icon.getAttribute('src'))) icon = null;
       const heading = benefit.querySelector('.benefit-header h3, h3, .item-heading');
       let img = imageCell(icon);
       if (img === '') {
