@@ -235,24 +235,240 @@
         "https://www.citi.com/credit-cards/wayfair-credit-cards?category=view-all-credit-cards&intc=citihpmenu~creditcards~explore&afc=161",
         "https://www.citi.com/credit-cards/goodyear-credit-cards?category=view-all-credit-cards&intc=citihpmenu~creditcards~explore&afc=161"
       ],
-      "coverageGaps": ["citi-home-depot-consumer-credit-card uses the tds-* PDP DOM, not the retail app-* DOM — it belongs to the credit-card-pdp template, not this one."],
+      "coverageGaps": [
+        "citi-home-depot-consumer-credit-card uses the tds-* PDP DOM, not the retail app-* DOM \u2014 it belongs to the credit-card-pdp template, not this one."
+      ],
       "description": "Retail co-brand credit-card PDP under /credit-cards. Angular app-* SSR page (content root app-pdp > section.citi-container > section.pdp-section) with SIX sections: header (card art + dynamic multi-tier offer), compare-cards comparison table, tabbed card benefits, FAQs accordion, a secondary apply band, and pricing legal details. COMPLETELY separate DOM from credit-card-pdp: no #pdp-content-container and no tds-* web components. Offer amounts, APR, and fees are populated dynamically via API and captured post-render. app-sticky-header is a duplicate sticky apply bar and is dropped as noise.",
       "blocks": [
-        { "name": "hero", "instances": ["app-pdp section.pdp-section > app-header-section"] },
-        { "name": "table", "instances": ["app-pdp section.pdp-section > app-pdp-compare-cards"] },
-        { "name": "rewards", "instances": ["app-pdp section.pdp-section > app-rewards-section"] },
-        { "name": "tabs", "instances": ["app-pdp section.pdp-section > app-benefit-section"] },
-        { "name": "accordion", "instances": ["app-pdp section.pdp-section > app-faq-section"] },
-        { "name": "columns", "instances": ["app-pdp section.pdp-section > app-review-section"] }
+        {
+          "name": "hero",
+          "instances": [
+            "app-pdp section.pdp-section > app-header-section"
+          ]
+        },
+        {
+          "name": "table",
+          "instances": [
+            "app-pdp section.pdp-section > app-pdp-compare-cards"
+          ]
+        },
+        {
+          "name": "rewards",
+          "instances": [
+            "app-pdp section.pdp-section > app-rewards-section"
+          ]
+        },
+        {
+          "name": "tabs",
+          "instances": [
+            "app-pdp section.pdp-section > app-benefit-section"
+          ]
+        },
+        {
+          "name": "accordion",
+          "instances": [
+            "app-pdp section.pdp-section > app-faq-section"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "app-pdp section.pdp-section > app-review-section"
+          ]
+        }
       ],
       "sections": [
-        { "id": "rcret-hero", "name": "Header (card art + dynamic offer)", "selector": "app-pdp section.pdp-section > app-header-section", "style": null, "blocks": ["hero"], "defaultContent": ["app-pdp section.pdp-section > app-header-section .header-description"] },
-        { "id": "rcret-compare", "name": "Compare cards (comparison table)", "selector": "app-pdp section.pdp-section > app-pdp-compare-cards", "style": null, "blocks": ["table"], "defaultContent": ["app-pdp section.pdp-section > app-pdp-compare-cards h2.sub-heading"] },
-        { "id": "rcret-rewards", "name": "Rewards and program details (2-col)", "selector": "app-pdp section.pdp-section > app-rewards-section", "style": null, "blocks": ["rewards"], "defaultContent": ["app-pdp section.pdp-section > app-rewards-section h2"] },
-        { "id": "rcret-benefits", "name": "Card benefits (tabbed)", "selector": "app-pdp section.pdp-section > app-benefit-section", "style": null, "blocks": ["tabs"], "defaultContent": ["app-pdp section.pdp-section > app-benefit-section h2"] },
-        { "id": "rcret-faq", "name": "FAQs (accordion)", "selector": "app-pdp section.pdp-section > app-faq-section", "style": null, "blocks": ["accordion"], "defaultContent": ["app-pdp section.pdp-section > app-faq-section h2"] },
-        { "id": "rcret-review", "name": "Secondary apply band", "selector": "app-pdp section.pdp-section > app-review-section", "style": null, "blocks": ["columns"], "defaultContent": [] },
-        { "id": "rcret-pricing", "name": "Pricing details (legal)", "selector": "app-pdp section.pdp-section > app-price-detail-section", "style": null, "blocks": [], "defaultContent": ["app-pdp section.pdp-section > app-price-detail-section"] }
+        {
+          "id": "rcret-hero",
+          "name": "Header (card art + dynamic offer)",
+          "selector": "app-pdp section.pdp-section > app-header-section",
+          "style": null,
+          "blocks": [
+            "hero"
+          ],
+          "defaultContent": [
+            "app-pdp section.pdp-section > app-header-section .header-description"
+          ]
+        },
+        {
+          "id": "rcret-compare",
+          "name": "Compare cards (comparison table)",
+          "selector": "app-pdp section.pdp-section > app-pdp-compare-cards",
+          "style": null,
+          "blocks": [
+            "table"
+          ],
+          "defaultContent": [
+            "app-pdp section.pdp-section > app-pdp-compare-cards h2.sub-heading"
+          ]
+        },
+        {
+          "id": "rcret-rewards",
+          "name": "Rewards and program details (2-col)",
+          "selector": "app-pdp section.pdp-section > app-rewards-section",
+          "style": null,
+          "blocks": [
+            "rewards"
+          ],
+          "defaultContent": [
+            "app-pdp section.pdp-section > app-rewards-section h2"
+          ]
+        },
+        {
+          "id": "rcret-benefits",
+          "name": "Card benefits (tabbed)",
+          "selector": "app-pdp section.pdp-section > app-benefit-section",
+          "style": null,
+          "blocks": [
+            "tabs"
+          ],
+          "defaultContent": [
+            "app-pdp section.pdp-section > app-benefit-section h2"
+          ]
+        },
+        {
+          "id": "rcret-faq",
+          "name": "FAQs (accordion)",
+          "selector": "app-pdp section.pdp-section > app-faq-section",
+          "style": null,
+          "blocks": [
+            "accordion"
+          ],
+          "defaultContent": [
+            "app-pdp section.pdp-section > app-faq-section h2"
+          ]
+        },
+        {
+          "id": "rcret-review",
+          "name": "Secondary apply band",
+          "selector": "app-pdp section.pdp-section > app-review-section",
+          "style": null,
+          "blocks": [
+            "columns"
+          ],
+          "defaultContent": []
+        },
+        {
+          "id": "rcret-pricing",
+          "name": "Pricing details (legal)",
+          "selector": "app-pdp section.pdp-section > app-price-detail-section",
+          "style": null,
+          "blocks": [],
+          "defaultContent": [
+            "app-pdp section.pdp-section > app-price-detail-section"
+          ]
+        }
+      ]
+    },
+    {
+      "name": "citigold-landing",
+      "description": "Citigold featured-offer banking landing page (static semantic HTML, not the Angular PDP framework). Served at /cbol/om/checking/citigold/featured-offer/default.",
+      "urls": [
+        "https://banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm"
+      ],
+      "blocks": [
+        {
+          "name": "hero",
+          "instances": [
+            "main > section.hero"
+          ]
+        },
+        {
+          "name": "cards",
+          "instances": [
+            "main > section.benefits_features .benefits_features__rtb",
+            "main > section.benefits_features .rounded-corners-wrapper",
+            "main > section#bonus .bonus__steps-wrapper",
+            "main > section#account-features .accounts__cards-container"
+          ]
+        },
+        {
+          "name": "columns",
+          "instances": [
+            "main > section#bonus .bonus__earnings",
+            "main > section.zip-selector-inline",
+            "main > section.sticky-bar"
+          ]
+        },
+        {
+          "name": "table",
+          "instances": [
+            "contentinfo .footer__wrapper table"
+          ]
+        }
+      ],
+      "sections": [
+        {
+          "id": "cg-hero",
+          "name": "Hero (offer headline + CTA)",
+          "selector": "main > section.hero",
+          "blocks": [
+            "hero"
+          ]
+        },
+        {
+          "id": "cg-explore",
+          "name": "Explore features (5 items)",
+          "selector": "main > section.benefits_features .benefits_features__rtb",
+          "blocks": [
+            "cards"
+          ]
+        },
+        {
+          "id": "cg-see",
+          "name": "See what Citigold (6 items)",
+          "selector": "main > section.benefits_features .rounded-corners-wrapper",
+          "blocks": [
+            "cards"
+          ]
+        },
+        {
+          "id": "cg-bonus",
+          "name": "Bonus tiers + steps + footnotes",
+          "selector": "main > section#bonus",
+          "blocks": [
+            "columns",
+            "cards"
+          ]
+        },
+        {
+          "id": "cg-accounts",
+          "name": "Relationship tier cards (4)",
+          "selector": "main > section#account-features",
+          "blocks": [
+            "cards"
+          ]
+        },
+        {
+          "id": "cg-zip",
+          "name": "Home address + Have Questions",
+          "selector": "main > section.zip-selector-inline",
+          "blocks": [
+            "columns"
+          ]
+        },
+        {
+          "id": "cg-miranda",
+          "name": "Investment disclaimer strip",
+          "selector": "main > section.miranda",
+          "blocks": []
+        },
+        {
+          "id": "cg-sticky",
+          "name": "Final apply CTA",
+          "selector": "main > section.sticky-bar",
+          "blocks": [
+            "columns"
+          ]
+        },
+        {
+          "id": "cg-tnc",
+          "name": "Full Terms & Conditions (from footer)",
+          "selector": "contentinfo .footer__wrapper",
+          "blocks": [
+            "table"
+          ]
+        }
       ]
     }
   ]

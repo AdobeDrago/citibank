@@ -6,11 +6,24 @@
 //   then a legal-disclosures band: <h4> + <p>… + logo <p>
 // footer.js READS this DOM; it never invents copy.
 
-/** Fetch the footer fragment: /content first (localhost/aem up), then root (DA/EDS prod). */
-async function loadFooterFragment() {
+/**
+ * cbol landing pages (banking.citi.com/cbol/…) ship a distinct compact legal
+ * footer — logo, a single row of legal links, social icons, and FDIC/Equal
+ * Housing badges — rather than the retail mega-footer with link columns.
+ * Detect those pages (localhost preview /content/cbol/… and DA/EDS prod /cbol/…).
+ */
+function isCbolPage() {
+  return /(^|\/)(content\/)?cbol(\/|$)/i.test(window.location.pathname);
+}
+
+/**
+ * Fetch a footer fragment by base name: /content first (localhost / aem up),
+ * then root (DA/EDS prod). Relative image srcs are rewritten to the base.
+ */
+async function loadFooterFragmentNamed(name) {
   let base = '/content/';
-  let resp = await fetch('/content/footer.plain.html');
-  if (!resp.ok) { base = '/'; resp = await fetch('/footer.plain.html'); }
+  let resp = await fetch(`/content/${name}.plain.html`);
+  if (!resp.ok) { base = '/'; resp = await fetch(`/${name}.plain.html`); }
   if (!resp.ok) return null;
   const html = await resp.text();
   const tpl = document.createElement('div');
@@ -25,6 +38,46 @@ async function loadFooterFragment() {
     }
   });
   return tpl;
+}
+
+/** Backwards-compatible loader for the default retail footer fragment. */
+const loadFooterFragment = () => loadFooterFragmentNamed('footer');
+
+/**
+ * Render the compact cbol landing footer. Fragment sections, in order:
+ *   [0] logo:        <p><a><img></a></p>
+ *   [1] legal:       <ul> of legal links
+ *   [2] social:      <p> of image links
+ *   [3] disclosures: <h4> + long-form legal T&C (incl. the fee-schedule table)
+ *   [4] band:        badges <p>(imgs) + legal <p> + copyright <p>
+ * A single navy bar — no accordion columns.
+ */
+function renderCbolFooter(block, frag) {
+  const sections = [...frag.children].filter((el) => el.tagName === 'DIV');
+  const inner = document.createElement('div');
+  inner.className = 'footer-cbol-inner';
+
+  const classFor = (sec) => {
+    // disclosures = the long-form "Important Legal Disclosures" T&C block (h4)
+    if (sec.querySelector(':scope > h4')) return 'footer-cbol-disclosures';
+    if (sec.querySelector(':scope > ul')) return 'footer-cbol-legal';
+    const links = sec.querySelectorAll(':scope > p > a');
+    // brand = a single linked logo image in a single paragraph
+    if (links.length === 1 && sec.querySelectorAll(':scope > p').length === 1
+      && sec.querySelector(':scope > p > a > img')) return 'footer-cbol-brand';
+    // social = a row of multiple linked icons
+    if (links.length > 1 && sec.querySelector(':scope > p > a > img')) return 'footer-cbol-social';
+    return 'footer-cbol-band';
+  };
+
+  sections.forEach((sec) => {
+    const band = document.createElement('div');
+    band.className = classFor(sec);
+    while (sec.firstChild) band.append(sec.firstChild);
+    inner.append(band);
+  });
+
+  block.append(inner);
 }
 
 /** Classify a top-level fragment section by its content shape. */
@@ -42,6 +95,18 @@ function classify(section) {
  */
 export default async function decorate(block) {
   block.textContent = '';
+
+  // cbol landing pages get a distinct compact legal footer from their fragment.
+  if (isCbolPage()) {
+    const cbolFrag = await loadFooterFragmentNamed('cbol-footer');
+    if (cbolFrag) {
+      block.classList.add('footer-cbol');
+      renderCbolFooter(block, cbolFrag);
+      return;
+    }
+    // fall through to the default footer if the cbol fragment is unavailable
+  }
+
   const frag = await loadFooterFragment();
   if (!frag) return;
 
