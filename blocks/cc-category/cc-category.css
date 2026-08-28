@@ -1,0 +1,255 @@
+/* cc-category — Citi "Explore Credit Cards" category stack.
+   A responsive row of card tiles: green badge bar, card art + title at the top,
+   description, feature bullets, then Card details + a full-width Apply button.
+   The `featured` variant (first stack) uses wider tiles.
+   Colours/measurements sampled from www.citi.com/credit-cards (Explore) at 1440px. */
+
+.cc-category {
+  --cc-navy: rgb(4 32 143);
+  --cc-ink: rgb(51 51 51);
+  --cc-body: rgb(77 84 87);
+  --cc-badge-green: rgb(19 132 109);
+  --cc-check: rgb(4 32 143);
+}
+
+/* ---- Category header: section heading + "View all …" link/button ---- */
+.cc-category .cc-category-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin-bottom: 24px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--cc-border);
+}
+
+.cc-category .cc-category-header h1,
+.cc-category .cc-category-header h2 {
+  margin: 0;
+  color: var(--cc-ink);
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+.cc-category .cc-category-header h2 { font-size: 24px; }
+.cc-category .cc-category-header h1 { font-size: 40px; }
+
+.cc-category .cc-category-header p { margin: 0; }
+
+/* Base category rows: "View all …" is a plain bold navy text link. */
+.cc-category .cc-view-all {
+  color: var(--cc-navy);
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.cc-category .cc-view-all:hover { text-decoration: underline; }
+
+/* Featured stack: "View all 26 cards" renders as a white, navy-bordered button. */
+.cc-category.featured .cc-view-all {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--cc-navy);
+  border-radius: 8px;
+  padding: 11px 16px;
+  background: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.cc-category.featured .cc-view-all:hover {
+  background: var(--cc-navy);
+  color: #fff;
+  text-decoration: none;
+}
+
+.cc-category ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* ---- Card tile: white panel, rounded, soft shadow ---- */
+.cc-category .cc-card {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 1px 10px 0 rgb(0 0 0 / 12%);
+}
+
+/* Badge (category label bar) */
+.cc-category .cc-card-badge {
+  margin: 0;
+  padding: 8px 24px;
+  background: var(--cc-badge-green);
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.cc-category .cc-card-badge sup,
+.cc-category .cc-card-head sup,
+.cc-category .cc-card-body sup {
+  font-size: 0.7em;
+  vertical-align: super;
+  line-height: 0;
+}
+
+/* ---- Head row: card art + title side by side ---- */
+.cc-category .cc-card-head {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 24px 24px 8px;
+}
+
+/* No badge on a tile: keep a matching top offset so rows align. */
+.cc-category .cc-card:not(:has(.cc-card-badge)) .cc-card-head {
+  padding-top: 40px;
+}
+
+.cc-category .cc-card-media {
+  flex: 0 0 auto;
+  margin: 0;
+  line-height: 0;
+}
+
+.cc-category .cc-card-media picture,
+.cc-category .cc-card-media img {
+  display: block;
+  width: 90px;
+  height: auto;
+}
+
+.cc-category .cc-card-head h3 {
+  margin: 0;
+  color: var(--cc-navy);
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 1.3;
+}
+
+.cc-category .cc-card-head h3 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.cc-category .cc-card-head h3 a:hover { text-decoration: underline; }
+
+/* ---- Body: description, bullets, actions ---- */
+.cc-category .cc-card-body {
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  padding: 8px 24px 24px;
+}
+
+.cc-category .cc-card-body > p {
+  margin: 0 0 16px;
+  color: var(--cc-body);
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+/* Feature bullets — blue check marks, no rules (matches source). */
+.cc-category .cc-card-body ul {
+  display: block;
+  margin: 0 0 20px;
+  padding: 0;
+}
+
+.cc-category .cc-card-body li {
+  position: relative;
+  margin: 0;
+  padding: 8px 0 8px 28px;
+  color: var(--cc-body);
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+.cc-category .cc-card-body li::before {
+  content: '';
+  position: absolute;
+  top: 12px;
+  left: 2px;
+  width: 9px;
+  height: 5px;
+  border-left: 2px solid var(--cc-check);
+  border-bottom: 2px solid var(--cc-check);
+  transform: rotate(-45deg);
+}
+
+/* ---- Actions: Card details + full-width Apply button ---- */
+.cc-category .cc-card-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: auto;
+}
+
+.cc-category .cc-card-details {
+  order: 1;
+  align-self: center;
+  color: var(--cc-navy);
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.cc-category .cc-card-details:hover { text-decoration: underline; }
+
+.cc-category .cc-card-apply {
+  order: 2;
+  display: block;
+  border-radius: 8px;
+  padding: 12px 24px;
+  background: var(--cc-navy);
+  color: #fff;
+  font-size: 16px;
+  font-weight: 400;
+  text-align: center;
+  text-decoration: none;
+}
+
+.cc-category .cc-card-apply:hover { background: rgb(2 20 90); }
+
+/* ============================================================
+   Desktop: rows of card tiles.
+   Base variant = 3 across; featured variant = 3 wider cards with a description.
+   ============================================================ */
+@media (width >= 900px) {
+  .cc-category.featured .cc-category-header h1 { font-size: 46px; }
+
+  .cc-category ul {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+
+  .cc-category .cc-card-media picture,
+  .cc-category .cc-card-media img {
+    width: 90px;
+  }
+
+  /* Featured cards are wider (page shows 3 across a full 1200px row) with a
+     larger card-art and a visible description line. */
+  .cc-category.featured .cc-card-media picture,
+  .cc-category.featured .cc-card-media img {
+    width: 130px;
+  }
+
+  .cc-category.featured .cc-card-head {
+    padding: 24px 24px 12px;
+  }
+}

@@ -481,6 +481,132 @@ body.credit-card-retail-pdp main > .section:not(.hero-container) > .default-cont
   margin-bottom: 24px;
 }
 
+/* These template-scoped rules are a separate, non-overlapping component; their
+   source order is not a specificity concern (matches the citigold block below). */
+/* stylelint-disable no-descending-specificity */
+
+/*
+ * Credit-cards EXPLORE landing template (body.credit-card-explore).
+ * Source: www.citi.com/credit-cards. A promo hero, an offer-disclaimer strip,
+ * then a stack of `.card-stack` category sections (the cc-category block — the
+ * first is the featured variant). The category heading + "View all …" link now
+ * live INSIDE the cc-category block, so all heading/link styling is in
+ * blocks/cc-category/cc-category.css. These rules cover only section-level
+ * concerns. Scoped so they never touch the PDP templates.
+ */
+
+/* Category tab strip (tds-category-nav-bar) directly below the hero: a rounded
+   WHITE card with a soft shadow, holding evenly-distributed tabs. Each tab is
+   centered, the active one (first, "Explore Cards") in brand blue. Matches the
+   source's filter bar (border-radius 16px, tabs flex:1, active rgb(37 91 227)).
+   The source shows a category icon above each label via a `cds-icon` web
+   component that isn't portable, so the imported strip is label-only. */
+body.credit-card-explore main > .section.explore-category-tabs ul {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0;
+  padding: 0;
+  border-radius: 16px;
+  background: #fff;
+  box-shadow: 0 2px 4px 0 rgb(48 49 51 / 10%), 0 0 1px 0 rgb(48 49 51 / 5%);
+  list-style: none;
+}
+
+body.credit-card-explore main > .section.explore-category-tabs li {
+  flex: 1 1 0;
+  margin: 0;
+  text-align: center;
+}
+
+body.credit-card-explore main > .section.explore-category-tabs a {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 8px;
+  color: rgb(51 51 51);
+  font-size: 16px;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+/* Category icon above each label (source shows a cds-icon per tab). Each icon is
+   a single-colour brand-blue SVG in /icons, mapped by tab position (import order:
+   Explore · Balance Transfer · Travel · Rewards · No Annual Fee · Cash Back ·
+   Retail). */
+body.credit-card-explore main > .section.explore-category-tabs a::before {
+  content: '';
+  width: 28px;
+  height: 28px;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+body.credit-card-explore main > .section.explore-category-tabs li:nth-child(1) a::before {
+  background-image: url('/icons/cc-cat-explore.svg');
+}
+
+body.credit-card-explore main > .section.explore-category-tabs li:nth-child(2) a::before {
+  background-image: url('/icons/cc-cat-balance-transfer.svg');
+}
+
+body.credit-card-explore main > .section.explore-category-tabs li:nth-child(3) a::before {
+  background-image: url('/icons/cc-cat-travel.svg');
+}
+
+body.credit-card-explore main > .section.explore-category-tabs li:nth-child(4) a::before {
+  background-image: url('/icons/cc-cat-rewards.svg');
+}
+
+body.credit-card-explore main > .section.explore-category-tabs li:nth-child(5) a::before {
+  background-image: url('/icons/cc-cat-no-annual-fee.svg');
+}
+
+body.credit-card-explore main > .section.explore-category-tabs li:nth-child(6) a::before {
+  background-image: url('/icons/cc-cat-cash-back.svg');
+}
+
+body.credit-card-explore main > .section.explore-category-tabs li:nth-child(7) a::before {
+  background-image: url('/icons/cc-cat-retail.svg');
+}
+
+body.credit-card-explore main > .section.explore-category-tabs a:hover {
+  color: rgb(37 91 227);
+}
+
+/* Active category (first tab, "Explore Cards") — brand blue. */
+body.credit-card-explore main > .section.explore-category-tabs li:first-child a {
+  color: rgb(37 91 227);
+}
+
+/* Mobile: the source collapses the bar into a horizontally scrollable row. */
+@media (width < 900px) {
+  body.credit-card-explore main > .section.explore-category-tabs ul {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+  }
+
+  body.credit-card-explore main > .section.explore-category-tabs li {
+    flex: 0 0 auto;
+  }
+
+  body.credit-card-explore main > .section.explore-category-tabs a {
+    padding: 16px;
+    white-space: nowrap;
+  }
+}
+
+/* Offer-disclaimer strip ("These offers may not be available …"): small muted
+   centered copy, matching the source band above the cards. */
+body.credit-card-explore main > .section.explore-disclaimer > div {
+  color: rgb(94 103 107);
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+/* stylelint-enable no-descending-specificity */
+
 /*
  * Citigold featured-offer LANDING template (body.citigold-landing).
  * Scoped so it never affects the credit-card templates. Values measured from the

@@ -507,7 +507,7 @@
       </a>
     </div>
     <div class="sidebar-section">
-      <div class="sidebar-label">Scenario 3 · Explore Cards <span class="nav-status ns-planned">Proposed</span></div>
+      <div class="sidebar-label">Scenario 3 · Explore Cards <span class="nav-status ns-progress">In progress</span></div>
       <a class="sidebar-link" href="#scenario-3">
         <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85a1 1 0 00-.115-.099zM12 6.5a5.5 5.5 0 11-11 0 5.5 5.5 0 0111 0z"/></svg>
         Credit Cards Explore page
@@ -557,7 +557,7 @@
           Project overview
         </h2>
         <div class="section-rule"></div>
-        <p>This is a <strong>pilot proposal</strong> to validate whether Citibank's hosted pages and Pega-driven personalization surfaces can migrate cleanly to <strong>Edge Delivery Services</strong>, without losing session-aware personalization, authoring governance, or release control. None of the three scenarios below is built yet — this document scopes what each one is meant to prove and what still needs an answer before pilot kickoff.</p>
+        <p>This is a <strong>pilot proposal</strong> to validate whether Citibank's hosted pages and Pega-driven personalization surfaces can migrate cleanly to <strong>Edge Delivery Services</strong>, without losing session-aware personalization, authoring governance, or release control. Scenario 3 (Credit Cards Explore) now has an initial EDS build — its page structure has been re-modeled as blocks and rendered in preview; the personalization, session, and engagement-module items remain open. Scenarios 1 and 2 are not built yet. This document scopes what each one is meant to prove and what still needs an answer before pilot kickoff.</p>
 
         <h3>Purpose</h3>
         <ul class="req-list">
@@ -588,7 +588,7 @@
               <td><a href="#scenario-3" style="color:var(--citi-blue);">3 · Credit Cards Explore page</a></td>
               <td>Headless (Angular→EDS) · segment personalization · engagement modules · bi-weekly release governance</td>
               <td>Pre-login (session-aware)</td>
-              <td><span class="nav-status ns-planned">Proposed</span></td>
+              <td><span class="nav-status ns-progress">In progress</span></td>
             </tr>
           </tbody>
         </table>
@@ -650,7 +650,7 @@
 
         <div class="notice info">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
-          <span>All three scenarios are still <strong>pre-implementation</strong>. This page tracks scope and open questions only — there is no EDS preview/live URL to link yet. Once a candidate is built, add its <code class="code-inline">{branch}--{repo}--{owner}.aem.page</code> / <code class="code-inline">.aem.live</code> URLs to the relevant scenario section.</span>
+          <span><strong>Scenario 3 has an initial EDS build</strong> (page structure re-modeled as blocks and rendered in preview — see its section for the <code class="code-inline">.aem.page</code> URL); Scenarios 1 and 2 remain pre-implementation. This page tracks scope and open questions; as further candidates are built, add their <code class="code-inline">{branch}--{repo}--{owner}.aem.page</code> / <code class="code-inline">.aem.live</code> URLs to the relevant scenario section.</span>
         </div>
       </section>
 
@@ -857,10 +857,11 @@
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85a1 1 0 00-.115-.099zM12 6.5a5.5 5.5 0 11-11 0 5.5 5.5 0 0111 0z"/></svg>
           </span>
           Scenario 3 — Credit Cards Explore Cards Page
-          <span class="status-badge sb-planned">Proposed</span>
+          <span class="status-badge sb-progress">In progress</span>
         </h2>
         <div class="section-rule"></div>
         <p><strong>Live (production, migration source):</strong> <a href="https://www.citi.com/credit-cards/?intc=citihpmenu~creditcards~explore" target="_blank" rel="noopener" style="color:var(--citi-blue);">www.citi.com/credit-cards/?intc=citihpmenu~creditcards~explore</a></p>
+        <p><strong>EDS preview (this migration):</strong> <a href="https://aem-20260826-1723--citibank--AdobeDrago.aem.page/credit-cards/" target="_blank" rel="noopener" style="color:var(--citi-blue);">aem-20260826-1723--citibank--AdobeDrago.aem.page/credit-cards/</a></p>
         <p>This page includes pre-login banners and demonstrates several critical capabilities we need EDS to support: headless complexity, dynamic content, session-aware branding, personalization, engagement modules, and — distinct from the other two scenarios — a demanding bi-weekly content release cadence.</p>
 
         <div class="notice info">
@@ -879,10 +880,10 @@
 
         <ul class="checklist" style="margin-top:16px;">
           <li class="check-item">
-            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Re-model the Angular headless page as EDS blocks</div>
-              <div class="check-note">Map the current component boundaries to block boundaries without collapsing the personalization or engagement-module logic each one depends on.</div>
+              <div class="check-note"><strong>Done.</strong> The four <code class="code-inline">.card-stack</code> category sections are re-modeled as a new <code class="code-inline">cc-category</code> block (with a <code class="code-inline">featured</code> variant for the first stack). Content was imported via the project's import pipeline and the page renders at the EDS preview URL above. Component boundaries map to block boundaries; the personalization/engagement logic below is tracked as its own items.</div>
             </div>
           </li>
           <li class="check-item">
