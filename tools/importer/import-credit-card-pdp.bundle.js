@@ -623,6 +623,23 @@ var CustomImportScript = (() => {
     "primary-benefits": parse5,
     "category-nav": parse6
   };
+  var HERO_FRAGMENTS = {
+    "citi-strata-credit-card": "/fragments/heroes/offer-citi-strata-card"
+  };
+  function cardSlug(originalUrl) {
+    try {
+      return new URL(originalUrl).pathname.replace(/\/$/, "").split("/").pop() || "";
+    } catch (e) {
+      return "";
+    }
+  }
+  function replaceHeroWithFragment(element, fragmentPath, document2) {
+    const a = document2.createElement("a");
+    a.href = fragmentPath;
+    a.textContent = fragmentPath;
+    const block = WebImporter.Blocks.createBlock(document2, { name: "fragment", cells: [[a]] });
+    element.replaceWith(block);
+  }
   var PAGE_TEMPLATE = {
     name: "credit-card-pdp",
     description: "Credit card product detail page (PDP) under /credit-cards.",
@@ -724,8 +741,13 @@ var CustomImportScript = (() => {
       const main = document2.body;
       executeTransformers("beforeTransform", main, payload);
       const pageBlocks = findBlocksOnPage(document2, PAGE_TEMPLATE);
+      const heroFragment = HERO_FRAGMENTS[cardSlug(params.originalURL || url)];
       pageBlocks.forEach((block) => {
         if (!block.element.parentNode) return;
+        if (block.name === "hero" && heroFragment) {
+          replaceHeroWithFragment(block.element, heroFragment, document2);
+          return;
+        }
         const parser = parsers[block.name];
         if (parser) {
           try {

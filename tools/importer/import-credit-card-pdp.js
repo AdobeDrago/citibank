@@ -23,6 +23,35 @@ const parsers = {
   'category-nav': categoryNavParser,
 };
 
+// HERO FRAGMENT MAP — card path slug -> captured hero fragment path.
+// The PDP hero (tds-hero-banner) shows a rotating, API-populated offer, so for
+// cards whose hero has been captured as a reusable fragment (content/fragments/
+// heroes/), we reference that stable fragment instead of parsing the live hero.
+// Paths are ROOT-relative (production/DA layout); fragment.js maps them under
+// /content on localhost. Cards absent from this map fall through to the inline
+// hero parser unchanged.
+const HERO_FRAGMENTS = {
+  'citi-strata-credit-card': '/fragments/heroes/offer-citi-strata-card',
+};
+
+/** Card path slug (last path segment) from the original URL. */
+function cardSlug(originalUrl) {
+  try {
+    return new URL(originalUrl).pathname.replace(/\/$/, '').split('/').pop() || '';
+  } catch (e) {
+    return '';
+  }
+}
+
+/** Replace a hero element with a `fragment` block referencing a hero fragment. */
+function replaceHeroWithFragment(element, fragmentPath, document) {
+  const a = document.createElement('a');
+  a.href = fragmentPath;
+  a.textContent = fragmentPath;
+  const block = WebImporter.Blocks.createBlock(document, { name: 'fragment', cells: [[a]] });
+  element.replaceWith(block);
+}
+
 // PAGE TEMPLATE CONFIGURATION - Embedded from page-templates.json
 const PAGE_TEMPLATE = {
   name: 'credit-card-pdp',
@@ -143,8 +172,15 @@ export default {
     const pageBlocks = findBlocksOnPage(document, PAGE_TEMPLATE);
 
     // 3. Parse each block. Skip elements already detached by a prior parser.
+    const heroFragment = HERO_FRAGMENTS[cardSlug(params.originalURL || url)];
     pageBlocks.forEach((block) => {
       if (!block.element.parentNode) return;
+      // Hero: if this card has a captured hero fragment, emit a fragment block
+      // referencing it instead of parsing the live (rotating) hero.
+      if (block.name === 'hero' && heroFragment) {
+        replaceHeroWithFragment(block.element, heroFragment, document);
+        return;
+      }
       const parser = parsers[block.name];
       if (parser) {
         try {
