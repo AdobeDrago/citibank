@@ -4,11 +4,25 @@
 
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
-/** Fetch the nav fragment: /content first (localhost/aem up), then root (DA/EDS prod). */
-async function loadNavFragment() {
+/**
+ * cbol landing pages (banking.citi.com/cbol/…) ship a distinct minimal header
+ * — just the Citi logo, an FDIC line and the Citigold brand mark, with no
+ * mega-menu — unlike the retail credit-cards chrome. Detect those pages so we
+ * can load a different fragment and render a different layout. The check covers
+ * both the localhost/preview path (/content/cbol/…) and DA/EDS prod (/cbol/…).
+ */
+function isCbolPage() {
+  return /(^|\/)(content\/)?cbol(\/|$)/i.test(window.location.pathname);
+}
+
+/**
+ * Fetch a nav fragment by base name: /content first (localhost / aem up), then
+ * root (DA/EDS prod). Relative image srcs are rewritten to the fragment base.
+ */
+async function loadNavFragmentNamed(name) {
   let base = '/content/';
-  let resp = await fetch('/content/nav.plain.html');
-  if (!resp.ok) { base = '/'; resp = await fetch('/nav.plain.html'); }
+  let resp = await fetch(`/content/${name}.plain.html`);
+  if (!resp.ok) { base = '/'; resp = await fetch(`/${name}.plain.html`); }
   if (!resp.ok) return null;
   const html = await resp.text();
   const tpl = document.createElement('div');
@@ -24,6 +38,43 @@ async function loadNavFragment() {
     }
   });
   return tpl;
+}
+
+/** Backwards-compatible loader for the default retail nav fragment. */
+const loadNavFragment = () => loadNavFragmentNamed('nav');
+
+/**
+ * Render the minimal cbol landing header. Fragment shape (one section):
+ *   <p><a><img Citi logo></a></p>          → brand
+ *   <p><img FDIC>FDIC-Insured …</p>         → FDIC assurance line
+ *   <p>Citibank, N.A.</p>                   → legal entity line
+ *   <p><img Citigold></p>                   → Citigold brand mark (right)
+ * No nav items / mega-menu — a static branded bar.
+ */
+function renderCbolHeader(block, frag) {
+  const section = [...frag.children].find((el) => el.tagName === 'DIV') || frag;
+  const paras = [...section.querySelectorAll(':scope > p')];
+
+  const nav = document.createElement('nav');
+  nav.id = 'nav';
+  nav.className = 'nav-cbol';
+  nav.setAttribute('aria-label', 'Citi');
+
+  const brand = document.createElement('div');
+  brand.className = 'nav-cbol-brand';
+  const fdic = document.createElement('div');
+  fdic.className = 'nav-cbol-fdic';
+  const mark = document.createElement('div');
+  mark.className = 'nav-cbol-mark';
+
+  paras.forEach((p) => {
+    if (p.querySelector('img[alt="Citi" i]')) brand.append(p);
+    else if (p.querySelector('img[alt="Citigold" i]')) mark.append(p);
+    else fdic.append(p);
+  });
+
+  nav.append(brand, fdic, mark);
+  block.append(nav);
 }
 
 /** Close every open top-level menu within a nav-sections container. */
@@ -150,6 +201,18 @@ function buildNavItem(sourceLi) {
  */
 export default async function decorate(block) {
   block.textContent = '';
+
+  // cbol landing pages get a distinct minimal header from their own fragment.
+  if (isCbolPage()) {
+    const cbolFrag = await loadNavFragmentNamed('cbol-nav');
+    if (cbolFrag) {
+      block.classList.add('header-cbol');
+      renderCbolHeader(block, cbolFrag);
+      return;
+    }
+    // fall through to the default nav if the cbol fragment is unavailable
+  }
+
   const frag = await loadNavFragment();
   if (!frag) return;
 

@@ -225,3 +225,174 @@ footer .footer-nav a:hover { text-decoration: underline; }
     padding-right: 96px;
   }
 }
+
+/* ---------- cbol landing footer (banking.citi.com/cbol/…) ----------
+   A distinct compact NAVY legal footer (matches source #0f1632): white Citi
+   logo, a single wrapping row of white legal links, white social icons, then
+   FDIC/Equal-Housing badges + legal + copyright. Scoped to .footer-cbol so it
+   never affects the retail charcoal mega-footer. The .footer-cbol selectors are
+   more specific than the retail rules above but are a separate, non-overlapping
+   component, so descending-specificity is expected. */
+/* stylelint-disable no-descending-specificity */
+footer .footer-cbol {
+  background: var(--citi-navy, #0f1632);
+  color: #fff;
+}
+
+footer .footer-cbol-inner {
+  max-width: 1128px;
+  margin: 0 auto;
+  padding: 30px 24px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+footer .footer-cbol p { margin: 0; }
+
+/* Brand logo (white) */
+footer .footer-cbol-brand a { display: inline-block; }
+
+footer .footer-cbol-brand img {
+  display: block;
+  width: 64px;
+  height: auto;
+}
+
+/* Legal links: a single wrapping row — white, 14px, weight 400 (source) */
+footer .footer-cbol-legal ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+footer .footer-cbol-legal a {
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+footer .footer-cbol-legal a:hover { text-decoration: underline; }
+
+/* Social icons row — white-fill SVGs render correctly on the navy band */
+footer .footer-cbol-social p {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+footer .footer-cbol-social a { display: inline-flex; }
+
+footer .footer-cbol-social img {
+  display: block;
+  width: 22px;
+  height: 22px;
+}
+
+/* Bottom band: badges + legal + copyright, above a subtle light divider */
+footer .footer-cbol-band {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding-top: 24px;
+  border-top: 1px solid rgb(255 255 255 / 20%);
+}
+
+footer .footer-cbol-band p:first-child {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+/* badges: FDIC mark is dark, Equal-Housing is white — force both white on navy */
+footer .footer-cbol-band img {
+  display: block;
+  height: 28px;
+  width: auto;
+  filter: brightness(0) invert(1);
+}
+
+footer .footer-cbol-band p {
+  font-size: 12px;
+  line-height: 1.5;
+  color: rgb(255 255 255 / 80%);
+}
+
+/* Legal disclosures: long-form T&C block, small muted text, above the badges */
+footer .footer-cbol-disclosures {
+  padding-top: 24px;
+  border-top: 1px solid rgb(255 255 255 / 20%);
+}
+
+footer .footer-cbol-disclosures h4 {
+  margin: 0 0 12px;
+  font-size: 13px;
+  font-weight: 700;
+  color: #fff;
+}
+
+footer .footer-cbol-disclosures p {
+  margin: 0 0 12px;
+  font-size: 11px;
+  line-height: 1.5;
+  color: rgb(255 255 255 / 70%);
+}
+
+/* fee-schedule table */
+footer .footer-cbol-disclosures table {
+  border-collapse: collapse;
+  margin: 12px 0;
+  font-size: 11px;
+}
+
+footer .footer-cbol-disclosures th,
+footer .footer-cbol-disclosures td {
+  padding: 8px 16px;
+  border: 1px solid rgb(255 255 255 / 25%);
+  text-align: left;
+  color: rgb(255 255 255 / 80%);
+}
+
+footer .footer-cbol-disclosures th { font-weight: 700; }
+
+/* Desktop: logo + legal links share the top row, social to the right. */
+@media (width >= 900px) {
+  footer .footer-cbol-inner {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    gap: 16px 32px;
+  }
+
+  footer .footer-cbol-brand {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  footer .footer-cbol-legal {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  footer .footer-cbol-social {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  /* disclosures + bottom band each span the full width on their own rows */
+  footer .footer-cbol-disclosures {
+    grid-column: 1 / -1;
+    grid-row: 2;
+  }
+
+  footer .footer-cbol-band {
+    grid-column: 1 / -1;
+    grid-row: 3;
+  }
+}
+
+/* stylelint-enable no-descending-specificity */

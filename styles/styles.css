@@ -480,3 +480,730 @@ body.credit-card-pdp main > .section:has(.cards) > div > h2 {
 body.credit-card-retail-pdp main > .section:not(.hero-container) > .default-content-wrapper:first-child:not(:last-child) {
   margin-bottom: 24px;
 }
+
+/*
+ * Citigold featured-offer LANDING template (body.citigold-landing).
+ * Scoped so it never affects the credit-card templates. Values measured from the
+ * source banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm at
+ * 1440px: navy #0f1632, gold band #8e6f32, white cards, pill CTAs.
+ */
+
+/* Template-scoped block; source-order specificity is not a concern here. */
+/* stylelint-disable no-descending-specificity */
+body.citigold-landing {
+  --citi-navy: #0f1632;
+  --citi-gold: #8e6f32;
+}
+
+/* Content column matches the source's narrower measure (~1128px outer with
+   ~76px side gutters at desktop, vs the boilerplate's 1200px). border-box keeps
+   the section padding inside that cap so the true outer width is 1128px, not
+   1128+padding. */
+body.citigold-landing main > .section > div {
+  max-width: 1128px;
+  box-sizing: border-box;
+}
+
+/* section headings: 38px, regular weight, navy, centered (source h2) */
+body.citigold-landing main h1,
+body.citigold-landing main h2,
+body.citigold-landing main h3,
+body.citigold-landing main h4 {
+  color: var(--citi-navy);
+  font-weight: 400;
+}
+
+body.citigold-landing main > .section > div > h2 {
+  font-size: 38px;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* ---------- Hero ----------
+   Source hero: split background — white on the left (behind the copy), gold on
+   the right, with a photo anchored bottom-right. Base (mobile) is a simple white
+   panel; the split + right-image kick in at >=900px. */
+body.citigold-landing main .landing-hero {
+  background: #fff;
+}
+
+body.citigold-landing main .landing-hero > div {
+  max-width: 1200px;
+  text-align: center;
+}
+
+/* Source H1 is a large mixed-case display heading (citi-sans-display-bold,
+   48px, navy) — NOT the uppercase, body-font .hero-title treatment the block
+   applies by default. Override transform + family here. */
+body.citigold-landing main .landing-hero .hero h1 {
+  font-family: var(--heading-font-family);
+  font-size: 40px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: var(--citi-navy);
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+body.citigold-landing main .landing-hero .hero p { font-size: 18px; }
+
+/* The hero decorator tags the first text paragraph as a green ".hero-eyebrow"
+   badge (a retail-PDP treatment). The source Citigold hero offer copy is plain
+   text, so neutralize the badge styling here. */
+body.citigold-landing main .landing-hero .hero .hero-eyebrow {
+  display: block;
+  margin: 0 0 16px;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--text-color);
+  font-family: var(--body-font-family);
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 1.5;
+  letter-spacing: normal;
+}
+
+/* primary CTA: navy pill (matches source .hero__cta — 20px/70px padding, 24px
+   text, ~275x60 rendered). Match the .button.primary classes so this beats the
+   generic hero-block button rule (.hero a.button.primary:any-link). */
+body.citigold-landing main .landing-hero .hero a.button,
+body.citigold-landing main .landing-hero .hero a.button.primary,
+body.citigold-landing main .landing-cta a.button,
+body.citigold-landing main .landing-cta a.button.primary {
+  display: inline-block;
+  margin-top: 24px;
+  padding: 20px 70px;
+  border-radius: 100px;
+  background: var(--citi-navy);
+  color: #fff;
+  font-size: 24px;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+/* The boilerplate puts a 40px margin between every section; on this landing that
+   shows the white page body as gaps between the gold bands (a white stripe above
+   "Explore" and another between "Explore" and "See what"). The source is one
+   continuous gold surface, so drop the inter-section margins and give each band
+   its own internal vertical padding instead. */
+body.citigold-landing main > .section {
+  margin: 0;
+}
+
+/* ---------- "Explore features" gold band ---------- */
+body.citigold-landing main .landing-features {
+  position: relative;
+  padding: 64px 0 56px;
+  background: var(--citi-gold);
+}
+
+/* Decorative white notch (source): the hero's white area extends down into the
+   gold band as a wide, shallow tab with rounded bottom corners, centered at the
+   top of the gold. Painted as a ::before so it needs no extra markup. */
+body.citigold-landing main .landing-features::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 60%;
+  max-width: 760px;
+  height: 40px;
+  background: #fff;
+  border-radius: 0 0 40px 40px;
+}
+
+body.citigold-landing main .landing-features h2,
+body.citigold-landing main .landing-features .cards strong,
+body.citigold-landing main .landing-features .cards p {
+  color: #fff;
+}
+
+/* bold display heading, centered (source) */
+body.citigold-landing main .landing-features > div > h2 {
+  font-weight: 700;
+}
+
+/* items: left-aligned, each led by a white checkmark (source list style) */
+body.citigold-landing main .landing-features .cards > ul {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+body.citigold-landing main .landing-features .cards > ul > li {
+  position: relative;
+  background: transparent;
+  border: 0;
+  padding: 0 0 0 34px;
+  text-align: left;
+}
+
+body.citigold-landing main .landing-features .cards > ul > li::before {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 0;
+  width: 16px;
+  height: 9px;
+  border-left: 3px solid #fff;
+  border-bottom: 3px solid #fff;
+  transform: rotate(-45deg);
+}
+
+/* tight internal rhythm: title sits close to its description line */
+body.citigold-landing main .landing-features .cards > ul > li p {
+  margin: 0;
+  line-height: 1.3;
+}
+
+body.citigold-landing main .landing-features .cards > ul > li p + p {
+  margin-top: 2px;
+}
+
+/* item titles bold display type on the gold band (source) */
+body.citigold-landing main .landing-features .cards strong {
+  font-family: var(--heading-font-family);
+  font-size: 20px;
+  font-weight: 700;
+}
+
+/* ---------- "See what Citigold" — white rounded panel on the continuing gold
+   band, with borderless transparent cards (matches source). ---------- */
+body.citigold-landing main .landing-offer-cards {
+  padding: 0 0 56px;
+  background: var(--citi-gold);
+}
+
+/* The section renders as TWO stacked wrappers (default-content-wrapper = the
+   heading, cards-wrapper = the feature grid). They must read as ONE white panel
+   with 24px rounded corners around the whole thing — not two separate rounded
+   boxes. So: both are white and share the horizontal padding; the first rounds
+   only its top corners (top padding, no bottom), the last rounds only its bottom
+   corners (bottom padding, no top), and they sit flush against each other. */
+body.citigold-landing main .landing-offer-cards > div {
+  max-width: 1200px;
+  background: #fff;
+  border-radius: 0;
+  padding: 0 64px;
+}
+
+body.citigold-landing main .landing-offer-cards > div:first-child {
+  padding-top: 56px;
+  padding-bottom: 40px;
+  border-radius: 24px 24px 0 0;
+}
+
+body.citigold-landing main .landing-offer-cards > div:last-child {
+  padding-bottom: 64px;
+  border-radius: 0 0 24px 24px;
+}
+
+/* centered navy display heading (source). No bottom margin — the heading
+   wrapper carries the spacing as padding so it stays inside the white panel and
+   doesn't open a gold gap between the two stacked wrappers. */
+body.citigold-landing main .landing-offer-cards h2 {
+  text-align: center;
+  color: var(--citi-navy);
+  margin-bottom: 0;
+}
+
+body.citigold-landing main .landing-offer-cards .cards > ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 48px;
+}
+
+/* left-aligned cards (source): icon in a left gutter, title + body indented
+   beside it, no fill/border */
+body.citigold-landing main .landing-offer-cards .cards > ul > li {
+  position: relative;
+  padding: 0 0 0 34px;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-radius: 0;
+}
+
+/* feature icons in the left gutter — mapped to source card order */
+body.citigold-landing main .landing-offer-cards .cards > ul > li::before {
+  content: "";
+  position: absolute;
+  top: 1px;
+  left: 0;
+  width: 22px;
+  height: 22px;
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: contain;
+}
+
+body.citigold-landing main .landing-offer-cards .cards > ul > li:nth-child(1)::before {
+  background-image: url("/icons/citigold-feat-waived.svg");
+}
+
+body.citigold-landing main .landing-offer-cards .cards > ul > li:nth-child(2)::before {
+  background-image: url("/icons/citigold-feat-pricing.svg");
+}
+
+body.citigold-landing main .landing-offer-cards .cards > ul > li:nth-child(3)::before {
+  background-image: url("/icons/citigold-feat-investment.svg");
+}
+
+body.citigold-landing main .landing-offer-cards .cards > ul > li:nth-child(4)::before {
+  background-image: url("/icons/citigold-feat-planning.svg");
+}
+
+body.citigold-landing main .landing-offer-cards .cards > ul > li:nth-child(5)::before {
+  background-image: url("/icons/citigold-feat-research.svg");
+}
+
+/* card title bold near-navy, body regular grey (source) */
+body.citigold-landing main .landing-offer-cards .cards strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1.3;
+  color: var(--citi-navy);
+}
+
+body.citigold-landing main .landing-offer-cards .cards p {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.4;
+  color: #555;
+  text-align: left;
+}
+
+/* ---------- Bonus: deposit amounts + steps ----------
+   Source: white section; the two "tiles" are transparent — big gold serif $
+   amounts stacked over a small navy "Minimum Balance" line, split by a divider. */
+body.citigold-landing main .landing-bonus {
+  background: #fff;
+}
+
+body.citigold-landing main .landing-bonus .columns > div {
+  gap: 0;
+}
+
+/* Override the global accelerator tile fills (blue/navy) — the source deposit
+   amounts are transparent. High-specificity selectors to beat
+   .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:first-child. */
+body.citigold-landing main .landing-bonus .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div,
+body.citigold-landing main .landing-bonus .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:first-child,
+body.citigold-landing main .landing-bonus .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) {
+  background: transparent;
+  border-radius: 0;
+  padding: 16px 40px;
+  color: var(--citi-navy);
+  text-align: center;
+}
+
+/* divider between the two amounts, with a centered "OR" badge on the seam */
+body.citigold-landing main .landing-bonus .columns > div > div + div {
+  position: relative;
+  border-left: 1px solid #ccc;
+}
+
+body.citigold-landing main .landing-bonus .columns > div > div + div::before {
+  content: "OR";
+  position: absolute;
+  top: 50%;
+  left: 0;
+  transform: translate(-50%, -50%);
+  padding: 6px 4px;
+  background: #fff;
+  color: var(--citi-navy);
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+}
+
+/* Deposit cell stacks: "EARN" label, big $amount, "Minimum Balance:" label,
+   small $amount. Paragraphs 1 & 3 are navy labels; 2 & 4 hold the $ amounts. */
+body.citigold-landing main .landing-bonus .columns p {
+  margin: 0;
+  color: var(--citi-navy);
+}
+
+body.citigold-landing main .landing-bonus .columns p:first-child {
+  font-size: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+body.citigold-landing main .landing-bonus .columns p:nth-child(3) {
+  margin-top: 8px;
+  font-size: 16px;
+}
+
+/* the $ amounts — large gold serif; by cell position: 2nd child = big offer
+   amount, 4th child = smaller minimum-balance amount. */
+body.citigold-landing main .landing-bonus .columns strong {
+  display: inline-block;
+  color: var(--citi-gold);
+  font-family: var(--accent-font-family);
+  font-size: 40px;
+  font-weight: 400;
+  line-height: 1.05;
+}
+
+body.citigold-landing main .landing-bonus .columns p:nth-child(2) strong {
+  font-size: 64px;
+}
+
+/* the leading "$" is a superscript */
+body.citigold-landing main .landing-bonus .columns strong sup {
+  font-size: 0.45em;
+  vertical-align: super;
+}
+
+/* ---------- Bonus steps: one white rounded panel holding 3 steps ----------
+   Source: single bordered panel; each step is left-aligned with a gold circular
+   icon, a small gold "Step N" label, then a navy bold title and grey body. */
+body.citigold-landing main .landing-bonus .cards > ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 32px;
+  max-width: 1100px;
+  margin: 8px auto 0;
+  padding: 40px;
+  border: 1px solid #e0e0e0;
+  border-radius: 20px;
+}
+
+/* each step: borderless, transparent, left-aligned, room for the icon above */
+body.citigold-landing main .landing-bonus .cards > ul > li {
+  padding: 0;
+  text-align: left;
+  background: transparent;
+  border: 0;
+}
+
+/* gold circular step icon, mapped to source order (star / calendar / money) */
+body.citigold-landing main .landing-bonus .cards > ul > li::before {
+  content: "";
+  display: block;
+  width: 44px;
+  height: 44px;
+  margin-bottom: 16px;
+  background-repeat: no-repeat;
+  background-position: left center;
+  background-size: contain;
+}
+
+body.citigold-landing main .landing-bonus .cards > ul > li:nth-child(1)::before {
+  background-image: url("/icons/citigold-step-star.svg");
+}
+
+body.citigold-landing main .landing-bonus .cards > ul > li:nth-child(2)::before {
+  background-image: url("/icons/citigold-step-calendar.svg");
+}
+
+body.citigold-landing main .landing-bonus .cards > ul > li:nth-child(3)::before {
+  background-image: url("/icons/citigold-step-money.svg");
+}
+
+/* "Step N" label: small gold caps line above the title */
+body.citigold-landing main .landing-bonus .cards p {
+  margin: 0;
+  color: #555;
+  font-size: 15px;
+  line-height: 1.45;
+  text-align: left;
+}
+
+body.citigold-landing main .landing-bonus .cards p:first-child {
+  margin-bottom: 4px;
+  color: var(--citi-gold);
+  font-size: 14px;
+  font-weight: 700;
+}
+
+/* step title: navy bold, its own line */
+body.citigold-landing main .landing-bonus .cards strong {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--citi-navy);
+  font-family: var(--heading-font-family);
+  font-size: 22px;
+  font-weight: 400;
+  line-height: 1.2;
+}
+
+/* ---------- Relationship tiers: navy band, white cards ---------- */
+body.citigold-landing main .landing-tiers {
+  background: var(--citi-navy);
+}
+
+body.citigold-landing main .landing-tiers > div > h2,
+body.citigold-landing main .landing-tiers > div > p {
+  color: #fff;
+}
+
+/* "Citi Relationship Tiers" tab label — small centered caps line */
+body.citigold-landing main .landing-tiers > div > p em {
+  display: block;
+  margin: 8px auto 0;
+  font-size: 14px;
+  font-style: normal;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+body.citigold-landing main .landing-tiers .cards > ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+}
+
+/* cards are left-aligned in the source */
+body.citigold-landing main .landing-tiers .cards > ul > li {
+  padding: 32px 28px;
+  text-align: left;
+  background: #fff;
+  border-radius: 20px;
+}
+
+/* tier card heading (tier name) — serif, larger; scoped to the first line so
+   the bold CAMB range below is not affected. Per-tier accent colors below. */
+body.citigold-landing main .landing-tiers .cards p:first-child strong {
+  color: var(--citi-blue);
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 400;
+}
+
+/* per-tier heading accent: 1=Everyday(blue), 2=Priority(navy), 3=Citigold(gold),
+   4=Private Client(dark) — matches source */
+body.citigold-landing main .landing-tiers .cards > ul > li:nth-child(2) p:first-child strong {
+  color: var(--citi-navy);
+}
+
+body.citigold-landing main .landing-tiers .cards > ul > li:nth-child(3) p:first-child strong {
+  color: var(--citi-gold);
+}
+
+body.citigold-landing main .landing-tiers .cards > ul > li:nth-child(4) p:first-child strong {
+  color: var(--citi-private-client);
+}
+
+/* CAMB line: label grey, dollar range bold navy */
+body.citigold-landing main .landing-tiers .cards p:nth-child(2) {
+  color: #555;
+  font-size: 14px;
+}
+
+body.citigold-landing main .landing-tiers .cards p:nth-child(2) strong {
+  display: block;
+  margin-top: 2px;
+  color: var(--citi-navy);
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* "Includes all … Benefits" — bold label with a thin divider rule above it */
+body.citigold-landing main .landing-tiers .cards p em {
+  display: block;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #e0e0e0;
+  color: var(--citi-navy);
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* benefit bullets: navy checkmarks, left-aligned */
+body.citigold-landing main .landing-tiers .cards ul {
+  margin: 12px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+body.citigold-landing main .landing-tiers .cards ul li {
+  position: relative;
+  margin-bottom: 12px;
+  padding-left: 26px;
+  color: #333;
+  font-size: 14px;
+  line-height: 1.4;
+}
+
+body.citigold-landing main .landing-tiers .cards ul li::before {
+  content: "";
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 12px;
+  height: 7px;
+  border-left: 2px solid var(--citi-navy);
+  border-bottom: 2px solid var(--citi-navy);
+  transform: rotate(-45deg);
+}
+
+/* ---------- ZIP / Have Questions band — pale blue (source #ecf6fe) ----------
+   Source: two columns — pricing heading left, "Have Questions?" + branch link
+   right. Small uppercase headings, each with a thin divider rule above. */
+body.citigold-landing main .landing-zip {
+  background: var(--citi-pale-blue-bg);
+  text-align: center;
+}
+
+body.citigold-landing main .landing-zip > div {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 8px 48px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* small uppercase headings with a divider rule above each */
+body.citigold-landing main .landing-zip h2 {
+  margin: 0;
+  padding-top: 20px;
+  border-top: 1px solid #c9d9e8;
+  color: var(--citi-navy);
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+body.citigold-landing main .landing-zip p {
+  margin: 8px 0 0;
+}
+
+body.citigold-landing main .landing-zip a {
+  color: var(--citi-blue);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* solid filled "Open an Account" CTA (source uses filled navy/gold, not outline) */
+body.citigold-landing main .landing-tiers .cards a {
+  display: inline-block;
+  margin-top: 12px;
+  padding: 12px 32px;
+  border: 0;
+  border-radius: 100px;
+  background: var(--citi-navy);
+  color: #fff;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* ---------- Disclaimers + Terms ---------- */
+body.citigold-landing main .landing-miranda,
+body.citigold-landing main .landing-terms {
+  font-size: 12px;
+  color: #555;
+}
+
+body.citigold-landing main .landing-terms table {
+  border-collapse: collapse;
+  margin: 16px 0;
+}
+
+body.citigold-landing main .landing-terms table th,
+body.citigold-landing main .landing-terms table td {
+  border: 1px solid #ccc;
+  padding: 8px 16px;
+  text-align: left;
+}
+
+/* ---------- Tablet / desktop grids ---------- */
+@media (width >= 900px) {
+  body.citigold-landing main .landing-offer-cards .cards > ul {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  body.citigold-landing main .landing-tiers .cards > ul {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* ZIP / Questions band: two columns — pricing left, questions right. The
+     first heading + any following p span the left column; the second heading +
+     its p span the right. */
+  body.citigold-landing main .landing-zip > div {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+
+  body.citigold-landing main .landing-zip h2:nth-of-type(1) {
+    grid-column: 1;
+  }
+
+  body.citigold-landing main .landing-zip h2:nth-of-type(2) {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  body.citigold-landing main .landing-zip p {
+    grid-column: 2;
+  }
+
+  /* 3 steps side by side inside the single white panel */
+  body.citigold-landing main .landing-bonus .cards > ul {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+  }
+
+  /* two-column checkmark grid: source fills DOWN column 1 (items 1-3) then
+     column 2 (items 4-5), so use column auto-flow with 3 rows. */
+  body.citigold-landing main .landing-features .cards > ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, auto);
+    grid-auto-flow: column;
+    gap: 18px 64px;
+    max-width: 860px;
+    margin: 0 auto;
+  }
+
+  /* Hero (source): plain white background; copy left-aligned in the left half;
+     the photo is a rounded-corner card floating on the right (not a full-bleed
+     split). The card is painted as a ::after on the content wrapper so it needs
+     no extra markup. */
+  body.citigold-landing main .landing-hero {
+    background: #fff;
+  }
+
+  /* Constrain the hero content to the same ~1128px column as the rest of the
+     page (the hero block's .hero-wrapper is full-bleed by default) and lay the
+     copy on the left with the photo card floating on the right. */
+  body.citigold-landing main .landing-hero .hero.block {
+    position: relative;
+    max-width: 1128px;
+    min-height: 460px;
+    margin-inline: auto;
+    padding: 40px 24px;
+  }
+
+  body.citigold-landing main .landing-hero .hero .hero-content {
+    max-width: 50%;
+    text-align: left;
+  }
+
+  /* Photo as a rounded card floating on the right of the white hero, inset from
+     the content column's right edge (source card ≈ 414px / 37% wide, 402px tall,
+     ~35px top inset). */
+  body.citigold-landing main .landing-hero .hero.block::after {
+    content: "";
+    position: absolute;
+    top: 35px;
+    right: 24px;
+    width: 37%;
+    height: 402px;
+    background-image: url("/icons/citigold-hero-dsk.webp");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
+    border-radius: 24px;
+  }
+
+  body.citigold-landing main .landing-hero .hero h1 { font-size: 48px; }
+}
+
+/* stylelint-enable no-descending-specificity */
