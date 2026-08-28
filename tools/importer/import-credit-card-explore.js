@@ -409,12 +409,20 @@
           main.append(document.createElement('hr'));
         };
 
-        // 1. Top promo hero banner (#hero-banner) — a rotating single-card offer
-        //    (background image + card art + eyebrow + offer headline + supporting
-        //    copy + Apply Now + Card details). Built as a `hero` block so it can
-        //    be styled like the other credit-card heroes.
-        const heroNodes = buildHeroBanner(document);
-        if (heroNodes.length) push(heroNodes);
+        // 1. Top promo hero — referenced as a reusable FRAGMENT rather than an
+        //    inline hero block. The source hero rotates per session; the distinct
+        //    variants were captured to content/fragments/heroes/. This page pins
+        //    the brand family banner. The `fragment` block loads the fragment's
+        //    .plain.html and inlines it (so the hero styling + section Style ride
+        //    along from the fragment). Path is /content-prefixed to match how
+        //    this project serves content locally.
+        const fragLink = document.createElement('a');
+        fragLink.href = '/content/fragments/heroes/brand-citi-strata-credit-cards';
+        fragLink.textContent = '/content/fragments/heroes/brand-citi-strata-credit-cards';
+        push([WebImporter.Blocks.createBlock(document, {
+          name: 'fragment',
+          cells: [[fragLink]],
+        })]);
 
         // 2. Category tab strip (#legal_zeta_tabs > tds-category-nav-bar) — the
         //    "Explore Cards / Balance Transfer / Travel / …" filter bar directly
