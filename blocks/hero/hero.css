@@ -462,3 +462,208 @@ body.credit-card-retail-pdp .hero .hero-pricing-link a:focus-visible {
     letter-spacing: -0.36px;
   }
 }
+
+/* ============================================================
+   Credit-cards EXPLORE promo hero (body.credit-card-explore).
+   The source banner ROTATES per session between two variants, tagged by section
+   Style at import time:
+     • .explore-hero-offer — a single-card promo over a PALE lifestyle image:
+       card art + card-name eyebrow + offer headline + navy Apply Now + Card
+       details link. DARK text (source uses `.text-black`).
+     • .explore-hero-brand — a product-family banner over a DARK image: big WHITE
+       title + tagline + fanned-cards image + white "Learn More" button.
+   Shared full-bleed background + neutralised PDP content-card treatment below;
+   colours/layout diverge per variant. Scoped to the explore template so PDP
+   heroes are untouched.
+   ============================================================ */
+body.credit-card-explore .hero.block {
+  position: relative;
+  min-height: 0;
+  overflow: hidden;
+}
+
+body.credit-card-explore .hero .hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  margin: 0;
+}
+
+body.credit-card-explore .hero .hero-bg picture,
+body.credit-card-explore .hero .hero-bg img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: 100% 50%;
+}
+
+body.credit-card-explore .hero .hero-content-row {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+body.credit-card-explore .hero .hero-content {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 100%;
+  max-width: 100%;
+  padding: 32px 24px;
+  background: none;
+}
+
+body.credit-card-explore .hero .hero-head { margin: 0 0 12px; }
+
+body.credit-card-explore .hero .hero-content sup {
+  font-size: 0.7em;
+  vertical-align: super;
+  line-height: 0;
+}
+
+/* Neutralise the PDP eyebrow badge (green pill) — it's a plain text line here. */
+body.credit-card-explore .hero .hero-eyebrow {
+  margin: 0 0 8px;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 400;
+  letter-spacing: normal;
+  text-transform: none;
+}
+
+body.credit-card-explore .hero .hero-content h2 {
+  margin: 0 0 16px;
+  max-width: 30ch;
+  font-family: var(--heading-font-family);
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: normal;
+}
+
+body.credit-card-explore .hero .hero-supporting {
+  max-width: 42ch;
+  margin: 0 0 20px;
+  font-size: 16px;
+  line-height: 1.4;
+}
+
+body.credit-card-explore .hero .button-container { margin: 0 0 12px; }
+
+body.credit-card-explore .hero a.button.primary:any-link {
+  min-width: 0;
+  border-radius: 8px;
+  padding: 12px 40px;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+body.credit-card-explore .hero .hero-footnotes { gap: 0; }
+
+body.credit-card-explore .hero .hero-footnote a:any-link {
+  font-size: 14px;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+body.credit-card-explore .hero .hero-footnote a:hover { text-decoration: underline; }
+
+/* ---- OFFER variant: dark text on the pale lifestyle image ---- */
+body.credit-card-explore .explore-hero-offer .hero .hero-card-art picture,
+body.credit-card-explore .explore-hero-offer .hero .hero-card-art img {
+  width: 111px;
+}
+
+body.credit-card-explore .explore-hero-offer .hero .hero-eyebrow { color: rgb(58 62 64); }
+body.credit-card-explore .explore-hero-offer .hero .hero-content h2 { color: rgb(26 28 30); }
+body.credit-card-explore .explore-hero-offer .hero .hero-supporting { color: rgb(58 62 64); }
+
+/* Apply Now — solid navy button; Card details — navy text link. */
+body.credit-card-explore .explore-hero-offer .hero a.button.primary:any-link {
+  border: 0;
+  background-color: rgb(4 32 143);
+  color: #fff;
+}
+
+body.credit-card-explore .explore-hero-offer .hero .hero-footnote a:any-link {
+  color: rgb(4 32 143);
+}
+
+/* ---- BRAND variant: white text on the dark image, fanned art to the right ---- */
+body.credit-card-explore .explore-hero-brand .hero.block { background: #333; }
+
+body.credit-card-explore .explore-hero-brand .hero .hero-content h2 {
+  max-width: 18ch;
+  color: #fff;
+  font-size: 32px;
+}
+
+body.credit-card-explore .explore-hero-brand .hero .hero-supporting { color: #fff; }
+
+/* "Learn More" — white button with navy label (source treatment). */
+body.credit-card-explore .explore-hero-brand .hero a.button.primary:any-link {
+  border: 1px solid #fff;
+  background-color: #fff;
+  color: rgb(4 32 143);
+  padding: 12px 24px;
+}
+
+/* The fanned product-cards image (card-art) sits to the right on desktop. */
+body.credit-card-explore .explore-hero-brand .hero .hero-card-art { margin: 0; }
+
+body.credit-card-explore .explore-hero-brand .hero .hero-card-art picture,
+body.credit-card-explore .explore-hero-brand .hero .hero-card-art img {
+  width: 100%;
+  max-width: 306px;
+}
+
+@media (width >= 900px) {
+  body.credit-card-explore .hero.block {
+    display: block;
+    min-height: 340px;
+  }
+
+  body.credit-card-explore .hero .hero-content-row {
+    padding: 0 72px;
+  }
+
+  body.credit-card-explore .hero .hero-content {
+    padding: 56px 0;
+  }
+
+  body.credit-card-explore .explore-hero-offer .hero .hero-card-art picture,
+  body.credit-card-explore .explore-hero-offer .hero .hero-card-art img {
+    width: 130px;
+  }
+
+  body.credit-card-explore .explore-hero-offer .hero .hero-content h2 {
+    font-size: 34px;
+  }
+
+  /* Brand: title/tagline/CTA on the left, fanned cards image anchored right. */
+  body.credit-card-explore .explore-hero-brand .hero .hero-content {
+    min-height: 240px;
+    padding-right: 340px;
+  }
+
+  body.credit-card-explore .explore-hero-brand .hero .hero-content h2 {
+    font-size: 48px;
+  }
+
+  body.credit-card-explore .explore-hero-brand .hero .hero-card-art {
+    position: absolute;
+    top: 50%;
+    right: 0;
+    transform: translateY(-50%);
+  }
+
+  body.credit-card-explore .explore-hero-brand .hero .hero-card-art picture,
+  body.credit-card-explore .explore-hero-brand .hero .hero-card-art img {
+    max-width: 340px;
+  }
+}

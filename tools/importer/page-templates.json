@@ -470,6 +470,57 @@
           ]
         }
       ]
+    },
+    {
+      "name": "credit-card-explore",
+      "description": "Citi credit-cards Explore landing page (www.citi.com/credit-cards). Angular SSR page whose main content is a series of `.card-stack` category sections: the first is a single featured wide card (green badge bar, card art + details) and the rest are category rows (heading + 'View all' link + a slider of 3-4 card tiles). Each card tile has an optional category badge, card art, name, feature bullets, 'Card details' link and 'Apply now' CTA. Card offer amounts are populated dynamically via API.",
+      "urls": [
+        "https://www.citi.com/credit-cards/?intc=citihpmenu~creditcards~explore"
+      ],
+      "blocks": [
+        {
+          "name": "cc-category",
+          "instances": [
+            ".card-stack:nth-of-type(1)",
+            ".card-stack:nth-of-type(n+2)"
+          ],
+          "variation": "featured"
+        }
+      ],
+      "sections": [
+        {
+          "id": "cce-featured",
+          "name": "Featured card (Explore Citi Credit Cards)",
+          "selector": ".card-stack:nth-of-type(1)",
+          "blocks": [
+            "cc-category (featured)"
+          ]
+        },
+        {
+          "id": "cce-rewards",
+          "name": "Rewards Credit Cards row",
+          "selector": ".card-stack:nth-of-type(2)",
+          "blocks": [
+            "cc-category"
+          ]
+        },
+        {
+          "id": "cce-travel",
+          "name": "Travel Credit Cards row",
+          "selector": ".card-stack:nth-of-type(3)",
+          "blocks": [
+            "cc-category"
+          ]
+        },
+        {
+          "id": "cce-noaf",
+          "name": "No Annual Fee Cards row",
+          "selector": ".card-stack:nth-of-type(4)",
+          "blocks": [
+            "cc-category"
+          ]
+        }
+      ]
     }
   ]
 }
