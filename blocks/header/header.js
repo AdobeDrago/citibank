@@ -99,9 +99,19 @@ function buildNavItem(sourceLi) {
   const li = document.createElement('li');
   li.className = 'nav-item';
 
-  const topLink = sourceLi.querySelector(':scope > a');
+  // Top-level label link. On localhost `aem up` the fragment keeps a bare
+  // `<li><a>…</a><ul>…</ul></li>`, but Document Authoring / the aem.live plain-
+  // html pipeline wraps a lone anchor in a paragraph (`<li><p><a>…</a></p>…`),
+  // so match either a direct-child anchor OR one nested in a direct-child <p>.
+  // Without this, `:scope > a` is null on production and the button label falls
+  // back to `sourceLi.textContent` — the concatenated text of every submenu item.
+  const topLink = sourceLi.querySelector(':scope > a, :scope > p > a');
   const sublists = [...sourceLi.querySelectorAll(':scope > ul')];
-  const quickHeading = sourceLi.querySelector(':scope > p');
+  // The "Quick Links" heading is a text-only paragraph. Exclude the paragraph
+  // that merely wraps the top-level label link (see above) so we don't mistake
+  // it for the heading.
+  const quickHeading = [...sourceLi.querySelectorAll(':scope > p')]
+    .find((p) => !p.querySelector('a'));
   const hasPanel = sublists.length > 0;
 
   if (hasPanel) {

@@ -48,9 +48,22 @@ export default function decorate(block) {
     if (el.tagName !== 'P') return;
     if (el.querySelector('picture')) {
       cardArt = el;
-    } else if (el.querySelector('strong')) {
+      return;
+    }
+    if (el.querySelector('strong')) {
       stats.push(el);
-    } else if (el.querySelector('a')) {
+      return;
+    }
+    // A "link paragraph" (the CTA, or a standalone footnote/pricing link) is one
+    // whose entire visible text IS the link — e.g. <p><a>Apply now</a></p>. A
+    // paragraph that merely CONTAINS an inline footnote marker (e.g. the
+    // supporting line "after spending $1,000 in the first 3 months<a><sup>2</sup></a>")
+    // has text beyond the link, so it is treated as a text paragraph — otherwise
+    // the offer's footnote superscript would be misread as the primary CTA.
+    const anchor = el.querySelector('a');
+    const pText = el.textContent.replace(/\s+/g, ' ').trim();
+    const aText = anchor ? anchor.textContent.replace(/\s+/g, ' ').trim() : '';
+    if (anchor && aText && pText === aText) {
       links.push(el);
     } else {
       texts.push(el);

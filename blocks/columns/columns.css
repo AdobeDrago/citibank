@@ -344,6 +344,94 @@
 }
 
 /* =========================================================
+ * Variant - Rates & fees (credit-card-pdp) rendered as ONE-ROW-PER-TILE.
+ * The parser emits each fee as its own 2-cell row (label+value | description)
+ * rather than a single 5-column row (that shape breaks md2da's grid-table
+ * parser). So this block carries `columns-2-cols` and would otherwise pick up
+ * the accelerator tile styling (blue/navy rounded panels). Re-lay it as the
+ * source's rates strip: N side-by-side tiles, NO background, thin grey vertical
+ * dividers, each tile stacking label -> value -> description.
+ * Distinguished from the 2-row accelerator by having 3+ rows (:has 3rd child)
+ * and no image column. Scoped to the PDP body so it overrides the shared
+ * accelerator rules above without disturbing the retail/citigold variants.
+ * ========================================================= */
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Each source row becomes a tile: reset the accelerator panel treatment
+   (background/padding/radius/white text) and stack label+value then description. */
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div > div {
+  display: block;
+  padding: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: rgb(58 62 64);
+}
+
+/* label (small, above the value) */
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) p {
+  margin: 0 0 4px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  letter-spacing: normal;
+  color: rgb(58 62 64);
+}
+
+/* value (the big number/heading) */
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 700;
+  line-height: 26px;
+  letter-spacing: 0.2px;
+  color: rgb(38 41 43);
+}
+
+/* footnote superscript links stay inline, no button/underline treatment */
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) a:any-link {
+  color: rgb(58 62 64);
+  text-decoration: none;
+  vertical-align: super;
+  font-size: 0.7em;
+}
+
+@media (width >= 900px) {
+  /* N tiles side by side with thin grey vertical dividers between them */
+  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) {
+    flex-direction: row;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div {
+    flex: 1;
+    padding: 0 24px;
+  }
+
+  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div + div {
+    border-left: 1px solid rgb(214 219 221);
+  }
+
+  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div:first-child {
+    padding-left: 0;
+  }
+
+  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div:last-child {
+    padding-right: 0;
+  }
+}
+
+/* =========================================================
  * Retail "REWARDS AND PROGRAM DETAILS" (credit-card-retail-pdp)
  * A plain two-column layout: LEFT = reward items (bold title + copy),
  * RIGHT = benefit lines with a vertical divider. Scoped to the retail
