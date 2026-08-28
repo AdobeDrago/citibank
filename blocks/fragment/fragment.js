@@ -20,15 +20,31 @@ import {
  */
 export async function loadFragment(path) {
   if (path && path.startsWith('/') && !path.startsWith('//')) {
-    const resp = await fetch(`${path}.plain.html`);
-    if (resp.ok) {
+    // Fragment paths are authored ROOT-relative (e.g. /fragments/heroes/…) so
+    // they resolve on DA/EDS production, where content is mounted at the site
+    // root. On localhost (`aem up`) this project serves content under /content/,
+    // so try that prefix first there; production fetches the root path directly.
+    const onContent = window.location.pathname.startsWith('/content/');
+    const candidates = onContent && !path.startsWith('/content/')
+      ? [`/content${path}`, path]
+      : [path];
+    let resp;
+    let resolvedPath = path;
+    // eslint-disable-next-line no-restricted-syntax
+    for (const candidate of candidates) {
+      // eslint-disable-next-line no-await-in-loop
+      const r = await fetch(`${candidate}.plain.html`);
+      if (r.ok) { resp = r; resolvedPath = candidate; break; }
+    }
+    if (resp && resp.ok) {
       const main = document.createElement('main');
       main.innerHTML = await resp.text();
 
       // reset base path for media to fragment base
       const resetAttributeBase = (tag, attr) => {
         main.querySelectorAll(`${tag}[${attr}^="./media_"]`).forEach((elem) => {
-          elem[attr] = new URL(elem.getAttribute(attr), new URL(path, window.location)).href;
+          const fragBase = new URL(resolvedPath, window.location);
+          elem[attr] = new URL(elem.getAttribute(attr), fragBase).href;
         });
       };
       resetAttributeBase('img', 'src');
