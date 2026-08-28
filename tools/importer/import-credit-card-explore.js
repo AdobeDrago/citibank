@@ -414,11 +414,12 @@
         //    variants were captured to content/fragments/heroes/. This page pins
         //    the brand family banner. The `fragment` block loads the fragment's
         //    .plain.html and inlines it (so the hero styling + section Style ride
-        //    along from the fragment). Path is /content-prefixed to match how
-        //    this project serves content locally.
+        //    along from the fragment). The path is ROOT-relative (no /content
+        //    prefix) so it resolves on DA/EDS production, where content is mounted
+        //    at the site root; fragment.js maps it under /content on localhost.
         const fragLink = document.createElement('a');
-        fragLink.href = '/content/fragments/heroes/brand-citi-strata-credit-cards';
-        fragLink.textContent = '/content/fragments/heroes/brand-citi-strata-credit-cards';
+        fragLink.href = '/fragments/heroes/brand-citi-strata-credit-cards';
+        fragLink.textContent = '/fragments/heroes/brand-citi-strata-credit-cards';
         push([WebImporter.Blocks.createBlock(document, {
           name: 'fragment',
           cells: [[fragLink]],

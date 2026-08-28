@@ -17,13 +17,20 @@ function isCbolPage() {
 }
 
 /**
- * Fetch a footer fragment by base name: /content first (localhost / aem up),
- * then root (DA/EDS prod). Relative image srcs are rewritten to the base.
+ * Fetch a footer fragment by base name. This project serves content under
+ * `/content/` on localhost (`aem up`) but at the site ROOT on DA/EDS production
+ * (see fstab.yaml, which mounts `/` → content.da.live). Pick the base
+ * deterministically from the current page path — rather than always trying
+ * `/content/` first and relying on a clean 404 — so production, where
+ * `/content/…` does not resolve, works reliably. The other base is kept as a
+ * fallback. Relative image srcs are rewritten to the resolved fragment base.
  */
 async function loadFooterFragmentNamed(name) {
-  let base = '/content/';
-  let resp = await fetch(`/content/${name}.plain.html`);
-  if (!resp.ok) { base = '/'; resp = await fetch(`/${name}.plain.html`); }
+  const onContent = window.location.pathname.startsWith('/content/');
+  const bases = onContent ? ['/content/', '/'] : ['/', '/content/'];
+  let base = bases[0];
+  let resp = await fetch(`${base}${name}.plain.html`);
+  if (!resp.ok) { [, base] = bases; resp = await fetch(`${base}${name}.plain.html`); }
   if (!resp.ok) return null;
   const html = await resp.text();
   const tpl = document.createElement('div');
