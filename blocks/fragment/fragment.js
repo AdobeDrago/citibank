@@ -20,16 +20,21 @@ import {
  */
 export async function loadFragment(path) {
   if (path && path.startsWith('/') && !path.startsWith('//')) {
-    // Fragment paths are authored ROOT-relative (e.g. /fragments/heroes/…) so
-    // they resolve on DA/EDS production, where content is mounted at the site
-    // root. On localhost (`aem up`) this project serves content under /content/,
-    // so try that prefix first there; production fetches the root path directly.
+    // The site ROOT is the canonical fragment location: on DA/EDS production the
+    // content is mounted at `/`, so `/content` must NOT be assumed. Normalize any
+    // authored `/content` prefix away to get the root-relative path, then resolve:
+    //   - production (page NOT under /content/): fetch the root path only.
+    //   - localhost `aem up` (page under /content/): try the `/content` copy
+    //     first, then fall back to the root path.
+    // This works whether the link was authored root-relative (/fragments/…) or
+    // with a stray /content prefix, and never breaks production on a /content path.
+    const rootPath = path.replace(/^\/content(?=\/)/, '');
     const onContent = window.location.pathname.startsWith('/content/');
-    const candidates = onContent && !path.startsWith('/content/')
-      ? [`/content${path}`, path]
-      : [path];
+    const candidates = onContent
+      ? [`/content${rootPath}`, rootPath]
+      : [rootPath];
     let resp;
-    let resolvedPath = path;
+    let resolvedPath = rootPath;
     // eslint-disable-next-line no-restricted-syntax
     for (const candidate of candidates) {
       // eslint-disable-next-line no-await-in-loop
