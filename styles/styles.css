@@ -647,8 +647,8 @@ body.citigold-landing main > .section > div > h2 {
 
 /* ---------- Hero ----------
    Source hero: split background — white on the left (behind the copy), gold on
-   the right, with a photo anchored bottom-right. Base (mobile) is a simple white
-   panel; the split + right-image kick in at >=900px. */
+   the right, with a photo anchored on the gold side. Base (mobile) is a simple
+   white panel; the white/gold split + right-image kick in at >=900px. */
 body.citigold-landing main .landing-hero {
   background: #fff;
 }
@@ -724,21 +724,10 @@ body.citigold-landing main .landing-features {
   background: var(--citi-gold);
 }
 
-/* Decorative white notch (source): the hero's white area extends down into the
-   gold band as a wide, shallow tab with rounded bottom corners, centered at the
-   top of the gold. Painted as a ::before so it needs no extra markup. */
-body.citigold-landing main .landing-features::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 60%;
-  max-width: 760px;
-  height: 40px;
-  background: #fff;
-  border-radius: 0 0 40px 40px;
-}
+/* The hero→gold transition is handled entirely by the hero's own white card
+   (see the >=900px .landing-hero::before rule): that card is flush to the left
+   page edge and rounds only its right corners, so the white sweeps to the far
+   left at the hero's bottom exactly as in the source. No separate notch here. */
 
 body.citigold-landing main .landing-features h2,
 body.citigold-landing main .landing-features .cards strong,
@@ -1288,19 +1277,36 @@ body.citigold-landing main .landing-terms table td {
     margin: 0 auto;
   }
 
-  /* Hero (source): plain white background; copy left-aligned in the left half;
-     the photo is a rounded-corner card floating on the right (not a full-bleed
-     split). The card is painted as a ::after on the content wrapper so it needs
-     no extra markup. */
+  /* Hero (source): a full-bleed GOLD field with a WHITE card sitting on top of
+     it. The white card is flush to the LEFT page edge (x=0) and rounds only its
+     bottom-right corner, so the white sweeps all the way to the far-left edge at
+     the hero's bottom — matching the source — while the gold shows on the right
+     and along the bottom-right where the card curves away. The copy sits on the
+     white card; the photo floats over the white/gold boundary. */
   body.citigold-landing main .landing-hero {
+    position: relative;
+    background: var(--citi-gold);
+  }
+
+  /* The white card: anchored top-left, ~72% wide, full hero height, with a large
+     rounded bottom-right corner. Left/bottom-left stay square so white reaches
+     the left page edge at the bottom. */
+  body.citigold-landing main .landing-hero::before {
+    content: "";
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 72%;
     background: #fff;
+    border-radius: 0 0 90px;
   }
 
   /* Constrain the hero content to the same ~1128px column as the rest of the
      page (the hero block's .hero-wrapper is full-bleed by default) and lay the
-     copy on the left with the photo card floating on the right. */
+     copy on the left with the photo card floating on the right. z-index lifts
+     the content above the white card ::before. */
   body.citigold-landing main .landing-hero .hero.block {
     position: relative;
+    z-index: 1;
     max-width: 1128px;
     min-height: 460px;
     margin-inline: auto;
