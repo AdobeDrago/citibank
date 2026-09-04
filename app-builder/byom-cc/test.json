@@ -1,0 +1,164 @@
+{
+  "data": {
+    "creditCardByPath": {
+      "item": {
+        "hero": {
+          "backgroundImage": {
+            "_path": "/content/dam/cf-services/ccc-images/hero-PDP-XXL-L-Strata-elite.jpg",
+            "_authorUrl": "https://author-p199056-e2062160.adobeaemcloud.com/content/dam/cf-services/ccc-images/hero-PDP-XXL-L-Strata-elite.jpg",
+            "_publishUrl": "https://publish-p199056-e2062160.adobeaemcloud.com/content/dam/cf-services/ccc-images/hero-PDP-XXL-L-Strata-elite.jpg",
+            "_dynamicUrl": "/adobe/dynamicmedia/deliver/dm-aid--0e63e324-1d8a-487f-9f63-de8a38fc86d6/hero_PDP_XXL_L_Strata_elite.jpg"
+          },
+          "copyImage": {
+            "_path": "/content/dam/cf-services/ccc-images/citi-strata-elite-credit-card_306x192.jpg",
+            "_authorUrl": "https://author-p199056-e2062160.adobeaemcloud.com/content/dam/cf-services/ccc-images/citi-strata-elite-credit-card_306x192.jpg",
+            "_publishUrl": "https://publish-p199056-e2062160.adobeaemcloud.com/content/dam/cf-services/ccc-images/citi-strata-elite-credit-card_306x192.jpg",
+            "_dynamicUrl": "/adobe/dynamicmedia/deliver/dm-aid--52421c36-10f8-47b0-852f-518966da69f5/citi_strata_elite_credit_card_306x192.jpg"
+          },
+          "body": {
+            "html": "<p><img src=\"/content/dam/cf-services/ccc-images/citi-strata-elite-credit-card_306x192.webp\" alt=\"Image of credit card\" data-content=\"/content/dam/cf-services/ccc-images/citi-strata-elite-credit-card_306x192.webp\"></p><p>Bonus Offer</p><h1>Citi Strata Elite℠ Card</h1><h2>Earn 75,000 bonus points</h2><p>after spending $6,000 in the first 3 months<a href=\"/\" title=\"\" target=\"_self\"><sup>2</sup></a></p><p><strong>$595</strong> — Annual fee<a href=\"https://online.citi.com/US/nga/cards/displayterms?app=UNSOLHKOP=3568ca84082f4a93f78264b254c15cb176db0a6e665912f1f40fce60e9513058\" title=\"\" target=\"_self\"><sup>1</sup></a></p><p><strong>Unlock </strong>— nearly $1,500 in value</p><p><a href=\"#\" title=\"\" target=\"_self\">Apply Now</a></p><p>This offer may not be available if you leave this page. Offers may vary and this offer may not be available in other places where the card is offered. Bonus ThankYou® Points are not available if you have received a new account bonus for a Citi Strata Elite℠ account in the past 48 months or if you converted another Citi credit card account on which you earned a new account bonus in the last 48 months into a Citi Strata Elite.</p><p><a href=\"#\" title=\"\" target=\"_self\">Important Pricing &amp;#x26; Information +</a></p><p><a href=\"#\" title=\"\" target=\"_self\">Additional Information +</a></p>"
+          }
+        },
+        "title": {
+          "html": "<h1>Citi Strata Elite℠ Card</h1>",
+          "plaintext": "Citi Strata Elite℠ Card"
+        },
+        "eyeBrow": "Bonus Offer",
+        "image": {
+          "_path": "/content/dam/cf-services/ccc-images/citi-strata-elite-credit-card_306x192.jpg",
+          "_authorUrl": "https://author-p199056-e2062160.adobeaemcloud.com/content/dam/cf-services/ccc-images/citi-strata-elite-credit-card_306x192.jpg",
+          "_publishUrl": "https://publish-p199056-e2062160.adobeaemcloud.com/content/dam/cf-services/ccc-images/citi-strata-elite-credit-card_306x192.jpg",
+          "_dynamicUrl": "/adobe/dynamicmedia/deliver/dm-aid--52421c36-10f8-47b0-852f-518966da69f5/citi_strata_elite_credit_card_306x192.jpg"
+        },
+        "feerates": [
+          {
+            "headline": {
+              "html": "<p>Balance transfer fee<sup>1</sup></p><h3>Either $5 or 5%</h3>"
+            },
+            "body": {
+              "html": "<p>of the amount of each transfer, whichever is greater</p>"
+            }
+          },
+          {
+            "headline": {
+              "html": "<p>Variable APR<sup>1</sup></p><h3>20.49% - 28.49%</h3>"
+            },
+            "body": {
+              "html": "<p>on purchases and balance transfers based on your creditworthiness</p>"
+            }
+          },
+          {
+            "headline": {
+              "html": "<p>Annual Fee<sup>1</sup></p><h3>$595</h3>"
+            },
+            "body": {
+              "html": "<p>$75 Authorized User Fee<sup>1</sup></p>"
+            }
+          }
+        ],
+        "accelerate": [
+          {
+            "headline": {
+              "html": "<h3><em>1.5</em></h3>"
+            },
+            "body": {
+              "html": "<p><em>1.5 points per dollar spent on All Other Purchases<sup>2</sup></em></p>"
+            }
+          },
+          {
+            "headline": {
+              "html": "<h3><em>3x</em></h3>"
+            },
+            "body": {
+              "html": "<p><em>3 points per dollar spent at Restaurants any other time<sup>2</sup></em></p>"
+            }
+          },
+          {
+            "headline": {
+              "html": "<p>&lt;h3&gt;&lt;em&gt;12x&lt;/em&gt;&lt;/h3&gt;</p>"
+            },
+            "body": {
+              "html": "<p>&lt;p&gt;&lt;em&gt;12 points per dollar spent on Hotels, Car Rentals, and Attractions booked on cititravel.com&lt;sup&gt;2&lt;/sup&gt;&lt;/em&gt;&lt;/p&gt;</p>"
+            }
+          },
+          {
+            "headline": {
+              "html": "<h3><em>6x</em></h3>"
+            },
+            "body": {
+              "html": "<p><em>6 points per dollar spent at Restaurants on Citi Nights℠ purchases, Friday and Saturday from 6 PM - 6 AM ET<sup>2</sup></em></p>"
+            }
+          },
+          {
+            "headline": {
+              "html": "<h3><em>6x</em></h3>"
+            },
+            "body": {
+              "html": "<p><em>6 points per dollar spent on Air Travel booked on cititravel.com<sup>2</sup></em></p>"
+            }
+          }
+        ],
+        "primaryBenefits": [
+          {
+            "title": {
+              "html": "<h3>Dining</h3>"
+            },
+            "body": {
+              "html": "<p>Citi Strata Elite℠ cardmembers have access to coveted dining experiences with The Supper Club® with tickets available for purchase to events hosted in major U.S. cities. Enjoy bespoke content and tutorials from Death &amp; Co® with access to their online learning platform, Fashioned. Citi Strata Elite℠ cardholders can learn everything about cocktails, from drink-making fundamentals to advanced techniques. Complimentary access is granted by enrolling with a Citi Strata Elite℠ Card. For Adults 21+.<sup>2</sup></p>"
+            },
+            "image": {
+              "_path": "/content/dam/cf-services/ccc-images/benefit-tile-dining.jpeg",
+              "_authorUrl": "https://author-p199056-e2062160.adobeaemcloud.com/content/dam/cf-services/ccc-images/benefit-tile-dining.jpeg",
+              "_publishUrl": "https://publish-p199056-e2062160.adobeaemcloud.com/content/dam/cf-services/ccc-images/benefit-tile-dining.jpeg",
+              "_dynamicUrl": "/adobe/dynamicmedia/deliver/dm-aid--a0ed93b6-c087-4d7e-bbb2-849b7ec217d7/benefit_tile_dining.jpg"
+            }
+          },
+          {
+            "title": {
+              "html": "<h3>Citi Entertainment®</h3>"
+            },
+            "body": {
+              "html": "<p>Citi Entertainment® is an entertainment access program available to eligible Citi® credit card and Citibank® Debit Card customers. Citi cardmembers get special access to purchase tickets to thousands of events, including presale tickets and exclusive experiences to the year's most anticipated concerts, sporting events, arts and culture experiences.</p>"
+            },
+            "image": {
+              "_path": "/content/dam/cf-services/ccc-images/benefit-tile-citi-entertainment.jpg",
+              "_authorUrl": "https://author-p199056-e2062160.adobeaemcloud.com/content/dam/cf-services/ccc-images/benefit-tile-citi-entertainment.jpg",
+              "_publishUrl": "https://publish-p199056-e2062160.adobeaemcloud.com/content/dam/cf-services/ccc-images/benefit-tile-citi-entertainment.jpg",
+              "_dynamicUrl": "/adobe/dynamicmedia/deliver/dm-aid--3007002d-9658-4f65-b2a0-2c2f89cdf2f0/benefit_tile_citi_entertainment.jpg"
+            }
+          },
+          {
+            "title": {
+              "html": "<h3><em>The Reserve</em> by Citi Travel®</h3>"
+            },
+            "body": {
+              "html": "<p>A collection of participating hotels on cititravel.com offering on-property benefits including daily, complimentary breakfast for two, free Wi-Fi, a $100 experience credit (varies by property). Other benefits, subject to availability, include early check-in, late check-out and room upgrades. Select a Reserve Hotel rate at checkout to receive the benefits.<sup>2</sup></p>"
+            },
+            "image": {
+              "_path": "/content/dam/cf-services/ccc-images/benefit-tile--reserve.jpg",
+              "_authorUrl": "https://author-p199056-e2062160.adobeaemcloud.com/content/dam/cf-services/ccc-images/benefit-tile--reserve.jpg",
+              "_publishUrl": "https://publish-p199056-e2062160.adobeaemcloud.com/content/dam/cf-services/ccc-images/benefit-tile--reserve.jpg",
+              "_dynamicUrl": "/adobe/dynamicmedia/deliver/dm-aid--df186ccf-6542-472f-8b6c-67edad6c680c/benefit_tile__reserve.jpg"
+            }
+          }
+        ],
+        "features": [
+          {
+            "image": {
+              "_path": "/content/dam/cf-services/ccc-images/feature-framed-A--XXL-L--strata-elite.jpg",
+              "_authorUrl": "https://author-p199056-e2062160.adobeaemcloud.com/content/dam/cf-services/ccc-images/feature-framed-A--XXL-L--strata-elite.jpg",
+              "_publishUrl": "https://publish-p199056-e2062160.adobeaemcloud.com/content/dam/cf-services/ccc-images/feature-framed-A--XXL-L--strata-elite.jpg",
+              "_dynamicUrl": "/adobe/dynamicmedia/deliver/dm-aid--c053f798-d683-440f-bb70-ac38c45fa657/feature_framed_A__XXL_L__strata_elite.jpg"
+            },
+            "title": {
+              "html": "<h2>Unlock nearly $1,500 in value</h2>"
+            },
+            "body": {
+              "html": "<p>Up to $300 Annual Hotel BenefitEach calendar year, enjoy up to $300 off a hotel stay of 2 nights or more when booked through cititravel.com.2Up to $200 Annual Splurge Credit℠Every calendar year, earn up to $200 in statement credits on your choice of up to 2 of the following brands: 1stDibs, American Airlines (exclusions apply), Best Buy®, Future Personal Training, and Live Nation (exclusions apply).2Up to $200 Annual Blacklane® CreditEvery calendar year, earn up to $200 in statement credits when you book with Blacklane, a premium global chauffeur service. Earn up to $100 on Blacklane purchases January through June and up to $100 July through December.2Priority Pass™ Select membershipEnjoy complimentary access to 1,500+ airport lounges worldwide. Annual membership fee valued at $469.2American Airlines Admirals Club® Lounge Access PassesEvery calendar year, receive 4 Admirals Club® Citi Strata Elite℠ Passes for access to nearly 50 Admirals Club® lounges (over $300 in value). Inside each of the nearly 50 lounges, you can enjoy a selection of snacks, complimentary cocktails, personal travel assistance and more.2Additionally, Up to $120 Global Entry® or TSA PreCheck® Application Fee CreditReceive a statement credit, up to $120 every four years, as reimbursement for your application fee for Global Entry® or TSA PreCheck®.2</p>"
+            }
+          }
+        ]
+      }
+    }
+  }
+}

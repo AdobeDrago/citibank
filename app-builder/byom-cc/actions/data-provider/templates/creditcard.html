@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <title>{{title.plaintext}}</title>
+  {{#if eyeBrow}}<meta name="eyebrow" content="{{eyeBrow}}">{{/if}}
+  {{#if image._publishUrl}}
+  <meta property="og:type" content="product">
+  <meta property="og:image" content="{{image._publishUrl}}">
+  {{/if}}
+  <meta name="template" content="credit-card-pdp">
+  <meta name="source" content="byom-cc">
+</head>
+
+<body>
+  <header></header>
+  <main>
+    <div>
+      <div class="hero">
+        <div><div>
+        {{#if hero.backgroundImage._publishUrl}}
+        <picture>
+          <img src="{{hero.backgroundImage._publishUrl}}" alt="{{eyeBrow}}">
+        </picture>
+        {{/if}}
+        </div></div>
+        <div>
+          <div>
+          {{#if eyeBrow}}<p class="eyebrow">{{eyeBrow}}</p>{{/if}}
+          {{{title.html}}}
+          {{{hero.body.html}}}
+          </div>
+        </div>
+      </div>
+
+</div><div>
+      {{#if accelerate.length}}
+      <div class="columns">
+        {{#each accelerate}}
+        <div>
+        <div>
+          {{{headline.html}}}
+        </div>
+         <div>
+          {{{body.html}}}
+        </div>
+        </div>
+        {{/each}}
+      </div>
+      {{/if}}
+</div><div>
+      {{#if features.length}}
+      <div class="columns">
+        {{#each features}}
+        <div>
+          <div>
+          {{#if image._publishUrl}}
+          <picture>
+            <img src="{{image._publishUrl}}" alt="">
+          </picture>
+          {{/if}}
+          </div>
+          <div>
+          {{{title.html}}}
+          {{{body.html}}}
+          </div>
+        </div>
+        {{/each}}
+      </div>
+      {{/if}}
+</div><div>
+      {{#if feerates.length}}
+      <div class="columns">
+        {{#each feerates}}
+        <div>
+          <div>
+          {{{headline.html}}}
+          </div>
+          <div>
+          {{{body.html}}}
+          </div>
+        </div>
+        {{/each}}
+      </div>
+      {{/if}}
+</div><div>
+      {{#if primaryBenefits.length}}
+      <div class="primary-benefits">
+        {{#each primaryBenefits}}
+        <div>
+          <div>
+          {{#if image._publishUrl}}
+          <picture>
+            <img src="{{image._publishUrl}}" alt="">
+          </picture>
+          {{/if}}
+          </div><div>
+          {{{title.html}}}
+          {{{body.html}}}
+          </div>
+          <div></div>
+        </div>
+        {{/each}}
+      </div>
+      {{/if}}
+</div>
+    </div>
+  </main>
+  <footer></footer>
+</body>
+
+</html>
