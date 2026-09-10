@@ -53,7 +53,7 @@
   color: rgb(58 62 64);
 }
 
-@media (width >= 900px) {
+@media (width >= 992px) {
   .columns > div {
     flex-direction: row;
     align-items: stretch;
@@ -160,7 +160,7 @@
   display: none;
 }
 
-@media (width >= 900px) {
+@media (width >= 992px) {
   .columns.columns-5-cols > div:first-child {
     align-items: flex-start;
   }
@@ -225,7 +225,7 @@
   color: rgb(255 255 255);
 }
 
-@media (width >= 900px) {
+@media (width >= 992px) {
   .columns.columns-2-cols:has(.columns-img-col) > div {
     align-items: center;
     gap: 48px;
@@ -249,7 +249,7 @@
  * content card overlaid on top, floated to the right ~half.
  * card: rgba(255,255,255,0.8), radius 8px, padding 72px, 16px inset.
  * ========================================================= */
-@media (width >= 900px) {
+@media (width >= 992px) {
   .columns.columns-2-cols:has(.columns-img-col):has(h3) > div {
     position: relative;
     display: block; /* override the flex row; children are positioned */
@@ -321,7 +321,7 @@
   color: rgb(255 255 255);
 }
 
-@media (width >= 900px) {
+@media (width >= 992px) {
   /* source accelerator tile heading: 36px / 43px line-height */
   .columns.columns-2-cols:not(:has(.columns-img-col)) h3 {
     font-size: 36px;
@@ -405,7 +405,7 @@ body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> d
   font-size: 0.7em;
 }
 
-@media (width >= 900px) {
+@media (width >= 992px) {
   /* N tiles side by side with thin grey vertical dividers between them */
   body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) {
     flex-direction: row;
@@ -486,7 +486,7 @@ body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) 
   text-decoration: none;
 }
 
-@media (width >= 900px) {
+@media (width >= 992px) {
   body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div {
     align-items: stretch;
     gap: 48px;

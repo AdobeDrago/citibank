@@ -27,7 +27,7 @@ body.modal-open {
   margin-top: 44px;
 }
 
-@media (width >= 900px) {
+@media (width >= 992px) {
   .modal dialog {
     width: calc(100vw - 64px);
   }

@@ -292,7 +292,7 @@ header nav .nav-panel-quicklinks-heading {
 header nav sup { font-size: 0.6em; }
 
 /* ---------- Desktop (>= 900px) ---------- */
-@media (width >= 900px) {
+@media (width >= 992px) {
   header nav .nav-brand p:nth-child(2) { display: block; }
 
   header nav .nav-hamburger { display: none; }
@@ -459,7 +459,7 @@ header nav.nav-cbol .nav-cbol-mark img {
 }
 
 /* Mobile: stack the FDIC line under the logo; keep the mark on the top row. */
-@media (width < 600px) {
+@media (width < 768px) {
   header nav.nav-cbol .nav-cbol-fdic {
     order: 3;
     flex-basis: 100%;

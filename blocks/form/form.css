@@ -127,7 +127,7 @@
   cursor: default;
 }
 
-@media (width >= 600px) {
+@media (width >= 768px) {
   .form .form-field.checkbox-field,
   .form .form-field.radio-field {
     display: flex;
@@ -224,7 +224,7 @@
   color: var(--dark-color);
 }
 
-@media (width >= 600px) {
+@media (width >= 768px) {
   .form .button-wrapper {
     display: flex;
     flex-wrap: wrap;

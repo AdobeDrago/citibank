@@ -95,7 +95,7 @@
 }
 
 
-@media (width >= 900px) {
+@media (width >= 992px) {
   .cards > ul {
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
   }
@@ -200,7 +200,7 @@ body.credit-card-retail-pdp .cards .cards-card-body p {
   letter-spacing: normal;
 }
 
-@media (width >= 900px) {
+@media (width >= 992px) {
   body.credit-card-retail-pdp .cards > ul {
     grid-template-columns: repeat(3, 1fr);
   }

@@ -135,7 +135,7 @@
   left: calc(50% - 2px);
 }
 
-@media (width >= 600px) {
+@media (width >= 768px) {
   .carousel .carousel-navigation-buttons {
     left: 24px;
     right: 24px;
