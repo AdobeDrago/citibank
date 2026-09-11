@@ -1,669 +1,691 @@
 /* Hero block -- credit-cards PDP feature hero.
    Values extracted from source computed styles (www.citi.com double-cash PDP). */
 
-.hero {
-  /* Source content-column blues / greys */
-  --hero-cta-color: rgb(4 32 143);
-  --hero-heading-color: rgb(38 41 43);
-  --hero-body-color: rgb(58 62 64);
-  --hero-muted-color: rgb(94 103 107);
-  --hero-badge-color: rgb(19 132 109);
-}
-
-/* Full-bleed: escape the section's max-width + padding so the hero spans the
-   full page width like the source. The `.section.hero-container > .hero-wrapper`
-   selector (3 classes) is intentionally more specific than the credit-cards
-   template rule `body.credit-card-pdp main > .section > div` (2 classes, which
-   otherwise re-caps this wrapper at 1296px). */
-.hero-container {
-  margin: 0;
-}
-
-.section.hero-container > .hero-wrapper {
-  max-width: none;
-  margin: 0;
-  padding: 0;
-}
-
-.hero.block {
-  position: relative;
-  overflow: hidden;
-}
-
-/* --- Background lifestyle image (row 1) ---
-   Mobile: short banner strip stacked above the content (matches source). */
-.hero .hero-bg {
-  margin: 0;
-  line-height: 0;
-}
-
-.hero .hero-bg picture,
-.hero .hero-bg img {
-  display: block;
-  width: 100%;
-  height: 120px;
-  object-fit: cover;
-  object-position: 50% 50%;
-}
-
-/* --- Content column (row 2) --- */
-.hero .hero-content-row {
-  position: relative;
-  z-index: 1;
-  margin: 0;
-}
-
-.hero .hero-content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  box-sizing: border-box;
-  padding: 24px;
-}
-
-/* Card art + card-name label header */
-.hero .hero-head {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  margin: 0 0 16px;
-}
-
-.hero .hero-card-art {
-  flex: 0 0 auto;
-  margin: 0;
-}
-
-.hero .hero-card-art picture,
-.hero .hero-card-art img {
-  display: block;
-  width: 152px;
-  height: auto;
-}
-
-.hero .hero-title {
-  margin: 0;
-  color: var(--hero-heading-color);
-  font-family: var(--body-font-family);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16.8px;
-  letter-spacing: 1.5px;
-  text-transform: uppercase;
-}
-
-/* Eyebrow badge */
-.hero .hero-eyebrow {
-  display: inline-block;
-  margin: 0 0 12px;
-  border-radius: 4px;
-  padding: 4px 8px;
-  background-color: var(--hero-badge-color);
-  color: rgb(255 255 255);
-  font-family: var(--heading-font-family);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 16.8px;
-  letter-spacing: -0.14px;
-}
-
-/* Offer headline */
-.hero .hero-content h2 {
-  margin: 0 0 12px;
-  color: var(--hero-heading-color);
-  font-family: var(--heading-font-family);
-  font-size: 28px;
-  font-weight: 400;
-  line-height: 33.6px;
-  letter-spacing: -0.28px;
-}
-
-/* Supporting line */
-.hero .hero-supporting {
-  margin: 0 0 20px;
-  color: var(--hero-body-color);
-  font-family: var(--body-font-family);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 22px;
-}
-
-/* Stat pairs */
-.hero .hero-stats {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px 40px;
-  margin: 0 0 24px;
-}
-
-.hero .hero-stat {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  margin: 0;
-  color: var(--hero-body-color);
-  font-family: var(--body-font-family);
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 15.96px;
-}
-
-.hero .hero-stat .hero-stat-value {
-  color: var(--hero-heading-color);
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 26px;
-}
-
-.hero .hero-stat a {
-  font-size: 12px;
-  color: var(--hero-cta-color);
-  text-decoration: underline;
-  vertical-align: super;
-}
-
-/* Apply-now CTA */
-.hero .button-container {
-  margin: 0 0 24px;
-}
-
-.hero a.button.primary:any-link {
-  box-sizing: border-box;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 200px;
-  border: 1px solid var(--hero-cta-color);
-  border-radius: 8px;
-  padding: 16px 24px;
-  background-color: var(--hero-cta-color);
-  color: rgb(255 255 255);
-  font-family: var(--body-font-family);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 1.25;
-  text-align: center;
-  text-decoration: none;
-}
-
-.hero a.button.primary:hover,
-.hero a.button.primary:focus-visible {
-  background-color: rgb(2 20 90);
-  border-color: rgb(2 20 90);
-  color: rgb(255 255 255);
-}
-
-/* Legal disclaimer */
-.hero .hero-disclaimer {
-  margin: 0 0 16px;
-  color: var(--hero-muted-color);
-  font-family: var(--body-font-family);
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-}
-
-/* Footnote links */
-.hero .hero-footnotes {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 4px 24px;
-}
-
-.hero .hero-footnote {
-  margin: 0;
-}
-
-.hero .hero-footnote a:any-link {
-  color: var(--hero-cta-color);
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 16px;
-  text-decoration: underline;
-}
-
-/* --- Desktop: background image full-bleed behind an overlaid left column --- */
-@media (width >= 992px) {
-  .hero.block {
-    display: grid;
-    align-items: start;
-    min-height: 560px;
+   .hero {
+    /* Source content-column blues / greys */
+    --hero-cta-color: rgb(4 32 143);
+    --hero-heading-color: rgb(38 41 43);
+    --hero-body-color: rgb(58 62 64);
+    --hero-muted-color: rgb(94 103 107);
+    --hero-badge-color: rgb(19 132 109);
   }
-
+  
+  /* Full-bleed: escape the section's max-width + padding so the hero spans the
+     full page width like the source. The `.section.hero-container > .hero-wrapper`
+     selector (3 classes) is intentionally more specific than the credit-cards
+     template rule `body.credit-card-pdp main > .section > div` (2 classes, which
+     otherwise re-caps this wrapper at 1296px). */
+  .hero-container {
+    margin: 0;
+  }
+  
+  .section.hero-container > .hero-wrapper {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
+  
+  .hero.block {
+    position: relative;
+    overflow: hidden;
+  }
+  
+  /* --- Background lifestyle image (row 1) ---
+     Mobile: short banner strip stacked above the content (matches source). */
   .hero .hero-bg {
+    margin: 0;
+    line-height: 0;
+  }
+  
+  .hero .hero-bg picture,
+  .hero .hero-bg img {
+    display: block;
+    width: 100%;
+    height: 120px;
+    object-fit: cover;
+    object-position: 50% 50%;
+  }
+  
+  /* --- Content column (row 2) --- */
+  .hero .hero-content-row {
+    position: relative;
+    z-index: 1;
+    margin: 0;
+  }
+  
+  .hero .hero-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    box-sizing: border-box;
+    padding: 24px;
+  }
+  
+  /* Card art + card-name label header */
+  .hero .hero-head {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 16px;
+  }
+  
+  .hero .hero-card-art {
+    flex: 0 0 auto;
+    margin: 0;
+  }
+  
+  .hero .hero-card-art picture,
+  .hero .hero-card-art img {
+    display: block;
+    width: 152px;
+    height: auto;
+  }
+  
+  .hero .hero-title {
+    margin: 0;
+    color: var(--hero-heading-color);
+    font-family: var(--body-font-family);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16.8px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+  
+  /* Eyebrow badge */
+  .hero .hero-eyebrow {
+    display: inline-block;
+    margin: 0 0 12px;
+    border-radius: 4px;
+    padding: 4px 8px;
+    background-color: var(--hero-badge-color);
+    color: rgb(255 255 255);
+    font-family: var(--heading-font-family);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 16.8px;
+    letter-spacing: -0.14px;
+  }
+  
+  /* Offer headline */
+  .hero .hero-content h2 {
+    margin: 0 0 12px;
+    color: var(--hero-heading-color);
+    font-family: var(--heading-font-family);
+    font-size: 28px;
+    font-weight: 400;
+    line-height: 33.6px;
+    letter-spacing: -0.28px;
+  }
+  
+  /* Supporting line */
+  .hero .hero-supporting {
+    margin: 0 0 20px;
+    color: var(--hero-body-color);
+    font-family: var(--body-font-family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 22px;
+  }
+  
+  /* Stat pairs */
+  .hero .hero-stats {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px 40px;
+    margin: 0 0 24px;
+  }
+  
+  .hero .hero-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin: 0;
+    color: var(--hero-body-color);
+    font-family: var(--body-font-family);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 15.96px;
+  }
+  
+  .hero .hero-stat .hero-stat-value {
+    color: var(--hero-heading-color);
+    font-size: 20px;
+    font-weight: 700;
+    line-height: 26px;
+  }
+  
+  .hero .hero-stat a {
+    font-size: 12px;
+    color: var(--hero-cta-color);
+    text-decoration: underline;
+    vertical-align: super;
+  }
+  
+  /* Apply-now CTA */
+  .hero .button-container {
+    margin: 0 0 24px;
+  }
+  
+  .hero a.button.primary:any-link {
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 200px;
+    border: 1px solid var(--hero-cta-color);
+    border-radius: 8px;
+    padding: 16px 24px;
+    background-color: var(--hero-cta-color);
+    color: rgb(255 255 255);
+    font-family: var(--body-font-family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 1.25;
+    text-align: center;
+    text-decoration: none;
+  }
+  
+  .hero a.button.primary:hover,
+  .hero a.button.primary:focus-visible {
+    background-color: rgb(2 20 90);
+    border-color: rgb(2 20 90);
+    color: rgb(255 255 255);
+  }
+  
+  /* "over $X in value" value-callout links are modal triggers authored as
+     javascript:void(0) pseudo-links. When one is the first standalone <p><a> in
+     the hero cell, the decorator promotes it to a .button.primary — but the source
+     renders it as a small inline navy text link, not a solid CTA button. Strip the
+     button chrome for javascript: hrefs only, so genuine Apply-now CTAs (real
+     application URLs) on this and the 25 sibling PDPs keep their button styling. */
+  .hero .button-container a.button.primary[href^="javascript"] {
+    display: inline;
+    min-width: 0;
+    border: 0;
+    border-radius: 0;
+    padding: 0;
+    background: none;
+    color: var(--hero-cta-color);
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1.33;
+    text-align: left;
+    text-decoration: underline;
+  }
+  
+  /* Legal disclaimer */
+  .hero .hero-disclaimer {
+    margin: 0 0 16px;
+    color: var(--hero-muted-color);
+    font-family: var(--body-font-family);
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+  }
+  
+  /* Footnote links */
+  .hero .hero-footnotes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 24px;
+  }
+  
+  .hero .hero-footnote {
+    margin: 0;
+  }
+  
+  .hero .hero-footnote a:any-link {
+    color: var(--hero-cta-color);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 16px;
+    text-decoration: underline;
+  }
+  
+  /* --- Desktop: background image full-bleed behind an overlaid left column --- */
+  @media (width >= 900px) {
+    .hero.block {
+      display: grid;
+      align-items: start;
+      min-height: 560px;
+    }
+  
+    .hero .hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+      grid-area: 1 / 1;
+    }
+  
+    .hero .hero-bg picture,
+    .hero .hero-bg img {
+      height: 100%;
+    }
+  
+    .hero .hero-content-row {
+      grid-area: 1 / 1;
+      width: 100%;
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 56px 60px 96px;
+      box-sizing: border-box;
+    }
+  
+    .hero .hero-content {
+      width: 547px;
+      max-width: 100%;
+      padding: 24px 40px;
+      background-color: rgb(255 255 255 / 80%);
+    }
+  
+    .hero .hero-content h2 {
+      font-size: 36px;
+      line-height: 43.2px;
+      letter-spacing: -0.36px;
+    }
+  }
+  
+  /* ============================================================
+     Retail credit-card PDP hero variant (body.credit-card-retail-pdp).
+     The retail source has NO background lifestyle image: it is a plain white
+     two-column band (card art left, text right). These rules neutralise the
+     tds-* full-bleed/background-overlay/translucent-card treatment above and
+     are scoped to the retail template so tds-* PDP heroes are unaffected.
+     The retail decorator (hero.js) restructures the content into
+     .hero-media (card art) + .hero-body (eyebrow, H2, sign-on line, CTA).
+     ============================================================ */
+  body.credit-card-retail-pdp .hero.block {
+    display: block;
+    min-height: 0;
+    background: none;
+  }
+  
+  /* The single authored row picks up both hero-bg and hero-content-row; keep it
+     in normal flow (the desktop base rule absolutely-positions .hero-bg) and kill
+     the background-strip image sizing. */
+  body.credit-card-retail-pdp .hero .hero-bg {
+    position: static;
+    inset: auto;
+  }
+  
+  body.credit-card-retail-pdp .hero .hero-bg picture,
+  body.credit-card-retail-pdp .hero .hero-bg img {
+    width: auto;
+    height: auto;
+    object-fit: initial;
+  }
+  
+  body.credit-card-retail-pdp .hero .hero-content {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 32px 24px;
+    background: none;
+  }
+  
+  /* Card art (relative so the promo ribbon can overlay its top edge) */
+  body.credit-card-retail-pdp .hero .hero-media {
+    position: relative;
+    display: inline-block;
+    margin: 0;
+  }
+  
+  body.credit-card-retail-pdp .hero .hero-media .hero-card-art {
+    margin: 0;
+  }
+  
+  body.credit-card-retail-pdp .hero .hero-media picture,
+  body.credit-card-retail-pdp .hero .hero-media img {
+    display: block;
+    width: 100%;
+    max-width: 306px;
+    height: auto;
+  }
+  
+  /* Green "No annual fee" promo ribbon pinned across the top of the card art */
+  body.credit-card-retail-pdp .hero .hero-ribbon {
+    position: absolute;
+    top: 12px;
+    left: 0;
+    right: 0;
+    z-index: 1;
+    margin: 0 auto;
+    width: max-content;
+    max-width: calc(100% - 24px);
+    border-radius: 4px;
+    padding: 6px 24px;
+    background-color: var(--hero-badge-color);
+    color: rgb(255 255 255);
+    font-family: var(--heading-font-family);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.2;
+    text-align: center;
+  }
+  
+  body.credit-card-retail-pdp .hero .hero-ribbon a:any-link {
+    color: rgb(255 255 255);
+    text-decoration: none;
+    vertical-align: super;
+    font-size: 0.75em;
+  }
+  
+  /* Text column */
+  body.credit-card-retail-pdp .hero .hero-body {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  /* Card-name eyebrow (the H1 label) */
+  body.credit-card-retail-pdp .hero .hero-body .hero-title {
+    order: 1;
+    margin: 0 0 12px;
+    color: var(--hero-muted-color);
+    font-size: 14px;
+    font-weight: 700;
+    line-height: 1.2;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  
+  /* Offer headline */
+  body.credit-card-retail-pdp .hero .hero-content h2 {
+    order: 2;
+    margin: 0 0 12px;
+    color: var(--hero-cta-color);
+    font-weight: 700;
+    font-size: 26px;
+    line-height: 1.2;
+    letter-spacing: -0.28px;
+  }
+  
+  /* "Already have a card? Sign On ..." line (grouped as a footnote by hero.js) */
+  body.credit-card-retail-pdp .hero .hero-footnotes {
+    order: 3;
+    display: block;
+    margin: 0 0 20px;
+    color: var(--hero-body-color);
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  
+  body.credit-card-retail-pdp .hero .hero-footnote {
+    margin: 0;
+    font-size: 16px;
+  }
+  
+  body.credit-card-retail-pdp .hero .hero-footnote a:any-link {
+    color: var(--hero-cta-color);
+    font-weight: 400;
+    text-decoration: underline;
+  }
+  
+  /* Apply Now CTA */
+  body.credit-card-retail-pdp .hero .button-container {
+    order: 4;
+    margin: 0;
+  }
+  
+  body.credit-card-retail-pdp .hero a.button.primary:any-link {
+    min-width: 220px;
+    border-radius: 4px;
+    padding: 14px 48px;
+    font-weight: 700;
+  }
+  
+  /* "Important Pricing & Terms Information +" link, directly under the CTA */
+  body.credit-card-retail-pdp .hero .hero-pricing-link {
+    order: 5;
+    margin: 16px 0 0;
+  }
+  
+  body.credit-card-retail-pdp .hero .hero-pricing-link a:any-link {
+    color: var(--hero-cta-color);
+    font-size: 14px;
+    font-weight: 700;
+    text-decoration: none;
+  }
+  
+  body.credit-card-retail-pdp .hero .hero-pricing-link a:hover,
+  body.credit-card-retail-pdp .hero .hero-pricing-link a:focus-visible {
+    text-decoration: underline;
+  }
+  
+  @media (width >= 900px) {
+    body.credit-card-retail-pdp .hero .hero-content {
+      flex-direction: row;
+      align-items: flex-start;
+      gap: 48px;
+      padding: 48px 32px;
+    }
+  
+    body.credit-card-retail-pdp .hero .hero-media {
+      flex: 0 0 auto;
+    }
+  
+    body.credit-card-retail-pdp .hero .hero-media picture,
+    body.credit-card-retail-pdp .hero .hero-media img {
+      width: 306px;
+      max-width: none;
+    }
+  
+    body.credit-card-retail-pdp .hero .hero-body {
+      flex: 1 1 auto;
+    }
+  
+    body.credit-card-retail-pdp .hero .hero-content h2 {
+      font-size: 36px;
+      letter-spacing: -0.36px;
+    }
+  }
+  
+  /* ============================================================
+     Credit-cards EXPLORE promo hero (body.credit-card-explore).
+     The source banner ROTATES per session between two variants, tagged by section
+     Style at import time:
+       • .explore-hero-offer — a single-card promo over a PALE lifestyle image:
+         card art + card-name eyebrow + offer headline + navy Apply Now + Card
+         details link. DARK text (source uses `.text-black`).
+       • .explore-hero-brand — a product-family banner over a DARK image: big WHITE
+         title + tagline + fanned-cards image + white "Learn More" button.
+     Shared full-bleed background + neutralised PDP content-card treatment below;
+     colours/layout diverge per variant. Scoped to the explore template so PDP
+     heroes are untouched.
+     ============================================================ */
+  body.credit-card-explore .hero.block {
+    position: relative;
+    min-height: 0;
+    overflow: hidden;
+  }
+  
+  body.credit-card-explore .hero .hero-bg {
     position: absolute;
     inset: 0;
     z-index: 0;
-    grid-area: 1 / 1;
+    margin: 0;
   }
-
-  .hero .hero-bg picture,
-  .hero .hero-bg img {
-    height: 100%;
-  }
-
-  .hero .hero-content-row {
-    grid-area: 1 / 1;
+  
+  body.credit-card-explore .hero .hero-bg picture,
+  body.credit-card-explore .hero .hero-bg img {
     width: 100%;
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 56px 60px 96px;
-    box-sizing: border-box;
+    height: 100%;
+    object-fit: cover;
+    object-position: 100% 50%;
   }
-
-  .hero .hero-content {
-    width: 547px;
-    max-width: 100%;
-    padding: 24px 40px;
-    background-color: rgb(255 255 255 / 80%);
-  }
-
-  .hero .hero-content h2 {
-    font-size: 36px;
-    line-height: 43.2px;
-    letter-spacing: -0.36px;
-  }
-}
-
-/* ============================================================
-   Retail credit-card PDP hero variant (body.credit-card-retail-pdp).
-   The retail source has NO background lifestyle image: it is a plain white
-   two-column band (card art left, text right). These rules neutralise the
-   tds-* full-bleed/background-overlay/translucent-card treatment above and
-   are scoped to the retail template so tds-* PDP heroes are unaffected.
-   The retail decorator (hero.js) restructures the content into
-   .hero-media (card art) + .hero-body (eyebrow, H2, sign-on line, CTA).
-   ============================================================ */
-body.credit-card-retail-pdp .hero.block {
-  display: block;
-  min-height: 0;
-  background: none;
-}
-
-/* The single authored row picks up both hero-bg and hero-content-row; keep it
-   in normal flow (the desktop base rule absolutely-positions .hero-bg) and kill
-   the background-strip image sizing. */
-body.credit-card-retail-pdp .hero .hero-bg {
-  position: static;
-  inset: auto;
-}
-
-body.credit-card-retail-pdp .hero .hero-bg picture,
-body.credit-card-retail-pdp .hero .hero-bg img {
-  width: auto;
-  height: auto;
-  object-fit: initial;
-}
-
-body.credit-card-retail-pdp .hero .hero-content {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 32px 24px;
-  background: none;
-}
-
-/* Card art (relative so the promo ribbon can overlay its top edge) */
-body.credit-card-retail-pdp .hero .hero-media {
-  position: relative;
-  display: inline-block;
-  margin: 0;
-}
-
-body.credit-card-retail-pdp .hero .hero-media .hero-card-art {
-  margin: 0;
-}
-
-body.credit-card-retail-pdp .hero .hero-media picture,
-body.credit-card-retail-pdp .hero .hero-media img {
-  display: block;
-  width: 100%;
-  max-width: 306px;
-  height: auto;
-}
-
-/* Green "No annual fee" promo ribbon pinned across the top of the card art */
-body.credit-card-retail-pdp .hero .hero-ribbon {
-  position: absolute;
-  top: 12px;
-  left: 0;
-  right: 0;
-  z-index: 1;
-  margin: 0 auto;
-  width: max-content;
-  max-width: calc(100% - 24px);
-  border-radius: 4px;
-  padding: 6px 24px;
-  background-color: var(--hero-badge-color);
-  color: rgb(255 255 255);
-  font-family: var(--heading-font-family);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.2;
-  text-align: center;
-}
-
-body.credit-card-retail-pdp .hero .hero-ribbon a:any-link {
-  color: rgb(255 255 255);
-  text-decoration: none;
-  vertical-align: super;
-  font-size: 0.75em;
-}
-
-/* Text column */
-body.credit-card-retail-pdp .hero .hero-body {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-}
-
-/* Card-name eyebrow (the H1 label) */
-body.credit-card-retail-pdp .hero .hero-body .hero-title {
-  order: 1;
-  margin: 0 0 12px;
-  color: var(--hero-muted-color);
-  font-size: 14px;
-  font-weight: 700;
-  line-height: 1.2;
-  letter-spacing: 1px;
-  text-transform: uppercase;
-}
-
-/* Offer headline */
-body.credit-card-retail-pdp .hero .hero-content h2 {
-  order: 2;
-  margin: 0 0 12px;
-  color: var(--hero-cta-color);
-  font-weight: 700;
-  font-size: 26px;
-  line-height: 1.2;
-  letter-spacing: -0.28px;
-}
-
-/* "Already have a card? Sign On ..." line (grouped as a footnote by hero.js) */
-body.credit-card-retail-pdp .hero .hero-footnotes {
-  order: 3;
-  display: block;
-  margin: 0 0 20px;
-  color: var(--hero-body-color);
-  font-size: 16px;
-  line-height: 1.4;
-}
-
-body.credit-card-retail-pdp .hero .hero-footnote {
-  margin: 0;
-  font-size: 16px;
-}
-
-body.credit-card-retail-pdp .hero .hero-footnote a:any-link {
-  color: var(--hero-cta-color);
-  font-weight: 400;
-  text-decoration: underline;
-}
-
-/* Apply Now CTA */
-body.credit-card-retail-pdp .hero .button-container {
-  order: 4;
-  margin: 0;
-}
-
-body.credit-card-retail-pdp .hero a.button.primary:any-link {
-  min-width: 220px;
-  border-radius: 4px;
-  padding: 14px 48px;
-  font-weight: 700;
-}
-
-/* "Important Pricing & Terms Information +" link, directly under the CTA */
-body.credit-card-retail-pdp .hero .hero-pricing-link {
-  order: 5;
-  margin: 16px 0 0;
-}
-
-body.credit-card-retail-pdp .hero .hero-pricing-link a:any-link {
-  color: var(--hero-cta-color);
-  font-size: 14px;
-  font-weight: 700;
-  text-decoration: none;
-}
-
-body.credit-card-retail-pdp .hero .hero-pricing-link a:hover,
-body.credit-card-retail-pdp .hero .hero-pricing-link a:focus-visible {
-  text-decoration: underline;
-}
-
-@media (width >= 992px) {
-  body.credit-card-retail-pdp .hero .hero-content {
-    flex-direction: row;
-    align-items: flex-start;
-    gap: 48px;
-    padding: 48px 32px;
-  }
-
-  body.credit-card-retail-pdp .hero .hero-media {
-    flex: 0 0 auto;
-  }
-
-  body.credit-card-retail-pdp .hero .hero-media picture,
-  body.credit-card-retail-pdp .hero .hero-media img {
-    width: 306px;
-    max-width: none;
-  }
-
-  body.credit-card-retail-pdp .hero .hero-body {
-    flex: 1 1 auto;
-  }
-
-  body.credit-card-retail-pdp .hero .hero-content h2 {
-    font-size: 36px;
-    letter-spacing: -0.36px;
-  }
-}
-
-/* ============================================================
-   Credit-cards EXPLORE promo hero (body.credit-card-explore).
-   The source banner ROTATES per session between two variants, tagged by section
-   Style at import time:
-     • .explore-hero-offer — a single-card promo over a PALE lifestyle image:
-       card art + card-name eyebrow + offer headline + navy Apply Now + Card
-       details link. DARK text (source uses `.text-black`).
-     • .explore-hero-brand — a product-family banner over a DARK image: big WHITE
-       title + tagline + fanned-cards image + white "Learn More" button.
-   Shared full-bleed background + neutralised PDP content-card treatment below;
-   colours/layout diverge per variant. Scoped to the explore template so PDP
-   heroes are untouched.
-   ============================================================ */
-body.credit-card-explore .hero.block {
-  position: relative;
-  min-height: 0;
-  overflow: hidden;
-}
-
-body.credit-card-explore .hero .hero-bg {
-  position: absolute;
-  inset: 0;
-  z-index: 0;
-  margin: 0;
-}
-
-body.credit-card-explore .hero .hero-bg picture,
-body.credit-card-explore .hero .hero-bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 100% 50%;
-}
-
-body.credit-card-explore .hero .hero-content-row {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0;
-}
-
-body.credit-card-explore .hero .hero-content {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  width: 100%;
-  max-width: 100%;
-  padding: 32px 24px;
-  background: none;
-}
-
-body.credit-card-explore .hero .hero-head { margin: 0 0 12px; }
-
-body.credit-card-explore .hero .hero-content sup {
-  font-size: 0.7em;
-  vertical-align: super;
-  line-height: 0;
-}
-
-/* Neutralise the PDP eyebrow badge (green pill) — it's a plain text line here. */
-body.credit-card-explore .hero .hero-eyebrow {
-  margin: 0 0 8px;
-  padding: 0;
-  border-radius: 0;
-  background: none;
-  font-family: var(--body-font-family);
-  font-size: 14px;
-  font-weight: 400;
-  letter-spacing: normal;
-  text-transform: none;
-}
-
-body.credit-card-explore .hero .hero-content h2 {
-  margin: 0 0 16px;
-  max-width: 30ch;
-  font-family: var(--heading-font-family);
-  font-weight: 400;
-  line-height: 1.2;
-  letter-spacing: normal;
-}
-
-body.credit-card-explore .hero .hero-supporting {
-  max-width: 42ch;
-  margin: 0 0 20px;
-  font-size: 16px;
-  line-height: 1.4;
-}
-
-body.credit-card-explore .hero .button-container { margin: 0 0 12px; }
-
-body.credit-card-explore .hero a.button.primary:any-link {
-  min-width: 0;
-  border-radius: 8px;
-  padding: 12px 40px;
-  font-size: 16px;
-  font-weight: 400;
-}
-
-body.credit-card-explore .hero .hero-footnotes { gap: 0; }
-
-body.credit-card-explore .hero .hero-footnote a:any-link {
-  font-size: 14px;
-  font-weight: 400;
-  text-decoration: none;
-}
-
-body.credit-card-explore .hero .hero-footnote a:hover { text-decoration: underline; }
-
-/* ---- OFFER variant: dark text on the pale lifestyle image ---- */
-body.credit-card-explore .explore-hero-offer .hero .hero-card-art picture,
-body.credit-card-explore .explore-hero-offer .hero .hero-card-art img {
-  width: 111px;
-}
-
-body.credit-card-explore .explore-hero-offer .hero .hero-eyebrow { color: rgb(58 62 64); }
-body.credit-card-explore .explore-hero-offer .hero .hero-content h2 { color: rgb(26 28 30); }
-body.credit-card-explore .explore-hero-offer .hero .hero-supporting { color: rgb(58 62 64); }
-
-/* Apply Now — solid navy button; Card details — navy text link. */
-body.credit-card-explore .explore-hero-offer .hero a.button.primary:any-link {
-  border: 0;
-  background-color: rgb(4 32 143);
-  color: #fff;
-}
-
-body.credit-card-explore .explore-hero-offer .hero .hero-footnote a:any-link {
-  color: rgb(4 32 143);
-}
-
-/* ---- BRAND variant: white text on the dark image, fanned art to the right ---- */
-body.credit-card-explore .explore-hero-brand .hero.block { background: #333; }
-
-body.credit-card-explore .explore-hero-brand .hero .hero-content h2 {
-  max-width: 18ch;
-  color: #fff;
-  font-size: 32px;
-}
-
-body.credit-card-explore .explore-hero-brand .hero .hero-supporting { color: #fff; }
-
-/* "Learn More" — white button with navy label (source treatment). */
-body.credit-card-explore .explore-hero-brand .hero a.button.primary:any-link {
-  border: 1px solid #fff;
-  background-color: #fff;
-  color: rgb(4 32 143);
-  padding: 12px 24px;
-}
-
-/* The fanned product-cards image (card-art) sits to the right on desktop. */
-body.credit-card-explore .explore-hero-brand .hero .hero-card-art { margin: 0; }
-
-body.credit-card-explore .explore-hero-brand .hero .hero-card-art picture,
-body.credit-card-explore .explore-hero-brand .hero .hero-card-art img {
-  width: 100%;
-  max-width: 306px;
-}
-
-@media (width >= 992px) {
-  body.credit-card-explore .hero.block {
-    display: block;
-    min-height: 340px;
-  }
-
+  
   body.credit-card-explore .hero .hero-content-row {
-    padding: 0 72px;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0;
   }
-
+  
   body.credit-card-explore .hero .hero-content {
-    padding: 56px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    max-width: 100%;
+    padding: 32px 24px;
+    background: none;
   }
-
+  
+  body.credit-card-explore .hero .hero-head { margin: 0 0 12px; }
+  
+  body.credit-card-explore .hero .hero-content sup {
+    font-size: 0.7em;
+    vertical-align: super;
+    line-height: 0;
+  }
+  
+  /* Neutralise the PDP eyebrow badge (green pill) — it's a plain text line here. */
+  body.credit-card-explore .hero .hero-eyebrow {
+    margin: 0 0 8px;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+    font-family: var(--body-font-family);
+    font-size: 14px;
+    font-weight: 400;
+    letter-spacing: normal;
+    text-transform: none;
+  }
+  
+  body.credit-card-explore .hero .hero-content h2 {
+    margin: 0 0 16px;
+    max-width: 30ch;
+    font-family: var(--heading-font-family);
+    font-weight: 400;
+    line-height: 1.2;
+    letter-spacing: normal;
+  }
+  
+  body.credit-card-explore .hero .hero-supporting {
+    max-width: 42ch;
+    margin: 0 0 20px;
+    font-size: 16px;
+    line-height: 1.4;
+  }
+  
+  body.credit-card-explore .hero .button-container { margin: 0 0 12px; }
+  
+  body.credit-card-explore .hero a.button.primary:any-link {
+    min-width: 0;
+    border-radius: 8px;
+    padding: 12px 40px;
+    font-size: 16px;
+    font-weight: 400;
+  }
+  
+  body.credit-card-explore .hero .hero-footnotes { gap: 0; }
+  
+  body.credit-card-explore .hero .hero-footnote a:any-link {
+    font-size: 14px;
+    font-weight: 400;
+    text-decoration: none;
+  }
+  
+  body.credit-card-explore .hero .hero-footnote a:hover { text-decoration: underline; }
+  
+  /* ---- OFFER variant: dark text on the pale lifestyle image ---- */
   body.credit-card-explore .explore-hero-offer .hero .hero-card-art picture,
   body.credit-card-explore .explore-hero-offer .hero .hero-card-art img {
-    width: 130px;
+    width: 111px;
   }
-
-  body.credit-card-explore .explore-hero-offer .hero .hero-content h2 {
-    font-size: 34px;
+  
+  body.credit-card-explore .explore-hero-offer .hero .hero-eyebrow { color: rgb(58 62 64); }
+  body.credit-card-explore .explore-hero-offer .hero .hero-content h2 { color: rgb(26 28 30); }
+  body.credit-card-explore .explore-hero-offer .hero .hero-supporting { color: rgb(58 62 64); }
+  
+  /* Apply Now — solid navy button; Card details — navy text link. */
+  body.credit-card-explore .explore-hero-offer .hero a.button.primary:any-link {
+    border: 0;
+    background-color: rgb(4 32 143);
+    color: #fff;
   }
-
-  /* Brand: title/tagline/CTA on the left, fanned cards image anchored right. */
-  body.credit-card-explore .explore-hero-brand .hero .hero-content {
-    min-height: 240px;
-    padding-right: 340px;
+  
+  body.credit-card-explore .explore-hero-offer .hero .hero-footnote a:any-link {
+    color: rgb(4 32 143);
   }
-
+  
+  /* ---- BRAND variant: white text on the dark image, fanned art to the right ---- */
+  body.credit-card-explore .explore-hero-brand .hero.block { background: #333; }
+  
   body.credit-card-explore .explore-hero-brand .hero .hero-content h2 {
-    font-size: 48px;
+    max-width: 18ch;
+    color: #fff;
+    font-size: 32px;
   }
-
-  body.credit-card-explore .explore-hero-brand .hero .hero-card-art {
-    position: absolute;
-    top: 50%;
-    right: 0;
-    transform: translateY(-50%);
+  
+  body.credit-card-explore .explore-hero-brand .hero .hero-supporting { color: #fff; }
+  
+  /* "Learn More" — white button with navy label (source treatment). */
+  body.credit-card-explore .explore-hero-brand .hero a.button.primary:any-link {
+    border: 1px solid #fff;
+    background-color: #fff;
+    color: rgb(4 32 143);
+    padding: 12px 24px;
   }
-
+  
+  /* The fanned product-cards image (card-art) sits to the right on desktop. */
+  body.credit-card-explore .explore-hero-brand .hero .hero-card-art { margin: 0; }
+  
   body.credit-card-explore .explore-hero-brand .hero .hero-card-art picture,
   body.credit-card-explore .explore-hero-brand .hero .hero-card-art img {
-    max-width: 340px;
+    width: 100%;
+    max-width: 306px;
   }
-}
+  
+  @media (width >= 900px) {
+    body.credit-card-explore .hero.block {
+      display: block;
+      min-height: 340px;
+    }
+  
+    body.credit-card-explore .hero .hero-content-row {
+      padding: 0 72px;
+    }
+  
+    body.credit-card-explore .hero .hero-content {
+      padding: 56px 0;
+    }
+  
+    body.credit-card-explore .explore-hero-offer .hero .hero-card-art picture,
+    body.credit-card-explore .explore-hero-offer .hero .hero-card-art img {
+      width: 130px;
+    }
+  
+    body.credit-card-explore .explore-hero-offer .hero .hero-content h2 {
+      font-size: 34px;
+    }
+  
+    /* Brand: title/tagline/CTA on the left, fanned cards image anchored right. */
+    body.credit-card-explore .explore-hero-brand .hero .hero-content {
+      min-height: 240px;
+      padding-right: 340px;
+    }
+  
+    body.credit-card-explore .explore-hero-brand .hero .hero-content h2 {
+      font-size: 48px;
+    }
+  
+    body.credit-card-explore .explore-hero-brand .hero .hero-card-art {
+      position: absolute;
+      top: 50%;
+      right: 0;
+      transform: translateY(-50%);
+    }
+  
+    body.credit-card-explore .explore-hero-brand .hero .hero-card-art picture,
+    body.credit-card-explore .explore-hero-brand .hero .hero-card-art img {
+      max-width: 340px;
+    }
+  }
+  
