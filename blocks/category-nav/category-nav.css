@@ -70,7 +70,7 @@ a.category-nav-link:focus-visible {
   line-height: 18px;
 }
 
-@media (width >= 900px) {
+@media (width >= 992px) {
   .category-nav .category-nav-list {
     flex-wrap: nowrap;
     justify-content: space-between;

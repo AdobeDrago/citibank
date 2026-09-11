@@ -223,7 +223,7 @@
 }
 
 /* --- Desktop: background image full-bleed behind an overlaid left column --- */
-@media (width >= 900px) {
+@media (width >= 992px) {
   .hero.block {
     display: grid;
     align-items: start;
@@ -435,7 +435,7 @@ body.credit-card-retail-pdp .hero .hero-pricing-link a:focus-visible {
   text-decoration: underline;
 }
 
-@media (width >= 900px) {
+@media (width >= 992px) {
   body.credit-card-retail-pdp .hero .hero-content {
     flex-direction: row;
     align-items: flex-start;
@@ -622,7 +622,7 @@ body.credit-card-explore .explore-hero-brand .hero .hero-card-art img {
   max-width: 306px;
 }
 
-@media (width >= 900px) {
+@media (width >= 992px) {
   body.credit-card-explore .hero.block {
     display: block;
     min-height: 340px;

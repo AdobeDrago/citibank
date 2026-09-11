@@ -164,7 +164,7 @@ footer .footer-logo-duplicate { display: none; }
 footer .footer-nav a:hover { text-decoration: underline; }
 
 /* ---------- Tablet (>= 600px) ---------- */
-@media (width >= 600px) {
+@media (width >= 768px) {
   /* columns stay stacked accordions until desktop (matches source < 900px) */
   footer .footer-social {
     flex-direction: row;
@@ -174,7 +174,7 @@ footer .footer-nav a:hover { text-decoration: underline; }
 }
 
 /* ---------- Desktop (>= 900px) ---------- */
-@media (width >= 900px) {
+@media (width >= 992px) {
   footer .footer-inner { padding: 48px 96px 40px; }
 
   footer .footer-columns {
@@ -360,7 +360,7 @@ footer .footer-cbol-disclosures td {
 footer .footer-cbol-disclosures th { font-weight: 700; }
 
 /* Desktop: logo + legal links share the top row, social to the right. */
-@media (width >= 900px) {
+@media (width >= 992px) {
   footer .footer-cbol-inner {
     display: grid;
     grid-template-columns: auto 1fr auto;

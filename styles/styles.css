@@ -79,7 +79,7 @@
   src: local('Georgia'), local('Times New Roman');
 }
 
-@media (width >= 900px) {
+@media (width >= 992px) {
   :root {
     /* body sizes */
     --body-font-size-m: 18px;
@@ -366,7 +366,7 @@ main > .section:first-of-type {
   margin-top: 0;
 }
 
-@media (width >= 900px) {
+@media (width >= 992px) {
   main > .section > div {
     padding: 0 32px;
   }
@@ -581,7 +581,7 @@ body.credit-card-explore main > .section.explore-category-tabs li:first-child a 
 }
 
 /* Mobile: the source collapses the bar into a horizontally scrollable row. */
-@media (width < 900px) {
+@media (width < 992px) {
   body.credit-card-explore main > .section.explore-category-tabs ul {
     flex-wrap: nowrap;
     overflow-x: auto;
@@ -1229,7 +1229,7 @@ body.citigold-landing main .landing-terms table td {
 }
 
 /* ---------- Tablet / desktop grids ---------- */
-@media (width >= 900px) {
+@media (width >= 992px) {
   body.citigold-landing main .landing-offer-cards .cards > ul {
     grid-template-columns: repeat(3, 1fr);
   }

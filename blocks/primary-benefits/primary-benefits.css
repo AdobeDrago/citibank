@@ -136,7 +136,7 @@
   text-decoration: underline;
 }
 
-@media (width >= 600px) {
+@media (width >= 768px) {
   .primary-benefits .primary-benefits-list {
     flex-direction: row;
     gap: 24px;

@@ -4,7 +4,7 @@
   max-width: 900px;
 }
 
-@media (width >= 900px) {
+@media (width >= 992px) {
   .quote blockquote {
     padding: 0 32px;
   }

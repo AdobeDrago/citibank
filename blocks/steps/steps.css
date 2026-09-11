@@ -53,7 +53,7 @@
   color: var(--dark-color);
 }
 
-@media (width >= 900px) {
+@media (width >= 992px) {
   .steps .steps-list {
     flex-direction: row;
     gap: 32px;

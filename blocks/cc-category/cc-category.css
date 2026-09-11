@@ -229,7 +229,7 @@
    Desktop: rows of card tiles.
    Base variant = 3 across; featured variant = 3 wider cards with a description.
    ============================================================ */
-@media (width >= 900px) {
+@media (width >= 992px) {
   .cc-category.featured .cc-category-header h1 { font-size: 46px; }
 
   .cc-category ul {

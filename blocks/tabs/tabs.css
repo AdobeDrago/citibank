@@ -6,13 +6,13 @@
   overflow-x: auto;
 }
 
-@media (width >= 600px) {
+@media (width >= 768px) {
   .tabs .tabs-list {
     font-size: var(--body-font-size-s);
   }
 }
 
-@media (width >= 900px) {
+@media (width >= 992px) {
   .tabs .tabs-list {
     font-size: var(--body-font-size-m);
   }
@@ -163,7 +163,7 @@ body.credit-card-retail-pdp .tabs .tabs-panel p {
 }
 
 /* content laid out in two columns on desktop (matches source) */
-@media (width >= 900px) {
+@media (width >= 992px) {
   body.credit-card-retail-pdp .tabs .tabs-panel {
     column-count: 2;
     column-gap: 64px;
