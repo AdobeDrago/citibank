@@ -2,11 +2,12 @@ const STORAGE_KEY = 'citi-zip';
 const DEFAULT_ZIP = '10022';
 const EVENT_NAME = 'bta:updated';
 
-/** Same path shape as banking.citi.com/api/zipcode/CBOL/{zip}; EDS needs .json. */
-const zipLookupUrl = (zip) => `/api/zipcode/CBOL/${zip}.json`;
+/** Authored DA workbook (same pattern as /credit-cards/offerpricingpositioning.json). */
+export const BTA_SHEET_PATH = '/cbol/zipcode-bta.json';
 
 let lastApplied = '';
 let inFlight;
+let indexPromise;
 
 /**
  * @param {unknown} value
@@ -40,8 +41,74 @@ export function getBta() {
 }
 
 /**
- * Looks up a ZIP against the mock Citi ZIP API. Unknown ZIPs still display
- * and are OUT. Live Citi uses GET /api/zipcode/CBOL/{zip} (no .json).
+ * @param {object} row
+ * @param {string[]} names
+ * @returns {unknown}
+ */
+function cell(row, names) {
+  if (!row || typeof row !== 'object') return '';
+  const wanted = new Set(names.map((name) => name.toLowerCase().replace(/\s+/g, '')));
+  const key = Object.keys(row).find((name) => wanted.has(name.toLowerCase().replace(/\s+/g, '')));
+  return key ? row[key] : '';
+}
+
+/**
+ * @param {object} json
+ * @returns {object[]}
+ */
+function sheetRows(json) {
+  if (!json || typeof json !== 'object') return [];
+  if (Array.isArray(json.data)) return json.data;
+  const isMulti = json[':type'] === 'multi-sheet' || Array.isArray(json[':names']);
+  if (!isMulti) return [];
+  const names = Array.isArray(json[':names'])
+    ? json[':names']
+    : Object.keys(json).filter((key) => !key.startsWith(':'));
+  const wanted = names.find((name) => String(name).toLowerCase() === 'data') || names[0];
+  const sheet = wanted ? json[wanted] : null;
+  return Array.isArray(sheet?.data) ? sheet.data : [];
+}
+
+/**
+ * @param {object[]} rows
+ * @returns {Map<string, { zip: string, outOfBTA: string, governingState: string }>}
+ */
+function rowsToIndex(rows) {
+  const index = new Map();
+  rows.forEach((row) => {
+    if (!row || typeof row !== 'object') return;
+    const zip = normalizeZip(cell(row, ['zip', 'zipcode', 'zip code']));
+    if (zip.length !== 5 || index.has(zip)) return;
+    const outOfBTA = String(cell(row, ['outOfBTA', 'outofbta', 'out of bta'])).trim().toUpperCase() === 'IN'
+      ? 'IN'
+      : 'OUT';
+    index.set(zip, {
+      zip,
+      outOfBTA,
+      governingState: String(cell(row, ['governingState', 'governing state'])).trim(),
+    });
+  });
+  return index;
+}
+
+/**
+ * Loads the DA ZIP sheet once per page.
+ * @returns {Promise<Map<string, { zip: string, outOfBTA: string, governingState: string }>>}
+ */
+async function loadIndex() {
+  if (!indexPromise) {
+    indexPromise = fetch(BTA_SHEET_PATH)
+      .then(async (resp) => {
+        if (!resp.ok) return new Map();
+        return rowsToIndex(sheetRows(await resp.json()));
+      })
+      .catch(() => new Map());
+  }
+  return indexPromise;
+}
+
+/**
+ * Looks up a ZIP in the authored DA sheet. Unknown ZIPs still display and are OUT.
  * @param {unknown} zip
  * @returns {Promise<{ zip: string, outOfBTA: string, governingState: string }>}
  */
@@ -49,20 +116,8 @@ export async function lookupZip(zip) {
   const normalized = normalizeZip(zip);
   const fallback = { zip: normalized, outOfBTA: 'OUT', governingState: '' };
   if (normalized.length !== 5) return fallback;
-
-  try {
-    const resp = await fetch(zipLookupUrl(normalized));
-    if (!resp.ok) return fallback;
-    const data = await resp.json();
-    if (!data || data.status !== 'success') return fallback;
-    return {
-      zip: normalizeZip(data.zip) || normalized,
-      outOfBTA: data.outOfBTA === 'IN' ? 'IN' : 'OUT',
-      governingState: String(data.governingState || ''),
-    };
-  } catch {
-    return fallback;
-  }
+  const match = (await loadIndex()).get(normalized);
+  return match || fallback;
 }
 
 /**
