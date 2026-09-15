@@ -1,0 +1,17 @@
+.deposit-account table {
+  border-collapse: collapse;
+  margin: 12px 0;
+}
+
+.deposit-account table th,
+.deposit-account table td {
+  padding: 8px 16px;
+  border: 1px solid currentcolor;
+  text-align: left;
+  font-weight: 400;
+}
+
+.deposit-account table thead th,
+.deposit-account table tbody th {
+  font-weight: 700;
+}

@@ -1,0 +1,97 @@
+.zip-banner {
+  background: var(--citi-pale-blue-bg);
+  color: var(--citi-blue);
+  text-align: center;
+  padding: 8px 16px 40px;
+}
+
+.zip-banner .zip-banner-heading {
+  margin: 0 auto;
+  max-width: 720px;
+  padding-top: 20px;
+  border-top: 3px solid var(--citi-blue);
+  color: var(--citi-blue);
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.zip-banner .zip-banner-zip {
+  margin: 16px 0 8px;
+  color: var(--citi-blue);
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.zip-banner .zip-banner-change {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--citi-blue);
+  font: inherit;
+  font-weight: 600;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.zip-banner .zip-banner-change:hover,
+.zip-banner .zip-banner-change:focus-visible {
+  color: var(--citi-navy);
+}
+
+.zip-banner .zip-banner-form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-end;
+  gap: 12px;
+  margin-top: 16px;
+}
+
+.zip-banner .zip-banner-form[hidden] {
+  display: none;
+}
+
+.zip-banner .zip-banner-label {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  text-align: left;
+}
+
+.zip-banner .zip-banner-label-text {
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.zip-banner .zip-banner-input {
+  width: 8ch;
+  padding: 8px 10px;
+  border: 1px solid var(--citi-blue);
+  border-radius: 4px;
+  color: var(--citi-navy);
+  font: inherit;
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.zip-banner .zip-banner-apply {
+  padding: 8px 20px;
+  border: 0;
+  border-radius: var(--citi-button-radius);
+  background: var(--citi-blue);
+  color: #fff;
+  font: inherit;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.zip-banner .zip-banner-apply:hover,
+.zip-banner .zip-banner-apply:focus-visible {
+  background: var(--citi-navy);
+}
