@@ -5,18 +5,22 @@ function authoredText(el) {
 }
 
 export default async function decorate(block) {
-  const headingEl = block.querySelector('h1, h2, h3, h4, p');
-  const headingText = authoredText(headingEl)
-    || 'Products & pricing are based on your home address';
+  // The heading is optional: on the Citigold band the authored heading stays in
+  // the section so it keeps the band's typography, and the block contributes
+  // only the ZIP and the change control.
+  const headingEl = block.querySelector('h1, h2, h3, h4');
+  const headingText = authoredText(headingEl);
   const changeEl = [...block.querySelectorAll('a, p')].reverse()
     .find((el) => /change zip/i.test(authoredText(el)));
   const changeText = authoredText(changeEl?.querySelector('a') || changeEl)
     || 'Change ZIP Code';
 
-  const headingTag = /^H[1-6]$/.test(headingEl?.tagName) ? headingEl.tagName : 'H2';
-  const heading = document.createElement(headingTag);
-  heading.className = 'zip-banner-heading';
-  heading.textContent = headingText;
+  let heading;
+  if (headingText) {
+    heading = document.createElement(headingEl.tagName);
+    heading.className = 'zip-banner-heading';
+    heading.textContent = headingText;
+  }
 
   const zipEl = document.createElement('p');
   zipEl.className = 'zip-banner-zip';
@@ -80,6 +84,6 @@ export default async function decorate(block) {
     render(await applyZip(zip));
   });
 
-  block.replaceChildren(heading, zipEl, change, form);
+  block.replaceChildren(...[heading, zipEl, change, form].filter(Boolean));
   render(await applyZip(getZip()));
 }
