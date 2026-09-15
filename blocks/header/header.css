@@ -193,6 +193,16 @@ header nav .nav-item > a {
   text-decoration: none;
 }
 
+/* Log In / Log Out: set apart from the other tools links with the nav accent
+   color, so it reads as the primary account action rather than a plain link. */
+header nav .nav-tool-login > a.nav-login {
+  color: var(--citi-nav-blue);
+}
+
+header nav .nav-tool-login > a.nav-login:hover {
+  text-decoration: underline;
+}
+
 /* dropdown panel — mobile slide-in sub-panel (hidden until its item opens) */
 header nav .nav-panel {
   display: none;
@@ -321,8 +331,14 @@ header nav sup { font-size: 0.6em; }
     border-top: 0;
   }
 
-  /* push the tool items (Open an Account / How can we help?) to the right */
-  header nav .nav-tool:first-of-type { margin-left: auto; }
+  /* The first tool (e.g. "Open an Account") stays inline on the left with
+     the main nav items — no push. Every tool after it (.nav-tool-secondary,
+     e.g. "How can we help?" / "Log In") is a utility link, pushed together
+     as its own group flush with the nav bar's right edge, matching citi.com.
+     `:first-of-type` is scoped by tag name (li), not class, so it can't
+     select "the first .nav-tool-secondary" — use the preceding sibling not
+     carrying that class instead. */
+  header nav .nav-tool:not(.nav-tool-secondary) + .nav-tool-secondary { margin-left: auto; }
 
   header nav .nav-item-toggle,
   header nav .nav-tool > a,
