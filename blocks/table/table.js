@@ -10,6 +10,31 @@ function buildCell(rowIndex) {
   return cell;
 }
 
+function cellText(cell) {
+  return (cell?.textContent || '').replace(/\s+/g, ' ').trim();
+}
+
+function decorateBta(table, syncBtaRows) {
+  const headerRow = table.querySelector('thead tr');
+  const headers = [...(headerRow?.children || [])];
+  const btaIndex = headers.findIndex((cell) => cellText(cell).toLowerCase() === 'bta');
+  if (btaIndex < 0) return;
+
+  headers[btaIndex].remove();
+  table.querySelectorAll('tbody tr').forEach((row) => {
+    const cell = row.children[btaIndex];
+    if (!cell) return;
+    const value = cellText(cell).toLowerCase();
+    row.dataset.bta = value === 'in' ? 'in' : 'always';
+    cell.remove();
+  });
+
+  const labels = [...table.querySelectorAll('thead th')].map(cellText).filter(Boolean);
+  if (labels.length) table.setAttribute('aria-label', labels.join(', '));
+
+  syncBtaRows(table);
+}
+
 export default async function decorate(block) {
   const table = document.createElement('table');
   const thead = document.createElement('thead');
@@ -35,4 +60,10 @@ export default async function decorate(block) {
   });
   block.innerHTML = '';
   block.append(table);
+
+  if (block.classList.contains('bta')) {
+    const { applyZip, getZip, syncBtaRows } = await import('../../scripts/bta.js');
+    await applyZip(getZip());
+    decorateBta(table, syncBtaRows);
+  }
 }
