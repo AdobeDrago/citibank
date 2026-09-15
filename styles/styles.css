@@ -1339,3 +1339,16 @@ body.citigold-landing main .landing-terms table td {
 }
 
 /* stylelint-enable no-descending-specificity */
+
+/* Simulated auth gating (scripts/auth.js decorateAuthGate): a "Log in to view
+   content" heading and everything after it are tagged data-auth so the
+   heading shows to anonymous visitors and the guarded content shows once
+   ?loggedIn=true is set — e.g. a Post-Login Pega Banners test page. Kept
+   critical (not lazy-styles.css) so gated content never flashes on load. */
+[data-auth='anonymous'] { display: none; }
+
+[data-auth='authenticated'] { display: none; }
+
+body.auth-anonymous [data-auth='anonymous'] { display: block; }
+
+body.auth-authenticated [data-auth='authenticated'] { display: block; }

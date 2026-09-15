@@ -1,6 +1,9 @@
 // Citi header/nav — content-first, generic (reads structure from /nav.plain.html).
 // The fragment has 3 sections: [0] brand/utility bar, [1] main nav (items with
-// nested link lists + a "Quick Links" sub-list), [2] tools (Open an Account, help).
+// nested link lists + a "Quick Links" sub-list), [2] tools (Open an Account, help,
+// and — when authored — Log In).
+
+import { isSimulationEnabled, decorateAuthControl, decorateAuthLinks } from '../../scripts/auth.js';
 
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
@@ -276,14 +279,23 @@ export default async function decorate(block) {
   if (toolsSec) {
     const toolsUl = toolsSec.querySelector(':scope > ul');
     if (toolsUl) {
-      [...toolsUl.children].forEach((li) => {
+      // First tool (e.g. "Open an Account") stays inline with the main nav
+      // items on the left; every tool after it (help, Log In) is a utility
+      // link pushed to the far right as its own group — matches citi.com.
+      [...toolsUl.children].forEach((li, index) => {
         const a = li.querySelector('a');
         if (!a) return;
         const item = document.createElement('li');
         item.className = 'nav-tool';
+        if (index > 0) item.classList.add('nav-tool-secondary');
         const link = document.createElement('a');
         link.href = a.getAttribute('href') || '#';
         link.innerHTML = a.innerHTML;
+        if (/^log\s*in$/i.test(a.textContent.trim())) {
+          item.classList.add('nav-tool-login');
+          link.classList.add('nav-login');
+          if (isSimulationEnabled()) decorateAuthControl(link);
+        }
         item.append(link);
         navList.append(item);
       });
@@ -337,5 +349,9 @@ export default async function decorate(block) {
   });
 
   nav.append(util, main);
+  // the nav is built fresh from the fragment each load, so its links (unlike
+  // main's, decorated once by decorateMain) need their own rewrite pass to
+  // keep a simulated session alive while browsing via the header
+  decorateAuthLinks(nav);
   block.append(nav);
 }

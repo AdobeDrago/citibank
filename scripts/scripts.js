@@ -11,6 +11,7 @@ import {
   loadSections,
   loadCSS,
 } from './aem.js';
+import { initAuthState, decorateAuthLinks, decorateAuthGate } from './auth.js';
 
 /**
  * Builds hero block and prepends to main in a new section.
@@ -124,6 +125,8 @@ export function decorateMain(main) {
   decorateSections(main);
   decorateBlocks(main);
   decorateButtons(main);
+  decorateAuthGate(main);
+  decorateAuthLinks(main);
 }
 
 /**
@@ -132,6 +135,7 @@ export function decorateMain(main) {
  */
 async function loadEager(doc) {
   document.documentElement.lang = 'en';
+  initAuthState();
   decorateTemplateAndTheme();
   const main = doc.querySelector('main');
   if (main) {
