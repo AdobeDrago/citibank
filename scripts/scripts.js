@@ -11,7 +11,7 @@ import {
   loadSections,
   loadCSS,
 } from './aem.js';
-import { initAuthState, decorateAuthLinks, decorateAuthGate } from './auth.js';
+import { initAuthState, decorateAuthGate } from './auth.js';
 
 /**
  * Builds hero block and prepends to main in a new section.
@@ -126,7 +126,6 @@ export function decorateMain(main) {
   decorateBlocks(main);
   decorateButtons(main);
   decorateAuthGate(main);
-  decorateAuthLinks(main);
 }
 
 /**
