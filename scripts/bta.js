@@ -1,9 +1,10 @@
-const INDEX_URL = '/bta-zips.json';
 const STORAGE_KEY = 'citi-zip';
 const DEFAULT_ZIP = '10022';
 const EVENT_NAME = 'bta:updated';
 
-let indexPromise;
+/** Same path shape as banking.citi.com/api/zipcode/CBOL/{zip}; EDS needs .json. */
+const zipLookupUrl = (zip) => `/api/zipcode/CBOL/${zip}.json`;
+
 let lastApplied = '';
 let inFlight;
 
@@ -39,33 +40,29 @@ export function getBta() {
 }
 
 /**
- * @returns {Promise<object[]>}
- */
-function loadIndex() {
-  if (!indexPromise) {
-    indexPromise = fetch(INDEX_URL)
-      .then((resp) => (resp.ok ? resp.json() : { data: [] }))
-      .then((json) => (Array.isArray(json.data) ? json.data : []))
-      .catch(() => []);
-  }
-  return indexPromise;
-}
-
-/**
- * Looks up a ZIP in the mock index. Unknown ZIPs still display and are OUT.
- * `outOfBTA` matches the Citi lookup payload: IN = inside territory, OUT = outside.
+ * Looks up a ZIP against the mock Citi ZIP API. Unknown ZIPs still display
+ * and are OUT. Live Citi uses GET /api/zipcode/CBOL/{zip} (no .json).
  * @param {unknown} zip
  * @returns {Promise<{ zip: string, outOfBTA: string, governingState: string }>}
  */
 export async function lookupZip(zip) {
   const normalized = normalizeZip(zip);
-  const rows = await loadIndex();
-  const match = rows.find((row) => normalizeZip(row.zip) === normalized);
-  return {
-    zip: normalized,
-    outOfBTA: match?.outOfBTA === 'IN' ? 'IN' : 'OUT',
-    governingState: match?.governingState || '',
-  };
+  const fallback = { zip: normalized, outOfBTA: 'OUT', governingState: '' };
+  if (normalized.length !== 5) return fallback;
+
+  try {
+    const resp = await fetch(zipLookupUrl(normalized));
+    if (!resp.ok) return fallback;
+    const data = await resp.json();
+    if (!data || data.status !== 'success') return fallback;
+    return {
+      zip: normalizeZip(data.zip) || normalized,
+      outOfBTA: data.outOfBTA === 'IN' ? 'IN' : 'OUT',
+      governingState: String(data.governingState || ''),
+    };
+  } catch {
+    return fallback;
+  }
 }
 
 /**

@@ -1,7 +1,0 @@
-{
-  "data": [
-    { "zip": "10022", "outOfBTA": "IN", "governingState": "NY" },
-    { "zip": "30301", "outOfBTA": "OUT", "governingState": "GA" },
-    { "zip": "90001", "outOfBTA": "IN", "governingState": "CA" }
-  ]
-}
