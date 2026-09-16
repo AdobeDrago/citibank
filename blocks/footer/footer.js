@@ -6,6 +6,8 @@
 //   then a legal-disclosures band: <h4> + <p>… + logo <p>
 // footer.js READS this DOM; it never invents copy.
 
+import { decorateBlock, loadBlock } from '../../scripts/aem.js';
+
 /**
  * cbol landing pages (banking.citi.com/cbol/…) ship a distinct compact legal
  * footer — logo, a single row of legal links, social icons, and FDIC/Equal
@@ -85,6 +87,13 @@ function renderCbolFooter(block, frag) {
   });
 
   block.append(inner);
+
+  // The disclosures carry an authored `deposit-account` fee schedule. Fragment
+  // content never passes through decorateBlocks, so load that block here.
+  inner.querySelectorAll('.deposit-account').forEach((fees) => {
+    decorateBlock(fees);
+    loadBlock(fees);
+  });
 }
 
 /** Classify a top-level fragment section by its content shape. */

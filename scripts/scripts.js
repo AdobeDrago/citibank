@@ -76,6 +76,22 @@ function buildAutoBlocks(main) {
 }
 
 /**
+ * Adds the ZIP that products and pricing are based on, plus the control to
+ * change it, to the authored home-address band. Runs after decorateSections so
+ * the block joins the band's existing content wrapper — as a sibling wrapper it
+ * would split the band's two-column grid.
+ * @param {Element} main The container element
+ */
+function buildZipBanner(main) {
+  main.querySelectorAll('.section.landing-zip').forEach((section) => {
+    if (section.querySelector('.zip-banner')) return;
+    const heading = [...section.querySelectorAll('h1, h2, h3')]
+      .find((h) => /home address/i.test(h.textContent));
+    if (heading) heading.after(buildBlock('zip-banner', ''));
+  });
+}
+
+/**
  * Decorates formatted links to style them as buttons.
  * @param {HTMLElement} main The main container element
  */
@@ -123,6 +139,7 @@ export function decorateMain(main) {
   decorateIcons(main);
   buildAutoBlocks(main);
   decorateSections(main);
+  buildZipBanner(main);
   decorateBlocks(main);
   decorateButtons(main);
   decorateAuthGate(main);

@@ -50,6 +50,32 @@
   margin-top: 0.25em;
 }
 
+.table.fees {
+  max-width: 920px;
+  margin: 0 auto;
+}
+
+.table.fees table {
+  color: #fff;
+  border: 1px solid #fff;
+}
+
+.table.fees table thead tr,
+.table.fees table tbody tr {
+  border: 0;
+}
+
+.table.fees table th,
+.table.fees table td {
+  padding: 16px 20px;
+  border: 1px solid #fff;
+  font-size: 16px;
+}
+
+.table.fees table th {
+  font-weight: 700;
+}
+
 /* no header variant */
 .table.no-header table tbody tr {
   border-top: 1px solid #dadada;
