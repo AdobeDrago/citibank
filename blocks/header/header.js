@@ -8,14 +8,17 @@ import { isSimulationEnabled, decorateAuthControl } from '../../scripts/auth.js'
 const isDesktop = window.matchMedia('(min-width: 900px)');
 
 /**
- * cbol landing pages (banking.citi.com/cbol/…) ship a distinct minimal header
- * — just the Citi logo, an FDIC line and the Citigold brand mark, with no
- * mega-menu — unlike the retail credit-cards chrome. Detect those pages so we
- * can load a different fragment and render a different layout. The check covers
- * both the localhost/preview path (/content/cbol/…) and DA/EDS prod (/cbol/…).
+ * The banking brand (banking.citi.com, served by the banking-citibank site) ships a
+ * distinct minimal header — just the Citi logo, an FDIC line and the Citigold brand
+ * mark, with no mega-menu — unlike the retail credit-cards chrome.
+ *
+ * Brand-based, not path-based: scripts/brand.js resolves the brand once, from the
+ * hostname or its explicit content-path map, and stamps it on <html data-brand>. Keeping
+ * that decision in one module means this block does not need to know which hostnames or
+ * paths belong to which brand.
  */
-function isCbolPage() {
-  return /(^|\/)(content\/)?cbol(\/|$)/i.test(window.location.pathname);
+function isBankingBrand() {
+  return document.documentElement.dataset.brand === 'banking';
 }
 
 /**
@@ -223,7 +226,7 @@ export default async function decorate(block) {
   block.textContent = '';
 
   // cbol landing pages get a distinct minimal header from their own fragment.
-  if (isCbolPage()) {
+  if (isBankingBrand()) {
     const cbolFrag = await loadNavFragmentNamed('cbol-nav');
     if (cbolFrag) {
       block.classList.add('header-cbol');

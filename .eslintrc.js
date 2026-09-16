@@ -15,4 +15,14 @@ module.exports = {
     'linebreak-style': ['error', 'unix'], // enforce unix linebreaks
     'no-param-reassign': [2, { props: false }], // allow modifying properties of param
   },
+  overrides: [
+    {
+      // node tooling, not browser code
+      files: ['tools/**/*.mjs'],
+      env: {
+        browser: false,
+        node: true,
+      },
+    },
+  ],
 };
