@@ -37,7 +37,7 @@ header nav .nav-brand {
 }
 
 header nav .nav-brand p { margin: 0; }
-
+  
 header nav .nav-brand p:first-child img {
   display: block;
   width: 88px;
@@ -45,12 +45,11 @@ header nav .nav-brand p:first-child img {
 }
 
 /* FDIC line: small print, hidden on the smallest screens */
-header nav .nav-brand p:nth-child(2) {
-  display: none;
-  max-width: 340px;
-  color: #333;
-  font-size: 11px;
-  line-height: 1.2;
+header nav .nav-brand p:nth-child(2) img {
+    width: 566px;
+    height: 50px;
+    margin-top: 19px;
+    margin-left: 10px;
 }
 
 header nav .nav-utility-links {
@@ -68,13 +67,13 @@ header nav .nav-utility-links li {
   padding: 7px 4px;
   margin: 15px 8px 7px;
   align-items: center;
-  color: var(--citi-nav-text);
+  color: #666;
   font-size: 11px;
   text-decoration: none;
 }
 
 /* stylelint-disable-next-line no-descending-specificity */
-header nav .nav-utility-links a img {
+header nav .nav-utility-links p a img {
   width: 30px;
   height: 26px;
 }
@@ -388,6 +387,14 @@ header nav sup { font-size: 0.6em; }
   header nav .nav-main {
     padding-left: 48px;
     padding-right: 48px;
+  }
+}
+
+@media (width <= 768px) {
+  header nav .nav-utility,
+  header nav .nav-main {
+    margin: 0px 24px;
+    padding: 0px
   }
 }
 

@@ -144,12 +144,41 @@ export default async function decorate(block) {
   if (columnsBand.children.length) nav.append(columnsBand);
 
   // Remaining sections: social/app, legal (copyright + links), disclosures.
+  let logoBand;
+  let otherMainWrapper;
+  let leftWrapper;
+  let rightWrapper;
   for (; i < sections.length; i += 1) {
     const type = classify(sections[i]);
     const band = document.createElement('div');
     band.className = `footer-${type}`;
     while (sections[i].firstChild) band.append(sections[i].firstChild);
-    nav.append(band);
+    const hasImage = band.querySelector(
+      ':scope > picture, :scope > img, :scope > p > picture, :scope > p > img',
+    );
+    if (type === 'other' && hasImage) {
+      band.classList.replace('footer-other', 'footer-logo');
+      logoBand = band;
+    } else if (type === 'other') {
+      if (!otherMainWrapper) {
+        otherMainWrapper = document.createElement('div');
+        otherMainWrapper.className = 'footer-other-main-wrapper';
+
+        leftWrapper = document.createElement('div');
+        leftWrapper.className = 'footer-other-left-wrapper';
+
+        rightWrapper = document.createElement('div');
+        rightWrapper.className = 'footer-other-right-wrapper';
+
+        otherMainWrapper.append(leftWrapper, rightWrapper);
+        nav.append(otherMainWrapper);
+      }
+
+      if (!leftWrapper.firstElementChild) leftWrapper.append(band);
+      else rightWrapper.append(band);
+    } else {
+      nav.append(band);
+    }
   }
 
   // Source ships a responsive-duplicate logo node (two logo images) for content
@@ -166,6 +195,7 @@ export default async function decorate(block) {
   footer.className = 'footer-inner';
   footer.append(nav);
   block.append(footer);
+  if (logoBand) block.append(logoBand);
 
   // Mobile: column headings act as accordion toggles (collapsed by default).
   // On desktop the CSS keeps every list expanded and disables the toggle.
