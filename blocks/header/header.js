@@ -179,10 +179,16 @@ function buildNavItem(sourceLi) {
     back.addEventListener('click', (e) => {
       if (isDesktop.matches) return;
       e.stopPropagation();
-      li.setAttribute('aria-expanded', 'false');
-      btn.setAttribute('aria-expanded', 'false');
       const nav = li.closest('nav');
-      if (nav) nav.classList.remove('nav-subpanel-open');
+      if (!nav) return;
+
+      nav.classList.add('nav-subpanel-closing');
+      const finishClose = () => {
+        li.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('nav-subpanel-open', 'nav-subpanel-closing');
+      };
+      nav.addEventListener('animationend', finishClose, { once: true });
     });
 
     li.addEventListener('mouseenter', () => {
