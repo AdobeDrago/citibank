@@ -12,6 +12,7 @@ import {
   loadCSS,
 } from './aem.js';
 import { initAuthState, decorateAuthGate } from './auth.js';
+import { resolveBrand, loadBrandModule } from './brand.js';
 
 /**
  * Builds hero block and prepends to main in a new section.
@@ -133,14 +134,17 @@ function decorateButtons(main) {
 /**
  * Decorates the main element.
  * @param {Element} main The main element
+ * @param {object} [brandBehavior] The resolved brand's behaviour module, if any
  */
 // eslint-disable-next-line import/prefer-default-export
-export function decorateMain(main) {
+export function decorateMain(main, brandBehavior) {
   decorateIcons(main);
   buildAutoBlocks(main);
+  brandBehavior?.decorateMainEarly?.(main);
   decorateSections(main);
   buildZipBanner(main);
   decorateBlocks(main);
+  brandBehavior?.decorateMainLate?.(main);
   decorateButtons(main);
   decorateAuthGate(main);
 }
@@ -148,14 +152,15 @@ export function decorateMain(main) {
 /**
  * Loads everything needed to get to LCP.
  * @param {Element} doc The container element
+ * @param {object} [brandBehavior] The resolved brand's behaviour module, if any
  */
-async function loadEager(doc) {
+async function loadEager(doc, brandBehavior) {
   document.documentElement.lang = 'en';
   initAuthState();
   decorateTemplateAndTheme();
   const main = doc.querySelector('main');
   if (main) {
-    decorateMain(main);
+    decorateMain(main, brandBehavior);
     document.body.classList.add('appear');
     await loadSection(main.querySelector('.section'), waitForFirstImage);
   }
@@ -173,8 +178,9 @@ async function loadEager(doc) {
 /**
  * Loads everything that doesn't need to be delayed.
  * @param {Element} doc The container element
+ * @param {object} [brandBehavior] The resolved brand's behaviour module, if any
  */
-async function loadLazy(doc) {
+async function loadLazy(doc, brandBehavior) {
   loadHeader(doc.querySelector('header'));
 
   const main = doc.querySelector('main');
@@ -188,6 +194,8 @@ async function loadLazy(doc) {
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
+
+  brandBehavior?.init?.();
 }
 
 /**
@@ -201,8 +209,16 @@ function loadDelayed() {
 }
 
 async function loadPage() {
-  await loadEager(document);
-  await loadLazy(document);
+  // Brand resolution must happen FIRST - before auth init, before decoration, before
+  // any block loads. It stamps <html data-brand="...">, which the brand token file, every
+  // brand-scoped selector, and the brand-aware block resolution in aem.js all key off.
+  // The token stylesheet is requested in the critical path on purpose.
+  const brand = resolveBrand();
+  loadCSS(`${window.hlx.codeBasePath}/styles/${brand}/${brand}.css`);
+  const brandBehavior = await loadBrandModule(brand);
+
+  await loadEager(document, brandBehavior);
+  await loadLazy(document, brandBehavior);
   loadDelayed();
 }
 
