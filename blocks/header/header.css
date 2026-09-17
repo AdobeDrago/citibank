@@ -219,6 +219,8 @@ header nav.nav-subpanel-open .nav-item[aria-expanded='true'] {
   border-top: 0;
 }
 
+/* mobile css  */
+
 @media (width <=768px) {
   header nav.nav-subpanel-open .nav-item[aria-expanded='true'] {
     height: auto;
@@ -275,6 +277,10 @@ header nav.nav-subpanel-open .nav-item[aria-expanded='true'] {
   border-bottom: 2px solid var(--citi-nav-blue);
   transform: rotate(225deg);
   vertical-align: middle;
+}
+
+.header nav .nav-tool:not(.nav-tool-secondary)::after {
+  margin-left :88px;
 }
 
 }
