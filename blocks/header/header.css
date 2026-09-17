@@ -37,7 +37,7 @@ header nav .nav-brand {
 }
 
 header nav .nav-brand p { margin: 0; }
-  
+
 header nav .nav-brand p:first-child img {
   display: block;
   width: 88px;
@@ -46,10 +46,10 @@ header nav .nav-brand p:first-child img {
 
 /* FDIC line: small print, hidden on the smallest screens */
 header nav .nav-brand p:nth-child(2) img {
-    width: 566px;
-    height: 50px;
-    margin-top: 19px;
-    margin-left: 10px;
+  width: 566px;
+  height: 50px;
+  margin-top: 19px;
+  margin-left: 10px;
 }
 
 header nav .nav-utility-links {
@@ -101,12 +101,18 @@ header nav .nav-hamburger {
   cursor: pointer;
 }
 
+header nav .nav-mobile-actions,
+header nav .nav-mobile-utility,
+header nav .nav-mobile-divider {
+  display: none;
+}
+
 header nav .nav-hamburger-icon,
 header nav .nav-hamburger-icon::before,
 header nav .nav-hamburger-icon::after {
   content: '';
   display: block;
-  width: 22px;
+  width: 31px;
   height: 2px;
   background: var(--citi-nav-navy);
   transition: transform 0.3s ease, opacity 0.2s ease;
@@ -327,10 +333,10 @@ header nav sup { font-size: 0.6em; }
      `:first-of-type` is scoped by tag name (li), not class, so it can't
      select "the first .nav-tool-secondary" — use the preceding sibling not
      carrying that class instead. */
-  header nav .nav-tool:not(.nav-tool-secondary) + .nav-tool-secondary { 
+  header nav .nav-tool:not(.nav-tool-secondary) + .nav-tool-secondary {
     margin-left: auto;
 
-   }
+  }
 
   header nav .nav-item-toggle,
   header nav .nav-tool > a,
@@ -340,9 +346,9 @@ header nav sup { font-size: 0.6em; }
     white-space: nowrap;
   }
 
-    header nav :is(.nav-item-toggle,
+  header nav :is(.nav-item-toggle,
     .nav-tool > a,
-    .nav-item >):hover {
+    .nav-item >a):hover {
     background-color: #5E676B;
     color: #fff;
     border-radius: 8px 8px 0 0;
@@ -364,7 +370,7 @@ header nav sup { font-size: 0.6em; }
     box-shadow: 0 8px 20px rgb(0 0 0 / 12%);
   }
 
-  header nav .nav-item[aria-expanded='true'] .nav-panel { display: flex; }
+   header nav .nav-item[aria-expanded='true'] .nav-panel { display: flex; }
 
   /* desktop dropdown links: lighter/smaller than the mobile full-width list */
   header nav .nav-panel a {
@@ -390,11 +396,140 @@ header nav sup { font-size: 0.6em; }
   }
 }
 
-@media (width <= 768px) {
-  header nav .nav-utility,
+@media (width <=768px) {
+  header nav .nav-utility {
+    margin: 0 10px;
+    padding: 0;
+  }
+
   header nav .nav-main {
-    margin: 0px 24px;
-    padding: 0px
+    margin: 0 8px;
+    padding: 0;
+  }
+
+  header nav .nav-hamburger {
+    width: 56px;
+    height: 50px;
+    margin: 0;
+    background: transparent;
+  }
+
+  header nav .nav-hamburger-icon,
+  header nav .nav-hamburger-icon::before,
+  header nav .nav-hamburger-icon::after {
+    background: var(--citi-nav-navy);
+  }
+
+  header nav.nav-open .nav-hamburger {
+    background: var(--citi-nav-navy);
+  }
+
+  header nav.nav-open .nav-hamburger-icon {
+    background: transparent;
+  }
+
+  header nav.nav-open .nav-hamburger-icon::before,
+  header nav.nav-open .nav-hamburger-icon::after {
+    background: #fff;
+  }
+
+  header nav .nav-mobile-actions {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    min-width: 0;
+    height: 50px;
+    justify-content: space-around;
+  }
+
+  header nav .nav-mobile-action {
+    display: block;
+    padding: 11px 15px 11px 17px;
+    color: var(--citi-nav-navy);
+    font-size: 16px;
+    font-weight: 600;
+    line-height: 50px;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  header nav .nav-mobile-divider {
+    display: block;
+    align-self: center;
+    width: 2px;
+    height: 35px;
+    flex: 0 0 2px;
+    background: #9ca8ae;
+  }
+
+  header nav .nav-brand p:first-child img {
+    display: block;
+    width: 72px;
+    height: 72px;
+  }
+
+  header nav .nav-brand>p:nth-of-type(2) {
+    font-size: 13px;
+    margin: 11px 0 0 12px;
+  }
+
+  header nav .nav-brand>p:nth-of-type(2) img {
+    width: 100%;
+    height: auto;
+  }
+
+  header nav .nav-utility .nav-utility-links {
+    display: none
+  }
+
+  .header nav .nav-sections {
+    margin: 0 -9px;
+  }
+
+  header nav .nav-mobile-utility {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    height: 56px;
+    background-color: #fff;
+    border-top: 0;
+    padding: 0 56px 0 20px;
+    line-height: 40px;
+    gap: 10px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-mobile-utility p {
+    margin: 0;
+    font-size: 16px;
+    color: #5E676B;
+    font-weight: 400;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  header nav .nav-mobile-utility p a img {
+    width: 30px;
+    height: 26px;
+    padding-top: 13px;
+  }
+
+  header nav .nav-tool-secondary {
+    display: none;
+  }
+
+  .header nav .nav-item-toggle,
+   header nav .nav-tool a {
+    padding: 0 56px;
+    line-height: 40px;
+    padding-top: 7px;
+  }
+
+  header nav .nav-item,
+  header nav .nav-tool {
+    border-bottom: 1px solid #eee;
+    height: 56px;
+    background-color: #fff;
+    border-top: 0
   }
 }
 
@@ -482,7 +617,7 @@ header nav.nav-cbol .nav-cbol-mark img {
     flex-basis: 100%;
   }
 
-  header nav.nav-cbol .nav-cbol-mark img { width: 96px; }
+   header nav.nav-cbol .nav-cbol-mark img { width: 96px; }
 }
 
 /* stylelint-enable no-descending-specificity */
