@@ -273,8 +273,8 @@ header nav.nav-subpanel-open .nav-item[aria-expanded='true'] {
   width: 8px;
   height: 8px;
   margin-right: 12px;
-  border-left: 2px solid var(--citi-nav-blue);
-  border-bottom: 2px solid var(--citi-nav-blue);
+  border-left: 2px solid var(--citi-nav-navy);
+  border-bottom: 2px solid var(--citi-nav-navy);
   transform: rotate(225deg);
   vertical-align: middle;
 }
@@ -366,8 +366,8 @@ header nav .nav-tool:not(.nav-tool-secondary)::after {
   width: 8px;
   height: 8px;
   margin-left: -15px;
-  border-left: 2px solid var(--citi-nav-blue);
-  border-bottom: 2px solid var(--citi-nav-blue);
+  border-left: 2px solid var(--citi-nav-navy);
+  border-bottom: 2px solid var(--citi-nav-navy);
   transform: rotate(225deg);
   vertical-align: middle;
 }
