@@ -210,10 +210,97 @@ header nav .nav-item[aria-expanded='true'] .nav-panel { display: block; }
    only the active category's panel shows (matches source, which replaces the
    list rather than expanding it in place). */
 header nav.nav-subpanel-open .nav-item:not([aria-expanded='true']),
-header nav.nav-subpanel-open .nav-tool { display: none; }
+header nav.nav-subpanel-open .nav-tool,
+header nav.nav-subpanel-open .nav-mobile-utility {
+  display: none;
+}
 
 header nav.nav-subpanel-open .nav-item[aria-expanded='true'] {
   border-top: 0;
+}
+
+@media (width <=768px) {
+  header nav.nav-subpanel-open .nav-item[aria-expanded='true'] {
+    height: auto;
+  }
+
+  header nav.nav-subpanel-open .nav-item[aria-expanded='true'] .nav-panel {
+    position: static;
+    width: 100%;
+    box-sizing: border-box;
+    background: #fff;
+    will-change: transform, opacity;
+    animation: nav-panel-slide-in 600ms ease-in-out both;
+  }
+
+  header nav.nav-subpanel-closing .nav-item[aria-expanded='true'] .nav-panel {
+    animation: nav-panel-slide-out 600ms ease-in-out both;
+  }
+
+  header nav.nav-subpanel-open .nav-item[aria-expanded='true'] .nav-panel,
+  header nav.nav-subpanel-closing .nav-item[aria-expanded='true'] .nav-panel {
+    padding: 0 20px 24px;
+    color: #5E676B;
+  }
+
+  header nav.nav-subpanel-open .nav-panel-back,
+  header nav.nav-subpanel-closing .nav-panel-back {
+    padding: 16px 20px;
+    border-bottom: 1px solid var(--citi-nav-border);
+    color: #5E676B;
+    font-size: 16px;
+  }
+
+  header nav.nav-subpanel-open .nav-panel a,
+  header nav.nav-subpanel-closing .nav-panel a {
+    padding: 14px 0;
+    color: var(--citi-nav-navy);
+    font-size: 16px;
+    font-weight: 600;
+  }
+
+  header nav.nav-subpanel-open .nav-panel a:hover,
+  header nav.nav-subpanel-closing .nav-panel a:hover {
+    color: var(--citi-nav-blue);
+  }
+
+
+  header nav .nav-item-toggle::after {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 12px;
+  border-left: 2px solid var(--citi-nav-blue);
+  border-bottom: 2px solid var(--citi-nav-blue);
+  transform: rotate(225deg);
+  vertical-align: middle;
+}
+
+}
+
+@keyframes nav-panel-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes nav-panel-slide-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
 }
 
 /* the top-level toggle is replaced by the panel's own back header on mobile */
@@ -237,17 +324,7 @@ header nav .nav-panel-back {
   cursor: pointer;
 }
 
-header nav .nav-panel-back::before {
-  content: '';
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: 12px;
-  border-left: 2px solid var(--citi-nav-blue);
-  border-bottom: 2px solid var(--citi-nav-blue);
-  transform: rotate(45deg);
-  vertical-align: middle;
-}
+
 
 header nav.nav-subpanel-open .nav-item[aria-expanded='true'] .nav-panel {
   padding-top: 0;
@@ -275,6 +352,30 @@ header nav .nav-panel a {
 header nav .nav-panel a:hover {
   color: var(--citi-nav-blue);
   text-decoration: underline;
+}
+
+header nav .nav-tool:not(.nav-tool-secondary)::after {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-left: -15px;
+  border-left: 2px solid var(--citi-nav-blue);
+  border-bottom: 2px solid var(--citi-nav-blue);
+  transform: rotate(225deg);
+  vertical-align: middle;
+}
+
+header nav .nav-tool:not(.nav-tool-secondary) > a {
+  display: inline-flex;
+}
+
+header nav .nav-tool:not(.nav-tool-secondary):hover > a {
+  color: #fff;
+}
+
+header nav .nav-tool:not(.nav-tool-secondary):hover::after {
+  border-color: #fff;
 }
 
 /* stylelint-disable-next-line no-descending-specificity */
@@ -375,6 +476,7 @@ header nav sup { font-size: 0.6em; }
   /* desktop dropdown links: lighter/smaller than the mobile full-width list */
   header nav .nav-panel a {
     padding: 8px 0;
+    color: var(--citi-nav-navy);
     font-size: 15px;
     font-weight: 400;
   }
@@ -462,6 +564,11 @@ header nav sup { font-size: 0.6em; }
     background: #9ca8ae;
   }
 
+  header nav .nav-panel-links > li:nth-child(2) {
+    border-bottom: 1px solid var(--citi-nav-border);
+    margin-bottom: 16px;
+  }
+
   header nav .nav-brand p:first-child img {
     display: block;
     width: 72px;
@@ -522,6 +629,7 @@ header nav sup { font-size: 0.6em; }
     padding: 0 56px;
     line-height: 40px;
     padding-top: 7px;
+    padding-right: 21px;
   }
 
   header nav .nav-item,
