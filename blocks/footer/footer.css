@@ -86,7 +86,7 @@ footer .footer-column img {
 
 @media (width < 600px) {
 footer .footer-columns{
-  gap : 0px;
+  gap : 0;
   padding-top : 7px;
 }
 
@@ -113,7 +113,7 @@ footer .footer-other-main-wrapper .footer-other-right-wrapper .footer-other {
   display: flex;
   align-items: center;
   gap: 24px;
-  padding: 20px;
+  padding: 20px 0;
 }
 
 footer .footer-other-main-wrapper .footer-other-left-wrapper .footer-other p a > img,
@@ -133,7 +133,7 @@ padding-top: 20px;
   
 footer .footer-other-main-wrapper .footer-other-left-wrapper .footer-other,footer .footer-other-main-wrapper .footer-other-right-wrapper .footer-other{
     display: flex;
-    padding: 0 0 10px 0;
+  padding: 0 0 10px;
     list-style-type: none;
 }
 
@@ -153,6 +153,8 @@ footer .footer-other-main-wrapper .footer-other-left-wrapper .footer-other,foote
    display:inline-block;
 } */
 
+
+/* stylelint-disable no-descending-specificity */
 
 /* ---------- App + social band ---------- */
 footer .footer-social {
@@ -189,19 +191,15 @@ footer .footer-legal{
   padding-bottom: 24px;
 }
 
-footer .footer-legal ul {
-    padding: 20px 0;
-    border: 1px solid #666;
-    border-width: 1px 0 1px 0;
-}
-
 footer .footer-legal p {
   margin-bottom: 12px;
   font-size: 12px;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
 footer .footer-legal ul {
+    padding: 20px 0;
+    border: 1px solid #666;
+    border-width: 1px 0;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -229,7 +227,6 @@ footer .footer-disclosures p:last-child {
   margin-bottom: 28px;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
 footer .footer-disclosures img {
   width: 64px;
   height: auto;
@@ -246,8 +243,11 @@ footer .footer-logo img {
     margin-left: 35px;
     margin-bottom: 20px;
     width: 88px;
-    height:57px
+    height: 57px;
 }
+
+  /* stylelint-enable no-descending-specificity */
+
 /* ---------- Footer logo Mobile ( < 600px) ---------- */
 
 @media (width < 600px) {

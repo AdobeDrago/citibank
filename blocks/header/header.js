@@ -268,6 +268,9 @@ export default async function decorate(block) {
   hamburger.setAttribute('aria-expanded', 'false');
   hamburger.innerHTML = '<span class="nav-hamburger-icon"></span>';
 
+  const mobileActions = document.createElement('div');
+  mobileActions.className = 'nav-mobile-actions';
+
   const sectionsWrap = document.createElement('div');
   sectionsWrap.className = 'nav-sections';
   const navList = document.createElement('ul');
@@ -298,11 +301,34 @@ export default async function decorate(block) {
         }
         item.append(link);
         navList.append(item);
+
+        if (index > 0) {
+          const mobileLink = link.cloneNode(true);
+          mobileLink.classList.add('nav-mobile-action');
+          if (mobileActions.children.length > 0) {
+            const divider = document.createElement('span');
+            divider.className = 'nav-mobile-divider';
+            divider.setAttribute('aria-hidden', 'true');
+            mobileActions.append(divider);
+          }
+          mobileActions.append(mobileLink);
+        }
+      });
+    }
+  }
+
+  if (brandSec) {
+    const utilLinks = brandSec.querySelector(':scope > ul');
+    if (utilLinks) {
+      [...utilLinks.children].forEach((sourceItem) => {
+        const mobileItem = sourceItem.cloneNode(true);
+        mobileItem.classList.add('nav-mobile-utility');
+        navList.insertBefore(mobileItem, navList.querySelector('.nav-tool'));
       });
     }
   }
   sectionsWrap.append(navList);
-  main.append(hamburger, sectionsWrap);
+  main.append(hamburger, mobileActions, sectionsWrap);
 
   hamburger.addEventListener('click', () => {
     const open = hamburger.getAttribute('aria-expanded') === 'true';
