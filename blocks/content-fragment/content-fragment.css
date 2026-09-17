@@ -73,6 +73,15 @@
   color: var(--citi-navy, #0f1632);
 }
 
+.content-fragment-variation {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs, 16px);
+  line-height: 1.4;
+  color: var(--text-color, #333);
+  opacity: 0.7;
+}
+
 .content-fragment-loading,
 .content-fragment-alert {
   display: grid;
