@@ -1,0 +1,24 @@
+{
+  "properties": {
+    "title": "Benefit Dining",
+    "description": "",
+    "elements": {
+      "image": {
+        "title": "Image",
+        "dataType": "content-reference",
+        "value": "/content/dam/cf-services/ccc-images/benefit-tile-dining.jpeg",
+        ":type": "content-reference"
+      },
+      "title": {
+        "title": "Title",
+        "value": "<h3>Dining</h3>",
+        ":type": "text/html"
+      },
+      "body": {
+        "title": "Body",
+        "value": "<p>Citi Strata Elite℠ cardmembers have access to coveted dining experiences with The Supper Club® with tickets available for purchase to events hosted in major U.S. cities.</p>",
+        ":type": "text/html"
+      }
+    }
+  }
+}

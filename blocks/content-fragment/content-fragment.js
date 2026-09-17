@@ -7,15 +7,23 @@
  *     Content fragment path | /content/dam/...
  *   Or one cell per row: heading, then DAM path.
  *
- * GraphQL:
- *   - Paths ending in -hero → POST heroByPath on the cf-services endpoint
- *   - Other paths → GET persisted query cf-services/ccbypath
+ * GraphQL (Drago publish by default; `?aemOrigin=` optional override):
+ *   - Paths ending in -hero → POST heroByPath(_path, variation)
+ *   - Other paths → POST creditCardByPath(_path, variation)
+ *   - Logged out → variation `master`; logged in (`ecid=seg-a`) → `seg-a`
  *
  * AEM publish must send CORS headers for the page origin, or the browser blocks
  * the GraphQL response.
+ *
+ * Drago prerequisite: publish a `seg-a` variation on the authored CF (e.g.
+ * /content/dam/cf-services/ccc-cf/citi-double-cash) so login visibly changes
+ * the card; without it AEM may return master for both states.
  */
 
-import { getContentFragmentByPath } from '../../scripts/aem-content-fragment.js';
+import {
+  getContentFragmentByPath,
+  resolveContentFragmentVariation,
+} from '../../scripts/aem-content-fragment.js';
 
 const DEFAULT_TITLE = 'Content fragment';
 const DAM_PATH_PREFIX = '/content/dam/';
@@ -157,10 +165,12 @@ function renderLoading(container) {
   `;
 }
 
-function renderItem(container, item) {
+function renderItem(container, item, variation) {
   const title = fragmentTitle(item);
   const eyebrow = fragmentEyebrow(item);
   const imageUrl = fragmentImageUrl(item);
+  // eslint-disable-next-line no-underscore-dangle
+  const resolvedVariation = item?._variation || variation;
 
   if (!title) {
     renderError(container, {
@@ -176,8 +186,32 @@ function renderItem(container, item) {
       ${imageUrl ? `<img class="content-fragment-card-art" src="${escapeHtml(imageUrl)}" alt="">` : ''}
       ${eyebrow ? `<p class="content-fragment-eyebrow">${escapeHtml(eyebrow)}</p>` : ''}
       <h4 class="content-fragment-card-title">${escapeHtml(title)}</h4>
+      ${isAuthoringHost() || window.location.hostname === 'localhost'
+    ? `<p class="content-fragment-variation">Variation: ${escapeHtml(resolvedVariation)}</p>`
+    : ''}
     </article>
   `;
+}
+
+/**
+ * @param {Element} result
+ * @param {string} cfPath
+ * @param {AbortController} [controller]
+ */
+async function loadFragment(result, cfPath, controller) {
+  const variation = resolveContentFragmentVariation();
+  renderLoading(result);
+
+  try {
+    const item = await getContentFragmentByPath(cfPath, {
+      variation,
+      signal: controller?.signal,
+    });
+    renderItem(result, item, variation);
+  } catch (err) {
+    if (err?.name === 'AbortError') return;
+    renderError(result, formatError(err));
+  }
 }
 
 /**
@@ -191,7 +225,7 @@ export default async function decorate(block) {
     <div class="content-fragment-intro">
       <p class="content-fragment-kicker">AEM Content Fragment</p>
       <h3 class="content-fragment-title">${escapeHtml(title)}</h3>
-      <p class="content-fragment-subtitle">Loaded from AEM GraphQL by Content Fragment path.</p>
+      <p class="content-fragment-subtitle">Loaded from AEM GraphQL by Content Fragment path (master anonymous, seg-a after login).</p>
     </div>
     <div class="content-fragment-result" aria-live="polite"></div>
   `;
@@ -203,18 +237,19 @@ export default async function decorate(block) {
       title: 'Content fragment path required',
       message: 'Author a DAM path in this block (row labeled Content fragment path).',
       hint: isAuthoringHost()
-        ? 'Example: /content/dam/cf-services/ccc-cf/citi-strata-elite-hero'
+        ? 'Example: /content/dam/cf-services/ccc-cf/citi-double-cash'
         : null,
     });
     return;
   }
 
-  renderLoading(result);
+  let controller = new AbortController();
+  const refetch = () => {
+    controller.abort();
+    controller = new AbortController();
+    loadFragment(result, cfPath, controller).catch(() => { /* errors rendered in loadFragment */ });
+  };
 
-  try {
-    const item = await getContentFragmentByPath(cfPath);
-    renderItem(result, item);
-  } catch (err) {
-    renderError(result, formatError(err));
-  }
+  document.addEventListener('authchange', refetch);
+  await loadFragment(result, cfPath, controller);
 }
