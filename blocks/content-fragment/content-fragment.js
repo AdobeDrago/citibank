@@ -9,7 +9,7 @@
  *
  * GraphQL (Drago publish by default; `?aemOrigin=` optional override):
  *   - Paths ending in -hero → POST heroByPath(_path, variation)
- *   - Other paths → POST creditCardByPath(_path, variation)
+ *   - Other paths → GET persisted query cf-services/ccbypathandvariation (path + variation)
  *   - Logged out → variation `master`; logged in (`ecid=seg-a`) → `seg-a`
  *
  * AEM publish must send CORS headers for the page origin, or the browser blocks
@@ -165,12 +165,32 @@ function renderLoading(container) {
   `;
 }
 
+function renderRichList(label, items, mapItem) {
+  if (!Array.isArray(items) || items.length === 0) return '';
+  const lis = items.map((entry) => `<li>${mapItem(entry)}</li>`).join('');
+  return `
+    <section class="content-fragment-section">
+      <h5 class="content-fragment-section-title">${escapeHtml(label)}</h5>
+      <ul class="content-fragment-section-list">${lis}</ul>
+    </section>
+  `;
+}
+
+function htmlOrText(field) {
+  if (!field) return '';
+  if (typeof field === 'string') return escapeHtml(field);
+  if (field.html) return field.html;
+  if (field.plaintext) return escapeHtml(field.plaintext);
+  return '';
+}
+
 function renderItem(container, item, variation) {
   const title = fragmentTitle(item);
   const eyebrow = fragmentEyebrow(item);
   const imageUrl = fragmentImageUrl(item);
   // eslint-disable-next-line no-underscore-dangle
   const resolvedVariation = item?._variation || variation;
+  const heroHtml = item?.hero?.body?.html || '';
 
   if (!title) {
     renderError(container, {
@@ -186,9 +206,24 @@ function renderItem(container, item, variation) {
       ${imageUrl ? `<img class="content-fragment-card-art" src="${escapeHtml(imageUrl)}" alt="">` : ''}
       ${eyebrow ? `<p class="content-fragment-eyebrow">${escapeHtml(eyebrow)}</p>` : ''}
       <h4 class="content-fragment-card-title">${escapeHtml(title)}</h4>
-      ${isAuthoringHost() || window.location.hostname === 'localhost'
-    ? `<p class="content-fragment-variation">Variation: ${escapeHtml(resolvedVariation)}</p>`
-    : ''}
+      <p class="content-fragment-variation">Variation: ${escapeHtml(resolvedVariation)}</p>
+      ${heroHtml ? `<div class="content-fragment-hero-body">${heroHtml}</div>` : ''}
+      ${renderRichList('Fee rates', item.feerates, (row) => `
+        <div class="content-fragment-rich">${htmlOrText(row.headline)}</div>
+        <div class="content-fragment-rich">${htmlOrText(row.body)}</div>
+      `)}
+      ${renderRichList('Accelerate', item.accelerate, (row) => `
+        <div class="content-fragment-rich">${htmlOrText(row.headline)}</div>
+        <div class="content-fragment-rich">${htmlOrText(row.body)}</div>
+      `)}
+      ${renderRichList('Features', item.features, (row) => `
+        <div class="content-fragment-rich">${htmlOrText(row.title)}</div>
+        <div class="content-fragment-rich">${htmlOrText(row.body)}</div>
+      `)}
+      ${renderRichList('Primary benefits', item.primaryBenefits, (row) => `
+        <div class="content-fragment-rich">${htmlOrText(row.title)}</div>
+        <div class="content-fragment-rich">${htmlOrText(row.body)}</div>
+      `)}
     </article>
   `;
 }
