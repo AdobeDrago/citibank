@@ -12,8 +12,10 @@ export default async function decorate(block) {
   const headingText = authoredText(headingEl);
   const changeEl = [...block.querySelectorAll('a, p')].reverse()
     .find((el) => /change zip/i.test(authoredText(el)));
-  const changeText = authoredText(changeEl?.querySelector('a') || changeEl)
-    || 'Change ZIP Code';
+  const authoredChange = authoredText(changeEl?.querySelector('a') || changeEl);
+  const changeText = authoredChange
+    ? (/>\s*$/.test(authoredChange) ? authoredChange : `${authoredChange} >`)
+    : 'Change ZIP Code >';
 
   let heading;
   if (headingText) {

@@ -53,39 +53,116 @@ async function loadFooterFragmentNamed(name) {
 const loadFooterFragment = () => loadFooterFragmentNamed('footer');
 
 /**
+ * Classify a cbol footer fragment section by its content shape.
+ * Mirrors banking.citi.com `.footer`: logo, legal links, social, then terms.
+ */
+function classifyCbolSection(sec) {
+  if (sec.querySelector(':scope > h4')) return 'disclosures';
+  if (sec.querySelector(':scope > ul')) return 'legal';
+  const links = sec.querySelectorAll(':scope > p > a');
+  // Use 'a img' (not 'a > img') so images inside <picture> wrappers also match.
+  if (links.length === 1 && sec.querySelectorAll(':scope > p').length === 1
+    && sec.querySelector(':scope > p > a img')) return 'brand';
+  if (links.length >= 1 && sec.querySelector(':scope > p > a img')
+    && sec.querySelectorAll(':scope > p').length > 1) return 'social';
+  // Long-form T&C (with optional trailing FDIC / Equal Housing badge images).
+  return 'disclosures';
+}
+
+/**
+ * Pull trailing image-only paragraphs (FDIC + Equal Housing) out of a
+ * disclosures section into a badges row. Live places these after all terms
+ * (`.footer__icons`), not above them.
+ */
+function extractCbolBadges(disclosures) {
+  const imgOnlyParas = [...disclosures.querySelectorAll(':scope > p')].filter(
+    (p) => p.querySelector('img') && !p.textContent.trim(),
+  );
+  if (!imgOnlyParas.length) return null;
+  const badges = document.createElement('div');
+  badges.className = 'footer-cbol-badges';
+  imgOnlyParas.forEach((p) => {
+    [...p.childNodes].forEach((node) => badges.append(node));
+    p.remove();
+  });
+  return badges;
+}
+
+/**
+ * Convert DA `.deposit-account` fee grids into a live-matching table with
+ * "Deposit Account" / "Monthly Service Fee" column headers.
+ * @param {Element} disclosures
+ */
+function decorateDepositAccountTables(disclosures) {
+  disclosures.querySelectorAll('.deposit-account').forEach((grid) => {
+    const rows = [...grid.children].filter((el) => el.tagName === 'DIV');
+    if (!rows.length) return;
+
+    const table = document.createElement('table');
+    table.className = 'fixed simple left';
+
+    const thead = document.createElement('thead');
+    const headRow = document.createElement('tr');
+    ['Deposit Account', 'Monthly Service Fee'].forEach((label) => {
+      const th = document.createElement('th');
+      th.scope = 'col';
+      th.textContent = label;
+      headRow.append(th);
+    });
+    thead.append(headRow);
+
+    const tbody = document.createElement('tbody');
+    rows.forEach((row) => {
+      const cells = [...row.children];
+      const tr = document.createElement('tr');
+      const th = document.createElement('th');
+      th.scope = 'row';
+      th.textContent = cells[0]?.textContent?.trim() || '';
+      const td = document.createElement('td');
+      td.textContent = cells[1]?.textContent?.trim() || '';
+      tr.append(th, td);
+      tbody.append(tr);
+    });
+
+    table.append(thead, tbody);
+    grid.replaceWith(table);
+  });
+}
+
+/**
  * Render the compact cbol landing footer. Fragment sections, in order:
  *   [0] logo:        <p><a><img></a></p>
  *   [1] legal:       <ul> of legal links
  *   [2] social:      <p> of image links
- *   [3] disclosures: <h4> + long-form legal T&C (incl. the fee-schedule table)
- *   [4] band:        badges <p>(imgs) + legal <p> + copyright <p>
- * A single navy bar — no accordion columns.
+ *   [3] disclosures: long-form legal T&C (+ optional trailing badge imgs)
+ * Structure matches live: nav row (logo | links | social) → terms → badges.
  */
 function renderCbolFooter(block, frag) {
   const sections = [...frag.children].filter((el) => el.tagName === 'DIV');
   const inner = document.createElement('div');
   inner.className = 'footer-cbol-inner';
 
-  const classFor = (sec) => {
-    // disclosures = the long-form "Important Legal Disclosures" T&C block (h4)
-    if (sec.querySelector(':scope > h4')) return 'footer-cbol-disclosures';
-    if (sec.querySelector(':scope > ul')) return 'footer-cbol-legal';
-    const links = sec.querySelectorAll(':scope > p > a');
-    // brand = a single linked logo image in a single paragraph
-    if (links.length === 1 && sec.querySelectorAll(':scope > p').length === 1
-      && sec.querySelector(':scope > p > a > img')) return 'footer-cbol-brand';
-    // social = a row of multiple linked icons
-    if (links.length > 1 && sec.querySelector(':scope > p > a > img')) return 'footer-cbol-social';
-    return 'footer-cbol-band';
-  };
+  const nav = document.createElement('div');
+  nav.className = 'footer-cbol-nav';
 
   sections.forEach((sec) => {
+    const type = classifyCbolSection(sec);
     const band = document.createElement('div');
-    band.className = classFor(sec);
+    band.className = `footer-cbol-${type}`;
     while (sec.firstChild) band.append(sec.firstChild);
+
+    if (type === 'brand' || type === 'legal' || type === 'social') {
+      nav.append(band);
+      return;
+    }
+
+    decorateDepositAccountTables(band);
+    const badges = extractCbolBadges(band);
     inner.append(band);
+    if (badges) inner.append(badges);
   });
 
+  if (nav.children.length) inner.prepend(nav);
   block.append(inner);
 
   // The disclosures carry an authored `deposit-account` fee schedule. Fragment

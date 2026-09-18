@@ -171,6 +171,51 @@ async function loadEager(doc) {
 }
 
 /**
+ * Citigold sticky apply bar — mirrors live `section.sticky-bar`.
+ * Shows the `.landing-cta` strip at the top once the hero Get Started CTA
+ * scrolls out of view; hides again when the hero CTA returns.
+ */
+function initCitigoldStickyCta() {
+  if (!document.body.classList.contains('citigold-landing')) return;
+  const bar = document.querySelector('main .landing-cta');
+  if (!bar) return;
+
+  // Authoring may ship a plain link (no <strong>); force primary button chrome.
+  const cta = bar.querySelector('a[href]');
+  if (cta) {
+    const p = cta.closest('p');
+    if (p) p.classList.add('button-wrapper');
+    cta.classList.add('button', 'primary');
+  }
+
+  const heroCta = document.querySelector('main .landing-hero a.button');
+  if (!heroCta) {
+    bar.classList.add('sticky-visible');
+    return;
+  }
+
+  const sync = (inView) => {
+    bar.classList.toggle('sticky-visible', !inView);
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      sync(entry.isIntersecting);
+    });
+  }, { threshold: 0, rootMargin: '0px' });
+  observer.observe(heroCta);
+
+  // Fallback for environments where IntersectionObserver misses programmatic scrolls
+  const onScroll = () => {
+    const { top, bottom } = heroCta.getBoundingClientRect();
+    sync(bottom > 0 && top < window.innerHeight);
+  };
+  document.addEventListener('scroll', onScroll, { passive: true, capture: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  onScroll();
+}
+
+/**
  * Loads everything that doesn't need to be delayed.
  * @param {Element} doc The container element
  */
@@ -188,6 +233,7 @@ async function loadLazy(doc) {
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
+  initCitigoldStickyCta();
 }
 
 /**

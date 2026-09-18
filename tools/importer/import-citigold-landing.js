@@ -255,8 +255,9 @@
     const out = [];
     const h2 = section.querySelector('h2');
     if (h2) out.push(heading(document, 2, h2.textContent));
-    // intro paragraph
-    const intro = section.querySelector('.accounts__body p, .accounts__title-container ~ * p');
+    // intro paragraph — prefer the accounts body copy (not a CAMB range line)
+    const intro = section.querySelector('.accounts__body')
+      || [...section.querySelectorAll('p')].find((p) => /relationship tiers/i.test(norm(p.textContent)) && /CAMB|combined average/i.test(norm(p.textContent)));
     if (intro && norm(intro.textContent)) out.push(para(document, intro.textContent));
 
     // "Citi Relationship Tiers" tab label (small centered bordered tab in source)

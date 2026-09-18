@@ -177,3 +177,41 @@ body.credit-card-retail-pdp .tabs .tabs-panel p {
     break-inside: avoid;
   }
 }
+
+/* Citigold featured-offer — neutralize PDP tabs defaults that load with this
+   file AFTER styles.css. `flex: 0 0 max-content` + `overflow-x: auto` force a
+   horizontal strip that clips the active pill inside the white card. */
+body.citigold-landing .landing-offer-cards .tabs .tabs-list {
+  flex-direction: column;
+  gap: 0;
+  max-width: none;
+  overflow: visible;
+  overflow-x: visible;
+}
+
+body.citigold-landing .landing-offer-cards .tabs .tabs-list button {
+  flex: none;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+body.citigold-landing .landing-offer-cards .tabs .tabs-panel {
+  margin-top: 0;
+  padding: 0;
+  border: 0;
+  overflow: visible;
+}
+
+@media (width >= 768px) {
+  body.citigold-landing .landing-offer-cards .tabs .tabs-list {
+    flex-direction: row;
+    flex-wrap: nowrap;
+  }
+
+  body.citigold-landing .landing-offer-cards .tabs .tabs-list button {
+    flex: 1 1 0;
+    width: auto;
+  }
+}
