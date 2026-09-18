@@ -268,20 +268,20 @@ header nav.nav-subpanel-open .nav-item[aria-expanded='true'] {
 
 
   header nav .nav-item-toggle::after {
-  content: '';
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: 12px;
-  border-left: 2px solid var(--citi-nav-navy);
-  border-bottom: 2px solid var(--citi-nav-navy);
-  transform: rotate(225deg);
-  vertical-align: middle;
-}
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    margin-right: 12px;
+    border-left: 2px solid var(--citi-nav-navy);
+    border-bottom: 2px solid var(--citi-nav-navy);
+    transform: rotate(225deg);
+    vertical-align: middle;
+  }
 
-.header nav .nav-tool:not(.nav-tool-secondary)::after {
-  margin-left :88px;
-}
+  .header nav .nav-tool:not(.nav-tool-secondary)::after {
+    margin-left: 88px;
+  }
 
 }
 
@@ -329,8 +329,6 @@ header nav .nav-panel-back {
   text-align: left;
   cursor: pointer;
 }
-
-
 
 header nav.nav-subpanel-open .nav-item[aria-expanded='true'] .nav-panel {
   padding-top: 0;
