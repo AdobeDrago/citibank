@@ -13,12 +13,16 @@ footer {
   background-color: var(--citi-footer-bg);
   color: var(--citi-footer-text);
   font-size: 12px;
+  margin: 8px;
 }
 
 footer .footer-inner {
   margin: 0 auto;
   max-width: 1440px;
-  padding: 32px 24px 40px;
+}
+
+@media (width <=768px) {
+  footer .footer-inner {  padding: 0 5%; }
 }
 
 footer .footer-nav a {
@@ -54,19 +58,6 @@ footer .footer-column h2 {
   cursor: pointer;
 }
 
-/* mobile: chevron indicator; column list collapsed until the heading is tapped */
-footer .footer-column h2::after {
-  content: '';
-  width: 8px;
-  height: 8px;
-  border-right: 2px solid #fff;
-  border-bottom: 2px solid #fff;
-  transform: rotate(45deg);
-  transition: transform 0.2s ease;
-}
-
-footer .footer-column[aria-expanded='true'] h2::after { transform: rotate(-135deg); }
-
 footer .footer-column ul {
   display: none;
   padding: 12px 0;
@@ -82,10 +73,69 @@ footer .footer-column a {
 }
 
 footer .footer-column img {
-  width: 44px;
-  height: auto;
+  width: 51px;
+  height: 53px;
   margin-top: 8px;
 }
+
+/* Mobile footer-column width < 600px) */
+
+@media (width <=768px) {
+footer .footer-columns{
+  gap : 0;
+  padding-top : 7px;
+}
+
+  footer .footer-column h2 {
+   padding: 20px 0;
+  }
+
+footer .footer-column img {
+  margin-top: 12px;
+}
+
+}
+
+/* footer-other */
+
+footer .footer-other-main-wrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+footer .footer-other-main-wrapper .footer-other-left-wrapper .footer-other,
+footer .footer-other-main-wrapper .footer-other-right-wrapper .footer-other {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  padding: 20px 0;
+}
+
+footer .footer-other-main-wrapper .footer-other-left-wrapper .footer-other p a > img,
+footer .footer-other-main-wrapper .footer-other-right-wrapper .footer-other p a > img {
+  cursor: pointer;
+}
+
+/* Mobile footer-column width < 600px) */
+
+@media (width <=768px) {
+  footer .footer-other-main-wrapper {
+    display: block;
+    padding-bottom: 12px;
+    width: 100%;
+    padding-top: 20px;
+  }
+
+  footer .footer-other-main-wrapper .footer-other-left-wrapper .footer-other,
+  footer .footer-other-main-wrapper .footer-other-right-wrapper .footer-other {
+    display: flex;
+    padding: 0 0 10px;
+    list-style-type: none;
+  }
+}
+
+/* stylelint-disable no-descending-specificity */
 
 /* ---------- App + social band ---------- */
 footer .footer-social {
@@ -118,15 +168,19 @@ footer .footer-social p:last-child img {
 }
 
 /* ---------- Copyright + legal links ---------- */
-footer .footer-legal { margin-top: 24px; }
+footer .footer-legal{
+  padding-bottom: 24px;
+}
 
 footer .footer-legal p {
   margin-bottom: 12px;
   font-size: 12px;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
 footer .footer-legal ul {
+  padding: 20px 0;
+  border: 1px solid #666;
+  border-width: 1px 0;
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -150,7 +204,10 @@ footer .footer-disclosures p {
   line-height: 1.5;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
+footer .footer-disclosures p:last-child {
+  margin-bottom: 28px;
+}
+
 footer .footer-disclosures img {
   width: 64px;
   height: auto;
@@ -162,6 +219,27 @@ footer .footer-logo-duplicate { display: none; }
 
 /* link hover (placed after all link rules to satisfy specificity ordering) */
 footer .footer-nav a:hover { text-decoration: underline; }
+
+footer .footer-logo img {
+    margin-left: 35px;
+    margin-bottom: 20px;
+    width: 88px;
+    height: 57px;
+}
+
+  /* stylelint-enable no-descending-specificity */
+
+/* ---------- Footer logo Mobile ( < 600px) ---------- */
+
+@media (width <=768px) {
+.footer-logo{
+  padding-top:35px;
+}
+  
+  footer .footer-logo img {
+    margin: 0 0 0 8px;
+  }
+}
 
 /* ---------- Tablet (>= 600px) ---------- */
 @media (width >= 768px) {
@@ -175,7 +253,7 @@ footer .footer-nav a:hover { text-decoration: underline; }
 
 /* ---------- Desktop (>= 900px) ---------- */
 @media (width >= 992px) {
-  footer .footer-inner { padding: 48px 96px 40px; }
+  footer .footer-nav { padding: 40px 9% 0 }
 
   footer .footer-columns {
     flex-flow: row nowrap;
@@ -194,6 +272,7 @@ footer .footer-nav a:hover { text-decoration: underline; }
     margin: 0 0 16px;
     border-bottom: 0;
     cursor: default;
+    font-size: 14px;
   }
 
   footer .footer-column h2::after { content: none; }
@@ -219,12 +298,6 @@ footer .footer-nav a:hover { text-decoration: underline; }
   footer .footer-legal p { margin-bottom: 16px; }
 }
 
-@media (width >= 1200px) {
-  footer .footer-inner {
-    padding-left: 96px;
-    padding-right: 96px;
-  }
-}
 
 /* ---------- cbol landing footer (banking.citi.com/cbol/…) ----------
    A distinct compact NAVY legal footer (matches source #0f1632): white Citi
