@@ -240,7 +240,10 @@ Separate from the json2html `/cards` overlay: the DA **content-fragment** block 
 
 **Code:** [`scripts/aem-content-fragment.js`](../../scripts/aem-content-fragment.js), [`blocks/content-fragment/`](../../blocks/content-fragment/), [`scripts/auth.js`](../../scripts/auth.js) (`SEGMENT_VALUE = seg-a`).
 
-**Default GraphQL host:** Drago publish. Optional override: `?aemOrigin=http://localhost:4502`.
+**Credit card GraphQL:** persisted query `cf-services/ccbypathandvariation`  
+`GET …/graphql/execute.json/cf-services/ccbypathandvariation;path=…;variation=master|seg-a`
+
+**Default GraphQL host:** Drago publish. Optional override: `?aemOrigin=http://localhost:4503` (local CORS proxy).
 
 ### Drago prerequisite
 
@@ -262,4 +265,23 @@ query {
   }
 }
 ```
+
+### Local testing when Drago CORS is missing
+
+Browser calls from `localhost:3000` / `*.aem.page` to Drago publish fail without CORS.
+Use the local proxy (forwards GraphQL and adds CORS headers):
+
+```bash
+# terminal 1
+npx -y @adobe/aem-cli up --no-open --forward-browser-logs
+
+# terminal 2
+node scripts/dev-aem-graphql-proxy.mjs
+```
+
+Open:
+
+`http://localhost:3000/credit-cards/content-fragment-demo?aemOrigin=http://localhost:4503`
+
+Logged out → master; Log In → seg-a.
 
