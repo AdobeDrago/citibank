@@ -481,7 +481,7 @@
       </a>
     </div>
     <div class="sidebar-section">
-      <div class="sidebar-label">Scenario 1 · Citigold ELP <span class="nav-status ns-planned">Proposed</span></div>
+      <div class="sidebar-label">Scenario 1 · Citigold ELP <span class="nav-status ns-progress">In progress</span></div>
       <a class="sidebar-link" href="#scenario-1">
         <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2zm5.5 0A1.5 1.5 0 018 2h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 7H8A1.5 1.5 0 016.5 5.5v-2zm-5.5 5A1.5 1.5 0 012.5 7h2A1.5 1.5 0 016 8.5v2A1.5 1.5 0 014.5 12h-2A1.5 1.5 0 011 10.5v-2zm5.5 0A1.5 1.5 0 018 7h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 12H8A1.5 1.5 0 016.5 10.5v-2z"/></svg>
         Featured Offer landing page
@@ -576,7 +576,7 @@
               <td><a href="#scenario-1" style="color:var(--citi-blue);">1 · Citigold Featured Offer (ELP)</a></td>
               <td>Hosted-page migration · authoring governance · dynamic API integration · Pega banner E2E gate</td>
               <td>Pre-login</td>
-              <td><span class="nav-status ns-planned">Proposed</span></td>
+              <td><span class="nav-status ns-progress">In progress</span></td>
             </tr>
             <tr>
               <td><a href="#scenario-2" style="color:var(--citi-blue);">2 · Post-Login Pega Banners</a></td>
@@ -648,9 +648,20 @@
           </a>
         </div>
 
+        <h3>Engineering sandbox — personalization POC (not a Citi endpoint)</h3>
+        <p>The <code class="code-inline">content-fragment</code> and <code class="code-inline">cc-fragment</code> blocks built for Scenario 3's segment-personalization POC call an Adobe-hosted AEM Cloud author/publish instance to prove the pattern, distinct from Citi's own GraphQL endpoint above:</p>
+        <div class="url-grid">
+          <a class="url-card" href="https://publish-p199056-e2062160.adobeaemcloud.com" target="_blank" rel="noopener">
+            <div class="url-card-label"><span class="dot dot-orange"></span>AEM Cloud sandbox · publish</div>
+            <div class="url-card-title">Content Fragment GraphQL (POC)</div>
+            <div class="url-card-url">publish-p199056-e2062160.adobeaemcloud.com</div>
+            <div class="url-card-desc">Persisted query <code class="code-inline">cf-services/ccbypathandvariation</code> — see <code class="code-inline">scripts/aem-content-fragment.js</code></div>
+          </a>
+        </div>
+
         <div class="notice info">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
-          <span><strong>Scenario 3 has an initial EDS build</strong> (page structure re-modeled as blocks and rendered in preview — see its section for the <code class="code-inline">.aem.page</code> URL); Scenarios 1 and 2 remain pre-implementation. This page tracks scope and open questions; as further candidates are built, add their <code class="code-inline">{branch}--{repo}--{owner}.aem.page</code> / <code class="code-inline">.aem.live</code> URLs to the relevant scenario section.</span>
+          <span><strong>Scenarios 1 and 3 both now have engineering work underway</strong> (Scenario 1: ZIP/BTA-driven blocks and a drafted page; Scenario 3: an initial block-based build plus a personalization-block POC — see their sections for detail); Scenario 2 remains pre-implementation. This page tracks scope and open questions; as branches are pushed for a candidate, add their <code class="code-inline">{branch}--{repo}--{owner}.aem.page</code> / <code class="code-inline">.aem.live</code> URLs to the relevant scenario section.</span>
         </div>
       </section>
 
@@ -661,11 +672,16 @@
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2zm5.5 0A1.5 1.5 0 018 2h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 7H8A1.5 1.5 0 016.5 5.5v-2zm-5.5 5A1.5 1.5 0 012.5 7h2A1.5 1.5 0 016 8.5v2A1.5 1.5 0 014.5 12h-2A1.5 1.5 0 011 10.5v-2zm5.5 0A1.5 1.5 0 018 7h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 12H8A1.5 1.5 0 016.5 10.5v-2z"/></svg>
           </span>
           Scenario 1 — Citigold Featured Offer (ELP)
-          <span class="status-badge sb-planned">Proposed</span>
+          <span class="status-badge sb-progress">In progress</span>
         </h2>
         <div class="section-rule"></div>
         <p><strong>Live (production, migration source):</strong> <a href="https://banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm" target="_blank" rel="noopener" style="color:var(--citi-blue);">banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm</a></p>
         <p>This is one of our most complex hosted <strong>External Landing Pages (ELP)</strong> and a strong fit for the prototype because it exercises three things at once: whether a hosted page can transition into EDS, how the authoring and governance model needs to evolve for hosted pages, and whether EDS can render dynamic API data reliably inside an authored page.</p>
+
+        <div class="notice info">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+          <span><strong>Engineering update.</strong> The page was pulled through the project's importer (<code class="code-inline">tools/importer/import-citigold-landing.js</code>) into a draft (<code class="code-inline">drafts/citigold-featured-offer.html</code>) reproducing the hero, benefits cards, and steps sections. Two new blocks (<code class="code-inline">zip-banner</code>, <code class="code-inline">deposit-account</code>) render the page's home-address ZIP control and its Monthly Service Fee schedule, branching on a Banking Territory Area (BTA) lookup against an authored DA sheet (<code class="code-inline">scripts/bta.js</code>). This proves the pattern for dynamic, ZIP-driven rendering inside an authored EDS page — it is not yet the hosted page's real offer/eligibility backend (see open question 2 below), and no shared preview URL has been confirmed for this scenario yet.</span>
+        </div>
 
         <h3>What this validates</h3>
         <ul class="req-list">
@@ -676,24 +692,24 @@
 
         <ul class="checklist" style="margin-top:16px;">
           <li class="check-item">
-            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
             <div class="check-body">
               <div class="check-title">Render the hosted ELP structure through EDS</div>
-              <div class="check-note">Reproduce the Citigold Featured Offer layout, content model, and section structure as authorable EDS blocks.</div>
+              <div class="check-note"><strong>Partial.</strong> Hero, benefits cards, and steps sections are drafted and render through the imported content structure. The home-address band and fee-schedule footer disclosure now render as authorable blocks (<code class="code-inline">zip-banner</code>, <code class="code-inline">deposit-account</code>). Not yet confirmed against a live DA-authored/previewed page.</div>
             </div>
           </li>
           <li class="check-item">
-            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
             <div class="check-body">
               <div class="check-title">Fetch and render dynamic API data</div>
-              <div class="check-note">Confirm the offer/eligibility data that currently comes from the hosted page's backend can be fetched and rendered client-side (or edge-side) from an EDS page.</div>
+              <div class="check-note"><strong>Partial.</strong> ZIP-based BTA lookup (<code class="code-inline">scripts/bta.js</code>) fetches an authored DA sheet client-side and conditionally shows/hides fee rows and pricing based on the visitor's ZIP — proves the fetch-and-branch pattern. The hosted page's actual offer/eligibility backend (open question 2) is still unconfirmed and unintegrated.</div>
             </div>
           </li>
           <li class="check-item">
             <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
             <div class="check-body">
               <div class="check-title">Preserve session handling</div>
-              <div class="check-note">Confirm any session state the hosted page relies on carries across into the EDS-rendered page without breaking eligibility/offer logic.</div>
+              <div class="check-note">Confirm any session state the hosted page relies on carries across into the EDS-rendered page without breaking eligibility/offer logic. The simulated login/session cookie built for Scenarios 2 &amp; 3 (<code class="code-inline">scripts/auth.js</code>) has not yet been wired into this scenario.</div>
             </div>
           </li>
           <li class="check-item">
@@ -887,17 +903,17 @@
             </div>
           </li>
           <li class="check-item">
-            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
             <div class="check-body">
               <div class="check-title">Session-aware header/footer branding</div>
-              <div class="check-note">Confirm the shared header/footer can re-render (or re-hydrate) based on logged-in state without duplicating the global nav per page.</div>
+              <div class="check-note"><strong>Partial (simulated).</strong> <code class="code-inline">scripts/auth.js</code> flips a same-site <code class="code-inline">ecid</code> cookie on Log In/Log Out and toggles an <code class="code-inline">auth-authenticated</code>/<code class="code-inline">auth-anonymous</code> body class; the header's Log In control (<code class="code-inline">blocks/header/header.js</code>) swaps to Log Out, and login-gated sections can be authored via a "Log in to view content" heading. This is a same-site cookie standing in for real Citi identity — no actual session/SSO integration yet.</div>
             </div>
           </li>
           <li class="check-item">
-            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
             <div class="check-body">
               <div class="check-title">Segment-driven banners, offers, and pricing</div>
-              <div class="check-note">Validate personalized rendering at scale — this is the highest-traffic of the three scenarios, so performance under personalization matters here specifically.</div>
+              <div class="check-note"><strong>Partial — three POC mechanisms built,</strong> all keyed off the same simulated <code class="code-inline">ecid</code> cookie: the <code class="code-inline">content-fragment</code> block fetches an AEM Content Fragment by path via GraphQL and requests a <code class="code-inline">master</code>/<code class="code-inline">seg-a</code> variation; <code class="code-inline">cc-fragment</code> instead routes to a segment-specific child fragment page (<code class="code-inline">-seg-a</code>/<code class="code-inline">-seg-b</code>/<code class="code-inline">-default</code>); and <code class="code-inline">scripts/offer-sheet.js</code> replaces authored <code class="code-inline">{{token}}</code> placeholders from a segment-tabbed DA sheet. See the note below on which backend each one talks to before treating any as validated against Citi's real segment data.</div>
             </div>
           </li>
           <li class="check-item">
@@ -908,6 +924,11 @@
             </div>
           </li>
         </ul>
+
+        <div class="notice warning">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8.22 1.754a.25.25 0 00-.44 0L1.698 13.132a.25.25 0 00.22.368h12.164a.25.25 0 00.22-.368L8.22 1.754zm-1.763-.707c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0114.082 15H1.918a1.75 1.75 0 01-1.543-2.575L6.457 1.047zM9 11a1 1 0 11-2 0 1 1 0 012 0zm-.25-5.25a.75.75 0 00-1.5 0v2.5a.75.75 0 001.5 0v-2.5z"/></svg>
+          <span><strong>The personalization POC above talks to a different backend than Scenario 2.</strong> <code class="code-inline">scripts/aem-content-fragment.js</code> points at an Adobe-hosted AEM Cloud author/publish sandbox (see <a href="#references" style="color:#8a4b08;">Key references</a>), not Citi's <code class="code-inline">qa3.aemapi.citi.com</code> Pega endpoint used in Scenario 2. It's a valid proof of the personalization-block pattern (fetch by path, request a variation, swap on login), but none of it is validated against Citi's real segment/Pega data yet — don't read the "Partial" status above as progress toward the Scenario 2 integration.</span>
+        </div>
       </section>
 
       <!-- SCENARIO 3 - RELEASE WORKFLOW -->
@@ -1028,7 +1049,7 @@
 
       <div class="doc-footer">
         <svg width="12" height="12" viewBox="0 0 16 16" fill="#b3b3b3"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
-        Citibank EDS Migration Pilot Proposal &nbsp;·&nbsp; Draft &nbsp;·&nbsp; Banking ELP + Pega Personalization &nbsp;·&nbsp; Generated August 2026
+        Citibank EDS Migration Pilot Proposal &nbsp;·&nbsp; Draft &nbsp;·&nbsp; Banking ELP + Pega Personalization &nbsp;·&nbsp; Generated August 2026 &nbsp;·&nbsp; Updated September 2026
       </div>
 
     </div>
