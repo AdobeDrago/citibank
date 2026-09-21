@@ -7,7 +7,7 @@ export const BTA_SHEET_PATH = '/cbol/zipcode-bta.json';
 
 let lastApplied = '';
 let inFlight;
-let indexPromise;
+let workbookPromise;
 
 /**
  * @param {unknown} value
@@ -18,7 +18,7 @@ export function normalizeZip(value) {
 }
 
 /**
- * ZIP from ?zip=, then localStorage, then the IN-territory default.
+ * ZIP from ?zip=, then localStorage, then the default.
  * @returns {string}
  */
 export function getZip() {
@@ -54,19 +54,39 @@ function cell(row, names) {
 
 /**
  * @param {object} json
+ * @returns {string[]}
+ */
+function sheetNames(json) {
+  if (!json || typeof json !== 'object') return [];
+  if (Array.isArray(json[':names'])) return json[':names'].map(String);
+  return Object.keys(json).filter((key) => !key.startsWith(':'));
+}
+
+/**
+ * Picks one tab from a multi-sheet workbook (case-insensitive).
+ * A single-sheet payload is returned as-is when the name is `data`.
+ * @param {object} json
+ * @param {string} name
+ * @returns {object|null}
+ */
+function getSheet(json, name) {
+  if (!json || typeof json !== 'object') return null;
+  const wanted = String(name || '').trim().toLowerCase();
+  const isMulti = json[':type'] === 'multi-sheet' || Array.isArray(json[':names']);
+  if (!isMulti) {
+    return wanted === 'data' || !wanted ? json : null;
+  }
+  const match = sheetNames(json).find((n) => n.toLowerCase() === wanted);
+  const sheet = match ? json[match] : null;
+  return sheet && typeof sheet === 'object' ? sheet : null;
+}
+
+/**
+ * @param {object|null} sheet
  * @returns {object[]}
  */
-function sheetRows(json) {
-  if (!json || typeof json !== 'object') return [];
-  if (Array.isArray(json.data)) return json.data;
-  const isMulti = json[':type'] === 'multi-sheet' || Array.isArray(json[':names']);
-  if (!isMulti) return [];
-  const names = Array.isArray(json[':names'])
-    ? json[':names']
-    : Object.keys(json).filter((key) => !key.startsWith(':'));
-  const wanted = names.find((name) => String(name).toLowerCase() === 'data') || names[0];
-  const sheet = wanted ? json[wanted] : null;
-  return Array.isArray(sheet?.data) ? sheet.data : [];
+function sheetData(sheet) {
+  return Array.isArray(sheet?.data) ? sheet.data.filter((row) => row && typeof row === 'object') : [];
 }
 
 /**
@@ -76,7 +96,6 @@ function sheetRows(json) {
 function rowsToIndex(rows) {
   const index = new Map();
   rows.forEach((row) => {
-    if (!row || typeof row !== 'object') return;
     const zip = normalizeZip(cell(row, ['zip', 'zipcode', 'zip code']));
     if (zip.length !== 5 || index.has(zip)) return;
     const outOfBTA = String(cell(row, ['outOfBTA', 'outofbta', 'out of bta'])).trim().toUpperCase() === 'IN'
@@ -92,23 +111,24 @@ function rowsToIndex(rows) {
 }
 
 /**
- * Loads the DA ZIP sheet once per page.
- * @returns {Promise<Map<string, { zip: string, outOfBTA: string, governingState: string }>>}
+ * Loads the authored workbook once per page.
+ * @returns {Promise<object>}
  */
-async function loadIndex() {
-  if (!indexPromise) {
-    indexPromise = fetch(BTA_SHEET_PATH)
+async function loadWorkbook() {
+  if (!workbookPromise) {
+    workbookPromise = fetch(BTA_SHEET_PATH)
       .then(async (resp) => {
-        if (!resp.ok) return new Map();
-        return rowsToIndex(sheetRows(await resp.json()));
+        if (!resp.ok) return {};
+        const json = await resp.json();
+        return json && typeof json === 'object' ? json : {};
       })
-      .catch(() => new Map());
+      .catch(() => ({}));
   }
-  return indexPromise;
+  return workbookPromise;
 }
 
 /**
- * Looks up a ZIP in the authored DA sheet. Unknown ZIPs still display and are OUT.
+ * Looks up a ZIP in the authored `data` sheet. Unknown ZIPs are OUT.
  * @param {unknown} zip
  * @returns {Promise<{ zip: string, outOfBTA: string, governingState: string }>}
  */
@@ -116,8 +136,57 @@ export async function lookupZip(zip) {
   const normalized = normalizeZip(zip);
   const fallback = { zip: normalized, outOfBTA: 'OUT', governingState: '' };
   if (normalized.length !== 5) return fallback;
-  const match = (await loadIndex()).get(normalized);
+  const workbook = await loadWorkbook();
+  const match = rowsToIndex(sheetData(getSheet(workbook, 'data'))).get(normalized);
   return match || fallback;
+}
+
+/**
+ * @param {object} row
+ * @returns {{ account: string, fee: string }|null}
+ */
+function feePair(row) {
+  const account = String(cell(row, [
+    'account', 'depositaccount', 'deposit account', 'name', 'product',
+  ])).trim();
+  const fee = String(cell(row, [
+    'fee', 'monthlyservicefee', 'monthly service fee', 'price', 'amount',
+  ])).trim();
+  if (account && fee) return { account, fee };
+
+  const values = Object.keys(row)
+    .filter((key) => !key.startsWith(':'))
+    .map((key) => String(row[key] ?? '').trim())
+    .filter(Boolean);
+  if (values.length >= 2) return { account: values[0], fee: values[1] };
+  return null;
+}
+
+/**
+ * Fee rows from the IN or OUT tab. If authors put the first product in the
+ * header row (DA treats row 1 as column names), that pair is restored first.
+ * @param {string} outOfBTA IN | OUT
+ * @returns {Promise<{ account: string, fee: string }[]>}
+ */
+export async function getBtaFeeSchedule(outOfBTA) {
+  const tab = String(outOfBTA).toUpperCase() === 'OUT' ? 'OUT' : 'IN';
+  const sheet = getSheet(await loadWorkbook(), tab);
+  const raw = sheetData(sheet);
+  const fees = [];
+
+  if (raw.length) {
+    const keys = Object.keys(raw[0]).filter((key) => !key.startsWith(':'));
+    const hasStandard = keys.some((key) => /account|fee|deposit|price|product|name/i.test(key));
+    if (!hasStandard && keys.length >= 2) {
+      fees.push({ account: keys[0], fee: keys[1] });
+    }
+  }
+
+  raw.forEach((row) => {
+    const pair = feePair(row);
+    if (pair) fees.push(pair);
+  });
+  return fees;
 }
 
 /**
