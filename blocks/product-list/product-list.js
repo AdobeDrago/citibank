@@ -1,4 +1,7 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
+import {
+  getOfferSheetUrl, fetchOfferSheetJson, sheetToValues, replaceOfferTokens, resolveOfferTokens,
+} from '../../scripts/offer-sheet.js';
 import getProducts, { filterByCategories, getCategories } from './product-list-data.js';
 import { createIcon, iconForBenefit } from './product-list-icons.js';
 
@@ -67,9 +70,13 @@ function annualFeeLabel(annualFee) {
   return annualFee === '$0' ? 'No Annual Fee' : `${annualFee} Annual Fee`;
 }
 
-function createBenefits(product) {
+// Resolved as a string before formatting (rather than via post-render DOM
+// replacement) so a {{annual fee}} token resolving to $0 still triggers the
+// "No Annual Fee" label instead of literally showing "$0 Annual Fee".
+function createBenefits(product, values) {
   const rows = product.benefits.slice(0, MAX_BENEFITS).map((text) => [text, iconForBenefit(text)]);
-  if (product.annualFee) rows.push([annualFeeLabel(product.annualFee), 'dollar']);
+  const annualFee = values ? resolveOfferTokens(product.annualFee, values) : product.annualFee;
+  if (annualFee) rows.push([annualFeeLabel(annualFee), 'dollar']);
   if (!rows.length) return null;
 
   const list = document.createElement('ul');
@@ -168,20 +175,28 @@ function createDisclosures(product) {
   return wrapper;
 }
 
-function createCard(product, grid) {
+function createCard(product, grid, offerValuesByPath) {
   const item = document.createElement('li');
   const article = document.createElement('article');
+  const values = offerValuesByPath.get(product.path);
 
   article.append(...[
     createBanner(product),
     createHeader(product),
-    createBenefits(product),
+    createBenefits(product, values),
     createLinks(product, grid),
     createApply(product),
     createDisclosures(product),
   ].filter(Boolean));
 
   item.append(article);
+
+  // Catches any other {{token}} authored in the card (eyebrow, benefits,
+  // disclosures); annualFee is already resolved above via createBenefits.
+  if (values && Object.keys(values).length && item.textContent.includes('{{')) {
+    replaceOfferTokens(item, values);
+  }
+
   return item;
 }
 
@@ -226,14 +241,14 @@ function createChips(categories, selected, onChange) {
   return chips;
 }
 
-function createGrid(products) {
+function createGrid(products, offerValuesByPath) {
   const grid = document.createElement('ul');
   grid.className = 'product-list-grid';
-  products.forEach((product) => grid.append(createCard(product, grid)));
+  products.forEach((product) => grid.append(createCard(product, grid, offerValuesByPath)));
   return grid;
 }
 
-function renderProducts(block, products) {
+function renderProducts(block, products, offerValuesByPath) {
   if (!products.length) {
     block.replaceChildren(createStatus('No credit card products are available.', 'empty'));
     return;
@@ -252,7 +267,7 @@ function renderProducts(block, products) {
   const update = () => {
     const visible = filterByCategories(products, selected);
     count.textContent = `Showing ${visible.length} ${visible.length === 1 ? 'card' : 'cards'}`;
-    results.replaceChildren(createGrid(visible));
+    results.replaceChildren(createGrid(visible, offerValuesByPath));
   };
 
   const chips = categories.length ? createChips(categories, selected, update) : null;
@@ -265,14 +280,56 @@ function renderProducts(block, products) {
   update();
 }
 
+function slugOf(path) {
+  return path.split('/').filter(Boolean).pop() || '';
+}
+
+// product-list-only formatting: a dollar bonus (e.g. "$200") is shown as authored,
+// but a points/miles bonus (e.g. "40,000" or "50000") is shortened to "40k"/"50k".
+function formatBonusAmount(value) {
+  if (!value || value.startsWith('$')) return value;
+  const numeric = Number(value.replace(/,/g, ''));
+  if (!Number.isFinite(numeric)) return value;
+  const thousands = Math.round((numeric / 1000) * 10) / 10;
+  return `${thousands}k`;
+}
+
+// One offer sheet row per product, keyed by path. ecid picks the shared
+// workbook tab for the whole grid; each product resolves its own Page Name
+// row from its own path, unlike a single-page block reading window.location.
+function buildOfferValuesByPath(products, offerJson) {
+  const offerValuesByPath = new Map();
+  if (!offerJson) return offerValuesByPath;
+  products.forEach((product) => {
+    const values = sheetToValues(offerJson, slugOf(product.path));
+    if (values.bonusAmount) values.bonusAmount = formatBonusAmount(values.bonusAmount);
+    offerValuesByPath.set(product.path, values);
+  });
+  return offerValuesByPath;
+}
+
+/**
+ * Credit-card grid, index/JSON-driven (no authored block content). Cards may
+ * author {{token}} placeholders (e.g. {{bonus amount}}, {{annual fee}}) in
+ * page metadata; those are resolved per card from the shared offer sheet.
+ * The sheet URL must be read before the block's own DOM is wiped below.
+ */
 export default async function decorate(block) {
+  const sheetUrl = getOfferSheetUrl(block);
   block.replaceChildren(createStatus('Loading credit cards…'));
 
   try {
-    const response = await fetch(INDEX_URL);
-    if (!response.ok) throw new Error(`Product index request failed: ${response.status}`);
-    const payload = await response.json();
-    renderProducts(block, getProducts(payload));
+    const [payload, offerJson] = await Promise.all([
+      fetch(INDEX_URL).then((response) => {
+        if (!response.ok) throw new Error(`Product index request failed: ${response.status}`);
+        return response.json();
+      }),
+      // Keep authored tokens if the offer sheet is unavailable; only a
+      // broken product index should surface the block's error state.
+      fetchOfferSheetJson(sheetUrl).catch(() => null),
+    ]);
+    const products = getProducts(payload);
+    renderProducts(block, products, buildOfferValuesByPath(products, offerJson));
   } catch (error) {
     block.replaceChildren(createStatus('Credit cards could not be loaded. Please try again later.', 'error'));
     // eslint-disable-next-line no-console
