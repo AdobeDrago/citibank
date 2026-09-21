@@ -62,7 +62,7 @@ export function isSimulationEnabled() {
  * @returns {boolean} whether the visitor is (simulated) authenticated
  */
 export function isAuthenticated() {
-  return isSimulationEnabled() && readCookie(SEGMENT_COOKIE) === SEGMENT_VALUE;
+  return isSimulationEnabled() && Boolean(readCookie(SEGMENT_COOKIE));
 }
 
 /**
