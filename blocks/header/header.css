@@ -26,7 +26,8 @@ header nav .nav-utility {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 12px;
-  padding: 10px 16px;
+  margin: 0 10px;
+  padding: 0;
   background: #fff;
 }
 
@@ -40,41 +41,45 @@ header nav .nav-brand p { margin: 0; }
 
 header nav .nav-brand p:first-child img {
   display: block;
-  width: 56px;
-  height: auto;
+  width: 72px;
+  height: 72px;
 }
 
 /* FDIC line: small print, hidden on the smallest screens */
-header nav .nav-brand p:nth-child(2) {
-  display: none;
-  max-width: 340px;
-  color: #333;
-  font-size: 11px;
-  line-height: 1.2;
+header nav .nav-brand p:nth-child(2) img {
+  width: 100%;
+  height: auto;
+}
+
+header nav .nav-brand>p:nth-of-type(2) {
+  margin: 11px 0 0 12px;
+  font-size: 13px;
 }
 
 header nav .nav-utility-links {
-  display: flex;
+  display: none;
   align-items: center;
-  gap: 20px;
+  gap: 5px;
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
-header nav .nav-utility-links a {
-  display: inline-flex;
+header nav .nav-utility-links li {
+  display: flex;
+  flex-direction: column;
+  padding: 7px 4px;
+  margin: 15px 8px 7px;
   align-items: center;
-  gap: 6px;
-  color: var(--citi-nav-text);
-  font-size: 12px;
+  color: #666;
+  font-size: 11px;
   text-decoration: none;
 }
 
 /* stylelint-disable-next-line no-descending-specificity */
-header nav .nav-utility-links a img {
-  width: 18px;
-  height: 18px;
+header nav .nav-utility-links p a img {
+  width: 30px;
+  height: 26px;
 }
 
 /* ---------- Row 2: main nav bar ---------- */
@@ -83,20 +88,54 @@ header nav .nav-main {
   align-items: center;
   flex-wrap: wrap;
   gap: 8px;
-  padding: 0 16px;
+  padding: 0;
   background: var(--citi-nav-bar-bg);
+  box-shadow: 0 1px 10px #0000001f;
 }
 
 header nav .nav-hamburger {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
-  margin: 4px 0;
+  width: 56px;
+  height: 50px;
+  margin: 0;
   border: 0;
   background: none;
   cursor: pointer;
+}
+
+header nav .nav-mobile-actions,
+header nav .nav-mobile-utility,
+header nav .nav-mobile-divider {
+  display: flex;
+}
+
+header nav .nav-mobile-actions {
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  height: 50px;
+  justify-content: space-around;
+}
+
+header nav .nav-mobile-action {
+  display: block;
+  padding: 11px 15px 11px 17px;
+  color: var(--citi-nav-navy);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 50px;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+header nav .nav-mobile-divider {
+  align-self: center;
+  width: 1px;
+  height: 35px;
+  flex: 0 0 1px;
+  background:var(--citi-nav-navy);
 }
 
 header nav .nav-hamburger-icon,
@@ -104,7 +143,7 @@ header nav .nav-hamburger-icon::before,
 header nav .nav-hamburger-icon::after {
   content: '';
   display: block;
-  width: 22px;
+  width: 31px;
   height: 2px;
   background: var(--citi-nav-navy);
   transition: transform 0.3s ease, opacity 0.2s ease;
@@ -136,7 +175,6 @@ header nav.nav-open .nav-hamburger-icon::after { transform: translateY(-7px) rot
 header nav .nav-sections {
   display: none;
   width: 100vw;
-  margin: 0 -16px;
 }
 
 header nav.nav-open .nav-sections { display: block; }
@@ -150,7 +188,10 @@ header nav .nav-list {
 header nav .nav-item,
 header nav .nav-tool {
   position: relative;
-  border-top: 1px solid var(--citi-nav-border);
+  height: 56px;
+  border-top: 0;
+  border-bottom: 1px solid #eee;
+  background-color: #fff;
 }
 
 header nav .nav-item-toggle {
@@ -158,39 +199,34 @@ header nav .nav-item-toggle {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  padding: 14px 16px;
+  padding: 0 56px;
   border: 0;
   background: none;
   color: var(--citi-nav-navy);
   font: inherit;
   font-size: 16px;
   font-weight: 600;
+  padding-top: 9px;
+  padding-right: 21px;
+  line-height: 40px;
   text-align: left;
   cursor: pointer;
 }
 
-header nav .nav-item-toggle::after {
-  content: '';
-  width: 9px;
-  height: 9px;
-  border-right: 2px solid var(--citi-nav-blue);
-  border-bottom: 2px solid var(--citi-nav-blue);
-  transform: rotate(45deg);
-  transition: transform 0.2s ease;
-}
-
-header nav .nav-item[aria-expanded='true'] .nav-item-toggle::after {
-  transform: rotate(-135deg);
-}
 
 header nav .nav-tool > a,
 header nav .nav-item > a {
   display: block;
-  padding: 14px 16px;
+  padding: 0 56px;
   color: var(--citi-nav-navy);
   font-size: 16px;
   font-weight: 600;
+  line-height: 40px;
   text-decoration: none;
+}
+
+header nav .nav-tool-secondary {
+  display: none;
 }
 
 /* Log In / Log Out: set apart from the other tools links with the nav accent
@@ -214,11 +250,116 @@ header nav .nav-item[aria-expanded='true'] .nav-panel { display: block; }
 /* Mobile slide-in: when a sub-panel is open, hide every other top-level item so
    only the active category's panel shows (matches source, which replaces the
    list rather than expanding it in place). */
+
+/* Mobile panel selectors intentionally outrank the shared base selectors. */
+/* stylelint-disable no-descending-specificity */
 header nav.nav-subpanel-open .nav-item:not([aria-expanded='true']),
-header nav.nav-subpanel-open .nav-tool { display: none; }
+header nav.nav-subpanel-open .nav-tool,
+header nav.nav-subpanel-open .nav-mobile-utility {
+  display: none;
+}
 
 header nav.nav-subpanel-open .nav-item[aria-expanded='true'] {
   border-top: 0;
+  height: auto;
+}
+
+header nav.nav-subpanel-open .nav-item[aria-expanded='true'] .nav-panel {
+  position: static;
+  width: 100%;
+  box-sizing: border-box;
+padding-left: 26px;  padding-top: 0;
+  background: #fff;
+  color: #5E676B;
+  will-change: transform, opacity;
+  animation: nav-panel-slide-in 600ms ease-in-out both;
+}
+
+header nav.nav-subpanel-closing .nav-item[aria-expanded='true'] .nav-panel {
+  animation: nav-panel-slide-out 600ms ease-in-out both;
+}
+
+header nav.nav-subpanel-open .nav-panel-back,
+header nav.nav-subpanel-closing .nav-panel-back {
+  padding: 16px 20px;
+  border-bottom: 1px solid var(--citi-nav-border);
+  color: #5E676B;
+  font-size: 16px;
+}
+
+header nav.nav-subpanel-open .nav-panel a,
+header nav.nav-subpanel-closing .nav-panel a {
+  padding: 14px 20px;
+  color: var(--citi-nav-navy);
+  font-size: 16px;
+  font-weight: 600;
+}
+
+header nav.nav-subpanel-open .nav-panel a:hover,
+header nav.nav-subpanel-closing .nav-panel a:hover {
+  color: var(--citi-nav-blue);
+}
+
+header nav.nav-open .nav-hamburger { background: var(--citi-nav-navy); }
+
+header nav.nav-open .nav-hamburger-icon::before,
+header nav.nav-open .nav-hamburger-icon::after {
+  background: #fff;
+}
+
+header nav .nav-panel-links > li:nth-child(2) {
+  border-bottom: 1px solid var(--citi-nav-border);
+  margin-bottom: 16px;
+  width: fit-content;
+}
+
+header nav .nav-mobile-utility {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  height: 56px;
+  background-color: #fff;
+  border-top: 0;
+  padding: 0 56px 0 20px;
+  line-height: 40px;
+  gap: 10px;
+}
+
+header nav .nav-mobile-utility p {
+  margin: 0;
+  color: #5E676B;
+  font-size: 16px;
+  font-weight: 400;
+}
+
+header nav .nav-mobile-utility p a img {
+  width: 30px;
+  height: 26px;
+  padding-top: 13px;
+}
+
+@keyframes nav-panel-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes nav-panel-slide-out {
+  from {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  to {
+    opacity: 0;
+    transform: translateX(100%);
+  }
 }
 
 /* the top-level toggle is replaced by the panel's own back header on mobile */
@@ -242,21 +383,7 @@ header nav .nav-panel-back {
   cursor: pointer;
 }
 
-header nav .nav-panel-back::before {
-  content: '';
-  display: inline-block;
-  width: 8px;
-  height: 8px;
-  margin-right: 12px;
-  border-left: 2px solid var(--citi-nav-blue);
-  border-bottom: 2px solid var(--citi-nav-blue);
-  transform: rotate(45deg);
-  vertical-align: middle;
-}
 
-header nav.nav-subpanel-open .nav-item[aria-expanded='true'] .nav-panel {
-  padding-top: 0;
-}
 
 header nav.nav-subpanel-open .nav-panel-back { display: block; }
 
@@ -282,7 +409,43 @@ header nav .nav-panel a:hover {
   text-decoration: underline;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
+header nav .nav-item-toggle::after {
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  margin-right: 12px;
+  border-left: 2px solid var(--citi-nav-navy);
+  border-bottom: 2px solid var(--citi-nav-navy);
+  transform: rotate(225deg);
+  vertical-align: middle;
+}
+
+header nav .nav-tool:not(.nav-tool-secondary)::after {
+  border-left: 2px solid var(--citi-nav-navy);
+  border-bottom: 2px solid var(--citi-nav-navy);
+  margin-left: 146px;
+  content: '';
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  transform: rotate(225deg);
+  vertical-align: middle;
+}
+
+header nav .nav-tool:not(.nav-tool-secondary) > a {
+  display: inline-flex;
+  padding-top: 5px;
+}
+
+header nav .nav-tool:not(.nav-tool-secondary):hover > a {
+  color: #fff;
+}
+
+header nav .nav-tool:not(.nav-tool-secondary):hover::after {
+  border-color: #fff;
+}
+
 header nav .nav-panel a img {
   width: 20px;
   height: 20px;
@@ -298,26 +461,62 @@ header nav .nav-panel-quicklinks-heading {
   letter-spacing: 0.5px;
 }
 
+/* stylelint-enable no-descending-specificity */
+
 /* superscripts small */
 header nav sup { font-size: 0.6em; }
 
 /* ---------- Desktop (>= 900px) ---------- */
 @media (width >= 992px) {
-  header nav .nav-brand p:nth-child(2) { display: block; }
+  header nav .nav-utility {
+    margin: 0;
+    padding: 0 35px 0 20px;
+  }
+
+  header nav .nav-brand p:first-child img {
+    width: 88px;
+    height: 88px;
+  }
+
+  header nav .nav-brand p:nth-child(2) {
+    display: block;
+  }
+
+  header nav .nav-brand p:nth-child(2) img {
+    width: 566px;
+    height: 50px;
+    margin-top: 19px;
+    margin-left: 10px;
+  }
+
+  header nav .nav-utility-links {
+    display: flex;
+  }
 
   header nav .nav-hamburger { display: none; }
+
+  header nav .nav-mobile-actions,
+  header nav .nav-mobile-utility {
+    display: none;
+  }
 
   /* back header is a mobile-only affordance — never show on desktop */
   header nav .nav-panel-back { display: none; }
 
   header nav .nav-main {
     justify-content: space-between;
+    margin: 0;
     padding: 0 24px;
   }
 
+  header nav .nav-panel-links > li:nth-child(2) {
+    width: 100%;
+  }
+    
   header nav .nav-sections {
     display: block;
     width: 100%;
+    margin: 0;
   }
 
   header nav .nav-list {
@@ -328,7 +527,24 @@ header nav sup { font-size: 0.6em; }
 
   header nav .nav-item,
   header nav .nav-tool {
+    height: auto;
     border-top: 0;
+    border-bottom: 0;
+    background: none;
+  }
+
+  header nav .nav-tool-secondary {
+    display: list-item;
+  }
+
+    header nav .nav-tool:not(.nav-tool-secondary)::after {
+      margin-left: -16px;
+      width: 7px;
+      height: 7px;
+    }
+
+  header nav .nav-item-toggle::after {
+    display: none;
   }
 
   /* The first tool (e.g. "Open an Account") stays inline on the left with
@@ -338,21 +554,26 @@ header nav sup { font-size: 0.6em; }
      `:first-of-type` is scoped by tag name (li), not class, so it can't
      select "the first .nav-tool-secondary" — use the preceding sibling not
      carrying that class instead. */
-  header nav .nav-tool:not(.nav-tool-secondary) + .nav-tool-secondary { margin-left: auto; }
+  header nav .nav-tool:not(.nav-tool-secondary) + .nav-tool-secondary {
+    margin-left: auto;
+
+  }
 
   header nav .nav-item-toggle,
   header nav .nav-tool > a,
   header nav .nav-item > a {
-    padding: 16px 14px;
-    font-size: 15px;
+    padding: 9px 16px 13px;
+    font-size: 16px;
+    line-height: normal;
     white-space: nowrap;
   }
 
-  header nav .nav-item-toggle::after {
-    width: 7px;
-    height: 7px;
-    margin-left: 6px;
-    border-color: var(--citi-nav-navy);
+  header nav :is(.nav-item-toggle,
+    .nav-tool > a,
+    .nav-item >a):hover {
+    background-color: #5E676B;
+    color: #fff;
+    border-radius: 8px 8px 0 0;
   }
 
   /* desktop dropdown panel: absolutely positioned below the item */
@@ -371,13 +592,18 @@ header nav sup { font-size: 0.6em; }
     box-shadow: 0 8px 20px rgb(0 0 0 / 12%);
   }
 
-  header nav .nav-item[aria-expanded='true'] .nav-panel { display: flex; }
+   header nav .nav-item[aria-expanded='true'] .nav-panel { display: flex; }
 
   /* desktop dropdown links: lighter/smaller than the mobile full-width list */
   header nav .nav-panel a {
     padding: 8px 0;
+    color: var(--citi-nav-navy);
     font-size: 15px;
     font-weight: 400;
+  }
+
+  header nav .nav-tool:not(.nav-tool-secondary) > a {
+    padding-top: 9px;
   }
 
   header nav .nav-panel-links { min-width: 200px; }
@@ -446,6 +672,8 @@ header nav.nav-cbol .nav-cbol-fdic {
   flex-direction: column;
   align-items: flex-start;
   gap: 2px;
+  order: 3;
+  flex-basis: 100%;
   color: #333;
 }
 
@@ -470,18 +698,17 @@ header nav.nav-cbol .nav-cbol-fdic p:nth-child(2) {
 
 header nav.nav-cbol .nav-cbol-mark img {
   display: block;
-  width: 120px;
+  width: 96px;
   height: auto;
 }
 
-/* Mobile: stack the FDIC line under the logo; keep the mark on the top row. */
-@media (width < 768px) {
+@media (width >= 992px) {
   header nav.nav-cbol .nav-cbol-fdic {
-    order: 3;
-    flex-basis: 100%;
+    order: initial;
+    flex-basis: auto;
   }
 
-  header nav.nav-cbol .nav-cbol-mark img { width: 96px; }
+  header nav.nav-cbol .nav-cbol-mark img { width: 120px; }
 }
 
 /* stylelint-enable no-descending-specificity */
