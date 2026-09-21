@@ -1,4 +1,9 @@
-import { applyZip, getZip, normalizeZip, onBtaUpdated } from '../../scripts/bta.js';
+import {
+  applyZip,
+  getZip,
+  normalizeZip,
+  onBtaUpdated,
+} from '../../scripts/bta.js';
 
 const MODAL_COPY = {
   eyebrow: 'CITI CHECKING ACCOUNT',
@@ -30,7 +35,12 @@ function buildLogo() {
 
 /**
  * Builds the Change-ZIP dialog once and appends it to the document.
- * @returns {{ dialog: HTMLDialogElement, input: HTMLInputElement, open: () => void, close: () => void }}
+ * @returns {{
+ *   dialog: HTMLDialogElement,
+ *   input: HTMLInputElement,
+ *   open: () => void,
+ *   close: () => void,
+ * }}
  */
 function buildModal() {
   const titleId = `zip-modal-title-${Math.random().toString(36).slice(2, 9)}`;
