@@ -152,18 +152,21 @@ function rowToValues(row) {
 /**
  * Maps a Franklin/DA sheet payload to camelCase keys.
  * Shared workbook: the ecid cookie (or ?ecid=) selects the tab (seg-a, seg-b);
- * Page Name selects the current card. Also supports a legacy Ecid column,
- * Key/Value rows, and a single row of named columns.
+ * Page Name selects the card matching `slug`. Also supports a legacy Ecid
+ * column, Key/Value rows, and a single row of named columns.
  * @param {object} json
+ * @param {string} [slug] Page slug to match against a Page Name column. Defaults
+ *   to the current page (getPageSlug()); callers resolving values for OTHER
+ *   pages (e.g. a list of cards) should pass that page's own slug explicitly.
  * @returns {Record<string, string>}
  */
-export function sheetToValues(json) {
+export function sheetToValues(json, slug = getPageSlug()) {
   const segment = getSegmentSheet(json, getEcid());
   const rows = Array.isArray(segment?.data)
     ? segment.data.filter((row) => row && typeof row === 'object')
     : [];
   if (rows.some((row) => pageNameOf(row))) {
-    return rowToValues(findPageRow(rows, getPageSlug()));
+    return rowToValues(findPageRow(rows, slug));
   }
   if (rows.some((row) => row.Ecid || row.ecid || row.ECID)) {
     return rowToValues(findOfferRow(rows, getEcid()));
@@ -202,6 +205,21 @@ function lookupOfferValue(values, rawKey) {
 }
 
 /**
+ * Resolves {{token}} placeholders in a string against offer sheet values.
+ * Tokens with no match are left as-authored.
+ * @param {string} text
+ * @param {Record<string, string>} values
+ * @returns {string}
+ */
+export function resolveOfferTokens(text, values) {
+  if (!text || !text.includes('{{')) return text;
+  return text.replace(TOKEN_RE, (match, rawKey) => {
+    const value = lookupOfferValue(values, rawKey);
+    return value != null ? value : match;
+  });
+}
+
+/**
  * Replaces {{token}} placeholders under a root with values from the offer sheet.
  * @param {Element} root
  * @param {Record<string, string>} values
@@ -212,13 +230,22 @@ export function replaceOfferTokens(root, values) {
   while (walker.nextNode()) nodes.push(walker.currentNode);
 
   nodes.forEach((node) => {
-    const { textContent } = node;
-    if (!textContent || !textContent.includes('{{')) return;
-    node.textContent = textContent.replace(TOKEN_RE, (match, rawKey) => {
-      const value = lookupOfferValue(values, rawKey);
-      return value != null ? value : match;
-    });
+    const resolved = resolveOfferTokens(node.textContent, values);
+    if (resolved !== node.textContent) node.textContent = resolved;
   });
+}
+
+/**
+ * Fetches and parses the offer sheet JSON. Returns null on a non-OK response
+ * or a non-object payload.
+ * @param {string} [sheetUrl]
+ * @returns {Promise<object|null>}
+ */
+export async function fetchOfferSheetJson(sheetUrl = SHARED_SHEET_PATH) {
+  const resp = await fetch(sheetUrl);
+  if (!resp.ok) return null;
+  const json = await resp.json();
+  return (json && typeof json === 'object') ? json : null;
 }
 
 /**
@@ -227,11 +254,8 @@ export function replaceOfferTokens(root, values) {
  * @returns {Promise<Record<string, string>>}
  */
 export async function fetchOfferValues(sheetUrl = SHARED_SHEET_PATH) {
-  const resp = await fetch(sheetUrl);
-  if (!resp.ok) return {};
-  const json = await resp.json();
-  if (!json || typeof json !== 'object') return {};
-  return sheetToValues(json);
+  const json = await fetchOfferSheetJson(sheetUrl);
+  return json ? sheetToValues(json) : {};
 }
 
 /**
