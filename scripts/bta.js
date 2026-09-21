@@ -121,11 +121,24 @@ export async function lookupZip(zip) {
 }
 
 /**
+ * Keeps `?zip=` aligned with the applied ZIP so late callers of getZip()
+ * (e.g. the footer fee table) do not re-apply a stale query value.
+ * @param {string} zip
+ */
+function syncZipQuery(zip) {
+  const url = new URL(window.location.href);
+  if (url.searchParams.get('zip') === zip) return;
+  url.searchParams.set('zip', zip);
+  window.history.replaceState({}, '', `${url.pathname}${url.search}${url.hash}`);
+}
+
+/**
  * @param {unknown} zip
  * @returns {Promise<{ zip: string, outOfBTA: string, governingState: string }>}
  */
 async function applyZipNow(zip) {
   const result = await lookupZip(zip);
+  syncZipQuery(result.zip);
   const key = `${result.zip}|${result.outOfBTA}`;
   if (key === lastApplied) return result;
 
@@ -142,7 +155,8 @@ async function applyZipNow(zip) {
 }
 
 /**
- * Persists ZIP, stamps body data attributes, notifies listeners.
+ * Persists ZIP, syncs `?zip=` in the URL, stamps body data attributes, and
+ * notifies listeners (fee table, zip banner).
  * @param {unknown} zip
  * @returns {Promise<{ zip: string, outOfBTA: string, governingState: string }>}
  */

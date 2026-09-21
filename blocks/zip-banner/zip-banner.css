@@ -43,55 +43,201 @@
   color: var(--citi-navy);
 }
 
-.zip-banner .zip-banner-form {
+/* ── Change ZIP modal (matches Citi hosted ELP) ── */
+
+.zip-modal {
+  position: relative;
+  width: calc(100vw - 32px);
+  max-width: 520px;
+  margin: auto;
+  padding: 0;
+  border: 0;
+  border-radius: 20px;
+  background: transparent;
+  overflow: visible;
+  box-shadow: 0 12px 40px rgb(0 0 0 / 35%);
+}
+
+.zip-modal::backdrop {
+  background: rgb(10 20 40 / 72%);
+}
+
+.zip-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+.zip-modal-close span,
+.zip-modal-close span::before {
+  display: block;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 18px;
+  height: 2px;
+  border-radius: 2px;
+  background: currentcolor;
+}
+
+.zip-modal-close span {
+  transform: translate(-50%, -50%) rotate(45deg);
+}
+
+.zip-modal-close span::before {
+  content: '';
+  transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.zip-modal-close:hover,
+.zip-modal-close:focus-visible {
+  background: rgb(255 255 255 / 12%);
+}
+
+.zip-modal-header {
+  position: relative;
+  padding: 36px 32px 40px;
+  border-radius: 20px 20px 0 0;
+  background: var(--citi-navy);
+  color: #fff;
+  text-align: center;
+}
+
+.zip-modal-header::after {
+  content: '';
+  position: absolute;
+  left: 50%;
+  bottom: -10px;
+  width: 20px;
+  height: 20px;
+  background: var(--citi-navy);
+  transform: translateX(-50%) rotate(45deg);
+}
+
+.zip-modal-logo {
+  display: flex;
+  justify-content: center;
+  margin: 0 auto 8px;
+}
+
+.zip-modal-logo svg {
+  width: 72px;
+  height: 72px;
+}
+
+.zip-modal-eyebrow {
+  margin: 0 0 16px;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.zip-modal-title {
+  margin: 0 0 12px;
+  color: #fff;
+  font-size: 26px;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+.zip-modal-body-text {
+  margin: 0 auto;
+  max-width: 38ch;
+  color: rgb(255 255 255 / 92%);
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.zip-modal-panel {
+  position: relative;
+  z-index: 1;
+  padding: 28px 24px 24px;
+  border-radius: 0 0 20px 20px;
+  background: #fff;
+}
+
+.zip-modal-form {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
   align-items: flex-end;
   gap: 12px;
-  margin-top: 16px;
 }
 
-.zip-banner .zip-banner-form[hidden] {
-  display: none;
-}
-
-.zip-banner .zip-banner-label {
+.zip-modal-label {
   display: flex;
+  flex: 1 1 160px;
   flex-direction: column;
-  gap: 4px;
+  gap: 6px;
+  min-width: 0;
+  color: var(--citi-navy);
   text-align: left;
 }
 
-.zip-banner .zip-banner-label-text {
+.zip-modal-label-text {
   font-size: 13px;
   font-weight: 600;
 }
 
-.zip-banner .zip-banner-input {
-  width: 8ch;
-  padding: 8px 10px;
-  border: 1px solid var(--citi-blue);
-  border-radius: 4px;
+.zip-modal-input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #c5ced6;
+  border-radius: 8px;
   color: var(--citi-navy);
   font: inherit;
   font-size: 18px;
-  font-weight: 700;
-  letter-spacing: 0.08em;
+  font-weight: 600;
+  letter-spacing: 0.06em;
 }
 
-.zip-banner .zip-banner-apply {
-  padding: 8px 20px;
+.zip-modal-input:focus {
+  outline: 2px solid var(--citi-blue);
+  outline-offset: 1px;
+  border-color: var(--citi-blue);
+}
+
+.zip-modal-submit {
+  flex: 0 0 auto;
+  min-width: 112px;
+  padding: 12px 28px;
   border: 0;
   border-radius: var(--citi-button-radius);
-  background: var(--citi-blue);
+  background: var(--citi-navy);
   color: #fff;
   font: inherit;
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
 }
 
-.zip-banner .zip-banner-apply:hover,
-.zip-banner .zip-banner-apply:focus-visible {
-  background: var(--citi-navy);
+.zip-modal-submit:hover,
+.zip-modal-submit:focus-visible {
+  background: #1a2448;
+}
+
+@media (width >= 768px) {
+  .zip-modal-title {
+    font-size: 30px;
+  }
+
+  .zip-modal-header {
+    padding: 40px 40px 44px;
+  }
+
+  .zip-modal-panel {
+    padding: 32px 32px 28px;
+  }
 }
