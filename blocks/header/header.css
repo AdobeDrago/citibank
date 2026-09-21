@@ -533,10 +533,6 @@ header nav sup { font-size: 0.6em; }
     background: none;
   }
 
-  header nav .nav-tool:not(.nav-tool-secondary) > a{
-    padding-top: 9px;
-  }
-
   header nav .nav-tool-secondary {
     display: list-item;
   }
@@ -604,6 +600,10 @@ header nav sup { font-size: 0.6em; }
     color: var(--citi-nav-navy);
     font-size: 15px;
     font-weight: 400;
+  }
+
+  header nav .nav-tool:not(.nav-tool-secondary) > a {
+    padding-top: 9px;
   }
 
   header nav .nav-panel-links { min-width: 200px; }
