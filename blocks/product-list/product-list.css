@@ -57,7 +57,11 @@
   list-style: none;
 }
 
+/* The card stretches to the row height through the flex item below rather than
+   a percentage height, which would resolve against an indefinite row size and
+   leave the card taller than its cell. */
 .product-list-grid > li {
+  display: flex;
   min-width: 0;
 }
 
@@ -80,9 +84,11 @@
 }
 
 .product-list article {
+  box-sizing: border-box;
   display: flex;
+  flex: 1;
   flex-direction: column;
-  height: 100%;
+  min-width: 0;
   padding: 24px;
   overflow: hidden;
   border-radius: 12px;

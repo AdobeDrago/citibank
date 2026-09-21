@@ -1196,6 +1196,13 @@ body.citigold-landing main .landing-zip a {
   text-decoration: none;
 }
 
+/* The zip-banner block sits under the home-address heading and contributes only
+   the ZIP and the change control, so the band supplies the surrounding band. */
+body.citigold-landing main .landing-zip .zip-banner {
+  padding: 0;
+  background: none;
+}
+
 /* solid filled "Open an Account" CTA (source uses filled navy/gold, not outline) */
 body.citigold-landing main .landing-tiers .cards a {
   display: inline-block;
@@ -1257,6 +1264,11 @@ body.citigold-landing main .landing-terms table td {
 
   body.citigold-landing main .landing-zip p {
     grid-column: 2;
+  }
+
+  /* ZIP + change control belong under the pricing heading in the left column. */
+  body.citigold-landing main .landing-zip .zip-banner {
+    grid-column: 1;
   }
 
   /* 3 steps side by side inside the single white panel */

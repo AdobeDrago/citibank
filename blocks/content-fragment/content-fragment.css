@@ -1,0 +1,184 @@
+/* Content Fragment — AEM GraphQL demo block (Citi token styling) */
+
+.content-fragment {
+  display: grid;
+  gap: 1.5rem;
+  max-width: 1080px;
+  padding: 1.5rem;
+  border-radius: var(--citi-card-radius, 20px);
+  background-color: var(--citi-pale-blue-bg, #ecf6fe);
+  color: var(--text-color, #333);
+}
+
+.content-fragment-intro {
+  display: grid;
+  gap: 0.5rem;
+}
+
+.content-fragment-kicker,
+.content-fragment-eyebrow {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: 12px;
+  font-weight: 700;
+  line-height: 16px;
+  letter-spacing: 0.96px;
+  text-transform: uppercase;
+  color: var(--citi-blue, #255be3);
+}
+
+.content-fragment-title {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-l, 34px);
+  font-weight: 400;
+  line-height: 1.2;
+  color: var(--citi-navy, #0f1632);
+}
+
+.content-fragment-subtitle {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-s, 19px);
+  line-height: 1.4;
+  color: var(--text-color, #333);
+  opacity: 0.85;
+}
+
+.content-fragment-result {
+  min-height: 5rem;
+}
+
+.content-fragment-card {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: var(--citi-card-shadow, 0 2px 11px 2px rgb(0 42 84 / 16%));
+}
+
+.content-fragment-card-art {
+  width: 153px;
+  max-width: 100%;
+  height: auto;
+}
+
+.content-fragment-card-title {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: var(--heading-font-size-m, 28px);
+  font-weight: 400;
+  line-height: 1.25;
+  color: var(--citi-navy, #0f1632);
+}
+
+.content-fragment-variation {
+  margin: 0;
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs, 16px);
+  line-height: 1.4;
+  color: var(--text-color, #333);
+  opacity: 0.7;
+}
+
+.content-fragment-hero-body,
+.content-fragment-rich {
+  font-family: var(--body-font-family);
+  font-size: var(--body-font-size-xs, 16px);
+  line-height: 1.45;
+  color: var(--text-color, #333);
+}
+
+.content-fragment-hero-body :first-child,
+.content-fragment-rich :first-child {
+  margin-top: 0;
+}
+
+.content-fragment-hero-body :last-child,
+.content-fragment-rich :last-child {
+  margin-bottom: 0;
+}
+
+.content-fragment-section {
+  display: grid;
+  gap: 0.5rem;
+  margin-top: 0.75rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid rgb(15 22 50 / 10%);
+}
+
+.content-fragment-section-title {
+  margin: 0;
+  font-family: var(--heading-font-family);
+  font-size: var(--body-font-size-s, 19px);
+  font-weight: 400;
+  color: var(--citi-navy, #0f1632);
+}
+
+.content-fragment-section-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  display: grid;
+  gap: 0.75rem;
+}
+
+.content-fragment-loading,
+.content-fragment-alert {
+  display: grid;
+  gap: 0.5rem;
+  padding: 1.5rem;
+  background: #fff;
+  border-radius: 12px;
+}
+
+.content-fragment-loading {
+  justify-items: start;
+  color: var(--citi-navy, #0f1632);
+}
+
+.content-fragment-loading p {
+  margin: 0;
+}
+
+.content-fragment-spinner {
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid rgb(15 22 50 / 15%);
+  border-top-color: var(--citi-blue, #255be3);
+  border-radius: 50%;
+  animation: content-fragment-spin 0.8s linear infinite;
+}
+
+.content-fragment-alert-title {
+  margin: 0;
+  font-weight: 700;
+  color: var(--citi-navy, #0f1632);
+}
+
+.content-fragment-alert-message,
+.content-fragment-alert-hint {
+  margin: 0;
+  font-size: var(--body-font-size-xs, 16px);
+  line-height: 1.4;
+}
+
+.content-fragment-alert-hint {
+  opacity: 0.8;
+}
+
+@keyframes content-fragment-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (width >= 768px) {
+  .content-fragment {
+    padding: 2rem;
+  }
+
+  .content-fragment-card-title {
+    font-size: var(--heading-font-size-l, 34px);
+  }
+}
