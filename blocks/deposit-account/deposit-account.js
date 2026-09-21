@@ -19,6 +19,15 @@ function cellText(cell) {
   return (cell?.textContent || '').replace(/\s+/g, ' ').trim();
 }
 
+/** Fee table is always two columns — pad/truncate authored headings to match. */
+function normalizeHeadings(headings) {
+  if (!headings?.length || headings.length < 2) return [...DEFAULT_HEADINGS];
+  return [
+    headings[0] || DEFAULT_HEADINGS[0],
+    headings[1] || DEFAULT_HEADINGS[1],
+  ];
+}
+
 /** A trailing `always` / `in` cell is configuration, not content. */
 function readMarker(cells) {
   if (cells.length < 3) return '';
@@ -80,14 +89,16 @@ function readAuthored(block) {
     .filter(({ cells }) => cells.length);
 
   if (!authored.length) {
-    return { headings: DEFAULT_HEADINGS, authored: [] };
+    return { headings: [...DEFAULT_HEADINGS], authored: [] };
   }
 
   const [first] = authored;
   const hasHeader = isHeaderRow(first.cells);
+  // A one-cell first row is usually the block label, not a full header —
+  // keep both fee columns so thead matches sheet/authored body rows.
   const headings = hasHeader
-    ? first.cells.map((cell) => cell.innerHTML)
-    : DEFAULT_HEADINGS.slice(0, first.cells.length);
+    ? normalizeHeadings(first.cells.map((cell) => cell.innerHTML))
+    : [...DEFAULT_HEADINGS];
 
   return {
     headings,
