@@ -4,13 +4,22 @@
  * Values extracted from source computed styles (see migration-work/primary-benefits-extracted.css).
  */
 
+body.credit-card-pdp .primary-benefits-container:has(.primary-benefits-wrapper > div > ul > li) {
+  margin: 0;
+  padding: 24px 0;
+}
+
+.section.primary-benefits-container>.primary-benefits-wrapper {
+  padding: 0 12px;
+}
+
 .primary-benefits .primary-benefits-list {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
 }
 
 .primary-benefits .primary-benefits-tile {
@@ -46,10 +55,16 @@
   position: relative;
   z-index: 1;
   width: 100%;
-  padding: 32px;
+  padding: 24px 32px;
   color: #fff;
   display: flex;
   flex-direction: column;
+  cursor: pointer;
+  transition: all .7s;
+}
+  
+.primary-benefits .primary-benefits-content:hover {
+  transform: scale(1.05);
 }
 
 .primary-benefits .primary-benefits-heading {
@@ -67,6 +82,7 @@
   margin: 0;
   color: inherit;
   font: inherit;
+  font-size: 24px;
 }
 
 /* white circular toggle with a Citi-blue "+" glyph, anchored bottom-right */
@@ -136,10 +152,23 @@
   text-decoration: underline;
 }
 
-@media (width >= 768px) {
+@media (width >=992px) {
+  body.credit-card-pdp .primary-benefits-container:has(.primary-benefits-wrapper > div > ul > li) {
+    padding: 0;
+    padding-bottom: 24px;
+  }
+
   .primary-benefits .primary-benefits-list {
     flex-direction: row;
-    gap: 24px;
+    gap: 16px;
+  }
+
+  .primary-benefits .primary-benefits-content {
+    padding: 32px 40px;
+  }
+
+  .primary-benefits .primary-benefits-heading * {
+    font-size: 24px;
   }
 
   .primary-benefits .primary-benefits-tile {

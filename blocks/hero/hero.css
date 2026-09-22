@@ -15,7 +15,7 @@
      selector (3 classes) is intentionally more specific than the credit-cards
      template rule `body.credit-card-pdp main > .section > div` (2 classes, which
      otherwise re-caps this wrapper at 1296px). */
-  .hero-container {
+  main > .section.hero-container {
     margin: 0;
   }
   
@@ -48,24 +48,18 @@
   
   /* --- Content column (row 2) --- */
   .hero .hero-content-row {
+    padding: 0 36px 24px;
+    margin-top: -56px;
     position: relative;
-    z-index: 1;
-    margin: 0;
+    z-index: 102;
   }
   
-  .hero .hero-content {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    box-sizing: border-box;
-    padding: 24px;
-  }
-  
+
   /* Card art + card-name label header */
   .hero .hero-head {
     display: flex;
-    align-items: center;
-    gap: 8px;
+    flex-direction: column;
+    gap: 16px;
     margin: 0 0 16px;
   }
   
@@ -77,7 +71,7 @@
   .hero .hero-card-art picture,
   .hero .hero-card-art img {
     display: block;
-    width: 152px;
+    width: 140px;
     height: auto;
   }
   
@@ -95,7 +89,7 @@
   /* Eyebrow badge */
   .hero .hero-eyebrow {
     display: inline-block;
-    margin: 0 0 12px;
+    margin: 0 0 8px;
     border-radius: 4px;
     padding: 4px 8px;
     background-color: var(--hero-badge-color);
@@ -109,18 +103,19 @@
   
   /* Offer headline */
   .hero .hero-content h2 {
-    margin: 0 0 12px;
+    margin: 0 0 8px;
     color: var(--hero-heading-color);
     font-family: var(--heading-font-family);
     font-size: 28px;
     font-weight: 400;
-    line-height: 33.6px;
+    line-height: 112%;
     letter-spacing: -0.28px;
   }
   
   /* Supporting line */
   .hero .hero-supporting {
-    margin: 0 0 20px;
+    padding: 0 0 16px;
+    margin: 0 0 8px;
     color: var(--hero-body-color);
     font-family: var(--body-font-family);
     font-size: 16px;
@@ -132,34 +127,54 @@
   .hero .hero-stats {
     display: flex;
     flex-wrap: wrap;
-    gap: 8px 40px;
+    gap: 16px;
     margin: 0 0 24px;
   }
   
   .hero .hero-stat {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
+    position: relative;
+    display: block;
     margin: 0;
     color: var(--hero-body-color);
     font-family: var(--body-font-family);
     font-size: 12px;
     font-weight: 400;
-    line-height: 15.96px;
+    line-height: 15px;
   }
   
   .hero .hero-stat .hero-stat-value {
+    display: block;
     color: var(--hero-heading-color);
     font-size: 20px;
     font-weight: 700;
     line-height: 26px;
+    margin-bottom: 8px;
   }
   
   .hero .hero-stat a {
+    position: absolute;
+    left: 60px;
+    top: 30px;
+    bottom: 0;
     font-size: 12px;
     color: var(--hero-cta-color);
     text-decoration: underline;
-    vertical-align: super;
+    vertical-align: baseline;
+  }
+
+  .hero .hero-value-callout {
+    display: flex;
+    min-height: 48px;
+    border-left: 1px solid rgb(190 196 198);
+    padding-left: 16px;
+    margin: 0;
+  }
+
+  .hero .hero-value-callout a:any-link {
+    color: var(--hero-cta-color);
+    font-size: 16px;
+    line-height: 18px;
+    text-decoration: underline;
   }
   
   /* Apply-now CTA */
@@ -168,22 +183,17 @@
   }
   
   .hero a.button.primary:any-link {
-    box-sizing: border-box;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    min-width: 200px;
     border: 1px solid var(--hero-cta-color);
     border-radius: 8px;
-    padding: 16px 24px;
     background-color: var(--hero-cta-color);
     color: rgb(255 255 255);
     font-family: var(--body-font-family);
     font-size: 16px;
-    font-weight: 400;
-    line-height: 1.25;
+    line-height: 150%;
+    letter-spacing: .01em;
     text-align: center;
-    text-decoration: none;
+    padding: 16px 24px;
+    min-width: 200px;
   }
   
   .hero a.button.primary:hover,
@@ -228,63 +238,135 @@
   .hero .hero-footnotes {
     display: flex;
     flex-wrap: wrap;
-    gap: 4px 24px;
+    gap: 24px;
+    padding: 8px 0;
   }
   
   .hero .hero-footnote {
     margin: 0;
+    line-height: 0;
   }
   
   .hero .hero-footnote a:any-link {
     color: var(--hero-cta-color);
     font-size: 14px;
     font-weight: 400;
-    line-height: 16px;
     text-decoration: underline;
+    line-height: 1.125rem;
+    letter-spacing: .009rem;
   }
   
   /* --- Desktop: background image full-bleed behind an overlaid left column --- */
-  @media (width >= 992px) {
-    .hero.block {
-      display: grid;
-      align-items: start;
-      min-height: 560px;
+
+  @media (width < 992px) {
+    body.credit-card-pdp:not(.credit-card-retail-pdp) .hero .hero-content {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
     }
-  
-    .hero .hero-bg {
-      position: absolute;
-      inset: 0;
-      z-index: 0;
-      grid-area: 1 / 1;
+
+    body.credit-card-pdp:not(.credit-card-retail-pdp) .hero .button-container {
+      order: 4;
     }
-  
-    .hero .hero-bg picture,
-    .hero .hero-bg img {
-      height: 100%;
+
+    body.credit-card-pdp:not(.credit-card-retail-pdp) .hero .hero-stats {
+      order: 5;
     }
-  
-    .hero .hero-content-row {
-      grid-area: 1 / 1;
-      width: 100%;
-      max-width: 1320px;
-      margin: 0 auto;
-      padding: 56px 60px 96px;
-      box-sizing: border-box;
+
+    body.credit-card-pdp:not(.credit-card-retail-pdp) .hero .hero-disclaimer {
+      padding-top: 16px;
+      order: 6;
+      border-top: 1px solid #bcc5c9;
+      font-size: 12px;
+      line-height: 16px;
+      font-weight: 400;
     }
-  
-    .hero .hero-content {
-      width: 547px;
-      max-width: 100%;
-      padding: 24px 40px;
-      background-color: rgb(255 255 255 / 80%);
-    }
-  
-    .hero .hero-content h2 {
-      font-size: 36px;
-      line-height: 43.2px;
-      letter-spacing: -0.36px;
+
+    body.credit-card-pdp:not(.credit-card-retail-pdp) .hero .hero-footnotes {
+      order: 7;
     }
   }
+
+    /* --- Desktop: background image full-bleed behind an overlaid left column --- */
+    @media (width >=992px) {
+      .hero.block {
+        display: grid;
+        align-items: start;
+        min-height: 744px;
+      }
+  
+      .hero .hero-bg {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        grid-area: 1 / 1;
+      }
+  
+      .hero .hero-bg picture,
+      .hero .hero-bg img {
+        height: 744px
+      }
+  
+      .hero .hero-content-row {
+        grid-area: 1 / 1;
+        width: 100%;
+        max-width: 1320px;
+        margin: 0 auto;
+        padding: 56px 12px 96px;
+      }
+  
+      .hero .hero-content {
+        width: 512px;
+
+        /* max-width: 100%; */
+        padding: 24px 40px;
+        background-color: rgb(255 255 255 / 80%);
+        backdrop-filter: blur(50px);
+        border-radius: 24px;
+      }
+  
+      .hero .hero-head {
+        position: relative;
+        top: -56px;
+        margin-bottom: -26px;
+        display: flex;
+        flex-direction: row;
+        align-items: end;
+      }
+  
+      .hero .hero-card-art picture,
+      .hero .hero-card-art img {
+        width: 152px;
+      }
+  
+      .hero .hero-eyebrow {
+        font-size: 16px;
+      }
+  
+  
+      .hero .hero-content h2 {
+        font-size: 36px;
+        line-height: 43.2px;
+        letter-spacing: -0.36px;
+        padding-right: 17%;
+      }
+  
+      .hero .hero-disclaimer {
+        font-size: 12px;
+        line-height: 16px;
+        font-weight: 400;
+        margin-bottom: 0;
+      }
+  
+      .hero .hero-stat .hero-stat-value {
+        margin-bottom: 8px;
+      }
+  
+      .hero .hero-stat a {
+        top: 30px;
+      }
+  
+    }
   
   /* ============================================================
      Retail credit-card PDP hero variant (body.credit-card-retail-pdp).
@@ -538,7 +620,10 @@
       max-width: none;
       margin-inline: 0;
     }
-
+  }
+  
+  /* Desktop css */
+  @media (width >= 992px) {
     body.credit-card-retail-pdp .hero .hero-content {
       display: grid;
       grid-template-columns: 341px 1fr;
@@ -838,6 +923,8 @@
       height: 75px;
     }
   }
+
+  /* Desktop css */
 
   @media (width >= 992px) {
     body.credit-card-explore .hero.block {
