@@ -1,0 +1,115 @@
+/* CTA Banner — the blue promo band from the credit-cards Explore page
+   ("Still not sure?"). The authored image is the complete banner artwork, so it
+   covers the whole band and the copy sits over it. The gradient below is the
+   base colour the source paints with a DAM gradient asset; its colours are
+   sampled into CSS so the band is never bare while the artwork loads, or if the
+   artwork is transparent card art rather than a full banner.
+   Measurements taken from www.citi.com/credit-cards at 1440px and 390px. */
+
+.cta-banner {
+  position: relative;
+  display: flex;
+  min-height: 200px;
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: #1c2d99;
+  background-image: linear-gradient(
+    100deg,
+    #4b66bc 0%,
+    #2e49ab 10%,
+    #223ca3 20%,
+    #1c2d99 32%,
+    #191c86 52%,
+    #1d2a95 70%,
+    #2137ac 88%,
+    #4662d1 100%
+  );
+}
+
+.cta-banner .cta-banner-media {
+  position: absolute;
+  inset: 0;
+  line-height: 0;
+}
+
+.cta-banner .cta-banner-media picture {
+  display: block;
+  height: 100%;
+}
+
+.cta-banner .cta-banner-media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* The media layer follows this in the DOM, so the copy needs the z-index to
+   stay on top of it. */
+.cta-banner .cta-banner-content {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex: 1 1 auto;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 24px;
+}
+
+.cta-banner .cta-banner-title {
+  margin: 0 0 8px;
+  color: #fff;
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 1.33;
+}
+
+.cta-banner .cta-banner-text {
+  margin: 0 0 16px;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.3;
+}
+
+.cta-banner .cta-banner-button {
+  display: inline-block;
+  min-width: 200px;
+  border-radius: 8px;
+  padding: 12px 16px;
+  background: #fff;
+  color: #04208f;
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 1.5;
+  text-align: center;
+  text-decoration: none;
+}
+
+/* Hover keeps the white fill and lifts the label to the brighter brand blue. */
+.cta-banner .cta-banner-button:hover,
+.cta-banner .cta-banner-button:focus-visible {
+  background: #fff;
+  color: var(--citi-blue, #255be3);
+}
+
+@media (width >= 992px) {
+  /* The artwork carries its own cards on the right, so the copy is held to the
+     left half rather than running across them. */
+  .cta-banner .cta-banner-content {
+    flex: 0 1 50%;
+    padding: 24px 24px 24px 40px;
+  }
+
+  .cta-banner .cta-banner-title {
+    margin-bottom: 4px;
+    font-size: 28px;
+    line-height: 1.21;
+  }
+
+  .cta-banner .cta-banner-text {
+    font-size: 16px;
+    line-height: 1.375;
+  }
+}
