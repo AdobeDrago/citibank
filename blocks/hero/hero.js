@@ -116,17 +116,25 @@ export default function decorate(block) {
     statsRow.append(...stats);
   }
 
-  // Link paragraphs, in document order: CTA first, then footnotes.
-  if (links[0]) {
-    links[0].classList.add('button-container');
-    const cta = links[0].querySelector('a');
+  // The value callout can be authored before the CTA, so classify each link by
+  // its visible role instead of relying on document order.
+  const valueCallout = links.find((p) => /over\s+\$[\d,]+\s+in\s+value/i.test(p.textContent));
+  const ctaParagraph = links.find((p) => /^apply\s+now$/i.test(p.textContent.trim())) || links[0];
+  if (valueCallout) valueCallout.classList.add('hero-value-callout');
+
+  // Link paragraphs: the Apply now link is the CTA; remaining links are footnotes.
+  if (ctaParagraph) {
+    ctaParagraph.classList.add('button-container');
+    const cta = ctaParagraph.querySelector('a');
     if (cta) cta.classList.add('button', 'primary');
   }
   // The "Important Pricing & Terms Information +" link (retail) sits directly under
   // the CTA in the source; pull it out of the footnotes group so it can be placed
   // and styled on its own. Identified by its visible text.
-  const rest = links.slice(1);
-  const pricingLink = rest.find((p) => /important pricing/i.test(p.textContent));
+  const rest = links.filter((p) => p !== ctaParagraph && p !== valueCallout);
+  const pricingLink = document.body.classList.contains('credit-card-retail-pdp')
+    ? rest.find((p) => /important pricing/i.test(p.textContent))
+    : null;
   if (pricingLink) pricingLink.classList.add('hero-pricing-link');
   const footnotes = rest.filter((p) => p !== pricingLink);
   footnotes.forEach((p) => p.classList.add('hero-footnote'));
@@ -135,6 +143,10 @@ export default function decorate(block) {
     fnRow.className = 'hero-footnotes';
     content.insertBefore(fnRow, footnotes[0]);
     fnRow.append(...footnotes);
+  }
+
+  if (valueCallout && stats.length) {
+    content.querySelector('.hero-stats').append(valueCallout);
   }
 
   // Retail credit-card PDP variant: no background image and a two-column white
