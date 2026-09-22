@@ -139,7 +139,7 @@ body.credit-card-retail-pdp .accordion .accordion-item-label::before {
   height: 14px;
   margin: 0;
   border: 0;
-  background-color: #056dae;
+  background-color: var(--citi-retail-link);
   /* stylelint-disable-next-line property-no-vendor-prefix */
   -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' fill-rule='evenodd' d='M1.44 6.13a.806.806 0 0 0-.011 1.136L12 18.1 22.572 7.267a.807.807 0 0 0-.012-1.137.797.797 0 0 0-1.131.011L12 15.804 2.571 6.14a.797.797 0 0 0-1.13-.011'/%3E%3C/svg%3E");
   mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' fill-rule='evenodd' d='M1.44 6.13a.806.806 0 0 0-.011 1.136L12 18.1 22.572 7.267a.807.807 0 0 0-.012-1.137.797.797 0 0 0-1.131.011L12 15.804 2.571 6.14a.797.797 0 0 0-1.13-.011'/%3E%3C/svg%3E");
@@ -168,7 +168,7 @@ body.credit-card-retail-pdp .accordion .accordion-item-label h3 {
   font-size: 16px;
   font-weight: 300;
   line-height: 24px;
-  color: #333;
+  color: var(--text-color);
 }
 
 body.credit-card-retail-pdp .accordion .accordion-item .accordion-item-body {
@@ -186,7 +186,7 @@ body.credit-card-retail-pdp .accordion .accordion-item-body div {
   font-size: 16px;
   font-weight: 100;
   line-height: 21px;
-  color: #333;
+  color: var(--text-color);
 }
 
 body.credit-card-retail-pdp .accordion .accordion-item-body p:last-child,
@@ -195,7 +195,7 @@ body.credit-card-retail-pdp .accordion .accordion-item-body div:last-child {
 }
 
 body.credit-card-retail-pdp .accordion .accordion-item-body a:any-link {
-  color: #056dae;
+  color: var(--citi-retail-link);
   text-decoration: underline;
 }
 
