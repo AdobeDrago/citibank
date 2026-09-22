@@ -8,6 +8,7 @@ import { createIcon, iconForBenefit } from './product-list-icons.js';
 const INDEX_URL = '/credit-card-index.json';
 const MAX_BENEFITS = 4;
 const MAX_COMPARE = 3;
+const MAX_CATEGORY_CARDS = 4;
 
 function createStatus(message, type = 'status') {
   const status = document.createElement('p');
@@ -85,10 +86,13 @@ function createBenefits(product, values) {
   return list;
 }
 
-function syncCompareUI(grid) {
-  const boxes = [...grid.querySelectorAll('.product-list-compare-input')];
+// `scope` is whatever compare checkboxes should be counted/capped together —
+// a single grid in flat mode, or the whole block in grouped mode so the limit
+// applies across category sections instead of resetting per section.
+function syncCompareUI(scope) {
+  const boxes = [...scope.querySelectorAll('.product-list-compare-input')];
   const selectedCount = boxes.filter((box) => box.checked).length;
-  grid.querySelectorAll('.product-list-compare-count').forEach((count) => {
+  scope.querySelectorAll('.product-list-compare-count').forEach((count) => {
     count.textContent = `(${selectedCount}/${MAX_COMPARE})`;
   });
   boxes.forEach((box) => {
@@ -96,7 +100,7 @@ function syncCompareUI(grid) {
   });
 }
 
-function createCompare(product, grid) {
+function createCompare(product, scope) {
   if (!product.comparable) return null;
 
   const label = document.createElement('label');
@@ -106,7 +110,7 @@ function createCompare(product, grid) {
   input.type = 'checkbox';
   input.className = 'product-list-compare-input';
   input.setAttribute('aria-label', `Compare ${product.title}`);
-  input.addEventListener('change', () => syncCompareUI(grid));
+  input.addEventListener('change', () => syncCompareUI(scope));
 
   const text = document.createElement('span');
   text.append('Compare ', Object.assign(document.createElement('span'), {
@@ -126,10 +130,10 @@ function createDetails(product) {
   return details;
 }
 
-function createLinks(product, grid) {
+function createLinks(product, scope) {
   const links = document.createElement('div');
   links.className = 'product-list-links';
-  links.append(...[createCompare(product, grid), createDetails(product)].filter(Boolean));
+  links.append(...[createCompare(product, scope), createDetails(product)].filter(Boolean));
   return links;
 }
 
@@ -175,7 +179,7 @@ function createDisclosures(product) {
   return wrapper;
 }
 
-function createCard(product, grid, offerValuesByPath) {
+function createCard(product, scope, offerValuesByPath) {
   const item = document.createElement('li');
   const article = document.createElement('article');
   const values = offerValuesByPath.get(product.path);
@@ -184,7 +188,7 @@ function createCard(product, grid, offerValuesByPath) {
     createBanner(product),
     createHeader(product),
     createBenefits(product, values),
-    createLinks(product, grid),
+    createLinks(product, scope),
     createApply(product),
     createDisclosures(product),
   ].filter(Boolean));
@@ -241,10 +245,12 @@ function createChips(categories, selected, onChange) {
   return chips;
 }
 
-function createGrid(products, offerValuesByPath) {
+// `scope` lets a caller share one compare limit across several grids (see
+// renderGroupedProducts); flat mode omits it, so each grid counts itself.
+function createGrid(products, scope, offerValuesByPath) {
   const grid = document.createElement('ul');
   grid.className = 'product-list-grid';
-  products.forEach((product) => grid.append(createCard(product, grid, offerValuesByPath)));
+  products.forEach((product) => grid.append(createCard(product, scope || grid, offerValuesByPath)));
   return grid;
 }
 
@@ -267,7 +273,7 @@ function renderProducts(block, products, offerValuesByPath) {
   const update = () => {
     const visible = filterByCategories(products, selected);
     count.textContent = `Showing ${visible.length} ${visible.length === 1 ? 'card' : 'cards'}`;
-    results.replaceChildren(createGrid(visible, offerValuesByPath));
+    results.replaceChildren(createGrid(visible, undefined, offerValuesByPath));
   };
 
   const chips = categories.length ? createChips(categories, selected, update) : null;
@@ -278,6 +284,133 @@ function renderProducts(block, products, offerValuesByPath) {
 
   block.replaceChildren(toolbar, results);
   update();
+}
+
+const UNCATEGORIZED_LABEL = 'All Credit Cards';
+
+// A category's own {{count}} substitution for its "View all" link text — kept
+// separate from scripts/offer-sheet.js's {{token}} system, since this runs on
+// the category section itself, never on card content.
+function resolveViewAllLabel(label, count) {
+  return label.replace(/\{\{\s*count\s*\}\}/i, count);
+}
+
+function createViewAllLink(label, href, count) {
+  const link = document.createElement('a');
+  link.className = 'product-list-view-all';
+  link.href = href;
+  link.textContent = resolveViewAllLabel(label, count);
+  return link;
+}
+
+// Heading and "View all …" share a row so the link sits at the far right of
+// the section title, matching the cc-category header on the Explore page.
+function createCategoryHeader(title, viewAllLink) {
+  const header = document.createElement('div');
+  header.className = 'product-list-category-header';
+
+  const heading = document.createElement('h2');
+  heading.className = 'product-list-category-heading';
+  heading.textContent = title;
+
+  header.append(...[heading, viewAllLink].filter(Boolean));
+  return header;
+}
+
+// `viewAll` (authored label + href) caps the section at MAX_CATEGORY_CARDS
+// with a link to see the rest; omitted (auto-derived categories, or a row
+// that didn't author both cells) shows every matching card, as before.
+function createCategorySection(category, products, scope, offerValuesByPath, viewAll) {
+  const section = document.createElement('div');
+  section.className = 'product-list-category';
+
+  const capped = viewAll?.label && viewAll?.href && products.length > MAX_CATEGORY_CARDS;
+  const visible = capped ? products.slice(0, MAX_CATEGORY_CARDS) : products;
+  const link = capped ? createViewAllLink(viewAll.label, viewAll.href, products.length) : null;
+
+  section.append(
+    createCategoryHeader(category, link),
+    createGrid(visible, scope, offerValuesByPath),
+  );
+  return section;
+}
+
+// Each authored row names a category to show, in that order: cell 1 is the
+// category to match against card metadata, cell 2 is the section's display
+// title (falls back to the category name), cell 3 is the "View all" link
+// text with a {{count}} placeholder for the total match count (e.g. "View
+// all {{count}} No Annual Fee Cards"), cell 4 is that link's destination.
+// Cells 2-4 are all optional; a category missing cells 3-4 simply shows every
+// matching card with no cap. Any other category present in the data is left
+// out entirely. Read before the block's own content is wiped below.
+function getAuthoredCategories(block) {
+  return [...block.children]
+    .map((row) => {
+      const cells = [...row.children];
+      const [category, title, viewAllLabel] = cells
+        .slice(0, 3)
+        .map((cell) => cell.textContent.replace(/\s+/g, ' ').trim());
+      if (!category) return null;
+
+      const linkCell = cells[3];
+      const viewAllHref = linkCell
+        ? (linkCell.querySelector('a')?.href || linkCell.textContent.trim())
+        : '';
+
+      return {
+        category,
+        title: title || category,
+        viewAll: (viewAllLabel && viewAllHref) ? { label: viewAllLabel, href: viewAllHref } : null,
+      };
+    })
+    .filter(Boolean);
+}
+
+// One heading + grid per category (a card with several categories appears in
+// each). Compare is scoped to the whole block so the 3-card cap holds across
+// every section, not per category.
+function renderGroupedProducts(block, products, authoredCategories, offerValuesByPath) {
+  if (!products.length) {
+    block.replaceChildren(createStatus('No credit card products are available.', 'empty'));
+    return;
+  }
+
+  // Authors can whitelist + order specific categories (with their own display
+  // title); otherwise fall back to every category found in the data, titled
+  // as-is.
+  const categories = authoredCategories.length
+    ? authoredCategories
+    : getCategories(products).map((category) => ({ category, title: category }));
+
+  const sections = categories
+    .map(({ category, title, viewAll }) => [
+      title,
+      filterByCategories(products, new Set([category.toLowerCase()])),
+      viewAll,
+    ])
+    .filter(([, matching]) => matching.length)
+    .map(([title, matching, viewAll]) => (
+      createCategorySection(title, matching, block, offerValuesByPath, viewAll)
+    ));
+
+  // Categories are author-supplied metadata, so a card with none authored
+  // would otherwise silently vanish from a grouped-only view. Skipped when
+  // authors whitelist categories explicitly — only those should show then.
+  if (!authoredCategories.length) {
+    const uncategorized = products.filter((product) => !product.categories.length);
+    if (uncategorized.length) {
+      sections.push(
+        createCategorySection(UNCATEGORIZED_LABEL, uncategorized, block, offerValuesByPath),
+      );
+    }
+  }
+
+  if (!sections.length) {
+    block.replaceChildren(createStatus('No credit card products are available.', 'empty'));
+    return;
+  }
+
+  block.replaceChildren(...sections);
 }
 
 function slugOf(path) {
@@ -309,12 +442,24 @@ function buildOfferValuesByPath(products, offerJson) {
 }
 
 /**
- * Credit-card grid, index/JSON-driven (no authored block content). Cards may
- * author {{token}} placeholders (e.g. {{bonus amount}}, {{annual fee}}) in
- * page metadata; those are resolved per card from the shared offer sheet.
- * The sheet URL must be read before the block's own DOM is wiped below.
+ * Credit-card grid, index/JSON-driven (no authored block content). Author the
+ * block as "Product List (Grouped)" for a heading + grid per category (e.g.
+ * the Explore page); plain "Product List" keeps the single grid + filter
+ * chips (e.g. the "view all" compare page). In grouped mode, each authored
+ * row names one category to show (in that order): first cell is the category
+ * to match against card metadata, optional second cell is the section's
+ * display title (e.g. "Rewards" / "Rewards Credit Cards"). Leave the block
+ * empty to show every category found in the data instead.
+ *
+ * Cards may author {{token}} placeholders (e.g. {{bonus amount}},
+ * {{annual fee}}) in page metadata; those are resolved per card from the
+ * shared offer sheet (scripts/offer-sheet.js), keyed by the card's own page
+ * (Page Name) and the visitor's ecid segment. The sheet URL must be read
+ * before the block's own DOM is wiped below.
  */
 export default async function decorate(block) {
+  const grouped = block.classList.contains('grouped');
+  const authoredCategories = grouped ? getAuthoredCategories(block) : [];
   const sheetUrl = getOfferSheetUrl(block);
   block.replaceChildren(createStatus('Loading credit cards…'));
 
@@ -329,7 +474,12 @@ export default async function decorate(block) {
       fetchOfferSheetJson(sheetUrl).catch(() => null),
     ]);
     const products = getProducts(payload);
-    renderProducts(block, products, buildOfferValuesByPath(products, offerJson));
+    const offerValuesByPath = buildOfferValuesByPath(products, offerJson);
+    if (grouped) {
+      renderGroupedProducts(block, products, authoredCategories, offerValuesByPath);
+    } else {
+      renderProducts(block, products, offerValuesByPath);
+    }
   } catch (error) {
     block.replaceChildren(createStatus('Credit cards could not be loaded. Please try again later.', 'error'));
     // eslint-disable-next-line no-console

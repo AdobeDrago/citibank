@@ -271,6 +271,49 @@
   font-size: 0.8rem;
 }
 
+.product-list-category {
+  margin: 0 0 40px;
+}
+
+.product-list-category:last-child {
+  margin-bottom: 0;
+}
+
+/* Title left, "View all …" hard right; the link drops to its own line when the
+   pair no longer fits. */
+.product-list-category-header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px 24px;
+  margin: 0 0 20px;
+  border-bottom: 1px solid var(--citi-border, #d6dadd);
+  padding-bottom: 12px;
+}
+
+.product-list-category-heading {
+  margin: 0;
+  color: var(--citi-navy, #002d72);
+  font-size: 1.3rem;
+}
+
+/* Matches the cc-category "View all …" link the Explore page stacks these
+   sections against: a plain bold navy text link, underlined on hover. The navy
+   is cc-category's own --cc-navy, not the lighter global --citi-blue. */
+.product-list .product-list-view-all {
+  margin: 0;
+  color: #04208f;
+  font-weight: 700;
+  font-size: 14px;
+  text-decoration: none;
+}
+
+.product-list .product-list-view-all:hover,
+.product-list .product-list-view-all:focus-visible {
+  text-decoration: underline;
+}
+
 .product-list-status,
 .product-list-empty,
 .product-list-error {
