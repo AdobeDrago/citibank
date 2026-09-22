@@ -58,122 +58,360 @@
 
 /* =========================================================
  * Retail credit-card PDP tabs (body.credit-card-retail-pdp)
- * Source: a row of rounded card/pill tab buttons, each with an icon stacked
- * above its label; selected tab is Citi blue with white text + a soft shadow
- * and a downward pointer triangle; unselected tabs are white with blue text.
- * Below sits a white panel with a rounded top and a soft top shadow, holding
- * the tab content in two columns. Scoped to the retail body class so the
- * default (grey/bordered) tabs used elsewhere are unchanged.
+ * Matched to www.citi.com/credit-cards/citi-macys-credit-card
+ * benefit-section / mkt-tab-list at mobile, tablet, and desktop.
  * ========================================================= */
+
+/* --- mobile first (< 768px) --- */
 body.credit-card-retail-pdp .tabs .tabs-list {
-  gap: 16px;
-  justify-content: center;
-  padding: 8px 4px 24px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  justify-content: space-evenly;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  padding: 0;
   overflow: visible;
 }
 
 body.credit-card-retail-pdp .tabs .tabs-list button {
   position: relative;
   display: flex;
-  flex: 0 1 250px;
+  flex: 1 1 0;
   flex-direction: column;
   align-items: center;
-  justify-content: flex-end;
-  gap: 8px;
-  min-height: 120px;
-  border: 0;
-  border-radius: 20px;
-  padding: 24px 16px 28px;
+  justify-content: center;
+  gap: 0;
+  min-width: 85px;
+  height: 107px;
+  min-height: 107px;
+  margin: 0;
+  border: 1px solid rgb(0 0 0 / 25%);
+  border-radius: 10px;
+  padding: 10px;
   background-color: #fff;
-  box-shadow: 0 0 5px 1px rgb(51 51 51 / 25%);
+  box-shadow: none;
+  filter: drop-shadow(rgb(200 200 200 / 50%) 0 4px 18px);
   color: #056dae;
   font-family: var(--heading-font-family);
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 1.25;
+  font-size: 0.875rem;
+  font-weight: 300;
+  line-height: 1rem;
+  letter-spacing: 0;
   text-align: center;
+  opacity: 0.92;
   transition: background-color 0.2s, color 0.2s;
 }
 
-/* icon stacked above the label */
-body.credit-card-retail-pdp .tabs .tabs-list button img {
-  width: 48px;
-  height: 40px;
-  object-fit: contain;
-}
-
+/* stylelint-disable no-descending-specificity -- tab label <p> vs panel <p> */
 body.credit-card-retail-pdp .tabs .tabs-list button p {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 24px;
+  justify-content: center;
+  gap: 8px;
   margin: 0;
 }
 
-body.credit-card-retail-pdp .tabs .tabs-list button[aria-selected='true'] {
-  border: 0;
-  background-color: #005aa1;
-  color: #fff;
+body.credit-card-retail-pdp .tabs .tabs-list button img {
+  display: block;
+  width: 48px;
+  height: 40px;
+  margin: 0 auto;
+  object-fit: contain;
 }
 
-/* recolor the SVG icon white on the selected (blue) tab */
+/* Selected: no filter — drop-shadow ghosts ::after. Lift with box-shadow. */
+body.credit-card-retail-pdp .tabs .tabs-list button[aria-selected='true'] {
+  border: 1px solid rgb(0 0 0 / 25%);
+  background-color: #005aa1;
+  color: #fff;
+  box-shadow: rgb(51 51 51 / 25%) 0 0 5px 1px;
+  filter: none;
+  z-index: 1;
+}
+
 body.credit-card-retail-pdp .tabs .tabs-list button[aria-selected='true'] img {
   filter: brightness(0) invert(1);
 }
 
-/* downward pointer triangle under the active tab */
+/* hide tab pointer on mobile — source uses .triangle on the panel bar instead */
 body.credit-card-retail-pdp .tabs .tabs-list button[aria-selected='true']::after {
+  display: none;
+}
+
+/* Panel stacks above tabs-list so the solid bar covers the triangle base.
+ * Tip lives in margin-top gap (outside the panel box) so box-shadow can’t
+ * haze it. No filter — drop-shadow ghosts the pointer.
+ * Source tabpanel-active is opacity 0.9; the hr bar is rgb(0,90,161) at
+ * element opacity 0.25 (reads as a light blue). */
+body.credit-card-retail-pdp .tabs .tabs-panel {
+  position: relative;
+  z-index: 2;
+  display: flow-root;
+  margin-top: 10px;
+  border: 0;
+  border-radius: 15px 15px 0 0;
+  padding: 0 0 60px;
+  overflow: visible;
+  background-color: #fff;
+  box-shadow: none;
+  filter: none;
+  opacity: 0.9;
+}
+
+body.credit-card-retail-pdp .tabs .tabs-panel[aria-hidden='true'] {
+  display: none;
+}
+
+body.credit-card-retail-pdp .tabs .tabs-panel::before {
+  content: '';
+  display: block;
+  height: 11px;
+  margin: 0 0 30px;
+
+  /* Source hr: solid rgb(0,90,161) faded by element opacity 0.25, plus the
+   * Bootstrap hr hairline (1px #ccc). Opacity (not a color alpha) so the
+   * hairline fades with the bar, same as citi.com. Parent panel is 0.9. */
+  border: 0;
+  border-top: 1px solid #ccc;
+  background: rgb(0 90 161);
+  border-radius: 20px 20px 0 0;
+  opacity: 0.25;
+  transform: rotate(-180deg);
+}
+
+/* mobile downward caret on the bar (source .triangle) — full-strength blue */
+body.credit-card-retail-pdp .tabs .tabs-panel::after {
   content: '';
   position: absolute;
-  bottom: -10px;
-  left: 50%;
-  width: 20px;
-  height: 20px;
-  background-color: #005aa1;
-  transform: translateX(-50%) rotate(45deg);
-  border-radius: 3px;
+  top: 11px;
+  right: 45%;
+  z-index: 1;
+  width: 0;
+  height: 0;
+  border-left: 15px solid transparent;
+  border-right: 15px solid transparent;
+  border-bottom: 15px solid rgb(0 90 161);
+  transform: rotate(180deg);
 }
 
-/* white rounded content panel with a soft top edge */
-body.credit-card-retail-pdp .tabs .tabs-panel {
-  margin-top: 0;
-  border: 0;
-  border-radius: 15px;
-  padding: 40px 32px;
-  background-color: #fff;
-  box-shadow: 0 -1px 6px rgb(51 51 51 / 12%);
-}
-
-/* panel content typography (source: navy subheads, dark-grey body) */
 body.credit-card-retail-pdp .tabs .tabs-panel h3 {
-  margin: 0 0 8px;
+  margin: 0 0 10px;
   font-family: var(--heading-font-family);
-  font-size: 20px;
-  font-weight: 500;
-  line-height: 1.3;
-  color: rgb(45 45 45);
-}
-
-/* stylelint-disable-next-line no-descending-specificity */
-body.credit-card-retail-pdp .tabs .tabs-panel p {
-  margin: 0 0 20px;
-  font-size: 16px;
-  line-height: 1.5;
+  font-size: 1.125rem;
+  font-weight: 300;
+  line-height: 1.313rem;
   color: rgb(51 51 51);
 }
 
-/* content laid out in two columns on desktop (matches source) */
-@media (width >= 992px) {
+body.credit-card-retail-pdp .tabs .tabs-panel h3 strong,
+body.credit-card-retail-pdp .tabs .tabs-panel h3 b {
+  font-weight: 700;
+}
+
+/* Normal panel links (e.g. wayfair.accountonline.com) stay baseline.
+ * Only real footnote <sup> markers get the raised treatment — never every <a>. */
+body.credit-card-retail-pdp .tabs .tabs-panel h3 a,
+body.credit-card-retail-pdp .tabs .tabs-panel p a {
+  color: #056dae;
+  font-size: inherit;
+  font-weight: inherit;
+  vertical-align: baseline;
+  text-decoration: underline;
+}
+
+body.credit-card-retail-pdp .tabs .tabs-panel h3 sup,
+body.credit-card-retail-pdp .tabs .tabs-panel p sup,
+body.credit-card-retail-pdp .tabs .tabs-panel h3 a:has(sup),
+body.credit-card-retail-pdp .tabs .tabs-panel p a:has(sup) {
+  font-size: 0.65em;
+  vertical-align: super;
+  text-decoration: none;
+  color: #056dae;
+}
+
+/* Source .free-text — light body; Dillard's title lines wrap the copy in <b>/<strong> */
+body.credit-card-retail-pdp .tabs .tabs-panel p {
+  margin: 0 0 30px;
+  font-family: var(--body-font-family);
+  font-size: 1rem;
+  font-weight: 100;
+  line-height: 21px;
+  color: rgb(51 51 51);
+}
+
+body.credit-card-retail-pdp .tabs .tabs-panel p strong,
+body.credit-card-retail-pdp .tabs .tabs-panel p b {
+  font-weight: 700;
+  color: inherit;
+}
+
+body.credit-card-retail-pdp .tabs .tabs-benefit-columns {
+  display: flex;
+  flex-direction: column;
+  margin: 0;
+}
+
+body.credit-card-retail-pdp .tabs .tabs-benefit-column {
+  flex: 1 1 0;
+}
+
+/* Only the final free-text in each column drops its bottom margin —
+ * earlier items keep the 30px gap (live .free-text). */
+body.credit-card-retail-pdp .tabs .tabs-benefit-column > .tabs-benefit-item:last-child p:last-child {
+  margin-bottom: 0;
+}
+
+/* Mobile: first column’s last line keeps 20px before the stacked second
+ * column (live .bf-flex-item:first-child p:last-child !important). */
+body.credit-card-retail-pdp .tabs .tabs-benefit-columns:has(> .tabs-benefit-column:nth-child(2):not(:empty))
+  > .tabs-benefit-column:first-child
+  > .tabs-benefit-item:last-child
+  > p:last-child {
+  margin-bottom: 20px;
+}
+
+/* --- tablet --- */
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .tabs .tabs-list {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    gap: 25px;
+    padding: 10px 0 0;
+  }
+
+  body.credit-card-retail-pdp .tabs .tabs-list button {
+    flex: 0 1 auto;
+    width: 250px;
+    max-width: 250px;
+    min-width: 130px;
+    height: 160px;
+    min-height: 90px;
+    border: 0;
+    border-radius: 20px;
+    padding: 10px;
+    font-size: 1.5rem;
+    font-weight: 400;
+    line-height: 27px;
+    opacity: 1;
+  }
+
+  body.credit-card-retail-pdp .tabs .tabs-list button p {
+    gap: 0;
+  }
+
+  body.credit-card-retail-pdp .tabs .tabs-list button img {
+    width: 61px;
+    height: 55px;
+    margin: 0 0 20px;
+    object-fit: contain;
+  }
+
+  body.credit-card-retail-pdp .tabs .tabs-list button[aria-selected='true'] {
+    border: 0;
+    box-shadow: rgb(51 51 51 / 25%) 0 0 5px 1px;
+    filter: none;
+  }
+
+  /* upward CSS triangle — tip in the transparent gap above the bar;
+   * base tucked under the solid bar (panel stacks above tabs-list).
+   * Source selected-tab::after uses full-strength rgb(0,90,161). */
+  body.credit-card-retail-pdp .tabs .tabs-list button[aria-selected='true']::after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: -45px;
+    left: 50%;
+    z-index: 0;
+    width: 0;
+    height: 0;
+    margin: 0 0 0 -35px;
+    border: 0;
+    border-left: 35px solid transparent;
+    border-right: 35px solid transparent;
+    border-bottom: 35px solid rgb(0 90 161);
+    border-radius: 0;
+    background: none;
+    opacity: 1;
+    filter: none;
+    box-shadow: none;
+    transform: none;
+    pointer-events: none;
+  }
+
   body.credit-card-retail-pdp .tabs .tabs-panel {
-    column-count: 2;
-    column-gap: 64px;
+    margin-top: 24px;
+    padding: 0 0 40px;
+    background-color: #fff;
+
+    /* source .tabpanel-active drop-shadow */
+    box-shadow: none;
+    filter: drop-shadow(rgb(200 200 200 / 50%) 0 4px 18px);
+  }
+
+  body.credit-card-retail-pdp .tabs .tabs-panel::before {
+    margin: 0 0 40px;
+    transform: none;
+  }
+
+  /* desktop/tablet pointer lives on the tab — hide mobile panel caret */
+  body.credit-card-retail-pdp .tabs .tabs-panel::after {
+    display: none;
+  }
+
+  body.credit-card-retail-pdp .tabs .tabs-benefit-columns {
+    flex-direction: row;
+    column-gap: 60px;
+    margin: 0 35px;
+  }
+
+  body.credit-card-retail-pdp .tabs .tabs-benefit-columns:has(> .tabs-benefit-column:nth-child(2):not(:empty))
+    > .tabs-benefit-column:first-child
+    > .tabs-benefit-item:last-child
+    > p:last-child {
+    margin-bottom: 0;
   }
 
   body.credit-card-retail-pdp .tabs .tabs-panel h3 {
-    break-after: avoid;
+    font-size: 1.125rem;
+    font-weight: 300;
+    line-height: 21px;
   }
 
   body.credit-card-retail-pdp .tabs .tabs-panel p {
-    break-inside: avoid;
+    margin: 0 0 30px;
+    font-size: 1rem;
+    font-weight: 100;
+    line-height: 21px;
+  }
+
+}
+
+/* --- desktop --- */
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .tabs .tabs-list {
+    gap: 35px;
+  }
+
+  body.credit-card-retail-pdp .tabs .tabs-list button[aria-selected='true']::after {
+    margin-left: -24px;
+    border-left-width: 24px;
+    border-right-width: 24px;
+    border-bottom-width: 24px;
+  }
+
+  body.credit-card-retail-pdp .tabs .tabs-panel {
+    margin-top: 35px;
+  }
+
+  body.credit-card-retail-pdp .tabs .tabs-panel::before {
+    margin: 0 0 60px;
+  }
+
+  body.credit-card-retail-pdp .tabs .tabs-benefit-columns {
+    margin: 0 60px;
   }
 }
+/* stylelint-enable no-descending-specificity */

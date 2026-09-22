@@ -142,6 +142,8 @@ export default function decorate(block) {
   // groups the card art and the h1 label together in `.hero-head`, which cannot
   // be split into separate columns with CSS alone, so restructure here. Guarded
   // by the template body class so tds-* PDP heroes are left untouched.
+  // Source order: full-width card-name title, then media (ribbon + card art) and
+  // body (headline / sign-on / CTA) side-by-side on desktop.
   if (document.body.classList.contains('credit-card-retail-pdp')) {
     const media = document.createElement('div');
     media.className = 'hero-media';
@@ -149,16 +151,43 @@ export default function decorate(block) {
     body.className = 'hero-body';
     if (ribbon) media.append(ribbon);
     if (cardArt) media.append(cardArt);
-    if (h1) body.append(h1);
     [...content.children].forEach((child) => {
       if (child.classList.contains('hero-head')) {
         child.remove();
         return;
       }
+      if (child === h1) return;
       body.append(child);
     });
-    content.append(media, body);
+    content.replaceChildren(...[h1, media, body].filter(Boolean));
   }
 
   hydrateOfferValues(block, sheetUrl);
+
+  // Sticky bar: retail PDP only, appears when the hero CTA scrolls out of view.
+  if (!document.body.classList.contains('credit-card-retail-pdp')) return;
+  const ctaEl = block.querySelector('.button-container a');
+  const cardArtEl = block.querySelector('.hero-card-art picture');
+  if (ctaEl && cardArtEl) {
+    const bar = document.createElement('div');
+    bar.className = 'hero-sticky-bar';
+
+    const imgWrap = document.createElement('div');
+    imgWrap.className = 'hero-sticky-bar-image';
+    imgWrap.append(cardArtEl.cloneNode(true));
+
+    const stickyBtn = document.createElement('a');
+    stickyBtn.href = ctaEl.href;
+    stickyBtn.textContent = ctaEl.textContent;
+    stickyBtn.className = 'hero-sticky-bar-cta';
+
+    bar.append(imgWrap, stickyBtn);
+    document.body.append(bar);
+
+    const observer = new IntersectionObserver(
+      ([entry]) => bar.classList.toggle('is-visible', !entry.isIntersecting),
+      { threshold: 0 },
+    );
+    observer.observe(ctaEl);
+  }
 }

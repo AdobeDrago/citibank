@@ -433,52 +433,100 @@ body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> d
 
 /* =========================================================
  * Retail "REWARDS AND PROGRAM DETAILS" (credit-card-retail-pdp)
- * A plain two-column layout: LEFT = reward items (bold title + copy),
- * RIGHT = benefit lines with a vertical divider. Scoped to the retail
- * body class so it overrides the tds-* accelerator-tile rules above
- * (which retail never renders) without affecting them. The retail apply
- * band is the OTHER columns block but it has a .columns-img-col, so the
- * :not(:has(.columns-img-col)) guard keeps these two apart.
- * Source: .rw-title 20px/500 rgb(45,45,45); body 16px rgb(51,51,51);
- * right column divider 2px rgb(204,204,204) with ~60px inset.
+ * Source app-rewards-section .reward-section:
+ *   LEFT  .text-container — .rw-title 1.25rem/1.625rem + body copy
+ *   RIGHT .reward-feature.text-border — benefit lines, divider on left
+ * Stacked on mobile (border on top); side-by-side from 768px
+ * with equal flex columns and 3.75em gutters around the divider.
+ * The retail apply band is the OTHER columns block (has .columns-img-col).
  * ========================================================= */
+
+/* mobile-first: stacked columns, no row gap from the base columns rule */
 body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div {
-  gap: 32px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
 }
 
 body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  display: block;
+  flex: 1 1 50%;
   padding: 0;
   border-radius: 0;
   background-color: transparent;
   color: rgb(51 51 51);
 }
 
-/* reward item = a title followed by its paragraph; space between items */
+/* right column: top divider when stacked (source max-width 768) */
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 2px solid rgb(204 204 204);
+}
+
+/* .rw-title — 1.125rem on mobile/tablet, 1.25rem desktop */
 body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) h3 {
   margin: 0 0 8px;
   font-family: var(--heading-font-family);
-  font-size: 20px;
+  font-size: 1.125rem;
   font-weight: 500;
-  line-height: 1.3;
+  line-height: 1.3125rem;
   letter-spacing: normal;
   color: rgb(45 45 45);
 }
 
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) h3 strong {
+  font-weight: 500;
+  color: inherit;
+}
+
+/* space between flattened reward items (source .rw-content margin-bottom 25px) */
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:first-child h3:not(:first-child) {
+  margin-top: 25px;
+}
+
 body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) p {
-  margin: 0 0 24px;
+  margin: 0 0 16px;
+  padding: 0;
   font-family: var(--body-font-family);
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.32rem;
   letter-spacing: normal;
   color: rgb(51 51 51);
 }
 
-body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) p:last-child {
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:first-child p:last-child {
   margin-bottom: 0;
+}
+
+/* right column benefit lines (source .reward-feature-item mb 15px mobile / 25px desktop) */
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) p {
+  margin: 0 0 15px;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) p:last-child {
+  margin-bottom: 0;
+}
+
+/* benefits list — source inline style list-style:none; padding:0 */
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--body-font-family);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5rem;
+  color: rgb(51 51 51);
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 
 body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) a:any-link {
@@ -486,18 +534,237 @@ body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) 
   text-decoration: none;
 }
 
-@media (width >= 992px) {
+/* side-by-side from 768px */
+@media (width >= 768px) {
   body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div {
+    flex-direction: row;
     align-items: stretch;
-    gap: 48px;
+    gap: 0;
   }
 
-  /* right (benefits) column: vertical divider on its left edge, content centered
-     vertically against the taller left column (matches source) */
+  body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:first-child {
+    padding-right: 3.75em;
+  }
+
   body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) {
-    justify-content: center;
+    margin-top: 0;
+    padding-top: 0;
+    padding-left: 2.75em;
+    border-top: none;
     border-left: 2px solid rgb(204 204 204);
-    padding-left: 48px;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) p {
+    line-height: 1.3125rem;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:first-child p {
+    padding-right: 10px;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) p {
+    margin-bottom: 25px;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) h3 {
+    font-size: 1.25rem;
+    line-height: 1.625rem;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) {
+    padding-left: 3.75em;
+  }
+}
+
+/* =========================================================
+ * Retail secondary apply band (credit-card-retail-pdp)
+ * Source: app-review-section .apply-now-section .wrapper / .cardart-section
+ * Centered stack: H4 title → card art (222×140) → Apply Now button.
+ * Overrides the generic promo-banner and "here's how it works" image+h3
+ * overlays that would otherwise apply to any columns-2-cols with an img col.
+ *
+ * NOTE: On the retail PDP the apply columns share a mega-section with tabs /
+ * accordion / spacers / pricing, so NEVER put section-level margin on
+ * `:has(.columns-img-col)` — scope inset + top spacing to the columns-wrapper.
+ * ========================================================= */
+
+/* Match source .box inset + .apply-now-section .wrapper margin-top 45px */
+body.credit-card-retail-pdp .columns-wrapper:has(.columns-img-col) {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin: 45px auto 0;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) {
+  margin: 24px 0;
+  text-align: center;
+}
+
+/* flatten the authored 2-col row into one centered column stack */
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: static;
+  gap: 0;
+  border-radius: 0;
+  overflow: visible;
+  text-align: center;
+}
+
+/* let title + CTA participate in the parent flex order */
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) > div > div:not(.columns-img-col) {
+  display: contents;
+  position: static;
+  z-index: auto;
+  box-sizing: border-box;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  backdrop-filter: none;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) > div > .columns-img-col {
+  position: static;
+  inset: auto;
+  order: 2;
+  margin: 0;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) img {
+  display: block;
+  width: 222px;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 0;
+  object-fit: unset;
+}
+
+/* title above card art (source h4 24px/500) */
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) h3 {
+  order: 1;
+  margin: 0 0 8px;
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: normal;
+  color: #333;
+  text-align: center;
+}
+
+/* Apply Now CTA below card art — source .cds-button-primary in .apply-now-section */
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) p {
+  order: 3;
+  display: block;
+  width: 100%;
+  margin: 1.2rem 0 0;
+  padding: 0;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a:any-link,
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a.button:any-link {
+  display: inline-block;
+  box-sizing: border-box;
+  min-width: 220px;
+  width: 100%;
+  margin: 0;
+  padding: 11px 20px;
+  border: 1px solid #002d72;
+  border-radius: 8px;
+  background-color: #002d72;
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: normal;
+  text-align: center;
+  text-decoration: none;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a:any-link:hover,
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a.button:any-link:hover,
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a:any-link:focus-visible,
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a.button:any-link:focus-visible {
+  background-color: #002d72;
+  border-color: #002d72;
+  color: #fff;
+  text-decoration: none;
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .columns-wrapper:has(.columns-img-col) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) p {
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a:any-link,
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a.button:any-link {
+    width: auto;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .columns-wrapper:has(.columns-img-col) {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+}
+
+@media (width >= 992px) {
+  /* beat the generic image+h3 overlay rules */
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):has(h3) > div {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):has(h3) > div > .columns-img-col {
+    position: static;
+    inset: auto;
+    margin: 0;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):has(h3) > div > .columns-img-col img {
+    width: 222px;
+    height: auto;
+    border-radius: 0;
+    object-fit: unset;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):has(h3) > div > div:not(.columns-img-col) {
+    position: static;
+    z-index: auto;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    background: none;
   }
 }
 

@@ -1,0 +1,56 @@
+.spacer {
+  margin: 30px auto;
+  max-width: 1200px;
+  border-bottom: 1px solid #d8d8d8;
+}
+
+@media (width >= 768px) {
+  .spacer {
+    margin: 45px auto;
+  }
+}
+
+/*
+ * Retail credit-card PDP spacers (body.credit-card-retail-pdp).
+ * Source: .pdp-section .box .spacer on www.citi.com/credit-cards/citi-macys-credit-card
+ *   • Mobile  (<768): margin 30px 0; line spans the 5.33%-inset content column
+ *   • Tablet+ (≥768): margin 45px 0; line spans the 40px / 5% inset column
+ * No max-width on the rule itself — width comes from the wrapper inset below.
+ */
+body.credit-card-retail-pdp .spacer {
+  width: 100%;
+  max-width: none;
+  margin: 30px 0;
+  border-bottom: 1px solid #d8d8d8;
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .spacer {
+    margin: 45px 0;
+  }
+}
+
+/* Spacer wrapper shares the live .box horizontal inset (same as hero / pricing). */
+body.credit-card-retail-pdp .spacer-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .spacer-wrapper {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .spacer-wrapper {
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+}
