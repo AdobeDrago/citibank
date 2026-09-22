@@ -163,11 +163,12 @@ body.credit-card-pdp .cards > ul > li {
    ============================================================ */
 body.credit-card-retail-pdp .cards > ul {
   grid-template-columns: 1fr;
-  gap: 16px;
+  gap: 0;
   margin: 40px 0 0;
 }
 
 body.credit-card-retail-pdp .cards > ul > li {
+  margin: 8px;
   border: none;
   border-radius: 16px;
   background-color: var(--background-color);
@@ -204,18 +205,12 @@ body.credit-card-retail-pdp .cards .cards-card-body h3 > strong.cards-card-numbe
   display: inline;
   margin-right: 10px;
   color: rgb(4 53 103);
-  font-size: 48px; /* 3rem */
+  font-size: 48px;
   font-weight: 700;
   line-height: 48px;
   letter-spacing: -2.4px;
 }
 
-/*
- * Retail offer-card superscripts — match live .bubble-section / .cbolui-cds
- * https://www.citi.com/credit-cards/citi-best-buy-credit-cards
- * Body: 0.75rem, color inherit, relative top -0.5em.
- * Heading: 1.31rem; inside .cards-card-number: grey 1.125rem with larger offset.
- */
 body.credit-card-retail-pdp .cards .cards-card-body sup {
   position: relative;
   top: -0.5em;
@@ -232,7 +227,6 @@ body.credit-card-retail-pdp .cards .cards-card-body h3 sup {
   font-size: 1.31rem;
 }
 
-/* Live .bubble-header .number sup — mobile top -1rem; desktop -1.5rem */
 body.credit-card-retail-pdp .cards .cards-card-body h3 > strong.cards-card-number sup {
   top: -1rem;
   width: 1.125rem;

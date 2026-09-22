@@ -299,14 +299,9 @@
     display: block;
     min-height: 0;
     background: none;
-
-    /* Allow the green-tag ::after tip to paint past the ribbon edge */
     overflow: visible;
   }
   
-  /* Sticky apply bar card-art chip — declared before .hero-bg below so both
-     picture/img rules stay in ascending specificity order (they target
-     unrelated elements: this bar lives outside .hero, appended to body). */
   body.credit-card-retail-pdp .hero-sticky-bar-image picture,
   body.credit-card-retail-pdp .hero-sticky-bar-image img {
     display: block;
@@ -351,9 +346,6 @@
     background: none;
   }
   
-  /* Left column: ribbon → card art (title is a full-width sibling above).
-     Mobile default order (3): stacks after the title/body text; centered
-     art with a 55px gap above the pricing link (live source). */
   body.credit-card-retail-pdp .hero .hero-media {
     order: 3;
     display: flex;
@@ -373,13 +365,9 @@
     width: 341px;
     max-width: 100%;
     height: auto;
-
-    /* mobile: left-aligned (source overflows the 5.33% inset) */
     margin-inline: 0;
   }
   
-  /* Green "No annual fee" promo ribbon pinned across the top of the card art.
-     Mobile default width: 17.43rem, centered (live source). */
   body.credit-card-retail-pdp .hero .hero-ribbon {
     position: relative;
     display: flex;
@@ -396,7 +384,7 @@
     border-radius: 10px 0 0 10px;
     color: rgb(255 255 255);
     font-family: var(--body-font-family);
-    font-size: 14px; /* 0.875rem */
+    font-size: 14px;
     font-weight: 300;
     line-height: 20px;
     text-align: center;
@@ -423,8 +411,6 @@
     font-size: 0.75em;
   }
   
-  /* Text column — above media on mobile only (live stacks tagline first below 768px).
-     Mobile default order (2): follows the title, before the card art. */
   body.credit-card-retail-pdp .hero .hero-body {
     order: 2;
     display: flex;
@@ -434,8 +420,6 @@
     padding: 0;
   }
   
-  /* Card-name label — full-width above columns (source .card-name).
-     Mobile default order (1): stacks first (live source). */
   body.credit-card-retail-pdp .hero .hero-title {
     order: 1;
     margin: 0;
@@ -448,7 +432,6 @@
     text-transform: uppercase;
   }
   
-  /* Offer headline (source .card-tagline h2 ≈ 1.9rem / 2.375rem) */
   body.credit-card-retail-pdp .hero .hero-content h2 {
     order: 2;
     margin: 0;
@@ -459,7 +442,6 @@
     letter-spacing: normal;
   }
 
-  /* "Already have a card? Sign On ..." — source .card-tagline-desc + tagline pad-bottom 10px */
   body.credit-card-retail-pdp .hero .hero-eyebrow {
     order: 3;
     display: block;
@@ -507,7 +489,6 @@
     color: rgb(255 255 255);
   }
 
-  /* Pricing link — source .promo-offer-disclaimer padding-top ≈ 0.925rem */
   body.credit-card-retail-pdp .hero .hero-pricing-link {
     order: 5;
     margin: 0;
@@ -527,7 +508,6 @@
     text-decoration: underline;
   }
 
-  /* live card-art sits on the box left edge, not centered */
   body.credit-card-retail-pdp .hero .hero-media picture,
   body.credit-card-retail-pdp .hero .hero-media img,
   body.credit-card-retail-pdp .hero .hero-media .hero-card-art {
@@ -535,7 +515,6 @@
     margin-inline: 0;
   }
 
-  /* Mobile only: centre the Apply Now CTA, pricing link, and hero card art/ribbon. */
   @media (width < 768px) {
     body.credit-card-retail-pdp .hero .button-container {
       align-self: center;
@@ -556,14 +535,11 @@
     }
   }
 
-  /* Two-column band from 768px. Tablet: 40px inset + 90px top. */
   @media (width >= 768px) {
     body.credit-card-retail-pdp .hero .hero-content {
       display: grid;
       grid-template-columns: 341px 1fr;
       align-items: start;
-
-      /* Tablet: live source uses 40px side inset + 90px top */
       column-gap: 4%;
       padding: 90px 40px 0;
     }
@@ -581,8 +557,6 @@
 
     body.credit-card-retail-pdp .hero .hero-body {
       order: unset;
-
-      /* Source right column starts with spacer-30 so headline aligns under the ribbon */
       padding-top: 30px;
     }
 
@@ -601,7 +575,6 @@
     }
   }
 
-  /* Desktop: live .right margin-left ≈ 4% of box (~52px at 1440); 5% side + 80px top */
   @media (width >= 1200px) {
     body.credit-card-retail-pdp .hero .hero-content {
       padding: 80px 5% 0;
@@ -767,12 +740,6 @@
     max-width: 306px;
   }
   
-  /* ============================================================
-     Sticky apply bar — retail PDP only, shown once the hero CTA
-     scrolls away. Matches live .sticky-header.right-align-bg:
-     fixed navy band, white card-art chip, white Apply Now.
-     Mobile-first: bottom bar ≤767, top bar ≥768.
-     ============================================================ */
   body.credit-card-retail-pdp .hero-sticky-bar {
     position: fixed;
     inset: auto 0 0;
@@ -806,7 +773,6 @@
     background-color: #fff;
   }
 
-  /* Live .right-align .cds-button: fixed box, line-height = height for centering */
   body.credit-card-retail-pdp .hero-sticky-bar-cta {
     display: inline-flex;
     flex: 0 0 auto;
@@ -835,7 +801,6 @@
     color: #056dae;
   }
 
-  /* Tablet: slides from top, 90px bar */
   @media (width >= 768px) {
     body.credit-card-retail-pdp .hero-sticky-bar {
       top: 0;
@@ -858,7 +823,6 @@
     }
   }
 
-  /* Desktop: 120px bar, full-size card art; center when wider than 1330 content. */
   @media (width >= 1200px) {
     body.credit-card-retail-pdp .hero-sticky-bar {
       height: 120px;

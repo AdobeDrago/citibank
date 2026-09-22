@@ -35,10 +35,6 @@ function decorateBta(table, syncBtaRows) {
   syncBtaRows(table);
 }
 
-/**
- * Retail compare-cards only: turn authored "Yes"/"No" cells into icon markers.
- * Do not run on generic / fees tables.
- */
 function markFeatureValue(cell) {
   const text = cell.textContent.trim();
   if (!/^(yes|no)$/i.test(text)) return;
@@ -49,10 +45,6 @@ function markFeatureValue(cell) {
   cell.replaceChildren(label);
 }
 
-/**
- * Import flattens source <b>lead</b><br>qualifier to "<strong>lead</strong> — qualifier"
- * for md2da. Restore the line break so bold sits on its own line like citi.com.
- */
 function restoreRetailLabelBreaks(table) {
   table.querySelectorAll('tbody tr:not(.retail-compare-heading) > td:first-child strong, tbody tr:not(.retail-compare-heading) > td:first-child b').forEach((lead) => {
     const next = lead.nextSibling;
@@ -66,12 +58,6 @@ function restoreRetailLabelBreaks(table) {
   });
 }
 
-/**
- * Authored as one 2-col table per card (md2da-safe). At runtime on the retail
- * PDP, merge consecutive .table-wrapper siblings into a single N+1 column
- * comparison grid so desktop equal-columns and mobile stacked-label layout
- * match www.citi.com/credit-cards/citi-macys-credit-card.
- */
 function mergeRetailCompareTables(wrappers) {
   const primaryWrapper = wrappers[0];
   const primaryBlock = primaryWrapper.querySelector('.table');
@@ -103,15 +89,25 @@ function mergeRetailCompareTables(wrappers) {
   primaryBlock.style.setProperty('--retail-compare-cols', String(Math.max(cardCount, 1)));
 
   // Group-heading rows: label only, empty value cells (e.g. "Get more benefits…").
-  // Source renders these as one colspan cell, centered on a single line.
+  // Source renders these as a second content-table with margin-bottom 1.8rem on
+  // the prior table — insert a gap row so the merged grid keeps that spacing.
   primaryRows.forEach((row) => {
     const cells = [...row.children];
     const hasValues = cells.slice(1).some((cell) => cellText(cell));
     if (!hasValues && cellText(cells[0])) {
       row.classList.add('retail-compare-heading');
+      const colCount = cells.length;
       const label = cells[0];
-      label.colSpan = cells.length;
+      label.colSpan = colCount;
       cells.slice(1).forEach((cell) => cell.remove());
+
+      const gapRow = document.createElement('tr');
+      gapRow.className = 'retail-compare-gap';
+      gapRow.setAttribute('aria-hidden', 'true');
+      const gapCell = document.createElement('td');
+      gapCell.colSpan = colCount;
+      gapRow.append(gapCell);
+      row.before(gapRow);
     }
   });
 }
@@ -119,8 +115,6 @@ function mergeRetailCompareTables(wrappers) {
 function tryMergeRetailCompare(block) {
   if (!document.body.classList.contains('credit-card-retail-pdp')) return;
 
-  // Style hooks apply even before siblings finish decorating / when only one
-  // card table is authored — icons must not depend on the merge succeeding.
   block.classList.add('retail-compare');
   block.closest('.table-wrapper')?.classList.add('retail-compare-wrapper');
 
@@ -177,7 +171,6 @@ export default async function decorate(block) {
   if (isRetail) {
     const section = block.closest('.section');
     tryMergeRetailCompare(block);
-    // After merge, secondary tables are removed — always decorate the surviving grid.
     const liveTable = section?.querySelector('.table.retail-compare table') || table;
     if (liveTable.isConnected) restoreRetailLabelBreaks(liveTable);
   }

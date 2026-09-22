@@ -164,7 +164,6 @@ export default function decorate(block) {
 
   hydrateOfferValues(block, sheetUrl);
 
-  // Sticky bar: retail PDP only, appears when the hero CTA scrolls out of view.
   if (!document.body.classList.contains('credit-card-retail-pdp')) return;
   const ctaEl = block.querySelector('.button-container a');
   const cardArtEl = block.querySelector('.hero-card-art picture');

@@ -107,9 +107,6 @@
   }
 }
 
-/*
- * Retail co-brand PDP FAQ (body.credit-card-retail-pdp).
- */
 /* stylelint-disable no-descending-specificity */
 body.credit-card-retail-pdp .accordion {
   border-top: 0;
@@ -127,7 +124,6 @@ body.credit-card-retail-pdp .accordion .accordion-item > summary.accordion-item-
   gap: 0;
 }
 
-/* hide the generic right-side chevron */
 body.credit-card-retail-pdp .accordion .accordion-item-label::after {
   display: none;
 }
@@ -135,7 +131,9 @@ body.credit-card-retail-pdp .accordion .accordion-item-label::after {
 body.credit-card-retail-pdp .accordion .accordion-item-label::before {
   content: '';
   position: absolute;
-  top: 3px;
+
+  /* Center 14px chevron in the 24px title line: (24 - 14) / 2 */
+  top: 5px;
   left: 0;
   width: 14px;
   height: 14px;
@@ -177,6 +175,8 @@ body.credit-card-retail-pdp .accordion .accordion-item .accordion-item-body {
   padding: 0 0 0 52px;
 }
 
+/* Source .category-content children: mt 15 / mb 30 / fw 100 / lh 21.
+ * .matlist-section { margin-bottom: 25px } is separate (item spacing). */
 body.credit-card-retail-pdp .accordion .accordion-item-body h4,
 body.credit-card-retail-pdp .accordion .accordion-item-body p,
 body.credit-card-retail-pdp .accordion .accordion-item-body li,
@@ -184,7 +184,7 @@ body.credit-card-retail-pdp .accordion .accordion-item-body div {
   margin: 15px 0 30px;
   font-family: var(--body-font-family);
   font-size: 16px;
-  font-weight: 400;
+  font-weight: 100;
   line-height: 21px;
   color: #333;
 }

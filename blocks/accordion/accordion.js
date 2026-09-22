@@ -4,16 +4,6 @@
  * https://www.hlx.live/developer/block-collection/accordion
  */
 
-/**
- * Retail co-brand PDP FAQ: inject Expand All / Collapse All beside the section H2
- * (matches app-faq-section .rightSide on citi.com).
- *
- * The FAQ H2 lives in the `.default-content-wrapper` immediately before
- * `.accordion-wrapper`. On the retail mega-section that also holds tabs /
- * apply / pricing, `:scope > .default-content-wrapper` would hit the benefits
- * header instead — so resolve via the accordion wrapper sibling.
- * @param {Element} block
- */
 function decorateRetailExpandAll(block) {
   const accordionWrapper = block.closest('.accordion-wrapper');
   const headingWrapper = accordionWrapper?.previousElementSibling?.classList.contains('default-content-wrapper')
@@ -50,15 +40,12 @@ function decorateRetailExpandAll(block) {
 
 export default function decorate(block) {
   [...block.children].forEach((row) => {
-    // decorate accordion item label
     const label = row.children[0];
     const summary = document.createElement('summary');
     summary.className = 'accordion-item-label';
     summary.append(...label.childNodes);
-    // decorate accordion item body
     const body = row.children[1];
     body.className = 'accordion-item-body';
-    // decorate accordion item
     const details = document.createElement('details');
     details.className = 'accordion-item';
     details.append(summary, body);

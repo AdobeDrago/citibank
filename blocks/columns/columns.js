@@ -1,8 +1,3 @@
-/**
- * Retail secondary apply band (app-review-section): turn a plain "Apply Now"
- * strong into a real CTA link, reusing the hero apply URL when present.
- * @param {Element} block
- */
 function decorateRetailApplyBand(block) {
   if (!block.querySelector('.columns-img-col')) return;
 
@@ -23,7 +18,6 @@ function decorateRetailApplyBand(block) {
     return;
   }
 
-  // Already-authored Apply link — still promote to primary button chrome.
   const existing = [...block.querySelectorAll('p a')].find((a) => /^apply now$/i.test(a.textContent.trim()));
   if (existing) existing.classList.add('button', 'primary');
 }
