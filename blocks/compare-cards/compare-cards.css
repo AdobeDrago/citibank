@@ -1,0 +1,693 @@
+/*
+ * Compare Cards block - Citi credit-cards comparison results page.
+ * Mobile-first: base styles target the smallest screens (2-card
+ * swipeable carousel with dot pagination). Tablet (>=768px) switches
+ * to the full 3-column grid; desktop (>=992px) adjusts the sticky bar.
+ */
+
+@font-face {
+  font-family: "Interstate_Light";
+  src: url("/fonts/Interstate-Light.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Interstate_Bold";
+  src: url("/fonts/Interstate-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+b {
+  font-family: "Interstate_Bold", Helvetica, sans-serif;
+}
+
+.section.compare-cards-container > .compare-cards-wrapper {
+  margin: 0 auto;
+  max-width: 1520px;
+  padding: 0;
+}
+
+/* ===== Title ===== */
+.cmp-title {
+  background-color: #fff;
+  outline: none;
+}
+
+.cmp-title h1 {
+  margin: 0;
+  padding: 30px 20px 0;
+  color: #4a4a4a;
+  font-family: "Interstate_Light", Helvetica, sans-serif;
+  font-size: 1.625rem;
+  font-weight: 400;
+  letter-spacing: 0;
+  line-height: 25px;
+}
+
+/* ===== Card-toggle dots (base: visible; hidden from tablet up) ===== */
+.compare-cards-dots {
+  display: flex;
+  list-style: none;
+  margin: 0 0 16px;
+  padding: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
+}
+
+.compare-cards-dots li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 4px;
+}
+
+.compare-cards-dot {
+  display: inline-block;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  border: 1px solid #056dae;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.compare-cards-dot.active {
+  background-color: #056dae;
+}
+
+/* ===== Close button icon — shared by header and sticky bar ===== */
+.compare-cards-close,
+.compare-cards-sticky-close {
+  padding: 0;
+  border: 0;
+  background: none;
+  cursor: pointer;
+  line-height: 0;
+}
+
+.compare-cards-close-icon {
+  width: 15px;
+  height: 15px;
+  fill: #000;
+}
+
+.compare-cards-close:hover .compare-cards-close-icon,
+.compare-cards-sticky-close:hover .compare-cards-close-icon {
+  fill: rgb(38 41 43);
+}
+
+.compare-cards-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  width: 15px;
+  height: 15px;
+}
+
+.compare-cards-sticky-close {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  width: 15px;
+  height: 15px;
+}
+
+/* ===== Registered/trademark superscripts (®, ℠, footnote markers) ===== */
+.compare-cards-name sup,
+.compare-cards-card sup,
+.compare-cards-sticky-title sup,
+.compare-cards-topic-cell sup,
+.compare-cards-footnotes sup,
+.compare-cards-sticky-footnotes sup {
+  font-size: 12px;
+  line-height: 18px;
+  position: relative;
+  top: -0.5em;
+}
+
+/* ===== Card header row (name -> image -> CTA -> footnotes) =====
+ * Base (mobile): 2-card flex scroller.
+ */
+.compare-cards-header {
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  border: 1px solid rgb(151 151 151);
+  background: #eee;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.compare-cards-header::-webkit-scrollbar {
+  display: none;
+}
+
+.compare-cards-card {
+  position: relative;
+  display: flex;
+  flex: 0 0 50%;
+  min-width: 0;
+  max-width: 50%;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 12px;
+  text-align: center;
+  background: #fff;
+  border-right: 1px solid rgb(151 151 151);
+  overflow: hidden;
+  overflow-wrap: break-word;
+}
+
+.compare-cards-card:last-child {
+  border-right: 0;
+}
+
+.compare-cards-name {
+  margin: 15px 0 0;
+  min-height: 50px;
+  width: 100%;
+  display: block;
+  color: rgb(58 62 64);
+  font-family: "Interstate_Light", Helvetica, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 1.3;
+  white-space: normal;
+  overflow-wrap: break-word;
+  text-align: center;
+}
+
+.compare-cards-image {
+  display: block;
+  width: 100px;
+  height: auto;
+  object-fit: contain;
+}
+
+/* ===== Add-a-card placeholder (shown when a card is removed) ===== */
+.compare-cards-add-card {
+  position: relative;
+  background-color: #eee;
+  justify-content: flex-start;
+}
+
+.compare-cards-add-card-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  width: 100%;
+}
+
+.compare-cards-add-card-title {
+  margin: 0;
+  font-family: "Interstate_Light", Helvetica, sans-serif;
+  font-size: 22px;
+  color: rgb(58 62 64);
+  font-weight: 400;
+}
+
+a.compare-cards-add-card-btn {
+  display: inline-block;
+  padding: 30px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  background: transparent;
+  color: #000;
+  font-family: "Interstate_Bold", Helvetica, sans-serif;
+  font-size: 1.3125rem;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.compare-cards-undo {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #056dae;
+  font-family: "Interstate_Bold", Helvetica, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.compare-cards-undo:hover {
+  color: #034c81;
+}
+
+.compare-cards-topic-cell-empty,
+.compare-cards-sticky-card-empty {
+  background-color: #eee;
+}
+
+/* ===== Apply now buttons — matches live .cds-button-primary.cds-button-df
+ * Base (mobile): compact width; grows on larger screens.
+ */
+.compare-cards-cta:any-link,
+.compare-cards-sticky-cta:any-link {
+  display: inline-block;
+  margin: 0;
+  min-width: 0;
+  width: calc(100% - 24px);
+  padding: 8px 12px;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 8px;
+  background-color: #056dae;
+  border-color: #056dae;
+  color: #fff;
+  font-family: "Interstate_Bold", Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 20px;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.compare-cards-sticky-cta:any-link {
+  width: auto;
+  margin: 0 12px;
+  padding: 8px 16px;
+  font-size: 13px;
+  line-height: 24px;
+}
+
+.compare-cards-cta:any-link:hover,
+.compare-cards-sticky-cta:any-link:hover {
+  background-color: #034c81;
+  border-color: #034c81;
+  color: #fff;
+}
+
+/* ===== Footnote links — matches live .card-information-links .link-para
+ * Base (mobile): smaller size, no left padding.
+ */
+.compare-cards-footnotes,
+.compare-cards-sticky-footnotes {
+  text-align: center;
+}
+
+.compare-cards-footnotes a:any-link,
+.compare-cards-sticky-footnotes a:any-link {
+  display: inline-block;
+  margin: 0;
+  padding-left: 0;
+  color: #056dae;
+  font-family: "Interstate_Light", Helvetica, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0;
+  line-height: 18px;
+  text-align: center;
+  text-decoration: none;
+}
+
+.compare-cards-footnotes a:any-link sup,
+.compare-cards-sticky-footnotes a:any-link sup {
+  font-size: 0.75em;
+}
+
+.compare-cards-footnotes a:any-link:hover,
+.compare-cards-sticky-footnotes a:any-link:hover {
+  text-decoration: underline;
+}
+
+/* ===== Repeating topic rows =====
+ * Base (mobile): 2-card flex scroller matching the header.
+ */
+.compare-cards-topic-row {
+  border-bottom: 1px solid rgb(151 151 151);
+  border-right: 1px solid rgb(151 151 151);
+  min-height: 244px;
+  background-color: #eee;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.compare-cards-topic-label-wrap {
+  height: auto;
+  display: flex;
+  align-items: center;
+  background-color: #eee;
+}
+
+.compare-cards-topic-label {
+  width: 100%;
+  margin: 0;
+  padding: 18px;
+  background-color: #eee;
+  color: #333;
+  font-family: "Interstate_Light", Helvetica, sans-serif;
+  font-size: 1.3125rem;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 24px;
+  text-align: left;
+}
+
+.compare-cards-topic-row-first .compare-cards-topic-label-wrap {
+  background-color: #056dae;
+}
+
+.compare-cards-topic-row-first .compare-cards-topic-label {
+  background-color: #056dae;
+  color: #fff;
+}
+
+.compare-cards-topic-content {
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+
+.compare-cards-topic-content::-webkit-scrollbar {
+  display: none;
+}
+
+.compare-cards-topic-cell {
+  flex: 0 0 50%;
+  min-width: 0;
+  max-width: 50%;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 5%;
+  background-color: #fff;
+  border-right: 1px solid rgb(151 151 151);
+  overflow-wrap: break-word;
+}
+
+/* --- About this card --- */
+.compare-cards-topic-cell .rewards-title {
+  margin: 0 0 10px;
+  color: #333;
+  font-family: "Interstate_Light", Helvetica, sans-serif;
+  font-size: 12px;
+  letter-spacing: 2px;
+  line-height: 18px;
+  text-transform: none;
+}
+
+.compare-cards-topic-cell .about-content {
+  margin-bottom: 40px;
+  color: #151515;
+  font-family: "Interstate_Light", Helvetica, sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+/* --- Generic content typography shared by all rows --- */
+.compare-cards-topic-cell h3 {
+  margin: 0;
+  color: inherit;
+  font-family: "Interstate_Bold", Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 28px;
+}
+
+.compare-cards-topic-cell h4 {
+  margin: 0;
+  font-family: "Interstate_Bold", Helvetica, sans-serif;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 24px;
+}
+
+.compare-cards-topic-cell p {
+  margin: 0;
+  color: #151515;
+  font-family: "Interstate_Light", Helvetica, sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+.compare-cards-topic-cell strong {
+  color: #151515;
+  font-family: "Interstate_Bold", Helvetica, sans-serif;
+  font-weight: 400;
+}
+
+.compare-cards-topic-cell ul {
+  margin: 0;
+  padding: 0;
+}
+
+.compare-cards-topic-cell li {
+  min-height: 24px;
+  margin: 0 0 20px;
+  list-style: none;
+  color: #151515;
+  font-family: "Interstate_Light", Helvetica, sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+.compare-cards-topic-cell li:last-child {
+  margin-bottom: 0;
+}
+
+/* --- Annual Fee row --- */
+.compare-cards-topic-cell .annual-fee-list li {
+  color: #151515;
+  font-family: "Interstate_Light", Helvetica, sans-serif;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 27px;
+  margin: 0 0 20px;
+}
+
+/* --- APR row --- */
+.compare-cards-topic-cell .apr-item {
+  margin: 0 0 20px;
+}
+
+.compare-cards-topic-cell .apr-item:last-child {
+  margin-bottom: 0;
+}
+
+.compare-cards-topic-cell .apr-item h4 {
+  margin-bottom: 6px;
+}
+
+/* ===== Sticky comparison bar =====
+ * Base (mobile): 2-card flex scroller, title hidden.
+ */
+.compare-cards-sticky-bar {
+  display: flex;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 200;
+  max-width: 1520px;
+  margin: 0 auto;
+  background-color: #fff;
+  border-right: 1px solid rgb(151 151 151);
+  border-bottom: 1px solid rgb(151 151 151);
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-100%);
+  transition: opacity 0.35s ease, transform 0.35s ease, visibility 0s 0.35s;
+  pointer-events: none;
+}
+
+.compare-cards-sticky-bar::-webkit-scrollbar {
+  display: none;
+}
+
+.compare-cards-sticky-bar.is-visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+  transition: opacity 0.35s ease, transform 0.35s ease, visibility 0s 0s;
+  pointer-events: auto;
+}
+
+.compare-cards-sticky-card {
+  flex: 0 0 50%;
+  min-width: 0;
+  max-width: 50%;
+  box-sizing: border-box;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 8px 10px;
+  background-color: #eee;
+  text-align: center;
+  border-top: 1px solid #979797;
+  border-left: 1px solid #979797;
+}
+
+.compare-cards-sticky-title {
+  display: none;
+}
+
+.compare-cards-sticky-main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.compare-cards-sticky-image {
+  display: block;
+  width: 90px;
+  height: 57px;
+  object-fit: contain;
+}
+
+/* =========================================================================
+ * Tablet and up (min-width: 768px): full 3-column grid layout, dots hidden.
+ * ========================================================================= */
+@media (width >= 768px) {
+  .section.compare-cards-container > .compare-cards-wrapper {
+    padding: 0 24px;
+  }
+
+  .cmp-title h1 {
+    padding: 40px 20px;
+    font-size: 42px;
+    line-height: 50px;
+  }
+
+  .compare-cards-dots {
+    display: none;
+  }
+
+  .compare-cards-header,
+  .compare-cards-sticky-bar,
+  .compare-cards-topic-content {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    overflow-x: visible;
+  }
+
+  .compare-cards-card,
+  .compare-cards-sticky-card,
+  .compare-cards-topic-cell {
+    flex: initial;
+    max-width: none;
+    min-width: 0;
+  }
+
+  .compare-cards-card {
+    padding: 32px 24px;
+    gap: 12px;
+    overflow: visible;
+  }
+
+  .compare-cards-name {
+    margin: 0;
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+  }
+
+  .compare-cards-image {
+    width: 160px;
+  }
+
+  .compare-cards-cta:any-link,
+  .compare-cards-sticky-cta:any-link {
+    width: auto;
+    min-width: 220px;
+    margin: 0;
+    padding: 11px 0;
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  .compare-cards-sticky-cta:any-link {
+    padding: 8px 16px;
+    font-size: 13px;
+  }
+
+  .compare-cards-footnotes a:any-link,
+  .compare-cards-sticky-footnotes a:any-link {
+    padding-left: 10px;
+    font-size: 12px;
+    line-height: 24px;
+  }
+
+  .compare-cards-topic-label-wrap {
+    height: 60px;
+  }
+
+  .compare-cards-topic-label {
+    font-size: 26px;
+  }
+
+  .compare-cards-topic-cell {
+    padding: 5%;
+    border-left: 1px solid rgb(151 151 151);
+    border-right: 0;
+  }
+
+  .compare-cards-sticky-bar {
+    min-height: 278px;
+  }
+
+  .compare-cards-sticky-title {
+    display: block;
+    margin: 0 0 20px;
+    height: 21px;
+    overflow: hidden;
+    color: rgb(58 62 64);
+    font-family: "Interstate_Bold", Helvetica, sans-serif;
+    font-size: 0.875rem;
+    font-weight: 700;
+    line-height: 30px;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 100%;
+  }
+}
+
+@media (width <= 1024px) {
+  .compare-cards-footnotes a:any-link,
+  .compare-cards-sticky-footnotes a:any-link {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
+/* =========================================================================
+ * Desktop (min-width: 992px): sticky bar switches to row layout.
+ * ========================================================================= */
+@media (width >= 992px) {
+  .compare-cards-sticky-main {
+    flex-direction: row;
+  }
+
+  .compare-cards-sticky-bar {
+    min-height: 197px;
+  }
+}
