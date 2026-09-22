@@ -1510,6 +1510,10 @@ body.citigold-landing main .landing-cta a.button.primary {
   text-decoration: none;
 }
 
+body.citigold-landing main .landing-cta .default-content-wrapper h2 {
+  font-size: 1rem;
+}
+
 /* The boilerplate puts a 40px margin between every section; on this landing that
    shows the white page body as gaps between the gold bands (a white stripe above
    "Explore" and another between "Explore" and "See what"). The source is one
@@ -1599,6 +1603,8 @@ body.citigold-landing main .landing-offer-cards {
    boxes. So: both are white and share the horizontal padding; the first rounds
    only its top corners (top padding, no bottom), the last rounds only its bottom
    corners (bottom padding, no top), and they sit flush against each other. */
+
+
 body.citigold-landing main .landing-offer-cards > div {
   max-width: 1200px;
   background: #fff;
@@ -1972,11 +1978,15 @@ body.citigold-landing main .landing-zip > div {
   display: grid;
   grid-template-columns: 1fr;
   gap: 8px 48px;
-  max-width: 1100px;
   margin: 0 auto;
+  max-width: 1555px;
+    width: 90%;
+    padding-bottom: 1.875rem;
+    padding-top: 2.5rem;
 }
 
 /* small uppercase headings with a divider rule above each */
+
 body.citigold-landing main .landing-zip h2 {
   margin: 0;
   padding-top: 20px;
@@ -1988,14 +1998,28 @@ body.citigold-landing main .landing-zip h2 {
   text-transform: uppercase;
 }
 
+body.citigold-landing main > .section > .zip-banner-wrapper > h2 {
+  margin: 0;
+  padding-top: 20px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-top: 3px solid #255be3;
+    color: #255be3;
+    font-size: 1rem;
+    font-weight: bolder;
+}
+
 body.citigold-landing main .landing-zip p {
   margin: 8px 0 0;
+      font-size: 1.375rem;
+    margin-bottom: 0.3125rem;
 }
 
 body.citigold-landing main .landing-zip a {
   color: var(--citi-blue);
-  font-weight: 600;
-  text-decoration: none;
+  font-weight: normal;
+  text-decoration: underline;
+  font-size: 0.875rem;
 }
 
 /* The zip-banner block sits under the home-address heading and contributes only
@@ -2003,6 +2027,10 @@ body.citigold-landing main .landing-zip a {
 body.citigold-landing main .landing-zip .zip-banner {
   padding: 0;
   background: none;
+}
+
+body.citigold-landing main .landing-zip .zip-banner button {
+  font-size: 0.875rem;
 }
 
 /* solid filled "Open an Account" CTA (source uses filled navy/gold, not outline) */
@@ -2024,6 +2052,29 @@ body.citigold-landing main .landing-terms {
   font-size: 12px;
   color: #555;
 }
+
+body.citigold-landing main .landing-miranda {
+  padding: 0 0 2.5rem;
+      background: var(--citi-pale-blue-bg);
+    text-align: center;
+}
+
+body.citigold-landing main .landing-miranda .default-content-wrapper {
+  border: 1px solid #0f1632;
+  padding: 1.5625rem 3.75rem;
+}
+
+
+
+body.citigold-landing main .landing-miranda .default-content-wrapper p {
+font-size: 1rem;
+    line-height: 1.375rem;
+    color: #0f1632;
+    text-align: center;
+    margin: 0;
+    font-weight: bold;
+}
+
 
 body.citigold-landing main .landing-terms table {
   border-collapse: collapse;
@@ -2152,6 +2203,7 @@ body.citigold-landing main .landing-terms table td {
   body.citigold-landing main .landing-hero .hero h1 { font-size: 48px; }
 }
 
+
 /* stylelint-enable no-descending-specificity */
 
 /* Simulated auth gating (scripts/auth.js decorateAuthGate): a "Log in to view
@@ -2166,3 +2218,48 @@ body.citigold-landing main .landing-terms table td {
 body.auth-anonymous [data-auth='anonymous'] { display: block; }
 
 body.auth-authenticated [data-auth='authenticated'] { display: block; }
+
+/* Citigold footer styles */
+/* stylelint-disable no-descending-specificity */
+.citigold-landing .footer-cbol-inner {
+  display: block;
+}
+
+.citigold-landing .footer-cbol-inner div:nth-child(1) {
+  display: inline-block;
+  width: 5%;
+  border: none;
+  padding: 20px 0;
+  vertical-align: middle;
+}
+
+.citigold-landing .footer-cbol-inner div:nth-child(3) {
+  display: inline-block;
+  width: 10%;
+  border: none;
+}
+
+.citigold-landing .footer-cbol-legal {
+  display: inline-block;
+  width: 60%;
+  padding: 20px 0;
+  margin-left: 15%;
+  margin-right: 10%;
+}
+
+.citigold-landing .footer-cbol-band p {
+  display: inline-block;
+  float: left;
+  width: auto;
+  padding: 0 10px;
+}
+
+.citigold-landing .footer-cbol-inner div:nth-child(1) p img {
+  height: 42px;
+}
+
+.citigold-landing .footer-cbol-inner div:nth-child(3) p img {
+  height: 16px;
+}
+
+/* stylelint-enable no-descending-specificity */
