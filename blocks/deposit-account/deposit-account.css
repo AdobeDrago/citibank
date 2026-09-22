@@ -15,27 +15,26 @@
 }
 
 .deposit-account table {
+  width: 100%;
+  margin: 3rem auto;
+  border-collapse: collapse;
   table-layout: fixed;
-    width: 100%;
-    border-collapse: collapse;
-    margin: 3rem auto;
 }
 
 .deposit-account table th,
 .deposit-account table td {
-  padding: 0 5px;
+  padding: 1.5rem 5px 1.4375rem;
   border: 1px solid currentcolor;
-  text-align: left;
+  font-size: 0.875rem;
   font-weight: 400;
-  font-size: .875rem;
-  padding-bottom: 1.4375rem;
-  padding-top: 1.5rem;
+  text-align: left;
 }
 
 .deposit-account table thead th {
   font-family: "Interstate_Bold", Helvetica, sans-serif;
 }
 
-.deposit-account table tbody th, .deposit-account table tbody td{
+.deposit-account table tbody th,
+.deposit-account table tbody td {
   font-family: "Interstate_Light", Helvetica, sans-serif;
 }
