@@ -1,17 +1,41 @@
+@font-face {
+  font-family: "Interstate_Bold";
+  src: url("/fonts/Interstate-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Interstate_Light";
+  src: url("/fonts/Interstate-Light.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 .deposit-account table {
-  border-collapse: collapse;
-  margin: 12px 0;
+  table-layout: fixed;
+    width: 100%;
+    border-collapse: collapse;
+    margin: 3rem auto;
 }
 
 .deposit-account table th,
 .deposit-account table td {
-  padding: 8px 16px;
+  padding: 0 5px;
   border: 1px solid currentcolor;
   text-align: left;
   font-weight: 400;
+  font-size: .875rem;
+  padding-bottom: 1.4375rem;
+  padding-top: 1.5rem;
 }
 
-.deposit-account table thead th,
-.deposit-account table tbody th {
-  font-weight: 700;
+.deposit-account table thead th {
+  font-family: "Interstate_Bold", Helvetica, sans-serif;
+}
+
+.deposit-account table tbody th, .deposit-account table tbody td{
+  font-family: "Interstate_Light", Helvetica, sans-serif;
 }
