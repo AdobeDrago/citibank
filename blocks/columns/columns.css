@@ -23,7 +23,8 @@ body.credit-card-pdp .section.columns-container > div {
   padding: 0;
 }
 
-/* annual-fees */
+/* Css Start annual-fees */
+
 main > .section.columns-container .columns.annual-fees {
   margin-top: 24px;
   margin-bottom: 24px;
@@ -33,7 +34,16 @@ main > .section.columns-container .columns.annual-fees > div {
   padding: 0 12px 16px;
 }
 
-/* pdp content */
+@media (width >= 992px) {
+  main > .section.columns-container .columns.annual-fees {
+  margin: 48px 0;
+  }
+}
+
+/* Css End annual-fees */
+
+/* Variant - Start Pdp Content */
+
 body.credit-card-pdp .columns-container:has(.columns.pdp-content) {
   margin-top: 24px;
   padding-bottom: 16px;
@@ -333,15 +343,7 @@ body.credit-card-pdp .columns-container:has(.columns.pdp-content) {
   }
 }
 
-/* =========================================================
- * Variant - feature-unlock (framed lifestyle image + translucent card)
- * Author via block classes: columns (feature-unlock)
- * Source: .feature-layout.framed.right on citi AAdvantage Globe PDP
- *   framed: radius 16px, padding 16px, min-height 500px, bg cover
-
- *   card: rgba(255,255,255,.8), backdrop-blur 50px, radius 8px
- *   mobile card padding 24px + ~250px top headroom; desktop padding 72px, right half
- * ========================================================= */
+ /* Css Start  feature-unlock */
 .columns.feature-unlock > div {
   position: relative;
   display: flex;
@@ -446,7 +448,14 @@ body.credit-card-pdp .columns-container:has(.columns.pdp-content) {
     font-size: 48px;
     line-height: 53.76px;
   }
+
+  .columns.feature-unlock > div > .columns-img-col img {
+    height: 100%;
+  }
 }
+
+ /* Css End  feature-unlock */
+
 
 /* =========================================================
  * Variant - Accelerator: two colored feature tiles
@@ -490,10 +499,6 @@ body.credit-card-pdp .columns-container:has(.columns.pdp-content) {
     font-size: 36px;
     line-height: 43px;
   }
-
-  .columns.feature-unlock>div>.columns-img-col img {
-    height: 100%;
-  }
 }
 
 .columns.columns-2-cols:not(:has(.columns-img-col)) p {
@@ -535,7 +540,7 @@ body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> d
   flex-direction: column;
   gap: 4px;
   padding: 0 0 0 24px;
-  border-bottom: 1px solid gray;
+  border-bottom: 1px solid rgb(188 197 201);
 }
 
 body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div > div {
@@ -575,10 +580,6 @@ body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> d
 }
 
 @media (width >= 992px) {
-  main > .section.columns-container .columns.annual-fees {
-  margin: 48px 0;
-  }
-
   /* N tiles side by side with thin grey vertical dividers between them */
   body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) {
     flex-direction: row;
@@ -602,11 +603,6 @@ body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> d
 
   body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) p{
     margin: 0 0 8px;
-  }
-
-  /* feature */
-  .columns.feature-unlock > div{
-    padding: 0;
   }
 }
 
@@ -922,5 +918,129 @@ body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a.butt
     background: none;
   }
 }
+
+/* start pale-blue columns-container */
+main .section.pale-blue{
+  background:none;
+}
+
+.pale-blue .columns div {
+display: flex;
+flex-direction: column;
+}
+
+.pale-blue .columns-img-col img{
+  width: 100%;
+    height: auto;
+    border-radius: 16px;
+    object-fit: cover;
+}
+
+.pale-blue .columns.columns-2-cols > div > div:not(.columns-img-col) {
+  padding: 24px;
+}
+
+.pale-blue .columns h2 {
+  margin-bottom: 16px;
+  font-size: 36px;
+}
+
+.pale-blue .columns h3 {
+  margin: 0;
+}
+
+.pale-blue .columns p {
+  margin-bottom: 16px;
+  line-height: 18px;
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp .section.pale-blue.columns-container {
+    margin-top: 56px;
+  }
+
+  .pale-blue .columns div {
+    flex-direction: row;
+  }
+
+  .pale-blue .columns.columns-2-cols > div > div:not(.columns-img-col) {
+    flex-direction: column;
+  }
+}
+
+/* end pale-blue columns-container */
+
+
+/* Faq Accordian column Start */
+
+body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper:has(> .columns > div > .columns-img-col > picture > img)
+  > .columns > div > .columns-img-col > picture > img {
+    width: 267px;
+    object-fit: contain;
+    margin: auto;
+    padding: 41px 0;
+  }
+
+  body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper > div > div > div:last-child{
+    padding: 24px;
+  }
+
+
+  body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper{
+  /* need to add image */
+  background-color: #3B3B3D;
+  border-radius: 16px;
+  }
+
+  body.credit-card-pdp .accordion-container.section.columns-container .columns.columns-2-cols:has(.columns-img-col) h2{
+    color: #fff;
+    line-height: 45px;
+    font-size: 36px;
+    padding-right: 36px;
+  }
+
+  body.credit-card-pdp .accordion-container.section.columns-container .columns p{
+    color: #fff;
+  }
+
+  body.credit-card-pdp .accordion-container.section.columns-container .columns p:last-child{
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: 0.16px;
+    text-align: center;
+    padding: 16px 24px;
+    max-width: 150px;
+    background-color: #fff;
+    color: var(--citi-navy);
+    border-radius: 8px;
+    margin :16px 0;
+  }
+
+    @media (width >=992px) {
+      body.credit-card-pdp .accordion-container.section.columns-container .columns>div {
+        display: flex;
+        gap: 16px;
+      }
+
+      body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper > div > div > div:last-child{
+        padding: 88px;
+      }
+
+      body.credit-card-pdp .accordion-container.section.columns.columns-2-cols:has(.columns-img-col) > div > div > p:first-child{
+        padding:  8px 0;
+      }
+      
+
+      body.credit-card-pdp .accordion-container.section.columns-container .columns.columns-2-cols:has(.columns-img-col) h2{
+        padding-right: 260px;
+        margin-bottom: 20px;
+        font-size: 48px;
+      }
+
+      body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper:has(> .columns > div > .columns-img-col > picture > img) > .columns > div > .columns-img-col > picture > img{
+        width: 379px;
+        height: 320px;
+      }
+    }
 
 /* stylelint-enable no-descending-specificity */

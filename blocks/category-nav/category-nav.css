@@ -77,3 +77,40 @@ a.category-nav-link:focus-visible {
     gap: 0;
   }
 }
+
+/* CSS Start For category nav  container */
+
+.section.category-nav-container .category-nav-wrapper{
+  margin: 0;
+}
+
+.section.category-nav-container .category-nav .category-nav-list {
+  margin: 0;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.section.category-nav-container .category-nav .category-nav-list .category-nav-item a{
+  flex-direction: row;
+  gap: 12px;
+}
+
+@media (width >=992px) {
+  .section.category-nav-container .category-nav .category-nav-list {
+    flex-direction: row;
+    padding-top: 8px;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  .section.category-nav-container .category-nav-wrapper {
+    margin: auto;
+  }
+
+  .section.category-nav-container .category-nav .category-nav-list .category-nav-item a {
+    flex-direction: column;
+  }
+
+}
+
+/* CSS End For category nav  container */
