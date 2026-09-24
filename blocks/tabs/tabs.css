@@ -406,3 +406,36 @@ body.credit-card-retail-pdp .tabs .tabs-benefit-columns:has(> .tabs-benefit-colu
   }
 }
 /* stylelint-enable no-descending-specificity */
+
+body.citigold-landing .landing-offer-cards .tabs .tabs-list {
+  flex-direction: column;
+  gap: 0;
+  max-width: none;
+  overflow: visible;
+}
+
+body.citigold-landing .landing-offer-cards .tabs .tabs-list button {
+  flex: none;
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+body.citigold-landing .landing-offer-cards .tabs .tabs-panel {
+  margin-top: 0;
+  padding: 0;
+  border: 0;
+  overflow: visible;
+}
+
+@media (width >= 768px) {
+  body.citigold-landing .landing-offer-cards .tabs .tabs-list {
+    flex-flow: row nowrap;
+  }
+
+  body.citigold-landing .landing-offer-cards .tabs .tabs-list button {
+    flex: 1 1 0;
+    width: auto;
+  }
+}

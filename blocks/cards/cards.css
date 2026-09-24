@@ -303,3 +303,275 @@ body.credit-card-retail-pdp .cards .cards-card-body:has(p br) h3 ~ p ~ p {
     grid-template-columns: repeat(3, 1fr);
   }
 }
+
+.section.landing-bonus .cards-wrapper {
+  border: 1px solid #8e6f32;
+  border-bottom: none;
+  border-radius: 16px 16px 0 0;
+  box-shadow: rgb(0 0 0 / 15%) 0 0 27px;
+  padding: 0;
+  width: 90%;
+  margin: 0 auto;
+  box-sizing: border-box;
+}
+
+.section.landing-bonus .cards-wrapper + .default-content-wrapper {
+  border: 1px solid #8e6f32;
+  border-top: 1px solid #d3d9dd;
+  border-radius: 0 0 16px 16px;
+  box-shadow: rgb(0 0 0 / 15%) 0 0 27px;
+  width: 90%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding: 16px 2% 25px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.section.landing-bonus .cards-wrapper + .default-content-wrapper p {
+  font-size: 12px;
+  color: #555;
+  line-height: 1.6;
+  margin-bottom: 6px;
+}
+
+.section.landing-bonus .cards-wrapper + .default-content-wrapper p:last-child {
+  margin-bottom: 0;
+}
+
+.section.landing-bonus .cards-card-image {
+  display: none;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.section.landing-bonus .cards > ul {
+  display: block;
+  list-style: none;
+  margin: 0 auto;
+  padding: 25px 0 15px;
+  width: 96%;
+  position: relative;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.section.landing-bonus .cards > ul > li {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  position: relative;
+  border: none;
+  border-radius: 0;
+  background: transparent;
+  text-align: left;
+  padding: 0;
+  margin: 0;
+}
+
+.section.landing-bonus .cards > ul > li:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.section.landing-bonus .cards > ul > li::before {
+  content: '';
+  display: block;
+  flex-shrink: 0;
+  width: 34px;
+  height: 34px;
+  background-repeat: no-repeat;
+  background-position: center top;
+  background-size: contain;
+  position: relative;
+  z-index: 1;
+}
+
+.section.landing-bonus .cards > ul > li:nth-child(1)::before {
+  background-image: url('/icons/citigold-step-star.svg');
+}
+
+.section.landing-bonus .cards > ul > li:nth-child(2)::before {
+  background-image: url('/icons/citigold-step-calendar.svg');
+}
+
+.section.landing-bonus .cards > ul > li:nth-child(3)::before {
+  background-image: url('/icons/citigold-step-money.svg');
+}
+
+/* --- Vertical connector between icons on non-last items --- */
+.section.landing-bonus .cards > ul > li:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: 16px;
+  top: 34px;
+  width: 1px;
+  bottom: 0;
+  background-color: #0f1632;
+  z-index: 0;
+}
+/* stylelint-disable-next-line no-descending-specificity */
+.section.landing-bonus .cards .cards-card-body {
+  padding: 0;
+  margin-left: 10px;
+  max-width: 80%;
+  flex: 1;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.section.landing-bonus .cards .cards-card-body p:first-child {
+  color: #8e6f32;
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 1;
+  display: block;
+  margin-bottom: 15px;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.section.landing-bonus .cards .cards-card-body p:nth-child(2) {
+  font-size: 18px;
+  font-weight: 400;
+  line-height: 22px;
+  color: #0f1632;
+  margin: 8px 0 0;
+  width: 122px;
+}
+
+.section.landing-bonus .cards .cards-card-body p:nth-child(2) strong {
+  color: #0f1632;
+  font-weight: 400;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+.section.landing-bonus .cards .cards-card-body p:nth-child(3) {
+  color: #0f1632;
+  font-size: 13px;
+  line-height: 18px;
+  margin: 12px 0 15px;
+}
+
+/* --- Tablet (≥ 768px) --- */
+@media (width >= 768px) {
+  .section.landing-bonus .cards-wrapper {
+    width: 644px;
+  }
+
+  .section.landing-bonus .cards-wrapper + .default-content-wrapper {
+    width: 644px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .section.landing-bonus .cards > ul {
+    width: 73%;
+    padding: 40px 0 15px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .section.landing-bonus .cards > ul > li::before {
+    width: 44px;
+    height: 44px;
+  }
+
+  .section.landing-bonus .cards > ul > li:not(:last-child)::after {
+    left: 22px;
+    top: 44px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .section.landing-bonus .cards .cards-card-body {
+    margin-left: 20px;
+    max-width: 90%;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .section.landing-bonus .cards .cards-card-body p:first-child {
+    margin-bottom: 10px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .section.landing-bonus .cards .cards-card-body p:nth-child(2) {
+    margin: 0;
+    width: auto;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .section.landing-bonus .cards .cards-card-body p:nth-child(3) {
+    padding-bottom: 40px;
+    margin: 8px 0 15px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .section.landing-bonus .cards > ul > li:last-child .cards-card-body p:nth-child(3) {
+    margin: 8px 0 0;
+    padding-bottom: 0;
+  }
+}
+
+/* --- Desktop (≥ 1200px): 3-column horizontal layout --- */
+@media (width >= 1200px) {
+  .section.landing-bonus .cards-wrapper {
+    width: 990px;
+    border-radius: 30px 30px 0 0;
+  }
+
+  .section.landing-bonus .cards-wrapper + .default-content-wrapper {
+    width: 990px;
+    border-radius: 0 0 30px 30px;
+    padding: 0 80px 25px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .section.landing-bonus .cards > ul {
+    display: flex;
+    justify-content: space-between;
+    width: 84%;
+    padding: 40px 0;
+  }
+
+  /* Per-column horizontal connector — matches live site's img-container::after
+     width:80% / margin:0 10% approach, giving ~187px connector beside each icon */
+  .section.landing-bonus .cards > ul > li:not(:last-child)::after {
+    display: block;
+    inset: 17px 10% auto calc(34px + 10%); /* vertical center of 34px icon */
+    width: auto;
+    height: 1px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .section.landing-bonus .cards > ul > li {
+    flex-direction: column;
+    width: 33.3%;
+    align-items: flex-start;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .section.landing-bonus .cards > ul > li::before {
+    width: 34px;
+    height: 34px;
+    margin-bottom: 0;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .section.landing-bonus .cards .cards-card-body {
+    margin-left: 0;
+    max-width: 100%;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .section.landing-bonus .cards .cards-card-body p:first-child {
+    margin: 6px 0 20px;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .section.landing-bonus .cards .cards-card-body p:nth-child(2) {
+    width: 122px;
+    margin: 0;
+  }
+
+  /* stylelint-disable-next-line no-descending-specificity */
+  .section.landing-bonus .cards .cards-card-body p:nth-child(3) {
+    padding-bottom: 0;
+    width: 223px;
+    margin: 12px 0 15px;
+  }
+}
