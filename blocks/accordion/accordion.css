@@ -31,6 +31,7 @@
 
 /* label heading */
 .accordion .accordion-item-label h3 {
+  flex: 1 1 auto;
   margin: 0;
   font-family: var(--heading-font-family);
   font-size: 20px;
@@ -55,11 +56,16 @@
 
 .accordion .accordion-item[open] .accordion-item-label::after {
   transform: rotate(-135deg);
+  grid-template-rows: 1fr;
+
 }
 
 /* --- body --- */
 .accordion .accordion-item .accordion-item-body {
   padding: 0 0 24px;
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows 0.4s ease;
 }
 
 .accordion .accordion-item-body h4 {
@@ -215,3 +221,60 @@ body.credit-card-retail-pdp .accordion .accordion-item-body a:any-link {
   }
 }
 /* stylelint-enable no-descending-specificity */
+
+/* =========================================================
+ * Drawer benefits accordion (light-grey section shared with cards)
+ * Source: tds-drawer cds-accordion2 — 40px topic icons left of the label,
+ * section band rounded 24px. Scoped so the FAQ accordion is unchanged.
+ * ========================================================= */
+main .section.light-grey.accordion-container {
+  border-radius: 24px;
+  margin: 0 12px;
+}
+
+main .section.light-grey.accordion-container .accordion-wrapper {
+  margin-top: 48px;
+}
+
+
+/* left topic icons — SVG paths from live cds-icon on Globe PDP drawer */
+main .section.cards-container.accordion-container .accordion .accordion-item-label {
+  gap: 8px;
+  padding: 24px 8px;
+}
+
+/* Faq Accordian Start */
+
+body.credit-card-pdp .accordion-container.section.columns-container > div:first-child h2{
+    font-weight: 400;
+    font-size: 46px;
+    line-height: 130%;
+    margin: 0;
+}
+
+body.credit-card-pdp .accordion-container.section.columns-container {
+  padding: 48px 12px 0;
+}
+
+body.credit-card-pdp .accordion-container.section.columns-container .accordion-wrapper {
+  padding: 0 16px;
+}
+
+body.credit-card-pdp .accordion-container.section.columns-container .accordion {
+  padding-bottom: 48px;
+  margin-bottom: 24px;
+}
+
+body.credit-card-pdp .accordion-container.section.columns-container .accordion:first-child {
+  border-top: none;
+}
+
+body.credit-card-pdp .accordion-container.section.columns-container .accordion .accordion-item-label::after {
+  border-width: 0 1px 1px 0;
+}
+
+body.credit-card-pdp .accordion-container.section.columns-container .accordion .accordion-item-label {
+  padding: 16px 0;
+}
+
+/* Faq Accordian End */

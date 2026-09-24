@@ -10,10 +10,61 @@
  */
 
 /* ---------- base layout (mobile-first: stacked) ---------- */
-.columns > div {
+
+/* Variant and template-scoped rules are mutually exclusive in practice. */
+/* stylelint-disable no-descending-specificity */
+
+body.credit-card-pdp .section.columns-container {
+  padding: 0 12px;
+  margin: 24px auto;
+}
+
+body.credit-card-pdp .section.columns-container > div {
+  padding: 0;
+}
+
+/* Css Start annual-fees */
+
+main > .section.columns-container .columns.annual-fees {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+main > .section.columns-container .columns.annual-fees > div {
+  padding: 0 12px 16px;
+}
+
+@media (width >= 992px) {
+  main > .section.columns-container .columns.annual-fees {
+  margin: 48px 0;
+  }
+}
+
+/* Css End annual-fees */
+
+/* Variant - Start Pdp Content */
+
+body.credit-card-pdp .columns-container:has(.columns.pdp-content) {
+  margin-top: 24px;
+  padding-bottom: 16px;
+}
+
+.columns.pdp-content {
+  border-radius: 16px;
+  box-shadow: 0 1px 10px 0 rgb(0 0 0 / 10%);
+  background-color: rgb(23 63 53);
+}
+
+.columns.pdp-content > div {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  padding: 24px;
+  border-bottom: 1px solid rgb(150 150 150);
+  gap: 4px;
+}
+
+.columns.pdp-content > div:last-child {
+  border-bottom: none;
 }
 
 .columns img {
@@ -21,8 +72,31 @@
   width: 100%;
 }
 
-.columns > div > .columns-img-col img {
+.columns.pdp-content > div > .columns-img-col img {
   display: block;
+  object-fit: none;
+  width: 40px;
+  height: 40px;
+}
+
+.columns.pdp-content > div:nth-child(1) > .columns-img-col img {
+  object-position: -353px -47px;
+}
+
+.columns.pdp-content > div:nth-child(2) > .columns-img-col img {
+  object-position: -799px -47px;
+}
+
+.columns.pdp-content > div:nth-child(3) > .columns-img-col img {
+  object-position: -196px -48px;
+}
+
+.columns.pdp-content > div:nth-child(4) > .columns-img-col img {
+  object-position: -196px -48px;
+}
+
+.columns.pdp-content > div:nth-child(5) > .columns-img-col img {
+  object-position: -50px -48px;
 }
 
 /* shared typography inside columns (source: Citi_Sans / Citi_Sans_Display) */
@@ -54,6 +128,18 @@
 }
 
 @media (width >= 992px) {
+  body.credit-card-pdp .columns-container:has(.columns.pdp-content) {
+    margin-bottom: 64px;
+    padding-bottom: 0;
+  }
+
+  main > .section.columns-container .columns-wrapper .columns.pdp-content {
+    margin-top: -91px;
+    position: relative;
+    margin-bottom: 16px;
+    z-index: 1;
+  }
+
   .columns > div {
     flex-direction: row;
     align-items: stretch;
@@ -68,11 +154,25 @@
     font-size: 48px;
     line-height: 53.76px;
   }
-}
 
-/* Variant rules below target mutually-exclusive columns-N-cols DOM, so
- * source order does not create real cascade conflicts. */
-/* stylelint-disable no-descending-specificity */
+  .columns.pdp-content {
+    display: flex;
+    flex-direction: row;
+    padding: 24px 16px;
+  }
+
+  .columns.pdp-content > div {
+    flex-direction: column-reverse;
+    padding: 0 24px;
+    border-bottom: none;
+  }
+
+  .columns.columns.pdp-content.columns-2-cols:has(.columns-img-col) > div {
+    align-items: flex-start;
+    gap: 4px;
+    height: fit-content;
+  }
+}
 
 /* =========================================================
  * Variant - "Here's how it works" single text column (columns-1-cols)
@@ -177,9 +277,10 @@
  * Usually inside .section.pale-blue. Source: 50/50 grid, image radius 16px,
  * eyebrow 16px rgb(94,103,107), h2 48px rgb(38,41,43), text left / image right on desktop.
  * ========================================================= */
-.columns.columns-2-cols:has(.columns-img-col) img {
+
+/* .columns.columns-2-cols:has(.columns-img-col) img {
   border-radius: 16px;
-}
+} */
 
 .columns.columns-2-cols:has(.columns-img-col) h2 {
   color: rgb(38 41 43);
@@ -187,11 +288,12 @@
 
 /* eyebrow label = the first paragraph above the h2 */
 .columns.columns-2-cols:has(.columns-img-col) > div > div > p:first-child {
-  margin: 0 0 4px;
-  font-size: 16px;
-  line-height: 24px;
-  letter-spacing: normal;
-  color: rgb(94 103 107);
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: .009rem;
+  padding: 4px 0;
+  color: #fff;
+  margin: 0
 }
 
 /* mobile: image on top, text below */
@@ -241,49 +343,119 @@
   }
 }
 
-/* =========================================================
- * Variant - "Here's how it works" feature (columns-2-cols with an image
- * cell AND h3 benefit headings; the promo banner above has no h3, so
- * :has(h3) scopes this override to just this instance).
- * Source: full-bleed framed photo (radius 16px) with a translucent white
- * content card overlaid on top, floated to the right ~half.
- * card: rgba(255,255,255,0.8), radius 8px, padding 72px, 16px inset.
- * ========================================================= */
+ /* Css Start  feature-unlock */
+.columns.feature-unlock > div {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  box-sizing: border-box;
+  min-height: 500px;
+  padding: 16px;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: rgb(0 0 0);
+}
+
+/* full-bleed lifestyle photo behind the card */
+.columns.feature-unlock > div > .columns-img-col {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  margin: 0;
+  order: 0;
+  pointer-events: none;
+}
+
+.columns.feature-unlock > div > .columns-img-col img {
+  width: 100%;
+  height: 37%;
+  border-radius: 0;
+  object-fit: cover;
+  object-position: center top;
+}
+
+/* translucent content card (mobile: stacked under image headroom) */
+.columns.feature-unlock > div > div:not(.columns-img-col) {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 250px;
+  padding: 24px;
+  border-radius: 8px;
+  background: rgb(255 255 255 / 80%);
+  backdrop-filter: blur(50px);
+  order: 1;
+}
+
+.columns.feature-unlock h2 {
+  margin: 0 0 16px;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 45px;
+  letter-spacing: normal;
+  color: rgb(38 41 43);
+}
+
+.columns.feature-unlock h3 {
+  margin: 16px 0 4px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: normal;
+  color: rgb(38 41 43);
+}
+
+.columns.feature-unlock h2 + h3 {
+  margin-top: 0;
+}
+
+.columns.feature-unlock p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.14px;
+  color: rgb(58 62 64);
+}
+
+.columns.feature-unlock a:any-link {
+  color: var(--link-color, rgb(4 32 143));
+  text-decoration: none;
+}
+
+.columns.feature-unlock a:any-link:hover {
+  text-decoration: underline;
+}
+
 @media (width >= 992px) {
-  .columns.columns-2-cols:has(.columns-img-col):has(h3) > div {
-    position: relative;
-    display: block; /* override the flex row; children are positioned */
+  .columns.feature-unlock > div {
+    display: block;
     gap: 0;
-    border-radius: 16px;
-    overflow: hidden;
-  }
-
-  /* full-bleed background image fills the whole block */
-  .columns.columns-2-cols:has(.columns-img-col):has(h3) > div > .columns-img-col {
-    position: absolute;
-    inset: 0;
-    margin: 0;
-  }
-
-  .columns.columns-2-cols:has(.columns-img-col):has(h3) > div > .columns-img-col img {
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-    object-fit: cover;
   }
 
   /* translucent content card overlaid on the right half */
-  .columns.columns-2-cols:has(.columns-img-col):has(h3) > div > div:not(.columns-img-col) {
-    position: relative;
-    z-index: 1;
-    box-sizing: border-box;
+  .columns.feature-unlock > div > div:not(.columns-img-col) {
     width: 50%;
     margin: 16px 16px 16px auto;
     padding: 72px;
-    border-radius: 8px;
-    background-color: rgb(255 255 255 / 80%);
+  }
+
+  .columns.feature-unlock h2 {
+    font-size: 48px;
+    line-height: 53.76px;
+  }
+
+  .columns.feature-unlock > div > .columns-img-col img {
+    height: 100%;
   }
 }
+
+ /* Css End  feature-unlock */
+
 
 /* =========================================================
  * Variant - Accelerator: two colored feature tiles
@@ -366,7 +538,9 @@ body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> d
 body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div {
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 4px;
+  padding: 0 0 0 24px;
+  border-bottom: 1px solid rgb(188 197 201);
 }
 
 body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div > div {
@@ -379,7 +553,7 @@ body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> d
 
 /* label (small, above the value) */
 body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) p {
-  margin: 0 0 4px;
+  margin: 0 0 8px;
   font-size: 12px;
   font-weight: 400;
   line-height: 16px;
@@ -410,24 +584,25 @@ body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> d
   body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) {
     flex-direction: row;
     align-items: stretch;
-    gap: 0;
+    padding-bottom: 24px;
   }
 
   body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div {
     flex: 1;
-    padding: 0 24px;
+    padding: 0 0 0 24px ;
+    border-bottom: none;
   }
 
   body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div + div {
     border-left: 1px solid rgb(214 219 221);
   }
 
-  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div:first-child {
-    padding-left: 0;
-  }
-
   body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div:last-child {
     padding-right: 0;
+  }
+
+  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) p{
+    margin: 0 0 8px;
   }
 }
 
@@ -743,5 +918,129 @@ body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a.butt
     background: none;
   }
 }
+
+/* start pale-blue columns-container */
+main .section.pale-blue{
+  background:none;
+}
+
+.pale-blue .columns div {
+display: flex;
+flex-direction: column;
+}
+
+.pale-blue .columns-img-col img{
+  width: 100%;
+    height: auto;
+    border-radius: 16px;
+    object-fit: cover;
+}
+
+.pale-blue .columns.columns-2-cols > div > div:not(.columns-img-col) {
+  padding: 24px;
+}
+
+.pale-blue .columns h2 {
+  margin-bottom: 16px;
+  font-size: 36px;
+}
+
+.pale-blue .columns h3 {
+  margin: 0;
+}
+
+.pale-blue .columns p {
+  margin-bottom: 16px;
+  line-height: 18px;
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp .section.pale-blue.columns-container {
+    margin-top: 56px;
+  }
+
+  .pale-blue .columns div {
+    flex-direction: row;
+  }
+
+  .pale-blue .columns.columns-2-cols > div > div:not(.columns-img-col) {
+    flex-direction: column;
+  }
+}
+
+/* end pale-blue columns-container */
+
+
+/* Faq Accordian column Start */
+
+body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper:has(> .columns > div > .columns-img-col > picture > img)
+  > .columns > div > .columns-img-col > picture > img {
+    width: 267px;
+    object-fit: contain;
+    margin: auto;
+    padding: 41px 0;
+  }
+
+  body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper > div > div > div:last-child{
+    padding: 24px;
+  }
+
+
+  body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper{
+  /* need to add image */
+  background-color: #3B3B3D;
+  border-radius: 16px;
+  }
+
+  body.credit-card-pdp .accordion-container.section.columns-container .columns.columns-2-cols:has(.columns-img-col) h2{
+    color: #fff;
+    line-height: 45px;
+    font-size: 36px;
+    padding-right: 36px;
+  }
+
+  body.credit-card-pdp .accordion-container.section.columns-container .columns p{
+    color: #fff;
+  }
+
+  body.credit-card-pdp .accordion-container.section.columns-container .columns p:last-child{
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: 0.16px;
+    text-align: center;
+    padding: 16px 24px;
+    max-width: 150px;
+    background-color: #fff;
+    color: var(--citi-navy);
+    border-radius: 8px;
+    margin :16px 0;
+  }
+
+    @media (width >=992px) {
+      body.credit-card-pdp .accordion-container.section.columns-container .columns>div {
+        display: flex;
+        gap: 16px;
+      }
+
+      body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper > div > div > div:last-child{
+        padding: 88px;
+      }
+
+      body.credit-card-pdp .accordion-container.section.columns.columns-2-cols:has(.columns-img-col) > div > div > p:first-child{
+        padding:  8px 0;
+      }
+      
+
+      body.credit-card-pdp .accordion-container.section.columns-container .columns.columns-2-cols:has(.columns-img-col) h2{
+        padding-right: 260px;
+        margin-bottom: 20px;
+        font-size: 48px;
+      }
+
+      body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper:has(> .columns > div > .columns-img-col > picture > img) > .columns > div > .columns-img-col > picture > img{
+        width: 379px;
+        height: 320px;
+      }
+    }
 
 /* stylelint-enable no-descending-specificity */

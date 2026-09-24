@@ -2278,3 +2278,64 @@ body.auth-authenticated [data-auth='authenticated'] { display: block; }
 }
 
 /* stylelint-enable no-descending-specificity */
+
+/* CSS Start For citi---aadvantage--globe--mastercard--pricing-details  */
+/* stylelint-disable no-descending-specificity */
+.section:has(> .default-content-wrapper > h3 ~ p ~ ul) {
+  margin-top: 24px;
+  padding: 48px 0;
+  margin-bottom: 0;
+}
+
+.section>.default-content-wrapper:has(> h3, > p, > ul)>h3 {
+  font-size: 24px;
+}
+
+.section>.default-content-wrapper:has(> h3, > p, > ul)>p {
+  font-size: 14px;
+  margin: 0 0 8px;
+}
+
+.section>.default-content-wrapper:has(> h3, > p, > ul)>ul {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding: 8px 0;
+  margin-top: 16px;
+  list-style: none;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+/* stylelint-enable no-descending-specificity */
+
+@media (width >=992px) {
+  .section .default-content-wrapper:has(> h3):has(> p):has(> ul) {
+    padding: 0 40px;
+  }
+
+  .section>.default-content-wrapper:has(> h3, > p, > ul)>ul {
+    flex-direction: row;
+    padding: 0;
+  }
+}
+
+/* CSS End For citi---aadvantage--globe--mastercard--pricing-details  */
+
+/* CSS Start For category nav default container */
+
+.section.category-nav-container {
+  display: flex;
+  gap: 24px;
+  padding: 48px 36px;
+  flex-direction: column;
+  margin: 24px auto 0;
+}
+
+@media (width >=992px) {
+  .section.category-nav-container .default-content-wrapper {
+    letter-spacing: 14px;
+    text-transform: uppercase;
+  }
+}
+
+/* CSS End For category nav default container */
