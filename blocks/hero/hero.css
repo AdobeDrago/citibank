@@ -244,7 +244,7 @@
   }
   
   /* --- Desktop: background image full-bleed behind an overlaid left column --- */
-  @media (width >= 900px) {
+  @media (width >= 992px) {
     .hero.block {
       display: grid;
       align-items: start;
@@ -299,8 +299,17 @@
     display: block;
     min-height: 0;
     background: none;
+    overflow: visible;
   }
   
+  body.credit-card-retail-pdp .hero-sticky-bar-image picture,
+  body.credit-card-retail-pdp .hero-sticky-bar-image img {
+    display: block;
+    width: 78px;
+    height: 49.26px;
+    object-fit: contain;
+  }
+
   /* The single authored row picks up both hero-bg and hero-content-row; keep it
      in normal flow (the desktop base rule absolutely-positions .hero-bg) and kill
      the background-strip image sizing. */
@@ -315,58 +324,86 @@
     height: auto;
     object-fit: initial;
   }
+
+  body.credit-card-retail-pdp .hero .hero-content-row {
+    box-sizing: border-box;
+    width: 100%;
+    max-width: 1520px;
+    margin: 0 auto;
+    padding: 0;
+  }
   
   body.credit-card-retail-pdp .hero .hero-content {
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    align-items: stretch;
+    gap: 0;
+    box-sizing: border-box;
     width: 100%;
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 32px 24px;
+    max-width: none;
+    margin: 0;
+    padding: 64px 5.33% 0;
     background: none;
   }
   
-  /* Card art (relative so the promo ribbon can overlay its top edge) */
   body.credit-card-retail-pdp .hero .hero-media {
-    position: relative;
-    display: inline-block;
-    margin: 0;
+    order: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 55px 0 0;
+    overflow: visible;
   }
-  
+
   body.credit-card-retail-pdp .hero .hero-media .hero-card-art {
     margin: 0;
   }
-  
+
   body.credit-card-retail-pdp .hero .hero-media picture,
   body.credit-card-retail-pdp .hero .hero-media img {
     display: block;
-    width: 100%;
-    max-width: 306px;
+    width: 341px;
+    max-width: 100%;
     height: auto;
+    margin-inline: 0;
   }
   
-  /* Green "No annual fee" promo ribbon pinned across the top of the card art */
   body.credit-card-retail-pdp .hero .hero-ribbon {
-    position: absolute;
-    top: 12px;
-    left: 0;
-    right: 0;
-    z-index: 1;
-    margin: 0 auto;
-    width: max-content;
-    max-width: calc(100% - 24px);
-    border-radius: 4px;
-    padding: 6px 24px;
-    background-color: var(--hero-badge-color);
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 17.43rem;
+    max-width: 100%;
+    height: 1.93rem;
+    margin: 0 0 10px;
+    padding: 0;
+    overflow: visible;
+    background-color: rgb(0 132 61);
+    border-radius: 10px 0 0 10px;
     color: rgb(255 255 255);
-    font-family: var(--heading-font-family);
+    font-family: var(--body-font-family);
     font-size: 14px;
-    font-weight: 700;
-    line-height: 1.2;
+    font-weight: 300;
+    line-height: 20px;
     text-align: center;
+    white-space: nowrap;
   }
-  
+
+  body.credit-card-retail-pdp .hero .hero-ribbon::after {
+    content: '';
+    position: absolute;
+    top: 6px;
+    right: -21px;
+    width: 0;
+    height: 0;
+    border-top: 20px solid rgb(255 255 255);
+    border-right: 24px solid transparent;
+    border-left: 24px solid transparent;
+    transform: rotate(90deg);
+  }
+
   body.credit-card-retail-pdp .hero .hero-ribbon a:any-link {
     color: rgb(255 255 255);
     text-decoration: none;
@@ -374,53 +411,54 @@
     font-size: 0.75em;
   }
   
-  /* Text column */
   body.credit-card-retail-pdp .hero .hero-body {
+    order: 2;
     display: flex;
     flex-direction: column;
     align-items: flex-start;
+    margin: 0;
+    padding: 0;
   }
   
-  /* Card-name eyebrow (the H1 label) */
-  body.credit-card-retail-pdp .hero .hero-body .hero-title {
+  body.credit-card-retail-pdp .hero .hero-title {
     order: 1;
-    margin: 0 0 12px;
-    color: var(--hero-muted-color);
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 1.2;
-    letter-spacing: 1px;
+    margin: 0;
+    padding: 0 0 16px;
+    color: rgb(74 74 74);
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 26px;
+    letter-spacing: normal;
     text-transform: uppercase;
   }
   
-  /* Offer headline */
   body.credit-card-retail-pdp .hero .hero-content h2 {
     order: 2;
-    margin: 0 0 12px;
-    color: var(--hero-cta-color);
-    font-weight: 700;
-    font-size: 26px;
-    line-height: 1.2;
-    letter-spacing: -0.28px;
+    margin: 0;
+    color: var(--citi-retail-navy);
+    font-weight: 500;
+    font-size: 30.4px;
+    line-height: 38px;
+    letter-spacing: normal;
   }
-  
-  /* "Already have a card? Sign On ..." line (grouped as a footnote by hero.js) */
-  body.credit-card-retail-pdp .hero .hero-footnotes {
+
+  body.credit-card-retail-pdp .hero .hero-eyebrow {
     order: 3;
     display: block;
-    margin: 0 0 20px;
-    color: var(--hero-body-color);
-    font-size: 16px;
-    line-height: 1.4;
-  }
-  
-  body.credit-card-retail-pdp .hero .hero-footnote {
+    background: none;
+    border-radius: 0;
+    padding: 0 0 10px;
+    color: rgb(74 74 74);
+    font-size: 18px;
+    font-weight: 300;
+    line-height: 38px;
+    letter-spacing: normal;
+    text-transform: none;
     margin: 0;
-    font-size: 16px;
   }
-  
-  body.credit-card-retail-pdp .hero .hero-footnote a:any-link {
-    color: var(--hero-cta-color);
+
+  body.credit-card-retail-pdp .hero .hero-eyebrow a:any-link {
+    color: rgb(5 109 174);
     font-weight: 400;
     text-decoration: underline;
   }
@@ -429,61 +467,123 @@
   body.credit-card-retail-pdp .hero .button-container {
     order: 4;
     margin: 0;
+    align-self: center;
+    text-align: center;
   }
-  
+
   body.credit-card-retail-pdp .hero a.button.primary:any-link {
-    min-width: 220px;
-    border-radius: 4px;
-    padding: 14px 48px;
-    font-weight: 700;
+    box-sizing: border-box;
+    min-width: 280px;
+    height: 52px;
+    border-radius: 6px;
+    padding: 0 20px;
+    background-color: var(--citi-retail-navy);
+    border-color: var(--citi-retail-navy);
+    font-size: 22px;
+    font-weight: 400;
+    line-height: 52px;
   }
-  
-  /* "Important Pricing & Terms Information +" link, directly under the CTA */
+
+  body.credit-card-retail-pdp .hero a.button.primary:hover,
+  body.credit-card-retail-pdp .hero a.button.primary:focus-visible {
+    background-color: rgb(3 40 80);
+    border-color: rgb(3 40 80);
+    color: rgb(255 255 255);
+  }
+
   body.credit-card-retail-pdp .hero .hero-pricing-link {
     order: 5;
-    margin: 16px 0 0;
+    margin: 0;
+    padding: 0.925rem 0 0;
+    align-self: center;
+    text-align: center;
   }
-  
+
   body.credit-card-retail-pdp .hero .hero-pricing-link a:any-link {
-    color: var(--hero-cta-color);
-    font-size: 14px;
+    color: rgb(5 109 174);
+    font-size: 16px;
     font-weight: 700;
+    line-height: 26px;
     text-decoration: none;
   }
-  
+
   body.credit-card-retail-pdp .hero .hero-pricing-link a:hover,
   body.credit-card-retail-pdp .hero .hero-pricing-link a:focus-visible {
     text-decoration: underline;
   }
-  
-  @media (width >= 900px) {
+
+  body.credit-card-retail-pdp .hero .hero-media picture,
+  body.credit-card-retail-pdp .hero .hero-media img,
+  body.credit-card-retail-pdp .hero .hero-media .hero-card-art {
+    align-self: center;
+    max-width: 100%;
+    margin-inline: auto;
+  }
+
+  @media (width >= 768px) {
+    body.credit-card-retail-pdp .hero .button-container {
+      align-self: flex-start;
+      text-align: left;
+    }
+
+    body.credit-card-retail-pdp .hero .hero-pricing-link {
+      align-self: flex-start;
+      text-align: left;
+    }
+
+    body.credit-card-retail-pdp .hero .hero-media picture,
+    body.credit-card-retail-pdp .hero .hero-media img,
+    body.credit-card-retail-pdp .hero .hero-media .hero-card-art {
+      align-self: flex-start;
+      max-width: none;
+      margin-inline: 0;
+    }
+
     body.credit-card-retail-pdp .hero .hero-content {
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 48px;
-      padding: 48px 32px;
+      display: grid;
+      grid-template-columns: 341px 1fr;
+      align-items: start;
+      column-gap: 4%;
+      padding: 90px 40px 0;
     }
-  
+
+    body.credit-card-retail-pdp .hero .hero-title {
+      grid-column: 1 / -1;
+      order: unset;
+    }
+
     body.credit-card-retail-pdp .hero .hero-media {
-      flex: 0 0 auto;
+      align-items: flex-start;
+      order: unset;
+      margin: 0;
     }
-  
+
+    body.credit-card-retail-pdp .hero .hero-body {
+      order: unset;
+      padding-top: 30px;
+    }
+
+    body.credit-card-retail-pdp .hero .hero-ribbon {
+      width: 341px;
+      max-width: none;
+      margin-left: 0;
+      margin-right: 0;
+    }
+
     body.credit-card-retail-pdp .hero .hero-media picture,
     body.credit-card-retail-pdp .hero .hero-media img {
-      width: 306px;
+      width: 341px;
       max-width: none;
-    }
-  
-    body.credit-card-retail-pdp .hero .hero-body {
-      flex: 1 1 auto;
-    }
-  
-    body.credit-card-retail-pdp .hero .hero-content h2 {
-      font-size: 36px;
-      letter-spacing: -0.36px;
+      margin-inline: 0;
     }
   }
-  
+
+  @media (width >= 1200px) {
+    body.credit-card-retail-pdp .hero .hero-content {
+      padding: 80px 5% 0;
+    }
+  }
+
   /* ============================================================
      Credit-cards EXPLORE promo hero (body.credit-card-explore).
      The source banner ROTATES per session between two variants, tagged by section
@@ -643,46 +743,142 @@
     max-width: 306px;
   }
   
-  @media (width >= 900px) {
+  body.credit-card-retail-pdp .hero-sticky-bar {
+    position: fixed;
+    inset: auto 0 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 1.125rem;
+    box-sizing: border-box;
+    min-height: 75px;
+    height: auto;
+    padding: 0 10px;
+    overflow: hidden;
+    background-color: var(--citi-retail-navy);
+    box-shadow: rgb(0 0 0 / 20%) 0 2px 4px;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+  }
+
+  body.credit-card-retail-pdp .hero-sticky-bar.is-visible {
+    transform: translateY(0);
+  }
+
+  body.credit-card-retail-pdp .hero-sticky-bar-image {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    padding: 0.6rem;
+    border-radius: 0 0.5rem;
+    background-color: #fff;
+  }
+
+  body.credit-card-retail-pdp .hero-sticky-bar-cta {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: center;
+    box-sizing: border-box;
+    width: 8.1rem;
+    height: 2.9rem;
+    padding: 0 1.25rem;
+    border: 0;
+    border-radius: 8px;
+    background-color: #fff;
+    color: var(--citi-retail-navy);
+    font-family: var(--body-font-family);
+    font-size: 1rem;
+    font-weight: 700;
+    line-height: 2.9rem;
+    text-align: center;
+    text-decoration: none;
+    white-space: nowrap;
+  }
+
+  body.credit-card-retail-pdp .hero-sticky-bar-cta:hover,
+  body.credit-card-retail-pdp .hero-sticky-bar-cta:focus-visible {
+    background-color: #fff;
+    color: var(--citi-retail-link);
+  }
+
+  @media (width >= 768px) {
+    body.credit-card-retail-pdp .hero-sticky-bar {
+      top: 0;
+      bottom: auto;
+      height: 90px;
+      min-height: 0;
+      padding: 0 40px;
+      transform: translateY(-100%);
+    }
+
+    body.credit-card-retail-pdp .hero-sticky-bar.is-visible {
+      transform: translateY(0);
+    }
+
+    body.credit-card-retail-pdp .hero-sticky-bar-cta {
+      width: 16rem;
+      height: 3.19rem;
+      font-size: 1.125rem;
+      line-height: 3.19rem;
+    }
+  }
+
+  @media (width >= 1200px) {
+    body.credit-card-retail-pdp .hero-sticky-bar {
+      height: 120px;
+      padding-inline: max(5%, calc((100% - 1330px) / 2));
+    }
+
+    body.credit-card-retail-pdp .hero-sticky-bar-image picture,
+    body.credit-card-retail-pdp .hero-sticky-bar-image img {
+      width: 131px;
+      height: 75px;
+    }
+  }
+
+  @media (width >= 992px) {
     body.credit-card-explore .hero.block {
       display: block;
       min-height: 340px;
     }
-  
+
     body.credit-card-explore .hero .hero-content-row {
       padding: 0 72px;
     }
-  
+
     body.credit-card-explore .hero .hero-content {
       padding: 56px 0;
     }
-  
+
     body.credit-card-explore .explore-hero-offer .hero .hero-card-art picture,
     body.credit-card-explore .explore-hero-offer .hero .hero-card-art img {
       width: 130px;
     }
-  
+
     body.credit-card-explore .explore-hero-offer .hero .hero-content h2 {
       font-size: 34px;
     }
-  
+
     /* Brand: title/tagline/CTA on the left, fanned cards image anchored right. */
     body.credit-card-explore .explore-hero-brand .hero .hero-content {
       min-height: 240px;
       padding-right: 340px;
     }
-  
+
     body.credit-card-explore .explore-hero-brand .hero .hero-content h2 {
       font-size: 48px;
     }
-  
+
     body.credit-card-explore .explore-hero-brand .hero .hero-card-art {
       position: absolute;
       top: 50%;
       right: 0;
       transform: translateY(-50%);
     }
-  
+
     body.credit-card-explore .explore-hero-brand .hero .hero-card-art picture,
     body.credit-card-explore .explore-hero-brand .hero .hero-card-art img {
       max-width: 340px;

@@ -106,3 +106,112 @@
     line-height: 26px;
   }
 }
+
+/* stylelint-disable no-descending-specificity */
+body.credit-card-retail-pdp .accordion {
+  border-top: 0;
+}
+
+body.credit-card-retail-pdp .accordion .accordion-item {
+  margin: 0 0 25px;
+  border-bottom: 0;
+}
+
+body.credit-card-retail-pdp .accordion .accordion-item > summary.accordion-item-label {
+  display: block;
+  position: relative;
+  padding: 0;
+  gap: 0;
+}
+
+body.credit-card-retail-pdp .accordion .accordion-item-label::after {
+  display: none;
+}
+
+body.credit-card-retail-pdp .accordion .accordion-item-label::before {
+  content: '';
+  position: absolute;
+
+  /* Center 14px chevron in the 24px title line: (24 - 14) / 2 */
+  top: 5px;
+  left: 0;
+  width: 14px;
+  height: 14px;
+  margin: 0;
+  border: 0;
+  background-color: var(--citi-retail-link);
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' fill-rule='evenodd' d='M1.44 6.13a.806.806 0 0 0-.011 1.136L12 18.1 22.572 7.267a.807.807 0 0 0-.012-1.137.797.797 0 0 0-1.131.011L12 15.804 2.571 6.14a.797.797 0 0 0-1.13-.011'/%3E%3C/svg%3E");
+  mask-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='black' fill-rule='evenodd' d='M1.44 6.13a.806.806 0 0 0-.011 1.136L12 18.1 22.572 7.267a.807.807 0 0 0-.012-1.137.797.797 0 0 0-1.131.011L12 15.804 2.571 6.14a.797.797 0 0 0-1.13-.011'/%3E%3C/svg%3E");
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-mask-size: 14px 14px;
+  mask-size: 14px 14px;
+  /* stylelint-disable-next-line property-no-vendor-prefix */
+  -webkit-mask-position: center;
+  mask-position: center;
+  transform: rotate(0deg);
+  transform-origin: center;
+  transition: transform 0.4s ease-in-out;
+}
+
+body.credit-card-retail-pdp .accordion .accordion-item[open] .accordion-item-label::before {
+  transform: rotate(180deg);
+}
+
+body.credit-card-retail-pdp .accordion .accordion-item-label h3 {
+  position: relative;
+  padding: 0 0 0 32px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 300;
+  line-height: 24px;
+  color: var(--text-color);
+}
+
+body.credit-card-retail-pdp .accordion .accordion-item .accordion-item-body {
+  padding: 0 0 0 52px;
+}
+
+/* Source .category-content children: mt 15 / mb 30 / fw 100 / lh 21.
+ * .matlist-section { margin-bottom: 25px } is separate (item spacing). */
+body.credit-card-retail-pdp .accordion .accordion-item-body h4,
+body.credit-card-retail-pdp .accordion .accordion-item-body p,
+body.credit-card-retail-pdp .accordion .accordion-item-body li,
+body.credit-card-retail-pdp .accordion .accordion-item-body div {
+  margin: 15px 0 30px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 100;
+  line-height: 21px;
+  color: var(--text-color);
+}
+
+body.credit-card-retail-pdp .accordion .accordion-item-body p:last-child,
+body.credit-card-retail-pdp .accordion .accordion-item-body div:last-child {
+  margin-bottom: 30px;
+}
+
+body.credit-card-retail-pdp .accordion .accordion-item-body a:any-link {
+  color: var(--citi-retail-link);
+  text-decoration: underline;
+}
+
+@media (width >= 992px) {
+  body.credit-card-retail-pdp .accordion .accordion-item > summary.accordion-item-label {
+    padding: 0;
+  }
+
+  body.credit-card-retail-pdp .accordion .accordion-item-label h3 {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  body.credit-card-retail-pdp .accordion .accordion-item-body h4 {
+    font-size: 16px;
+    line-height: 21px;
+  }
+}
+/* stylelint-enable no-descending-specificity */

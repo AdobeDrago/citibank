@@ -30,10 +30,20 @@
   --citi-card-radius: 20px;
   --citi-button-radius: 100px;
 
+  /* Retail credit-card PDP tokens */
+  --citi-retail-link: #056dae;
+  --citi-retail-navy: #043567;
+  --citi-retail-cta: #002d72;
+  --citi-retail-divider: #d8d8d8;
+  --citi-retail-divider-light: rgb(204 204 204);
+  --citi-retail-border: #e3e3e3;
+  --citi-retail-bg-light: #f7f7f7;
+
   /* fonts */
   --body-font-family: "Citi Sans Text", citi-sans-text-fallback, sans-serif;
   --heading-font-family: "Citi Sans Display", citi-sans-display-fallback, sans-serif;
   --accent-font-family: "Citi Serif Display", citi-serif-display-fallback, serif;
+  --bold-font-family: "Overpass", var(--body-font-family);
 
   /* body sizes */
   --body-font-size-m: 22px;
@@ -468,6 +478,73 @@ body.credit-card-pdp main > .section:has(.cards) > div > h2 {
   font-size: 36px;
 }
 
+body.credit-card-retail-pdp strong,
+body.credit-card-retail-pdp b {
+  font-family: var(--bold-font-family);
+}
+
+/*
+ * Retail hero mega-section: keep offer cards + disclaimer on the same
+ * horizontal box as the hero (.citi-container / .box — max 1520, 5% sides).
+ * Without this, cards-wrapper falls back to the global 1200px / 32px inset and
+ * misaligns under the card-art column.
+ */
+body.credit-card-retail-pdp .section.hero-container > .cards-wrapper,
+body.credit-card-retail-pdp .section.hero-container > .cards-wrapper + .default-content-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .section.hero-container > .cards-wrapper,
+  body.credit-card-retail-pdp .section.hero-container > .cards-wrapper + .default-content-wrapper {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .section.hero-container > .cards-wrapper,
+  body.credit-card-retail-pdp .section.hero-container > .cards-wrapper + .default-content-wrapper {
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+}
+
+body.credit-card-retail-pdp .section.hero-container > .cards-wrapper + .default-content-wrapper {
+  margin-top: 8px;
+  padding-top: 16px;
+  padding-bottom: 0;
+}
+
+body.credit-card-retail-pdp .section.hero-container > .cards-wrapper + .default-content-wrapper > p {
+  margin: 0 0 16px;
+  color: rgb(74 74 74);
+  font-size: 16px;
+  font-weight: 100;
+  line-height: 22px;
+}
+
+body.credit-card-retail-pdp .section.hero-container > .cards-wrapper + .default-content-wrapper > p:last-child {
+  margin-bottom: 0;
+  padding-bottom: 24px;
+  color: rgb(5 109 174);
+  font-weight: 300;
+  line-height: 24px;
+  cursor: pointer;
+}
+
+body.credit-card-retail-pdp .section.hero-container > .cards-wrapper + .default-content-wrapper > p:last-child a:any-link {
+  color: rgb(5 109 174);
+  font-weight: 300;
+  text-decoration: none;
+}
+
 /*
  * Retail credit-cards PDP (body.credit-card-retail-pdp): give each section's
  * heading room above its block. The section H2 sits in a .default-content-wrapper
@@ -481,9 +558,748 @@ body.credit-card-retail-pdp main > .section:not(.hero-container) > .default-cont
   margin-bottom: 24px;
 }
 
+body.credit-card-retail-pdp .section.hero-container.cards-container:has(+ .section) {
+  margin-bottom: 0;
+}
+
+body.credit-card-retail-pdp .section.rewards-section {
+  margin-top: 0;
+}
+
+/* stylelint-disable-next-line no-descending-specificity */
+body.credit-card-retail-pdp main > .section.rewards-section > .default-content-wrapper {
+  box-sizing: border-box;
+  display: flow-root;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+body.credit-card-retail-pdp main > .section.rewards-section > .default-content-wrapper::before {
+  content: '';
+  display: block;
+  margin: 30px 0;
+  border-top: 1px solid var(--citi-retail-divider);
+  border-bottom: 1px solid var(--text-color);
+  box-shadow: rgb(0 0 0 / 7%) 0 -6px 17px 4px;
+  background: rgb(0 0 0 / 25%);
+}
+
+body.credit-card-retail-pdp .section.rewards-section > .default-content-wrapper > h2 {
+  margin: 0 0 20px;
+  font-family: var(--heading-font-family);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+body.credit-card-retail-pdp main > .section > .columns-wrapper:has(.columns-2-cols):not(:has(.columns-img-col)) {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin: 30px auto 0;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp main > .section.rewards-section > .default-content-wrapper {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  body.credit-card-retail-pdp main > .section.rewards-section > .default-content-wrapper::before {
+    margin: 45px 0;
+  }
+
+  body.credit-card-retail-pdp .section.rewards-section > .default-content-wrapper > h2 {
+    width: 80%;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    line-height: 2.5rem;
+  }
+
+  body.credit-card-retail-pdp main > .section > .columns-wrapper:has(.columns-2-cols):not(:has(.columns-img-col)) {
+    margin-top: 30px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp main > .section.rewards-section > .default-content-wrapper {
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+
+  body.credit-card-retail-pdp .section.rewards-section > .default-content-wrapper > h2 {
+    width: auto;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    line-height: 2.5rem;
+  }
+
+  body.credit-card-retail-pdp main > .section > .columns-wrapper:has(.columns-2-cols):not(:has(.columns-img-col)) {
+    margin-top: 45px;
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+}
+
+/* stylelint-disable no-descending-specificity */
+body.credit-card-retail-pdp main > .section > .default-content-wrapper:has(+ .tabs-wrapper) {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+/* Beat main > .section … :first-child:not(:last-child) { margin-bottom: 24px }
+ * so H2’s own 20px is the only gap above the tabs (matches live .sub-heading). */
+body.credit-card-retail-pdp main > .section > .default-content-wrapper:has(+ .tabs-wrapper):first-child:not(:last-child) {
+  margin-bottom: 0;
+}
+
+body.credit-card-retail-pdp .default-content-wrapper:has(+ .tabs-wrapper) > h2 {
+  margin: 0 0 20px;
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  color: var(--text-color);
+}
+
+body.credit-card-retail-pdp .tabs-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > h2 {
+  margin: 0 0 20px;
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  color: var(--text-color);
+}
+
+body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > h2 strong {
+  font-family: var(--bold-font-family);
+  font-weight: 700;
+}
+
+body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > h2 sup {
+  font-size: 0.875em;
+  line-height: inherit;
+}
+
+body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > ol {
+  margin: 30px 0 16px;
+  padding: 0 0 0 32px;
+  list-style: decimal outside;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 100;
+  line-height: 24px;
+  color: var(--text-color);
+  opacity: 0.92;
+}
+
+body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > ol > li {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 100;
+  line-height: 24px;
+  color: var(--text-color);
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .section.benefits > .default-content-wrapper,
+  body.credit-card-retail-pdp main > .section > .default-content-wrapper:has(+ .tabs-wrapper) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  body.credit-card-retail-pdp .section.benefits > .default-content-wrapper > h2,
+  body.credit-card-retail-pdp .default-content-wrapper:has(+ .tabs-wrapper) > h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    line-height: 34px;
+  }
+
+  body.credit-card-retail-pdp .tabs-wrapper {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    line-height: 34px;
+  }
+
+  body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > h2 sup {
+    font-size: 0.875rem;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .section.benefits > .default-content-wrapper,
+  body.credit-card-retail-pdp main > .section > .default-content-wrapper:has(+ .tabs-wrapper) {
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+
+  body.credit-card-retail-pdp .section.benefits > .default-content-wrapper > h2,
+  body.credit-card-retail-pdp .default-content-wrapper:has(+ .tabs-wrapper) > h2 {
+    margin-bottom: 20px;
+    line-height: 40px;
+  }
+
+  body.credit-card-retail-pdp .tabs-wrapper {
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+
+  body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper {
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+
+  body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > h2 {
+    margin-bottom: 20px;
+    line-height: 40px;
+  }
+
+  body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > h2 sup {
+    font-size: 1.25rem;
+  }
+}
+/* stylelint-enable no-descending-specificity */
+
+/* stylelint-disable no-descending-specificity */
+body.credit-card-retail-pdp .section.benefits,
+body.credit-card-retail-pdp .section.how-it-works,
+body.credit-card-retail-pdp .section.faq,
+body.credit-card-retail-pdp .section.pricing-details,
+body.credit-card-retail-pdp .section.faq + .section {
+  /* Spacers (::before) own the vertical rhythm — drop default section stack */
+  margin-top: 0;
+  margin-bottom: 0;
+}
+/* stylelint-enable no-descending-specificity */
+
+body.credit-card-retail-pdp .section.benefits > :first-child::before,
+body.credit-card-retail-pdp .section.how-it-works > :first-child::before,
+body.credit-card-retail-pdp .section.faq > :first-child::before,
+body.credit-card-retail-pdp .section.pricing-details > :first-child::before,
+body.credit-card-retail-pdp .section.faq + .section > :first-child::before {
+  content: '';
+  display: block;
+  flex: 0 0 100%;
+  width: 100%;
+  margin: 30px 0;
+  border-bottom: 1px solid var(--citi-retail-divider);
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .section.benefits > :first-child::before,
+  body.credit-card-retail-pdp .section.how-it-works > :first-child::before,
+  body.credit-card-retail-pdp .section.faq > :first-child::before,
+  body.credit-card-retail-pdp .section.pricing-details > :first-child::before,
+  body.credit-card-retail-pdp .section.faq + .section > :first-child::before {
+    margin: 45px 0;
+  }
+}
+
+/* stylelint-disable no-descending-specificity */
+body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+
+  /* Live mobile: H2 mb 20 then Expand; row-gap recreates that stack gap.
+   * Column gap unused until tablet (Expand sits on the H2 row). */
+  gap: 20px 16px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+
+  /* Live stacks Expand under H2; .rightSide mb 20 + ~15px parent chrome ≈ 35 */
+  margin-bottom: 0;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+/* Beat main > .section … :first-child:not(:last-child) { margin-bottom: 24px }.
+ * Re-asserted at each breakpoint so tablet 10px / desktop 20px can win. */
+body.credit-card-retail-pdp main > .section > .default-content-wrapper:has(+ .accordion-wrapper):first-child:not(:last-child) {
+  margin-bottom: 0;
+}
+
+body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper) > h2 {
+  flex: 1 1 100%;
+  margin: 0;
+  padding: 0 55px 0 0;
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  color: var(--text-color);
+  text-align: left;
+}
+
+body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper) .accordion-expand-all {
+  flex: 0 0 auto;
+
+  /* Live .rightSide: mb 20 + extra parent height ≈ expand→list 37px */
+  margin: 0 0 35px;
+  font-family: var(--body-font-family);
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 13px;
+  color: var(--citi-retail-link);
+  text-align: right;
+  text-decoration: underline;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper) .accordion-expand-all:hover,
+body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper) .accordion-expand-all:focus-visible {
+  color: var(--citi-retail-link);
+}
+
+body.credit-card-retail-pdp .accordion-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper),
+  body.credit-card-retail-pdp main > .section > .default-content-wrapper:has(+ .accordion-wrapper):first-child:not(:last-child) {
+    /* Live H2 mb 10 with Expand on the same row */
+    gap: 0 16px;
+    margin-bottom: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper) > h2 {
+    flex: 1 1 auto;
+    padding-right: 0;
+    font-size: 24px;
+    line-height: 34px;
+  }
+
+  body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper) .accordion-expand-all {
+    /* Live .rightSide float:right; margin-right: 30px */
+    margin: 0 30px 0 0;
+    font-size: 16px;
+    font-weight: 100;
+    line-height: 24px;
+  }
+
+  body.credit-card-retail-pdp .accordion-wrapper {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper),
+  body.credit-card-retail-pdp main > .section > .default-content-wrapper:has(+ .accordion-wrapper):first-child:not(:last-child) {
+    margin-bottom: 20px;
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+
+  body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper) > h2 {
+    line-height: 40px;
+  }
+
+  body.credit-card-retail-pdp .accordion-wrapper {
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+}
+/* stylelint-enable no-descending-specificity */
+
+/* stylelint-disable no-descending-specificity */
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 5.33%;
+}
+
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper h2 {
+  flex: 1 1 100%;
+  margin: 0 0 20px;
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  color: var(--text-color);
+  text-align: left;
+}
+
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p {
+  flex: 1 1 100%;
+  margin: 0 0 20px;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 24px;
+  color: var(--text-color);
+}
+
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper h2 strong,
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:not(:has(a)) > strong {
+  color: inherit;
+  font-family: var(--body-font-family);
+  font-weight: inherit;
+  text-decoration: none;
+}
+
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a),
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) + p {
+  margin: 30px 0 20px;
+  line-height: 13px;
+}
+
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) a:any-link,
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) > strong,
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) + p > strong,
+body.credit-card-retail-pdp .default-content-wrapper:has([id*="terms--conditions"]) > p:has(> sup) {
+  color: var(--citi-retail-link);
+  text-decoration: underline;
+  font-size: 16px;
+  font-weight: 100;
+  cursor: pointer;
+  font-family: var(--body-font-family);
+}
+
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) a:hover,
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) a:focus-visible {
+  color: var(--citi-retail-link);
+}
+
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) a sup,
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) strong sup,
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) + p > strong > sup,
+body.credit-card-retail-pdp .default-content-wrapper:has([id*="terms--conditions"]) > p:has(> sup) > sup {
+  font-size: 12px;
+  line-height: 1.19;
+  color: var(--citi-retail-link);
+  text-decoration: none;
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper {
+    padding: 0 40px;
+  }
+
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper h2 {
+    font-size: 24px;
+    line-height: 40px;
+  }
+
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a),
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) + p,
+  body.credit-card-retail-pdp .default-content-wrapper:has([id*="terms--conditions"]) > p:has(> sup) {
+    flex: 0 1 auto;
+    margin: 50px 70px 50px 0;
+    line-height: 1.19;
+  }
+
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a):last-child,
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) + p:last-child,
+  body.credit-card-retail-pdp .default-content-wrapper:has([id*="terms--conditions"]) > p:has(> sup):last-child {
+    margin-right: 0;
+  }
+
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) a:any-link {
+    margin-right: 70px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper {
+    padding: 0 calc(0.05 * min(100vw, 1520px));
+  }
+}
+
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > h2#disclosures,
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > h2#disclosures strong {
+  font-weight: 900;
+}
+
+body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wrapper > h3 {
+  margin: 0 0 8px;
+  font-family: var(--heading-font-family);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--text-color);
+}
+
+body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wrapper > h3 strong {
+  font-weight: 700;
+  color: inherit;
+}
+
+body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wrapper > p {
+  margin: 0 0 20px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 100;
+  line-height: 24px;
+  color: var(--text-color);
+}
+
+body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wrapper > h3#no-annual-fee {
+  margin: 0;
+  padding: 20px 20px 0;
+  border: 1px solid var(--text-color);
+  border-bottom: 0;
+}
+
+body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wrapper > h3#no-annual-fee + p {
+  margin: 0 0 20px;
+  padding: 0 20px 20px;
+  border: 1px solid var(--text-color);
+  border-top: 0;
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wrapper {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wrapper > h3 {
+    font-size: 28px;
+    line-height: 33.6px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wrapper {
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+}
+/* stylelint-enable no-descending-specificity */
+
+/*
+ * Retail terms & conditions bundle (body.credit-card-retail-pdp).
+ * Source: Wayfair — a run of plain h3 + disclosure-paragraph pairs (no H2,
+ * no footnote-link row, no bordered box). Just the shared .box horizontal
+ * inset; headings/paragraphs use their ordinary typography, matching live
+ * (no divider above this section either — it sits flush under "No Annual Fee").
+ */
+/* stylelint-disable-next-line no-descending-specificity -- distinct section (terms-conditions vs hero), not an override conflict */
+body.credit-card-retail-pdp .section.terms-conditions > .default-content-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .section.terms-conditions > .default-content-wrapper {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .section.terms-conditions > .default-content-wrapper {
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+}
+
+/* stylelint-disable no-descending-specificity */
+
+/*
+ * Compare section chrome.
+ * Live source .box for COMPARE is full-bleed with content-table-mobile (<768),
+ * then 40px inset (≥768), then 5% of min(100vw, 1520) (≥1200) — same as other
+ * retail .box sections. Do NOT use 5.33% on compare at mobile (that insets the
+ * grid; live runs edge-to-edge). H2 keeps a small 8px left pad on mobile only.
+ */
+body.credit-card-retail-pdp .section.compare-cards > .default-content-wrapper,
+body.credit-card-retail-pdp .section.retail-compare-section > .retail-compare-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/*
+ * Top gap + divider before COMPARE CARDS.
+ * Source: .header-section .spacer + .pdp-section .spacer (full-bleed of the
+ * 1520 citi-container; content sits in a sibling .box with side inset).
+ * EDS puts the H2 inside a padded wrapper, so ::before uses negative side
+ * margins (px / calc — not %) to cancel that inset and span the section.
+ *
+ * Live margins: 30px 0 (<768), 30px 0 45px (≥768).
+ * Live chrome: border-top #d8d8d8 + border-bottom #333 + soft shadow +
+ * rgba(0,0,0,0.25) fill (matches rewards spacer / source computed style).
+ */
+body.credit-card-retail-pdp .section.hero-container:has(+ .compare-cards),
+body.credit-card-retail-pdp .section.hero-container:has(+ .retail-compare-section) {
+  margin-bottom: 0;
+}
+
+body.credit-card-retail-pdp .section.compare-cards,
+body.credit-card-retail-pdp .section.retail-compare-section {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/*
+ * Beat main > .section:not(.hero-container) > .default-content-wrapper:first-child:not(:last-child)
+ * { margin-bottom: 24px } — that selector wins on specificity without :first-child/:not.
+ */
+body.credit-card-retail-pdp main > .section.compare-cards > .default-content-wrapper:first-child:not(:last-child) {
+  margin-bottom: 0;
+  border-top: 0;
+}
+
+body.credit-card-retail-pdp .section.compare-cards > .default-content-wrapper::before {
+  content: '';
+  display: block;
+  margin: 30px 0;
+  border-top: 1px solid var(--citi-retail-divider);
+  border-bottom: 1px solid var(--text-color);
+  box-shadow: rgb(0 0 0 / 7%) 0 -6px 17px 4px;
+  background: rgb(0 0 0 / 25%);
+}
+
+body.credit-card-retail-pdp .section.compare-cards > .default-content-wrapper > h2 {
+  margin: 0 0 20px;
+  padding: 0 0 0 8px;
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .section.compare-cards > .default-content-wrapper,
+  body.credit-card-retail-pdp .section.retail-compare-section > .retail-compare-wrapper {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  body.credit-card-retail-pdp .section.compare-cards > .default-content-wrapper::before {
+    /* Source .pdp-section .spacer ≥768: 30 top / 45 bottom; cancel 40px inset */
+    margin: 30px -40px 45px;
+  }
+
+  /* Source tablet (768–1024): h2.sub-heading — 80% width, no extra left pad */
+  body.credit-card-retail-pdp .section.compare-cards > .default-content-wrapper > h2 {
+    width: 80%;
+    margin-bottom: 10px;
+    padding-left: 0;
+    font-size: 24px;
+    line-height: 34px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .section.compare-cards > .default-content-wrapper,
+  body.credit-card-retail-pdp .section.retail-compare-section > .retail-compare-wrapper {
+    /* Match other retail .box insets — 5% of min(100vw, 1520), not flat 76px */
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+
+  body.credit-card-retail-pdp .section.compare-cards > .default-content-wrapper::before {
+    margin: 30px calc(-0.05 * min(100vw, 1520px)) 45px;
+  }
+
+  /* Source desktop (>1024): h2.sub-heading */
+  body.credit-card-retail-pdp .section.compare-cards > .default-content-wrapper > h2 {
+    width: auto;
+    margin-bottom: 20px;
+    line-height: 40px;
+  }
+}
+
 /* These template-scoped rules are a separate, non-overlapping component; their
    source order is not a specificity concern (matches the citigold block below). */
-/* stylelint-disable no-descending-specificity */
 
 /*
  * Credit-cards EXPLORE landing template (body.credit-card-explore).
@@ -503,7 +1319,8 @@ body.credit-card-retail-pdp main > .section:not(.hero-container) > .default-cont
    component that isn't portable, so the imported strip is label-only. */
 body.credit-card-explore main > .section.explore-category-tabs ul {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
   margin: 0;
   padding: 0;
   border-radius: 16px;
@@ -513,7 +1330,7 @@ body.credit-card-explore main > .section.explore-category-tabs ul {
 }
 
 body.credit-card-explore main > .section.explore-category-tabs li {
-  flex: 1 1 0;
+  flex: 0 0 auto;
   margin: 0;
   text-align: center;
 }
@@ -523,11 +1340,12 @@ body.credit-card-explore main > .section.explore-category-tabs a {
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  padding: 16px 8px;
+  padding: 16px;
   color: rgb(51 51 51);
   font-size: 16px;
   font-weight: 400;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 /* Category icon above each label (source shows a cds-icon per tab). Each icon is
@@ -580,20 +1398,19 @@ body.credit-card-explore main > .section.explore-category-tabs li:first-child a 
   color: rgb(37 91 227);
 }
 
-/* Mobile: the source collapses the bar into a horizontally scrollable row. */
-@media (width < 992px) {
+@media (width >= 992px) {
   body.credit-card-explore main > .section.explore-category-tabs ul {
-    flex-wrap: nowrap;
-    overflow-x: auto;
+    flex-wrap: wrap;
+    overflow-x: visible;
   }
 
   body.credit-card-explore main > .section.explore-category-tabs li {
-    flex: 0 0 auto;
+    flex: 1 1 0;
   }
 
   body.credit-card-explore main > .section.explore-category-tabs a {
-    padding: 16px;
-    white-space: nowrap;
+    padding: 16px 8px;
+    white-space: normal;
   }
 }
 

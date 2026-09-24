@@ -1,5 +1,22 @@
 import { createOptimizedPicture } from '../../scripts/aem.js';
 
+function decorateRetailNumberHeadings(block) {
+  if (!document.body.classList.contains('credit-card-retail-pdp')) return;
+  block.querySelectorAll('.cards-card-body h3').forEach((heading) => {
+    let node = heading.firstChild;
+    while (node && node.nodeType === Node.TEXT_NODE && !node.textContent.trim()) {
+      node = node.nextSibling;
+    }
+    if (node?.nodeType === Node.ELEMENT_NODE && node.tagName === 'STRONG') {
+      node.classList.add('cards-card-number');
+      const next = node.nextSibling;
+      if (next?.nodeType === Node.TEXT_NODE && next.textContent && !/^\s/.test(next.textContent)) {
+        next.textContent = ` ${next.textContent}`;
+      }
+    }
+  });
+}
+
 export default function decorate(block) {
   /* change to ul, li */
   const ul = document.createElement('ul');
@@ -22,4 +39,5 @@ export default function decorate(block) {
     img.closest('picture').replaceWith(createOptimizedPicture(img.src, img.alt, false, [{ width: '750' }]));
   });
   block.replaceChildren(ul);
+  decorateRetailNumberHeadings(block);
 }

@@ -91,3 +91,321 @@
 .table.bordered table td {
   border: 1px solid #dadada;
 }
+
+/*
+ * Retail credit-cards PDP compare table (body.credit-card-retail-pdp).
+ * Mobile-first: base rules below render the block/grid layout used under
+ * 768px; the min-width overrides switch it to a real <table> from 768px up.
+ */
+/* stylelint-disable no-descending-specificity */
+body.credit-card-retail-pdp .table.retail-compare {
+  width: 100%;
+  overflow: visible;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table,
+body.credit-card-retail-pdp .table.retail-compare thead,
+body.credit-card-retail-pdp .table.retail-compare tbody {
+  display: block;
+  width: 100%;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table {
+  max-width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--citi-retail-navy);
+}
+
+/* Source .image-table { margin-bottom: 1.8rem } before content-table-mobile */
+body.credit-card-retail-pdp .table.retail-compare thead {
+  margin-bottom: 1.8rem;
+}
+
+/* Card-art header row — source image-table has no grid borders.
+ * Source image-table also has margin-bottom: 1.8rem before the feature
+ * content-table; recreate that gap under thead (mobile = block; desktop =
+ * extra padding-bottom on th since table-header-group ignores margin). */
+body.credit-card-retail-pdp .table.retail-compare thead tr {
+  display: grid;
+  grid-template-columns: repeat(var(--retail-compare-cols, 2), 1fr);
+  border: 0;
+}
+
+body.credit-card-retail-pdp .table.retail-compare thead th {
+  border: 0;
+}
+
+body.credit-card-retail-pdp .table.retail-compare thead th:first-child {
+  display: none;
+}
+
+body.credit-card-retail-pdp .table.retail-compare thead th:not(:first-child) {
+  border: 0;
+  padding: 8px 4px 12px;
+}
+
+body.credit-card-retail-pdp .table.retail-compare tbody tr {
+  display: grid;
+  grid-template-columns: repeat(var(--retail-compare-cols, 2), 1fr);
+  border: 0;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table th,
+body.credit-card-retail-pdp .table.retail-compare table td {
+  box-sizing: border-box;
+  padding: 12.8px 0;
+  vertical-align: middle;
+  font-weight: 400;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table tbody td {
+  border: 1px solid var(--citi-retail-border);
+  border-right: 0;
+  min-height: 2.9rem;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table th:first-child,
+body.credit-card-retail-pdp .table.retail-compare table td:first-child {
+  text-align: left;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table th:not(:first-child),
+body.credit-card-retail-pdp .table.retail-compare table td:not(:first-child) {
+  text-align: center;
+  vertical-align: middle;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table th {
+  vertical-align: bottom;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table th img {
+  display: block;
+  width: 25vw;
+  max-width: 120px;
+  height: auto;
+  margin: 0 auto;
+  object-fit: contain;
+  border-radius: 5%;
+  filter: drop-shadow(rgb(186 186 186) 2px 2px 2px);
+}
+
+body.credit-card-retail-pdp .table.retail-compare table th p:last-child {
+  margin: 0.5rem auto 0;
+  padding: 0;
+  color: var(--citi-retail-navy);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.4;
+  text-align: center;
+  width: 90%;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table td:first-child {
+  color: var(--citi-retail-navy);
+}
+
+body.credit-card-retail-pdp .table.retail-compare tbody td:first-child {
+  grid-column: 1 / -1;
+  padding: 12.8px 28.8px;
+  text-align: center;
+}
+
+body.credit-card-retail-pdp .table.retail-compare tbody td:not(:first-child) {
+  padding: 12.8px 0;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table td:first-child p {
+  margin: 0 0 1rem;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table td:first-child strong,
+body.credit-card-retail-pdp .table.retail-compare table td:first-child b {
+  font-weight: 700;
+}
+
+/*
+ * Gap before group heading — source splits features into two content-tables
+ * with margin-bottom: 1.8rem (28.8px) on the first. Merged EDS grid uses a
+ * dedicated .retail-compare-gap row instead.
+ */
+body.credit-card-retail-pdp .table.retail-compare table tr.retail-compare-gap {
+  display: block;
+  height: 1.8rem;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table tr.retail-compare-gap td {
+  display: block;
+  height: 1.8rem;
+  min-height: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  line-height: 0;
+  font-size: 0;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table tr.retail-compare-heading {
+  display: block;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table tr.retail-compare-heading td {
+  display: block;
+  width: 100%;
+  padding: 19.2px 28.8px;
+  border: 0;
+  background-color: var(--citi-retail-bg-light);
+  color: var(--citi-retail-navy);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1rem;
+  text-align: center;
+  white-space: normal;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table tr.retail-compare-heading td strong {
+  font-weight: 400;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table tr.retail-compare-heading td p {
+  margin: 0;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table td.table-value-yes,
+body.credit-card-retail-pdp .table.retail-compare table td.table-value-no {
+  text-align: center;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table td.table-value-yes .table-value-label,
+body.credit-card-retail-pdp .table.retail-compare table td.table-value-no .table-value-label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table td.table-value-yes::before,
+body.credit-card-retail-pdp .table.retail-compare table td.table-value-no::before {
+  content: '';
+  display: inline-block;
+  width: 1.7rem;
+  height: 1.7rem;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+body.credit-card-retail-pdp .table.retail-compare table td.table-value-yes::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23005A9C' d='m12 0.9995c6.075 0 11 4.926 11 11 0 6.075-4.925 11-11 11s-11-4.925-11-11c0-6.074 4.925-11 11-11zm6.718 6.4536c-0.385-0.397-1.018-0.406-1.414-0.022l-7.763 7.525-2.845-2.758c-0.396-0.385-1.03-0.375-1.414 0.021-0.385 0.397-0.375 1.029 0.022 1.414l3.183 3.087c0.29 0.281 0.672 0.422 1.054 0.422s0.764-0.141 1.056-0.423l8.099-7.852c0.397-0.384 0.407-1.018 0.022-1.414z'/%3E%3C/svg%3E");
+}
+
+body.credit-card-retail-pdp .table.retail-compare table td.table-value-no::before {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%23757575' d='m12 0.9995c-6.075 0-11 4.926-11 11 0 6.075 4.925 11 11 11s11-4.925 11-11c0-6.074-4.925-11-11-11m0 1c5.514 0 10 4.486 10 10 0 5.515-4.486 10-10 10s-10-4.485-10-10c0-5.514 4.486-10 10-10m1.4141 10.153l3.793-3.793c0.391-0.391 0.391-1.023 0-1.414s-1.023-0.391-1.414 0l-3.793 3.793-3.793-3.793c-0.391-0.391-1.023-0.391-1.414 0s-0.391 1.023 0 1.414l3.793 3.793-3.793 3.793c-0.391 0.391-0.391 1.023 0 1.414 0.195 0.195 0.451 0.293 0.707 0.293s0.512-0.098 0.707-0.293l3.793-3.793 3.793 3.793c0.195 0.195 0.451 0.293 0.707 0.293s0.512-0.098 0.707-0.293c0.391-0.391 0.391-1.023 0-1.414l-3.793-3.793z'/%3E%3C/svg%3E");
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .table.retail-compare table {
+    display: table;
+    width: 100%;
+  }
+
+  body.credit-card-retail-pdp .table.retail-compare thead {
+    display: table-header-group;
+  }
+
+  body.credit-card-retail-pdp .table.retail-compare tbody {
+    display: table-row-group;
+  }
+
+  body.credit-card-retail-pdp .table.retail-compare thead tr,
+  body.credit-card-retail-pdp .table.retail-compare tbody tr {
+    display: table-row;
+  }
+
+  body.credit-card-retail-pdp .table.retail-compare thead th:first-child {
+    display: table-cell;
+  }
+
+  body.credit-card-retail-pdp .table.retail-compare thead th:not(:first-child) {
+    border: 0;
+
+    /* 24px cell pad + 1.8rem (28.8px) image-table→content-table gap */
+    padding: 24px 0 52.8px;
+  }
+
+  body.credit-card-retail-pdp .table.retail-compare table th,
+  body.credit-card-retail-pdp .table.retail-compare table td {
+    display: table-cell;
+    padding: 24px 28.8px;
+  }
+
+  body.credit-card-retail-pdp .table.retail-compare table th:not(:first-child),
+  body.credit-card-retail-pdp .table.retail-compare table td:not(:first-child) {
+    padding-left: 0;
+    padding-right: 0;
+  }
+
+  body.credit-card-retail-pdp .table.retail-compare table th img {
+    width: 171px;
+    max-width: 100%;
+    height: 108px;
+  }
+
+  body.credit-card-retail-pdp .table.retail-compare table th p:last-child {
+    margin: 0.6rem 0 0;
+    padding: 0;
+    font-size: 1.15rem;
+    text-align: center;
+    width: auto;
+  }
+
+  body.credit-card-retail-pdp .table.retail-compare table tbody td {
+    border: 1px solid var(--citi-retail-border);
+    min-height: 0;
+  }
+
+  body.credit-card-retail-pdp .table.retail-compare tbody td:first-child {
+    grid-column: auto;
+    padding: 24px 28.8px;
+    text-align: left;
+  }
+
+  body.credit-card-retail-pdp .table.retail-compare tbody td:not(:first-child) {
+    padding: 24px 0;
+  }
+
+  body.credit-card-retail-pdp .table.retail-compare table tr.retail-compare-heading {
+    display: table-row;
+  }
+
+  body.credit-card-retail-pdp .table.retail-compare table tr.retail-compare-heading td {
+    display: table-cell;
+    width: auto;
+    padding: 19.2px 28.8px;
+    border: 1px solid var(--citi-retail-border);
+    font-size: 1.15rem;
+    line-height: 1.15rem;
+    text-align: center;
+    white-space: nowrap;
+  }
+
+  body.credit-card-retail-pdp .table.retail-compare table td.table-value-yes::before,
+  body.credit-card-retail-pdp .table.retail-compare table td.table-value-no::before {
+    width: 35px;
+    height: 35px;
+  }
+
+  body.credit-card-retail-pdp .table.retail-compare table tbody tr:not(.retail-compare-heading) td p,
+  body.credit-card-retail-pdp .table.retail-compare table tbody tr:not(.retail-compare-heading) td b,
+  body.credit-card-retail-pdp .table.retail-compare table tbody tr:not(.retail-compare-heading) td strong,
+  body.credit-card-retail-pdp .table.retail-compare table tbody tr:not(.retail-compare-heading) td li {
+    font-size: 1.125rem;
+    line-height: 1.313rem;
+  }
+}
+/* stylelint-enable no-descending-specificity */
