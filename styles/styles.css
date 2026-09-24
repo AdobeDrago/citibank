@@ -2278,6 +2278,7 @@ body.auth-authenticated [data-auth='authenticated'] { display: block; }
 }
 
 /* stylelint-enable no-descending-specificity */
+
 /* CSS Start For citi---aadvantage--globe--mastercard--pricing-details  */
 /* stylelint-disable no-descending-specificity */
 .section:has(> .default-content-wrapper > h3 ~ p ~ ul) {

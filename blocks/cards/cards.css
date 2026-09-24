@@ -295,7 +295,6 @@ body.credit-card-retail-pdp .cards .cards-card-body sup a:any-link {
 
 /* Lower specificity than the benefits-grid p:first-child rule above, but the
    retail template scope makes them mutually exclusive in practice. */
-/* stylelint-disable-next-line no-descending-specificity */
 body.credit-card-retail-pdp .cards .cards-card-body p:not(:first-child) {
   margin: 10px 0 0;
   color: var(--text-color);
@@ -311,7 +310,6 @@ body.credit-card-retail-pdp .cards .cards-card-body p:not(:first-child) b {
 }
 
 
-/* stylelint-disable-next-line no-descending-specificity */
 body.credit-card-retail-pdp .cards .cards-card-body:has(p br) h3 ~ p ~ p {
   margin-top: 34px;
 }

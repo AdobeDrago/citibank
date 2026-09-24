@@ -232,7 +232,7 @@ header nav .nav-tool-secondary {
 /* Log In / Log Out: set apart from the other tools links with the nav accent
    color, so it reads as the primary account action rather than a plain link. */
 header nav .nav-tool-login > a.nav-login {
-  color: var(--citi-nav-blue);
+  color: var(--citi-nav-navy);
 }
 
 header nav .nav-tool-login > a.nav-login:hover {
@@ -537,11 +537,18 @@ header nav sup { font-size: 0.6em; }
     display: list-item;
   }
 
-    header nav .nav-tool:not(.nav-tool-secondary)::after {
-      margin-left: -16px;
-      width: 7px;
-      height: 7px;
-    }
+  /* stylelint-disable no-descending-specificity -- :not() scoping tool links is intentionally more specific than the generic nav-item/nav-tool/nav-panel link rules below */
+  header nav .nav-tool:not(.nav-tool-secondary) > a {
+    padding-right: 40px;
+    padding-top: 9px;
+  }
+
+  header nav .nav-tool:not(.nav-tool-secondary)::after {
+    margin-left: -32px;
+    margin-bottom: 2px;
+    width: 8px;
+    height: 8px;        
+  }
 
   header nav .nav-item-toggle::after {
     display: none;
@@ -581,7 +588,7 @@ header nav sup { font-size: 0.6em; }
     position: absolute;
     top: 100%;
     left: 0;
-    z-index: 40;
+    z-index: 1000;
     display: none;
     gap: 40px;
     min-width: 320px;
@@ -601,10 +608,7 @@ header nav sup { font-size: 0.6em; }
     font-size: 15px;
     font-weight: 400;
   }
-
-  header nav .nav-tool:not(.nav-tool-secondary) > a {
-    padding-top: 9px;
-  }
+  /* stylelint-enable no-descending-specificity */
 
   header nav .nav-panel-links { min-width: 200px; }
 
