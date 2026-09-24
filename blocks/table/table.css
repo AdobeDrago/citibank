@@ -399,5 +399,13 @@ body.credit-card-retail-pdp .table.retail-compare table td.table-value-no::befor
     width: 35px;
     height: 35px;
   }
+
+  body.credit-card-retail-pdp .table.retail-compare table tbody tr:not(.retail-compare-heading) td p,
+  body.credit-card-retail-pdp .table.retail-compare table tbody tr:not(.retail-compare-heading) td b,
+  body.credit-card-retail-pdp .table.retail-compare table tbody tr:not(.retail-compare-heading) td strong,
+  body.credit-card-retail-pdp .table.retail-compare table tbody tr:not(.retail-compare-heading) td li {
+    font-size: 1.125rem;
+    line-height: 1.313rem;
+  }
 }
 /* stylelint-enable no-descending-specificity */

@@ -43,6 +43,7 @@
   --body-font-family: "Citi Sans Text", citi-sans-text-fallback, sans-serif;
   --heading-font-family: "Citi Sans Display", citi-sans-display-fallback, sans-serif;
   --accent-font-family: "Citi Serif Display", citi-serif-display-fallback, serif;
+  --bold-font-family: "Overpass", var(--body-font-family);
 
   /* body sizes */
   --body-font-size-m: 22px;
@@ -477,6 +478,11 @@ body.credit-card-pdp main > .section:has(.cards) > div > h2 {
   font-size: 36px;
 }
 
+body.credit-card-retail-pdp strong,
+body.credit-card-retail-pdp b {
+  font-family: var(--bold-font-family);
+}
+
 /*
  * Retail hero mega-section: keep offer cards + disclaimer on the same
  * horizontal box as the hero (.citi-container / .box — max 1520, 5% sides).
@@ -704,6 +710,7 @@ body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > h
 }
 
 body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > h2 strong {
+  font-family: var(--bold-font-family);
   font-weight: 700;
 }
 
@@ -995,22 +1002,27 @@ body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper 
 body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper h2 strong,
 body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:not(:has(a)) > strong {
   color: inherit;
+  font-family: var(--body-font-family);
   font-weight: inherit;
   text-decoration: none;
 }
 
-body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) {
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a),
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) + p {
   margin: 30px 0 20px;
   line-height: 13px;
 }
 
 body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) a:any-link,
 body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) > strong,
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) + p > strong,
 body.credit-card-retail-pdp .default-content-wrapper:has([id*="terms--conditions"]) > p:has(> sup) {
   color: var(--citi-retail-link);
   text-decoration: underline;
+  font-size: 16px;
   font-weight: 100;
   cursor: pointer;
+  font-family: var(--body-font-family);
 }
 
 body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) a:hover,
@@ -1020,6 +1032,7 @@ body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper 
 
 body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) a sup,
 body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) strong sup,
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) + p > strong > sup,
 body.credit-card-retail-pdp .default-content-wrapper:has([id*="terms--conditions"]) > p:has(> sup) > sup {
   font-size: 12px;
   line-height: 1.19;
@@ -1043,6 +1056,7 @@ body.credit-card-retail-pdp .default-content-wrapper:has([id*="terms--conditions
   }
 
   body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a),
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) + p,
   body.credit-card-retail-pdp .default-content-wrapper:has([id*="terms--conditions"]) > p:has(> sup) {
     flex: 0 1 auto;
     margin: 50px 70px 50px 0;
@@ -1050,6 +1064,7 @@ body.credit-card-retail-pdp .default-content-wrapper:has([id*="terms--conditions
   }
 
   body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a):last-child,
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) + p:last-child,
   body.credit-card-retail-pdp .default-content-wrapper:has([id*="terms--conditions"]) > p:has(> sup):last-child {
     margin-right: 0;
   }
@@ -1090,7 +1105,7 @@ body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wr
 }
 
 body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wrapper > h3 strong {
-  font-weight: 500;
+  font-weight: 700;
   color: inherit;
 }
 

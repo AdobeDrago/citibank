@@ -9,6 +9,10 @@ function decorateRetailNumberHeadings(block) {
     }
     if (node?.nodeType === Node.ELEMENT_NODE && node.tagName === 'STRONG') {
       node.classList.add('cards-card-number');
+      const next = node.nextSibling;
+      if (next?.nodeType === Node.TEXT_NODE && next.textContent && !/^\s/.test(next.textContent)) {
+        next.textContent = ` ${next.textContent}`;
+      }
     }
   });
 }

@@ -201,13 +201,17 @@ body.credit-card-retail-pdp .cards .cards-card-body h3 {
   letter-spacing: normal;
 }
 
+body.credit-card-retail-pdp .cards .cards-card-body h3 > strong:not(.cards-card-number) {
+  font-weight: 700;
+}
+
 body.credit-card-retail-pdp .cards .cards-card-body h3 > strong.cards-card-number {
   display: inline;
   margin-right: 10px;
   color: var(--citi-retail-navy);
   font-size: 48px;
   font-weight: 700;
-  line-height: 48px;
+  line-height: 66px;
   letter-spacing: -2.4px;
 }
 
@@ -275,7 +279,9 @@ body.credit-card-retail-pdp .cards .cards-card-body:has(p br) h3 ~ p ~ p {
   body.credit-card-retail-pdp .cards > ul > li {
     min-height: 14.19rem;
   }
+}
 
+@media (width >= 768px) {
   body.credit-card-retail-pdp .cards .cards-card-body h3 {
     font-size: 24px;
     line-height: 1.2;
