@@ -50,6 +50,10 @@ body.credit-card-pdp .columns-container:has(.columns.pdp-content) {
 }
 
 .columns.pdp-content {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 0 16px;
   border-radius: 16px;
   box-shadow: 0 1px 10px 0 rgb(0 0 0 / 10%);
   background-color: rgb(23 63 53);
@@ -58,46 +62,303 @@ body.credit-card-pdp .columns-container:has(.columns.pdp-content) {
 .columns.pdp-content > div {
   display: flex;
   flex-direction: column;
-  padding: 24px;
-  border-bottom: 1px solid rgb(150 150 150);
   gap: 4px;
+  box-sizing: border-box;
+  padding: 24px;
+  border-bottom: 1px solid rgb(255 255 255);
+  background-color: transparent;
 }
 
 .columns.pdp-content > div:last-child {
   border-bottom: none;
 }
 
+.columns.pdp-content > div > div {
+  flex: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: rgb(255 255 255);
+}
+
+.columns.pdp-content > div > div:empty {
+  display: none;
+}
+
+.columns.pdp-content > div > .columns-img-col {
+  overflow: hidden;
+  line-height: 0;
+  margin-bottom: 8px;
+}
+
+.columns.pdp-content > div > .columns-img-col img {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin-bottom: 0;
+}
+
+/* label (first paragraph) above the description, when a tile authors both
+   in the SAME cell (AT&T: "Gas & EV charging stations" + description) */
+.columns.pdp-content p:first-child:not(:last-child) {
+  margin: 0 0 4px;
+  font-size: 20px;
+  line-height: 26px;
+}
+
+/* Multiplier tiles (no icon): large italic display number. Also matches a
+   number authored as plain text in its own cell (e.g. "3X" as
+   <div><p>3X</p></div> followed by a separate description cell — the same
+   two-cell shape as aa-tiles' multiplier cell) so authors don't need
+   heading markup just to get the big number treatment. */
+.columns.pdp-content h3,
+.columns.pdp-content > div > div:first-child > p:only-child {
+  margin: 0 0 8px;
+  font-family: var(--accent-font-family);
+  font-size: 40px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 46px;
+  letter-spacing: normal;
+  color: rgb(255 255 255);
+}
+
+/* Icon benefit tiles (Home Depot, etc.): 24px sans title */
+.columns.pdp-content:has(.columns-img-col) h3 {
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 30px;
+}
+
+/* Headline-only tiles (Secured Mastercard: no icon, no description) —
+   a short phrase heading, not a display multiplier number. */
+.columns.pdp-content > div:not(:has(p)) h3 {
+  font-family: var(--heading-font-family);
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 33.6px;
+}
+
+/* Icon-inside-heading tiles (Diamond Preferred, Simplicity): a small icon
+   placed directly inside the <h3>, inline with the heading text — not a
+   separate image column. */
+.columns.pdp-content h3:has(img) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--heading-font-family);
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 42px;
+}
+
+.columns.pdp-content h3 img {
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+.columns.pdp-content p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: normal;
+  color: rgb(255 255 255);
+}
+
+.columns.pdp-content:has(.columns-img-col) p {
+  line-height: 20px;
+}
+
+.columns.pdp-content a:any-link {
+  color: rgb(255 255 255);
+  text-decoration: underline;
+}
+
+.columns.pdp-content a:any-link:hover {
+  text-decoration: underline;
+}
+
+/* Footnote superscripts stay compact and elevated */
+.columns.pdp-content a:any-link:has(sup),
+.columns.pdp-content sup {
+  font-size: 0.7em;
+  vertical-align: super;
+  text-decoration: none;
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp .columns-container:has(.columns.pdp-content) {
+    margin-bottom: 64px;
+    padding-bottom: 0;
+  }
+
+  main > .section.columns-container .columns-wrapper .columns.pdp-content {
+    margin-top: -91px;
+    position: relative;
+    margin-bottom: 16px;
+    z-index: 1;
+  }
+
+  /* Secured Mastercard: the hero-overlap shift belongs on the banner
+     paragraph (it's a separate sibling before the block), so the banner +
+     tiles move up over the hero together as one unit. The box itself keeps
+     margin-top: 0 (set unconditionally below) to avoid double-shifting. */
+  .default-content-wrapper:has(+ .columns-wrapper .columns.pdp-content.navy) {
+    margin-top: -91px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .columns.pdp-content {
+    flex-direction: row;
+    align-items: stretch;
+    padding: 24px 16px;
+  }
+
+  .columns.pdp-content > div {
+    flex: 1 1 0;
+    min-width: 0;
+    flex-direction: column;
+    padding: 0 24px;
+    border-bottom: none;
+    border-right: 1px solid rgb(255 255 255);
+  }
+
+  .columns.pdp-content > div:last-child {
+    border-right: none;
+  }
+
+  .columns.pdp-content h3,
+  .columns.pdp-content > div > div:first-child > p:only-child {
+    font-size: 48px;
+    line-height: 54px;
+  }
+
+  .columns.pdp-content:has(.columns-img-col) h3 {
+    font-size: 24px;
+    line-height: 30px;
+  }
+
+  .columns.pdp-content > div:not(:has(p)) h3 {
+    font-size: 32px;
+    line-height: 38.4px;
+  }
+}
+
+/* =========================================================
+ * Color variants via Section Metadata "Style: <color>"
+ * or block class "Columns (pdp-content, <color>)"
+ * ========================================================= */
+
+/* grey — Strata Premier */
+.section.grey .columns.pdp-content,
+.columns.pdp-content.grey {
+  background-color: rgb(99 102 106);
+}
+
+/* navy — Secured Mastercard (rgb(0 42 84)/#002A54).
+ * White text/dividers inherit from the default pdp-content styles. */
+.section.navy .columns.pdp-content,
+.columns.pdp-content.navy {
+  background-color: rgb(0 42 84);
+}
+
+/* blue — Strata (rgb(76 123 162)/#4C7BA2), steel-blue accelerator.
+ * White text/dividers inherit from the default pdp-content styles. */
+.section.blue .columns.pdp-content,
+.columns.pdp-content.blue {
+  background-color: rgb(76 123 162);
+}
+
+/* light-blue — AT&T PointsPlus: light container, dark text */
+.section.light-blue .columns.pdp-content,
+.columns.pdp-content.light-blue {
+  background-color: rgb(242 250 253);
+  box-shadow: none;
+}
+
+.section.light-blue .columns.pdp-content > div,
+.columns.pdp-content.light-blue > div {
+  border-bottom-color: rgb(150 150 150);
+}
+
+/* AT&T icons are wider illustrations (~118×60), not 40×40 tiles */
+.section.light-blue .columns.pdp-content > div > .columns-img-col img,
+.columns.pdp-content.light-blue > div > .columns-img-col img {
+  width: auto;
+  height: 60px;
+  max-width: 121px;
+  object-fit: contain;
+}
+
+.section.light-blue .columns.pdp-content h3,
+.section.light-blue .columns.pdp-content p,
+.section.light-blue .columns.pdp-content a:any-link,
+.section.light-blue .columns.pdp-content > div > div,
+.columns.pdp-content.light-blue h3,
+.columns.pdp-content.light-blue p,
+.columns.pdp-content.light-blue a:any-link,
+.columns.pdp-content.light-blue > div > div {
+  color: rgb(38 41 43);
+}
+
+/* cream — Home Depot (Pro Xtra + Consumer) */
+.section.cream .columns.pdp-content,
+.columns.pdp-content.cream {
+  background-color: rgb(246 243 239);
+}
+
+.section.cream .columns.pdp-content > div,
+.columns.pdp-content.cream > div {
+  border-bottom-color: rgb(230 235 237);
+}
+
+.section.cream .columns.pdp-content h3,
+.section.cream .columns.pdp-content > div > div,
+.columns.pdp-content.cream h3,
+.columns.pdp-content.cream > div > div {
+  color: rgb(38 41 43);
+}
+
+.section.cream .columns.pdp-content p,
+.columns.pdp-content.cream p {
+  color: rgb(58 62 64);
+}
+
+.section.cream .columns.pdp-content a:any-link,
+.columns.pdp-content.cream a:any-link {
+  color: var(--link-color, rgb(4 32 143));
+  text-decoration: none;
+}
+
+@media (width >= 992px) {
+  .section.light-blue .columns.pdp-content > div,
+  .columns.pdp-content.light-blue > div {
+    border-right-color: rgb(150 150 150);
+  }
+
+  .section.cream .columns.pdp-content > div,
+  .columns.pdp-content.cream > div {
+    border-right-color: rgb(230 235 237);
+  }
+}
+
+
 .columns img {
   display: block;
   width: 100%;
 }
 
-.columns.pdp-content > div > .columns-img-col img {
-  display: block;
-  object-fit: none;
-  width: 40px;
-  height: 40px;
-}
-
-.columns.pdp-content > div:nth-child(1) > .columns-img-col img {
-  object-position: -353px -47px;
-}
-
-.columns.pdp-content > div:nth-child(2) > .columns-img-col img {
-  object-position: -799px -47px;
-}
-
-.columns.pdp-content > div:nth-child(3) > .columns-img-col img {
-  object-position: -196px -48px;
-}
-
-.columns.pdp-content > div:nth-child(4) > .columns-img-col img {
-  object-position: -196px -48px;
-}
-
-.columns.pdp-content > div:nth-child(5) > .columns-img-col img {
-  object-position: -50px -48px;
-}
 
 /* shared typography inside columns (source: Citi_Sans / Citi_Sans_Display) */
 .columns h2 {
@@ -128,18 +389,6 @@ body.credit-card-pdp .columns-container:has(.columns.pdp-content) {
 }
 
 @media (width >= 992px) {
-  body.credit-card-pdp .columns-container:has(.columns.pdp-content) {
-    margin-bottom: 64px;
-    padding-bottom: 0;
-  }
-
-  main > .section.columns-container .columns-wrapper .columns.pdp-content {
-    margin-top: -91px;
-    position: relative;
-    margin-bottom: 16px;
-    z-index: 1;
-  }
-
   .columns > div {
     flex-direction: row;
     align-items: stretch;
@@ -155,19 +404,7 @@ body.credit-card-pdp .columns-container:has(.columns.pdp-content) {
     line-height: 53.76px;
   }
 
-  .columns.pdp-content {
-    display: flex;
-    flex-direction: row;
-    padding: 24px 16px;
-  }
-
-  .columns.pdp-content > div {
-    flex-direction: column-reverse;
-    padding: 0 24px;
-    border-bottom: none;
-  }
-
-  .columns.columns.pdp-content.columns-2-cols:has(.columns-img-col) > div {
+  .columns.pdp-content.columns-2-cols:has(.columns-img-col) > div {
     align-items: flex-start;
     gap: 4px;
     height: fit-content;
@@ -287,7 +524,7 @@ body.credit-card-pdp .columns-container:has(.columns.pdp-content) {
 }
 
 /* eyebrow label = the first paragraph above the h2 */
-.columns.columns-2-cols:has(.columns-img-col) > div > div > p:first-child {
+.columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) > div > div > p:first-child {
   font-size: 14px;
   line-height: 18px;
   letter-spacing: .009rem;
@@ -334,11 +571,11 @@ body.credit-card-pdp .columns-container:has(.columns.pdp-content) {
   }
 
   /* desktop: text left, image right (matches source recap-section) */
-  .columns.columns-2-cols:has(.columns-img-col) > div > .columns-img-col {
+  .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) > div > .columns-img-col {
     order: 1;
   }
 
-  .columns.columns-2-cols:has(.columns-img-col) > div > div {
+  .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) > div > div {
     order: 0;
   }
 }
@@ -463,45 +700,46 @@ body.credit-card-pdp .columns-container:has(.columns.pdp-content) {
  * Source: .accelerator-bar - padding 24px, radius 16px, inner gap 4px,
  * tile 1 bg rgb(37,91,227), tile 2 bg rgb(0,42,84), white text.
  * ========================================================= */
-.columns.columns-2-cols:not(:has(.columns-img-col)) > div {
-  gap: 24px;
+
+/* Mobile/tablet: stacked tiles with overlap effect — excludes aa-* and single-container variants */
+.columns.columns-2-cols:not(:has(.columns-img-col), .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
-.columns.columns-2-cols:not(:has(.columns-img-col)) > div > div {
+.columns.columns-2-cols:not(:has(.columns-img-col), .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) > div > div {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 32px;
+  padding: 24px;
   border-radius: 16px;
   color: rgb(255 255 255);
 }
 
-.columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:first-child {
-  background-color: var(--citi-blue); /* rgb(37,91,227) */
+/* Blue tile: top corners rounded only, extra bottom padding for the overlap */
+.columns.columns-2-cols:not(:has(.columns-img-col), .navy, .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) > div > div:first-child {
+  background-color: var(--citi-blue);
+  border-radius: 16px 16px 0 0;
+  padding-bottom: 56px;
 }
 
-.columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) {
+/* Navy tile: all corners rounded, pulls up to overlap the blue tile */
+.columns.columns-2-cols:not(:has(.columns-img-col), .navy, .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) > div > div:nth-child(2) {
   background-color: rgb(0 42 84);
+  margin-top: -32px;
 }
 
-.columns.columns-2-cols:not(:has(.columns-img-col)) h3 {
+.columns.columns-2-cols:not(:has(.columns-img-col), .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) h3 {
   margin: 0;
-  font-size: 28px; /* mobile */
-  font-weight: 400; /* source accelerator tile headings are light, not bold */
-  line-height: 1.2;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 43px;
   letter-spacing: normal;
   color: rgb(255 255 255);
 }
 
-@media (width >= 992px) {
-  /* source accelerator tile heading: 36px / 43px line-height */
-  .columns.columns-2-cols:not(:has(.columns-img-col)) h3 {
-    font-size: 36px;
-    line-height: 43px;
-  }
-}
-
-.columns.columns-2-cols:not(:has(.columns-img-col)) p {
+.columns.columns-2-cols:not(:has(.columns-img-col), .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) p {
   margin: 0;
   font-size: 16px;
   font-weight: 400;
@@ -510,10 +748,299 @@ body.credit-card-pdp .columns-container:has(.columns.pdp-content) {
   color: rgb(255 255 255);
 }
 
-.columns.columns-2-cols:not(:has(.columns-img-col)) a {
+.columns.columns-2-cols:not(:has(.columns-img-col), .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) a {
   color: rgb(255 255 255);
   text-decoration: underline;
 }
+
+/* Desktop: side by side, both tiles fully rounded */
+@media (width >= 992px) {
+  .columns.columns-2-cols:not(:has(.columns-img-col), .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) > div {
+    flex-direction: row;
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .columns.columns-2-cols:not(:has(.columns-img-col), .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) > div > div {
+    padding: 32px;
+  }
+
+  .columns.columns-2-cols:not(:has(.columns-img-col), .navy, .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) > div > div:first-child {
+    border-radius: 16px;
+    padding-bottom: 32px;
+  }
+
+  .columns.columns-2-cols:not(:has(.columns-img-col), .navy, .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) > div > div:nth-child(2) {
+    margin-top: 0;
+  }
+}
+
+/* =========================================================
+ * Variant - Single-container accelerator with divider
+ * Simplicity: .columns.navy → navy container rgb(0,52,98)
+ * Any number of TILES IN ONE ROW: each is separated from the next by a
+ * white divider. Tiles may be icon+heading+description or a bare heading.
+ *
+ * A "dark"/black variant (Diamond Preferred) is not built yet — the page's
+ * light/dark treatment is decided later via page-level Metadata (template/
+ * theme), not a block color class. Every pdp-content page stays on a ligh
+ * (non-black) variant until that's in place.
+ *
+ * Detected structurally via :not(:has(> div + div)) — exactly ONE row —
+ * rather than by class, because Secured Mastercard ALSO authors
+ * "Columns (pdp-content, navy)" but as multiple rows (one tile per row,
+ * matching the pdp-content content shape). That shape keeps pdp-content's
+ * own "navy" color variant instead (see the Color variants section above).
+ * ========================================================= */
+.columns.navy:not(:has(> div + div)) > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-radius: 16px;
+  padding: 24px 16px;
+  background-color: rgb(0 52 98);
+}
+
+/* When combined with pdp-content (Simplicity authors "Columns (pdp-content,
+   navy)"), the row above is already the fully-styled box — strip the outer
+   pdp-content container's own background/padding/shadow so there's no
+   second, differently-shaded box nested around it. */
+.columns.pdp-content.navy:not(:has(> div + div)) {
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+/* Reset individual tile backgrounds and overlap from the default variant */
+.columns.navy:not(:has(> div + div)) > div > div {
+  background-color: transparent;
+  border-radius: 0;
+  padding: 16px 24px;
+  margin-top: 0;
+  color: rgb(255 255 255);
+}
+
+/* White divider between tiles (mobile: bottom border; desktop: right border) */
+.columns.navy:not(:has(> div + div)) > div > div:not(:last-child) {
+  border-bottom: 1px solid rgb(255 255 255);
+  padding-bottom: 16px;
+}
+
+.columns.navy:not(:has(> div + div)) h3 {
+  margin: 0 0 12px;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 42px;
+  color: rgb(255 255 255);
+}
+
+.columns.navy:not(:has(> div + div)) p {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 28px;
+  color: rgb(255 255 255);
+}
+
+.columns.navy:not(:has(> div + div)) p:last-child {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.columns.navy:not(:has(> div + div)) a {
+  color: rgb(255 255 255);
+  text-decoration: none;
+  vertical-align: super;
+  font-size: 0.7em;
+}
+
+/* Icon images placed inside headings — keep them small and inline */
+.columns.navy:not(:has(> div + div)) h3 img {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+@media (width >= 992px) {
+  .columns.navy:not(:has(> div + div)) > div {
+    flex-direction: row;
+    align-items: stretch;
+    padding: 24px;
+    gap: 0;
+  }
+
+  .columns.navy:not(:has(> div + div)) > div > div {
+    flex: 1;
+  }
+
+  /* Switch divider from bottom border to right border */
+  .columns.navy:not(:has(> div + div)) > div > div:not(:last-child) {
+    border-bottom: none;
+    border-right: 1px solid rgb(255 255 255);
+    padding-bottom: 16px;
+  }
+
+}
+
+/* Optional banner bar above a single-row "Columns (navy)" block: author a
+ * plain paragraph right before the block in the same section, and add
+ * Section Metadata "Style: navy" to that section. Squares off the tile
+ * box's top corners so the banner and tiles read as one seamless rounded
+ * container. */
+.section.navy > .default-content-wrapper > p {
+  margin: 0;
+  padding: 24px 40px;
+  border-radius: 16px 16px 0 0;
+  color: rgb(255 255 255);
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  background-color: rgb(5 109 174);
+}
+
+.section.navy > .default-content-wrapper + .columns-wrapper > .columns.navy:not(:has(> div + div)) > div {
+  border-radius: 0 0 16px 16px;
+}
+
+/* Secured Mastercard actually authors "Columns (pdp-content, navy)" (a row
+ * per tile, matching the pdp-content content shape) rather than the
+ * single-row dark/navy shape above. Same banner treatment, keyed off the
+ * actual DOM adjacency since no Section Metadata is required here. */
+.default-content-wrapper:has(+ .columns-wrapper .columns.pdp-content.navy) > p {
+  margin: 0;
+  padding: 24px 40px;
+  border-radius: 16px 16px 0 0;
+  background-color: rgb(5 109 174);
+  color: rgb(255 255 255);
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+}
+
+.default-content-wrapper:has(+ .columns-wrapper .columns.pdp-content.navy) + .columns-wrapper .columns.pdp-content.navy {
+  margin-top: 0;
+  border-radius: 0 0 16px 16px;
+}
+
+
+/* =========================================================
+ * Variant - AAdvantage rewards multiplier tiles
+ * One shared structural class + a color-recipe modifier, same convention
+ * as pdp-content's "Style: <color>" variants:
+ *   platinum : 4 tiles — red / slate / charcoal / red        (dark page bg)
+ *   executive: 3 tiles — dark-navy / charcoal / dark-navy    (dark page bg)
+ *   business : 4 tiles — blue / slate / charcoal / blue      (dark page bg)
+ *   mile-up  : 3 tiles — charcoal / teal / charcoal          (light page bg)
+ * Author types "Columns (aa-tiles, platinum)" etc. in da.live, or
+ * "Columns (aa-tiles)" + Section Metadata "Style: platinum".
+ * Mobile: same stacked-overlap pattern as the 2-tile accelerator.
+ * Desktop (≥992px): all tiles side-by-side with equal flex width, 24px gap.
+ * ========================================================= */
+
+/*
+ * AAdvantage tile structure (authored as 2-col table, 1 row per tile):
+ *   .columns.aa-tiles          → block, becomes the flex container for tiles
+ *   .columns.aa-tiles > div    → ONE TILE (row); gets background color + padding
+ *   .columns.aa-tiles > div > div → cells within a tile (multiplier | description)
+ */
+
+/* Block: tiles stacked on mobile */
+.columns.aa-tiles {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 48px;
+}
+
+/* Each row = one tile */
+.columns.aa-tiles > div {
+  display: flex;
+  flex-direction: column; /* multiplier above description */
+  gap: 4px;
+  padding: 24px 40px 56px; /* extra bottom for overlap peek */
+  border-radius: 16px 16px 0 0;
+  margin-top: -32px;
+  color: rgb(255 255 255);
+}
+
+.columns.aa-tiles > div:first-child {
+  margin-top: 0;
+}
+
+.columns.aa-tiles > div:last-child {
+  border-radius: 16px;
+  padding-bottom: 24px;
+}
+
+/* Cells: strip any inherited padding / flex sizing */
+.columns.aa-tiles > div > div {
+  flex: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+/* Multiplier number — first cell paragraph (body prefix matches rates-fees specificity) */
+body .columns.aa-tiles > div > div:first-child > p {
+  margin: 0 0 4px;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: rgb(255 255 255);
+}
+
+/* Description — second cell paragraph */
+body .columns.aa-tiles > div > div:last-child > p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.009rem;
+  color: rgb(255 255 255);
+}
+
+@media (width >= 992px) {
+  main > .section.columns-container .columns-wrapper .columns.aa-tiles {
+    margin-top: -80px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .columns.aa-tiles {
+    flex-direction: row;
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .columns.aa-tiles > div {
+    flex: 1;
+    flex-direction: column; /* keep multiplier above description */
+    border-radius: 16px;
+    padding: 24px;
+    margin-top: 0;
+  }
+}
+
+/* Color recipes — the only thing that differs per card */
+.columns.aa-tiles.platinum > div:nth-child(1) { background-color: rgb(230 30 39); }
+.columns.aa-tiles.platinum > div:nth-child(2) { background-color: rgb(80 101 124); }
+.columns.aa-tiles.platinum > div:nth-child(3) { background-color: rgb(38 41 43); }
+.columns.aa-tiles.platinum > div:nth-child(4) { background-color: rgb(230 30 39); }
+
+.columns.aa-tiles.executive > div:nth-child(odd)  { background-color: rgb(48 61 75); }
+.columns.aa-tiles.executive > div:nth-child(even) { background-color: rgb(52 52 52); }
+
+.columns.aa-tiles.business > div:nth-child(1) { background-color: rgb(0 98 151); }
+.columns.aa-tiles.business > div:nth-child(2) { background-color: rgb(80 101 124); }
+.columns.aa-tiles.business > div:nth-child(3) { background-color: rgb(38 41 43); }
+.columns.aa-tiles.business > div:nth-child(4) { background-color: rgb(0 98 151); }
+
+.columns.aa-tiles.mile-up > div:nth-child(odd)  { background-color: rgb(77 77 79); }
+.columns.aa-tiles.mile-up > div:nth-child(even) { background-color: rgb(0 108 104); }
 
 /* =========================================================
  * Variant - Rates & fees (credit-card-pdp) rendered as ONE-ROW-PER-TILE.
@@ -527,15 +1054,15 @@ body.credit-card-pdp .columns-container:has(.columns.pdp-content) {
  * and no image column. Scoped to the PDP body so it overrides the shared
  * accelerator rules above without disturbing the retail/citigold variants.
  * ========================================================= */
-body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) {
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) {
   display: flex;
   flex-direction: column;
   gap: 24px;
 }
 
-/* Each source row becomes a tile: reset the accelerator panel treatment
+/* Each source row becomes a tile: reset the accelerator panel treatmen
    (background/padding/radius/white text) and stack label+value then description. */
-body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div {
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) > div {
   display: flex;
   flex-direction: column;
   gap: 4px;
@@ -543,7 +1070,7 @@ body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> d
   border-bottom: 1px solid rgb(188 197 201);
 }
 
-body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div > div {
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) > div > div {
   display: block;
   padding: 0;
   border-radius: 0;
@@ -552,7 +1079,7 @@ body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> d
 }
 
 /* label (small, above the value) */
-body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) p {
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) p {
   margin: 0 0 8px;
   font-size: 12px;
   font-weight: 400;
@@ -562,7 +1089,7 @@ body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> d
 }
 
 /* value (the big number/heading) */
-body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) h3 {
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) h3 {
   margin: 0;
   font-size: 20px;
   font-weight: 700;
@@ -572,7 +1099,7 @@ body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> d
 }
 
 /* footnote superscript links stay inline, no button/underline treatment */
-body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) a:any-link {
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) a:any-link {
   color: rgb(58 62 64);
   text-decoration: none;
   vertical-align: super;
@@ -581,27 +1108,27 @@ body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> d
 
 @media (width >= 992px) {
   /* N tiles side by side with thin grey vertical dividers between them */
-  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) {
+  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) {
     flex-direction: row;
     align-items: stretch;
     padding-bottom: 24px;
   }
 
-  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div {
+  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) > div {
     flex: 1;
-    padding: 0 0 0 24px ;
+    padding: 0 0 0 24px;
     border-bottom: none;
   }
 
-  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div + div {
+  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) > div + div {
     border-left: 1px solid rgb(214 219 221);
   }
 
-  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div:last-child {
+  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) > div:last-child {
     padding-right: 0;
   }
 
-  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) p{
+  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content) p {
     margin: 0 0 8px;
   }
 }
@@ -610,7 +1137,7 @@ body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> d
  * Retail "REWARDS AND PROGRAM DETAILS" (credit-card-retail-pdp)
  * Source app-rewards-section .reward-section:
  *   LEFT  .text-container — .rw-title 1.25rem/1.625rem + body copy
- *   RIGHT .reward-feature.text-border — benefit lines, divider on left
+ *   RIGHT .reward-feature.text-border — benefit lines, divider on lef
  * Stacked on mobile (border on top); side-by-side from 768px
  * with equal flex columns and 3.75em gutters around the divider.
  * The retail apply band is the OTHER columns block (has .columns-img-col).
@@ -751,7 +1278,7 @@ body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) 
 }
 
 
-body.credit-card-retail-pdp .columns-wrapper:has(.columns-img-col) {
+body.credit-card-retail-pdp .columns-wrapper:has(.columns-img-col):not(:has(.pdp-content)) {
   box-sizing: border-box;
   width: 100%;
   max-width: 1520px;
@@ -760,12 +1287,12 @@ body.credit-card-retail-pdp .columns-wrapper:has(.columns-img-col) {
   padding-right: 5.33%;
 }
 
-body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) {
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) {
   margin: 24px 0;
   text-align: center;
 }
 
-body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) > div {
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) > div {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -776,7 +1303,7 @@ body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) > div 
   text-align: center;
 }
 
-body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) > div > div:not(.columns-img-col) {
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) > div > div:not(.columns-img-col) {
   display: contents;
   position: static;
   z-index: auto;
@@ -790,14 +1317,14 @@ body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) > div 
   backdrop-filter: none;
 }
 
-body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) > div > .columns-img-col {
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) > div > .columns-img-col {
   position: static;
   inset: auto;
   order: 2;
   margin: 0;
 }
 
-body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) img {
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) img {
   display: block;
   width: 222px;
   max-width: 100%;
@@ -807,7 +1334,7 @@ body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) img {
   object-fit: unset;
 }
 
-body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) h3 {
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) h3 {
   order: 1;
   margin: 0 0 8px;
   font-family: var(--heading-font-family);
@@ -819,7 +1346,7 @@ body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) h3 {
   text-align: center;
 }
 
-body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) p {
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) p {
   order: 3;
   display: block;
   width: 100%;
@@ -827,8 +1354,8 @@ body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) p {
   padding: 0;
 }
 
-body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a:any-link,
-body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a.button:any-link {
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) a:any-link,
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) a.button:any-link {
   display: inline-block;
   box-sizing: border-box;
   min-width: 220px;
@@ -848,10 +1375,10 @@ body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a.butt
   text-decoration: none;
 }
 
-body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a:any-link:hover,
-body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a.button:any-link:hover,
-body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a:any-link:focus-visible,
-body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a.button:any-link:focus-visible {
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) a:any-link:hover,
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) a.button:any-link:hover,
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) a:any-link:focus-visible,
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) a.button:any-link:focus-visible {
   background-color: var(--citi-retail-cta);
   border-color: var(--citi-retail-cta);
   color: #fff;
@@ -859,32 +1386,32 @@ body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a.butt
 }
 
 @media (width >= 768px) {
-  body.credit-card-retail-pdp .columns-wrapper:has(.columns-img-col) {
+  body.credit-card-retail-pdp .columns-wrapper:has(.columns-img-col):not(:has(.pdp-content)) {
     padding-left: 40px;
     padding-right: 40px;
   }
 
-  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) p {
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) p {
     width: auto;
     margin-left: auto;
     margin-right: auto;
   }
 
-  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a:any-link,
-  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a.button:any-link {
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) a:any-link,
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) a.button:any-link {
     width: auto;
   }
 }
 
 @media (width >= 1200px) {
-  body.credit-card-retail-pdp .columns-wrapper:has(.columns-img-col) {
+  body.credit-card-retail-pdp .columns-wrapper:has(.columns-img-col):not(:has(.pdp-content)) {
     padding-left: 5%;
     padding-right: 5%;
   }
 }
 
 @media (width >= 992px) {
-  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):has(h3) > div {
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content):has(h3) > div {
     position: static;
     display: flex;
     flex-direction: column;
@@ -894,20 +1421,20 @@ body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a.butt
     overflow: visible;
   }
 
-  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):has(h3) > div > .columns-img-col {
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content):has(h3) > div > .columns-img-col {
     position: static;
     inset: auto;
     margin: 0;
   }
 
-  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):has(h3) > div > .columns-img-col img {
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content):has(h3) > div > .columns-img-col img {
     width: 222px;
     height: auto;
     border-radius: 0;
     object-fit: unset;
   }
 
-  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):has(h3) > div > div:not(.columns-img-col) {
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content):has(h3) > div > div:not(.columns-img-col) {
     position: static;
     z-index: auto;
     width: auto;
@@ -920,7 +1447,7 @@ body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col) a.butt
 }
 
 /* start pale-blue columns-container */
-main .section.pale-blue{
+main .section.pale-blue {
   background:none;
 }
 
@@ -929,7 +1456,7 @@ display: flex;
 flex-direction: column;
 }
 
-.pale-blue .columns-img-col img{
+.pale-blue .columns-img-col img {
   width: 100%;
     height: auto;
     border-radius: 16px;
@@ -981,29 +1508,29 @@ body.credit-card-pdp .accordion-container.section.columns-container .columns-wra
     padding: 41px 0;
   }
 
-  body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper > div > div > div:last-child{
+  body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper > div > div > div:last-child {
     padding: 24px;
   }
 
 
-  body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper{
+  body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper {
   /* need to add image */
   background-color: #3B3B3D;
   border-radius: 16px;
   }
 
-  body.credit-card-pdp .accordion-container.section.columns-container .columns.columns-2-cols:has(.columns-img-col) h2{
+  body.credit-card-pdp .accordion-container.section.columns-container .columns.columns-2-cols:has(.columns-img-col) h2 {
     color: #fff;
     line-height: 45px;
     font-size: 36px;
     padding-right: 36px;
   }
 
-  body.credit-card-pdp .accordion-container.section.columns-container .columns p{
+  body.credit-card-pdp .accordion-container.section.columns-container .columns p {
     color: #fff;
   }
 
-  body.credit-card-pdp .accordion-container.section.columns-container .columns p:last-child{
+  body.credit-card-pdp .accordion-container.section.columns-container .columns p:last-child {
     font-size: 16px;
     line-height: 150%;
     letter-spacing: 0.16px;
@@ -1022,25 +1549,256 @@ body.credit-card-pdp .accordion-container.section.columns-container .columns-wra
         gap: 16px;
       }
 
-      body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper > div > div > div:last-child{
+      body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper > div > div > div:last-child {
         padding: 88px;
       }
 
-      body.credit-card-pdp .accordion-container.section.columns.columns-2-cols:has(.columns-img-col) > div > div > p:first-child{
-        padding:  8px 0;
+      body.credit-card-pdp .accordion-container.section.columns.columns-2-cols:has(.columns-img-col) > div > div > p:first-child {
+        padding: 8px 0;
       }
-      
 
-      body.credit-card-pdp .accordion-container.section.columns-container .columns.columns-2-cols:has(.columns-img-col) h2{
+
+      body.credit-card-pdp .accordion-container.section.columns-container .columns.columns-2-cols:has(.columns-img-col) h2 {
         padding-right: 260px;
         margin-bottom: 20px;
         font-size: 48px;
       }
 
-      body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper:has(> .columns > div > .columns-img-col > picture > img) > .columns > div > .columns-img-col > picture > img{
+      body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper:has(> .columns > div > .columns-img-col > picture > img) > .columns > div > .columns-img-col > picture > img {
         width: 379px;
         height: 320px;
       }
     }
 
+/*
+ Costco rewards tiles  (section style = "costco-rewards")
+*/
+
+.section.costco-rewards .costco-rewards-tiles {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.section.costco-rewards .costco-rewards-pair {
+  display: flex;
+  flex-direction: column;
+}
+
+.section.costco-rewards .costco-rewards-pair-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- tiles (mobile-first stacked overlap) --- */
+
+.section.costco-rewards .costco-rewards-pair-inner > div,
+.section.costco-rewards .costco-rewards-tiles > div:not(.costco-rewards-pair) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 1.5rem 2.5rem 3.5rem;
+  border-radius: 1rem 1rem 0 0;
+  margin-top: -2rem;
+  overflow: visible;
+  color: #fff;
+}
+
+.section.costco-rewards .costco-rewards-pair-inner > div:first-child {
+  margin-top: 0;
+}
+
+/* End-of-stack tiles (4% last in pair-inner, 1% last in tiles) */
+.section.costco-rewards .costco-rewards-pair-inner > div:last-child,
+.section.costco-rewards .costco-rewards-tiles > div:not(.costco-rewards-pair):last-child {
+  border-radius: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+.section.costco-rewards .costco-rewards-pair-inner > div:nth-child(1) { background-color: rgb(3 73 153); }
+.section.costco-rewards .costco-rewards-pair-inner > div:nth-child(2) { background-color: rgb(53 134 64); }
+.section.costco-rewards .costco-rewards-tiles > div:nth-child(2) { background-color: rgb(31 122 184); } /* 3% */
+.section.costco-rewards .costco-rewards-tiles > div:nth-child(3) { background-color: rgb(200 16 46); } /* 2% */
+.section.costco-rewards .costco-rewards-tiles > div:nth-child(4) { background-color: rgb(88 89 91); } /* 1% */
+
+.section.costco-rewards .columns-img-col {
+  line-height: 0;
+  flex-shrink: 0;
+  order: 0;
+  min-height: 45px;
+}
+
+.section.costco-rewards .columns-img-col img,
+.section.costco-rewards .columns-img-col picture {
+  height: 5rem;
+  width: auto;
+  object-fit: contain;
+  object-position: left center;
+  max-width: none;
+  display: block;
+}
+
+.section.costco-rewards .costco-rewards-pair-inner > div > div:not(.columns-img-col),
+.section.costco-rewards .costco-rewards-tiles > div:not(.costco-rewards-pair) > div:not(.columns-img-col) {
+  padding: 0;
+  order: 1;
+}
+
+.section.costco-rewards .costco-rewards-pair-inner > div > div:not(.columns-img-col) p,
+.section.costco-rewards .costco-rewards-tiles > div:not(.costco-rewards-pair) > div:not(.columns-img-col) p {
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.625rem;
+  letter-spacing: 0.013rem;
+  color: #fff;
+  margin: 0;
+}
+
+/* --- optional heading above tiles --- */
+
+.section.costco-rewards > .default-content-wrapper h2 {
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: rgb(38 41 43);
+  margin: 0 0 0.5rem;
+}
+
+.section.costco-rewards > .default-content-wrapper p {
+  font-size: 0.875rem;
+  color: rgb(58 62 64);
+  margin: 0 0 1.5rem;
+}
+
+/* --- benefits-explainer bracket --- */
+
+.section.costco-rewards .costco-rewards-explainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0 3rem; /* costco-cards: 16px 0 48px */
+}
+
+.section.costco-rewards .costco-rewards-explainer-left,
+.section.costco-rewards .costco-rewards-explainer-right {
+  align-self: stretch;
+  width: 30%;
+  border-bottom: 1.5px solid rgb(204 204 204);
+}
+
+.section.costco-rewards .costco-rewards-explainer-left {
+  border-left: 1.5px solid rgb(204 204 204);
+  border-bottom-left-radius: 12px;
+}
+
+.section.costco-rewards .costco-rewards-explainer-right {
+  border-right: 1.5px solid rgb(204 204 204);
+  border-bottom-right-radius: 12px;
+}
+
+.section.costco-rewards .costco-rewards-explainer-center {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 129%;
+  letter-spacing: 0.01em;
+  text-align: center;
+  color: rgb(102 102 102);
+  margin: 0;
+  flex: 1 1 auto;
+  padding: 0 0.5rem;
+}
+
+/* ≥768px — icon + text side-by-side inside each tile; still stacked */
+@media (width >= 768px) {
+  .section.costco-rewards .costco-rewards-pair-inner > div,
+  .section.costco-rewards .costco-rewards-tiles > div:not(.costco-rewards-pair) {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 2.875rem; /* 46px */
+  }
+
+  .section.costco-rewards .costco-rewards-pair-inner > div > div:not(.columns-img-col) p,
+  .section.costco-rewards .costco-rewards-tiles > div:not(.costco-rewards-pair) > div:not(.columns-img-col) p {
+    padding-bottom: 0.25rem; /* 4px */
+  }
+
+  .section.costco-rewards .costco-rewards-explainer-left,
+  .section.costco-rewards .costco-rewards-explainer-right {
+    width: 20%;
+  }
+}
+
+/* ≥992px — desktop 5-col grid: [5%|4%+explainer] | 3% | 2% | 1%
+ * Specificity must beat `.columns.columns-2-cols:has(.columns-img-col) > div`
+ * (gap: 48px; align-items: center) which also matches .costco-rewards-tiles.
+ */
+@media (width >= 992px) {
+  .section.costco-rewards .columns.columns-2-cols > .costco-rewards-tiles {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 24px; /* cards-marketing tile gap — not the 48px promo-banner gap */
+    align-items: stretch;
+  }
+
+  .section.costco-rewards .costco-rewards-pair {
+    grid-column: 1 / 3;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .section.costco-rewards .costco-rewards-pair-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: stretch;
+    flex: 1 1 auto;
+  }
+
+  .section.costco-rewards .costco-rewards-tiles > div:nth-child(2) { grid-column: 3; }
+  .section.costco-rewards .costco-rewards-tiles > div:nth-child(3) { grid-column: 4; }
+  .section.costco-rewards .costco-rewards-tiles > div:nth-child(4) { grid-column: 5; }
+
+  .section.costco-rewards .costco-rewards-pair-inner > div,
+  .section.costco-rewards .costco-rewards-tiles > div:not(.costco-rewards-pair) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-top: 0;
+    min-width: 0;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  .section.costco-rewards .costco-rewards-pair-inner > div:last-child,
+  .section.costco-rewards .costco-rewards-tiles > div:not(.costco-rewards-pair):last-child {
+    padding-bottom: 1.5rem;
+  }
+
+  .section.costco-rewards .costco-rewards-pair-inner > div > div:not(.columns-img-col) p,
+  .section.costco-rewards .costco-rewards-tiles > div:not(.costco-rewards-pair) > div:not(.columns-img-col) p {
+    padding-bottom: 0;
+  }
+
+  .section.costco-rewards .costco-rewards-explainer {
+    padding: 1rem 0 0.25rem; /* 16px 0 4px */
+  }
+
+  .section.costco-rewards .costco-rewards-explainer-left,
+  .section.costco-rewards .costco-rewards-explainer-right {
+    width: 45%;
+  }
+}
+
+/* ≥1200px — bracket arm width */
+@media (width >= 1200px) {
+  .section.costco-rewards .costco-rewards-explainer-left,
+  .section.costco-rewards .costco-rewards-explainer-right {
+    width: 35%;
+  }
+}
 /* stylelint-enable no-descending-specificity */
