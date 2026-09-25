@@ -9,6 +9,7 @@ const INDEX_URL = '/credit-card-index.json';
 const MAX_BENEFITS = 4;
 const MAX_COMPARE = 3;
 const MAX_CATEGORY_CARDS = 4;
+const SELECTION_KEY = 'compare-cards-selected';
 
 function createStatus(message, type = 'status') {
   const status = document.createElement('p');
@@ -100,6 +101,31 @@ function syncCompareUI(scope) {
   });
 }
 
+function getSharedSelection() {
+  try {
+    return JSON.parse(sessionStorage.getItem(SELECTION_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+// Checkboxes always render unchecked; this re-syncs them to whatever's
+// already in the shared selection (e.g. returning here after removing a
+// card on the tray/compare page) and dispatches 'change' so syncCompareUI
+// updates the "(n/3)" count and disabled state exactly as if the person
+// had clicked them.
+
+function restoreCompareSelection(block) {
+  const selected = new Set(getSharedSelection());
+  if (!selected.size) return;
+  block.querySelectorAll('.product-list-compare-input').forEach((box) => {
+    if (selected.has(box.dataset.comparePath)) {
+      box.checked = true;
+      box.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+  });
+}
+
 function createCompare(product, scope) {
   if (!product.comparable) return null;
 
@@ -110,6 +136,7 @@ function createCompare(product, scope) {
   input.type = 'checkbox';
   input.className = 'product-list-compare-input';
   input.setAttribute('aria-label', `Compare ${product.title}`);
+  input.dataset.comparePath = product.path;
   input.addEventListener('change', () => syncCompareUI(scope));
 
   const text = document.createElement('span');
@@ -480,6 +507,7 @@ export default async function decorate(block) {
     } else {
       renderProducts(block, products, offerValuesByPath);
     }
+    restoreCompareSelection(block);
   } catch (error) {
     block.replaceChildren(createStatus('Credit cards could not be loaded. Please try again later.', 'error'));
     // eslint-disable-next-line no-console

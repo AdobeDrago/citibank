@@ -1,6 +1,39 @@
+import getProducts from '../product-list/product-list-data.js';
+
 const VIEW_ALL_URL = '/credit-cards/view-all-credit-cards';
+const INDEX_URL = '/credit-card-index.json';
+// Static comparison content (About this card, Benefits, Annual Fee, APR,
+// Travel Perks, With This Card) for the sections below the header. Assigned
+// PURELY BY SLOT POSITION — slot 0 always gets this sheet's row 0, slot 1
+// always gets row 1, and so on — regardless of which real card (by path)
+// the person actually selected into that slot. This is intentional for
+// now: the header reflects the real selection, but the detailed comparison
+// content is fixed placeholder content per the current prototype scope.
 const CARD_DATA_URL = '/credit-cards/compare-card-data.json';
-const CARD_IDS = ['aa-platinum-select', 'strata-elite', 'aa-executive'];
+const MAX_SLOTS = 3;
+
+// Same key/format compare-tray.js writes when checkboxes change — kept as
+// its own inline copy here (rather than a shared module) to avoid an extra
+// file to wire up; if this key or JSON shape ever changes, update both
+// files together.
+const SELECTION_KEY = 'compare-cards-selected';
+
+function getSelection() {
+  try {
+    return JSON.parse(sessionStorage.getItem(SELECTION_KEY)) || [];
+  } catch {
+    return [];
+  }
+}
+
+function setSelection(paths) {
+  sessionStorage.setItem(SELECTION_KEY, JSON.stringify(paths));
+  document.dispatchEvent(new CustomEvent('compare-selection-changed', { detail: { paths } }));
+}
+
+function splitList(value) {
+  return (value || '').split('|').map((s) => s.trim()).filter(Boolean);
+}
 
 const CLOSE_ICON = `
   <svg class="compare-cards-close-icon" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false">
@@ -8,48 +41,68 @@ const CLOSE_ICON = `
   </svg>
 `;
 
-function splitList(value) {
-  return (value || '').split('|').map((s) => s.trim()).filter(Boolean);
+/**
+ * credit-card-index.json + getProducts() remains the source of truth for
+ * which cards exist and their header identity (title, image, path,
+ * applyUrl, comparable) — matched by product.path everywhere, same as
+ * product-list.js and compare-tray.js.
+ */
+async function fetchProducts() {
+  const res = await fetch(INDEX_URL);
+  if (!res.ok) throw new Error(`Failed to load ${INDEX_URL}`);
+  const json = await res.json();
+  return getProducts(json);
 }
 
-function rowToCard(row) {
+// Best-effort, ordered array (not keyed by anything) — a missing/unreachable
+// compare-card-data.json should not break the page; slots just render with
+// no static content below the header if this comes back empty.
+async function fetchCompareRows() {
+  try {
+    const res = await fetch(CARD_DATA_URL);
+    if (!res.ok) return [];
+    const json = await res.json();
+    return json.data || [];
+  } catch {
+    return [];
+  }
+}
+
+// The static content for a given slot position, cycling through the sheet's
+// rows if there are more slots than rows (harmless with the current 3
+// slots / 6 rows, but keeps this from breaking if either count changes).
+function staticContentForSlot(compareRows, slotIndex) {
+  if (!compareRows.length) return null;
+  const row = compareRows[slotIndex % compareRows.length];
   return {
-    id: row.id,
-    name: row.name,
-    image: row.image,
-    imageAlt: row.imageAlt,
-    applyUrl: row.applyUrl,
-    pricingUrl: row.pricingUrl,
-    about: {
-      title: row.aboutTitle,
-      body: row.aboutBody,
-    },
+    about: { title: row.aboutTitle || '', body: row.aboutBody || '' },
     benefits: splitList(row.benefits),
-    annualFee: splitList(row.annualFee),
+    annualFeeList: splitList(row.annualFee),
     apr: {
-      purchase: row.aprPurchase,
-      balanceTransferRate: row.aprBalanceTransferRate,
-      balanceTransferFee: row.aprBalanceTransferFee,
+      purchase: row.aprPurchase || '',
+      balanceTransferRate: row.aprBalanceTransferRate || '',
+      balanceTransferFee: row.aprBalanceTransferFee || '',
     },
     travelPerks: splitList(row.travelPerks),
     withThisCard: splitList(row.withThisCard),
   };
 }
 
-async function fetchCards() {
-  const res = await fetch(CARD_DATA_URL);
-  if (!res.ok) throw new Error(`Failed to load ${CARD_DATA_URL}`);
-  const json = await res.json();
-  const rows = json.data || [];
-  const byId = new Map(rows.map((row) => [row.id, row]));
-  return CARD_IDS
-    .map((id) => byId.get(id))
-    .filter(Boolean)
-    .map(rowToCard);
+function pickCards(products) {
+  const byPath = new Map(products.map((product) => [product.path, product]));
+  const selectedPaths = getSelection();
+  const selected = selectedPaths.map((path) => byPath.get(path)).filter(Boolean);
+
+  return selected.length
+    ? selected.slice(0, MAX_SLOTS)
+    // Nothing selected (e.g. direct navigation without going through the
+    // tray) — fall back to the first few comparable products rather than
+    // showing an empty page.
+    : products.filter((product) => product.comparable).slice(0, MAX_SLOTS);
 }
 
 function plainName(card) {
-  return card.name.replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ');
+  return (card.title || '').replace(/<[^>]+>/g, '').replace(/&nbsp;/g, ' ');
 }
 
 function buildCloseBtn(className, card) {
@@ -61,21 +114,32 @@ function buildCloseBtn(className, card) {
   return btn;
 }
 
+// Same marker/disclosure pattern as product-list.js's createDisclosure —
+// pricingInfo and additionalInfo are plain body text, not links, so these
+// render as inline expandable <details> rather than anchors to a URL the
+// shared index doesn't provide.
 function buildFootnotes(className, card) {
   const wrap = document.createElement('div');
   wrap.className = className;
 
-  const pricing = document.createElement('a');
-  pricing.href = card.pricingUrl;
-  pricing.target = '_blank';
-  pricing.rel = 'noopener';
-  pricing.innerHTML = '<span><sup aria-hidden="true">1</sup> Important Pricing &amp; Information +</span>';
+  const items = [
+    ['1', 'Important Pricing & Information', card.pricingInfo],
+    ['2', 'Additional Information', card.additionalInfo],
+  ].filter(([, , text]) => text);
 
-  const addInfo = document.createElement('a');
-  addInfo.href = '#';
-  addInfo.innerHTML = '<span><sup aria-hidden="true">2</sup> Additional Information +</span>';
+  items.forEach(([marker, label, text]) => {
+    const details = document.createElement('details');
+    const summary = document.createElement('summary');
+    const sup = document.createElement('sup');
+    sup.setAttribute('aria-hidden', 'true');
+    sup.textContent = marker;
+    summary.append(sup, ` ${label} +`);
+    const body = document.createElement('p');
+    body.textContent = text;
+    details.append(summary, body);
+    wrap.append(details);
+  });
 
-  wrap.append(pricing, addInfo);
   return wrap;
 }
 
@@ -110,6 +174,36 @@ function buildAddCardCell(slotIndex, lastRemoved) {
   return cell;
 }
 
+// Compact counterpart to buildAddCardCell, for the sticky bar's smaller
+// slots — same Add Card/Undo behavior (both handled by the delegated click
+// listener on `block`, so nothing extra to wire up here), different sizing.
+function buildStickyAddCardCell(slotIndex, lastRemoved) {
+  const cell = document.createElement('div');
+  cell.className = 'compare-cards-sticky-card compare-cards-sticky-add-card';
+  cell.dataset.slotIndex = slotIndex;
+
+  if (lastRemoved && lastRemoved.index === slotIndex) {
+    const undoBtn = document.createElement('button');
+    undoBtn.type = 'button';
+    undoBtn.className = 'compare-cards-undo compare-cards-sticky-undo';
+    undoBtn.textContent = 'Undo';
+    cell.append(undoBtn);
+  }
+
+  const title = document.createElement('p');
+  title.className = 'compare-cards-sticky-add-card-title';
+  title.textContent = 'Add a New Card to Compare';
+  cell.append(title);
+
+  const addBtn = document.createElement('a');
+  addBtn.className = 'compare-cards-add-card-btn compare-cards-sticky-add-card-btn';
+  addBtn.href = VIEW_ALL_URL;
+  addBtn.textContent = 'Add Card';
+  cell.append(addBtn);
+
+  return cell;
+}
+
 function buildHeader(slots, lastRemoved) {
   const header = document.createElement('div');
   header.className = 'compare-cards-header compare-cards-scroller';
@@ -122,19 +216,19 @@ function buildHeader(slots, lastRemoved) {
 
     const cell = document.createElement('div');
     cell.className = 'compare-cards-card';
-    cell.dataset.cardId = card.id;
+    cell.dataset.cardId = card.path;
 
     cell.append(buildCloseBtn('compare-cards-close', card));
 
     const name = document.createElement('h2');
     name.className = 'compare-cards-name';
-    name.innerHTML = card.name;
+    name.textContent = card.title;
     cell.append(name);
 
     const img = document.createElement('img');
     img.className = 'compare-cards-image';
     img.src = card.image;
-    img.alt = card.imageAlt;
+    img.alt = `${plainName(card)} card`;
     cell.append(img);
 
     const cta = document.createElement('a');
@@ -175,7 +269,7 @@ function buildTopicRow(label, slots, getContent, isFirst = false) {
     cell.className = 'compare-cards-topic-cell';
 
     if (card) {
-      cell.dataset.cardId = card.id;
+      cell.dataset.cardId = card.path;
       cell.innerHTML = getContent(card);
     } else {
       cell.classList.add('compare-cards-topic-cell-empty');
@@ -223,27 +317,24 @@ function buildDots(slots) {
   return nav;
 }
 
-function buildStickyBar(slots) {
+function buildStickyBar(slots, lastRemoved) {
   const bar = document.createElement('div');
   bar.className = 'compare-cards-sticky-bar compare-cards-scroller';
 
-  slots.forEach((card) => {
-    const cell = document.createElement('div');
-    cell.className = 'compare-cards-sticky-card';
-
+  slots.forEach((card, index) => {
     if (!card) {
-      cell.classList.add('compare-cards-sticky-card-empty');
-      cell.setAttribute('aria-hidden', 'true');
-      bar.append(cell);
+      bar.append(buildStickyAddCardCell(index, lastRemoved));
       return;
     }
 
-    cell.dataset.cardId = card.id;
+    const cell = document.createElement('div');
+    cell.className = 'compare-cards-sticky-card';
+    cell.dataset.cardId = card.path;
     cell.append(buildCloseBtn('compare-cards-sticky-close', card));
 
     const title = document.createElement('p');
     title.className = 'compare-cards-sticky-title';
-    title.innerHTML = card.name;
+    title.textContent = card.title;
     cell.append(title);
 
     const main = document.createElement('div');
@@ -252,7 +343,7 @@ function buildStickyBar(slots) {
     const img = document.createElement('img');
     img.className = 'compare-cards-sticky-image';
     img.src = card.image;
-    img.alt = card.imageAlt;
+    img.alt = `${plainName(card)} card`;
     main.append(img);
 
     const cta = document.createElement('a');
@@ -359,8 +450,12 @@ export default async function decorate(block) {
   block.textContent = '';
 
   let cards;
+  let compareRows;
   try {
-    cards = await fetchCards();
+    [cards, compareRows] = await Promise.all([
+      fetchProducts().then((products) => pickCards(products)),
+      fetchCompareRows(),
+    ]);
   } catch {
     block.textContent = 'Unable to load card comparison data.';
     return;
@@ -371,39 +466,53 @@ export default async function decorate(block) {
     return;
   }
 
+  // Pad up to MAX_SLOTS with nulls so a partial selection (e.g. only 2
+  // cards) still renders a full 3-column grid, with the missing slot(s)
+  // showing the same "Add a New Card to Compare" placeholder already used
+  // when a card is removed later, rather than a shrunken/empty column.
   const slots = cards.slice();
+  while (slots.length < MAX_SLOTS) slots.push(null);
+
   let lastRemoved = null;
 
   function render() {
-    const header = buildHeader(slots, lastRemoved);
-    const stickyBar = buildStickyBar(slots);
-    const dotsNav = buildDots(slots);
+    // Merge each real card's header identity with static content assigned
+    // purely by slot position (see staticContentForSlot) — this is what
+    // makes the About/Benefits/APR/etc. rows always show sheet content
+    // regardless of which actual card is in that slot.
+    const displaySlots = slots.map((card, i) => (
+      card ? { ...card, ...staticContentForSlot(compareRows, i) } : null
+    ));
 
-    const aboutRow = buildTopicRow('About this card', slots, (card) => `
-      <h3 class="rewards-title">${card.about.title}</h3>
-      <p class="about-content">${card.about.body}</p>
+    const header = buildHeader(displaySlots, lastRemoved);
+    const stickyBar = buildStickyBar(displaySlots, lastRemoved);
+    const dotsNav = buildDots(displaySlots);
+
+    const aboutRow = buildTopicRow('About this card', displaySlots, (card) => `
+      <h3 class="rewards-title">${card.about?.title || ''}</h3>
+      <p class="about-content">${card.about?.body || ''}</p>
     `, true);
 
-    const benefitsRow = buildTopicRow('Card Benefits', slots, (card) => `
-      <ul>${card.benefits.map((b) => `<li>${b}</li>`).join('')}</ul>
+    const benefitsRow = buildTopicRow('Card Benefits', displaySlots, (card) => `
+      <ul>${(card.benefits || []).map((b) => `<li>${b}</li>`).join('')}</ul>
     `);
 
-    const annualFeeRow = buildTopicRow('Annual Fee', slots, (card) => `
-      <ul class="annual-fee-list">${card.annualFee.map((f) => `<li>${f}</li>`).join('')}</ul>
+    const annualFeeRow = buildTopicRow('Annual Fee', displaySlots, (card) => `
+      <ul class="annual-fee-list">${(card.annualFeeList || []).map((f) => `<li>${f}</li>`).join('')}</ul>
     `);
 
-    const aprRow = buildTopicRow('APR', slots, (card) => `
-      <div class="apr-item"><h4>Purchase Rate</h4><p>${card.apr.purchase}</p></div>
-      <div class="apr-item"><h4>Balance Transfer Rate</h4><p>${card.apr.balanceTransferRate}</p></div>
-      <div class="apr-item"><h4>Balance Transfer Fee</h4><p>${card.apr.balanceTransferFee}</p></div>
+    const aprRow = buildTopicRow('APR', displaySlots, (card) => `
+      <div class="apr-item"><h4>Purchase Rate</h4><p>${card.apr?.purchase || ''}</p></div>
+      <div class="apr-item"><h4>Balance Transfer Rate</h4><p>${card.apr?.balanceTransferRate || ''}</p></div>
+      <div class="apr-item"><h4>Balance Transfer Fee</h4><p>${card.apr?.balanceTransferFee || ''}</p></div>
     `);
 
-    const travelPerksRow = buildTopicRow('Travel Perks', slots, (card) => `
-      <ul>${card.travelPerks.map((t) => `<li>${t}</li>`).join('')}</ul>
+    const travelPerksRow = buildTopicRow('Travel Perks', displaySlots, (card) => `
+      <ul>${(card.travelPerks || []).map((t) => `<li>${t}</li>`).join('')}</ul>
     `);
 
-    const withThisCardRow = buildTopicRow('With This Card, You Also Get', slots, (card) => `
-      <ul>${card.withThisCard.map((w) => `<li>${w}</li>`).join('')}</ul>
+    const withThisCardRow = buildTopicRow('With This Card, You Also Get', displaySlots, (card) => `
+      <ul>${(card.withThisCard || []).map((w) => `<li>${w}</li>`).join('')}</ul>
     `);
 
     const children = [stickyBar, buildTitle()];
@@ -429,10 +538,14 @@ export default async function decorate(block) {
     const closeBtn = event.target.closest('.compare-cards-close');
     if (closeBtn) {
       const { cardId } = closeBtn.closest('.compare-cards-card').dataset;
-      const index = slots.findIndex((c) => c && c.id === cardId);
+      const index = slots.findIndex((c) => c && c.path === cardId);
       if (index !== -1) {
         lastRemoved = { card: slots[index], index };
         slots[index] = null;
+        // Keep the shared selection in sync, so returning to the listing
+        // page reflects this removal instead of showing the tray/checkbox
+        // state from when this page first loaded.
+        setSelection(slots.filter(Boolean).map((card) => card.path));
         render();
       }
       return;
@@ -443,6 +556,7 @@ export default async function decorate(block) {
       if (lastRemoved) {
         slots[lastRemoved.index] = lastRemoved.card;
         lastRemoved = null;
+        setSelection(slots.filter(Boolean).map((card) => card.path));
         render();
       }
       return;

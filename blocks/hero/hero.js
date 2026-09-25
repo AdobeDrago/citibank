@@ -1,6 +1,59 @@
 import { getOfferSheetUrl, hydrateOfferValues } from '../../scripts/offer-sheet.js';
 
 /**
+ * Sticky apply bar for travel/cobrand credit-card PDPs.
+ * Placed before <footer> with position:sticky; bottom:0 so it sticks to the
+ * viewport bottom while scrolling and docks above the footer at page end.
+ * Uses hero card art, offer headline + supporting line, and Apply CTA.
+ * @param {Element} block
+ */
+function decoratePdpStickyBar(block) {
+  if (document.querySelector('.hero-sticky-bar')) return;
+
+  const ctaEl = block.querySelector('.button-container a');
+  const cardArtEl = block.querySelector('.hero-card-art picture');
+  if (!ctaEl || !cardArtEl) return;
+
+  const bar = document.createElement('div');
+  bar.className = 'hero-sticky-bar';
+
+  const inner = document.createElement('div');
+  inner.className = 'hero-sticky-bar-inner';
+
+  const imgWrap = document.createElement('div');
+  imgWrap.className = 'hero-sticky-bar-image';
+  imgWrap.append(cardArtEl.cloneNode(true));
+
+  const copy = document.createElement('p');
+  copy.className = 'hero-sticky-bar-copy';
+  const headline = block.querySelector('.hero-content h2');
+  const supporting = block.querySelector('.hero-supporting');
+  if (headline) copy.append(...headline.cloneNode(true).childNodes);
+  if (supporting) {
+    copy.append(document.createTextNode(' '));
+    copy.append(...supporting.cloneNode(true).childNodes);
+  }
+
+  const stickyBtn = document.createElement('a');
+  stickyBtn.href = ctaEl.href;
+  stickyBtn.textContent = ctaEl.textContent.trim();
+  stickyBtn.className = 'hero-sticky-bar-cta';
+
+  inner.append(imgWrap, copy, stickyBtn);
+  bar.append(inner);
+
+  const footer = document.querySelector('footer');
+  if (footer) footer.before(bar);
+  else document.body.append(bar);
+
+  const observer = new IntersectionObserver(
+    ([entry]) => bar.classList.toggle('is-visible', !entry.isIntersecting),
+    { threshold: 0 },
+  );
+  observer.observe(ctaEl);
+}
+
+/**
  * Hero block (credit-cards PDP feature hero).
  *
  * Authored structure: 2 rows.
@@ -96,10 +149,15 @@ export default function decorate(block) {
   if (texts[1]) texts[1].classList.add('hero-supporting');
   const disclaimer = texts[texts.length - 1];
   if (disclaimer && disclaimer !== texts[0]) disclaimer.classList.add('hero-disclaimer');
+  stats.push(...texts.slice(2, -1));
 
   // Stat paragraphs: <strong>value</strong> — label<sup>n</sup>.
   stats.forEach((p) => {
     p.classList.add('hero-stat');
+    // CSS cannot target part of a text node, so an unbolded value needs an element.
+    if (!p.querySelector('strong')) {
+      p.innerHTML = p.innerHTML.replace(/^\s*(\S+)/, '<strong>$1</strong>');
+    }
     const value = p.querySelector('strong');
     if (value) value.classList.add('hero-stat-value');
     // Strip the leading " — " separator from the first text node.
@@ -116,17 +174,29 @@ export default function decorate(block) {
     statsRow.append(...stats);
   }
 
-  // Link paragraphs, in document order: CTA first, then footnotes.
-  if (links[0]) {
-    links[0].classList.add('button-container');
-    const cta = links[0].querySelector('a');
+  // The value callout can be authored before the CTA, so classify each link by
+  // its visible role instead of relying on document order.
+  const valueCallout = links.find((p) => /over\s+\$[\d,]+\s+in\s+value/i.test(p.textContent));
+  const ctaParagraph = links.find((p) => /^apply\s+now$/i.test(p.textContent.trim())) || links[0];
+  if (valueCallout) {
+    valueCallout.classList.add('hero-value-callout');
+    // Joins the stat row so its border-left reads as a divider beside the fee.
+    content.querySelector('.hero-stats')?.append(valueCallout);
+  }
+
+  // Link paragraphs: the Apply now link is the CTA; remaining links are footnotes.
+  if (ctaParagraph) {
+    ctaParagraph.classList.add('button-container');
+    const cta = ctaParagraph.querySelector('a');
     if (cta) cta.classList.add('button', 'primary');
   }
   // The "Important Pricing & Terms Information +" link (retail) sits directly under
   // the CTA in the source; pull it out of the footnotes group so it can be placed
   // and styled on its own. Identified by its visible text.
-  const rest = links.slice(1);
-  const pricingLink = rest.find((p) => /important pricing/i.test(p.textContent));
+  const rest = links.filter((p) => p !== ctaParagraph && p !== valueCallout);
+  const pricingLink = document.body.classList.contains('credit-card-retail-pdp')
+    ? rest.find((p) => /important pricing/i.test(p.textContent))
+    : null;
   if (pricingLink) pricingLink.classList.add('hero-pricing-link');
   const footnotes = rest.filter((p) => p !== pricingLink);
   footnotes.forEach((p) => p.classList.add('hero-footnote'));
@@ -135,6 +205,10 @@ export default function decorate(block) {
     fnRow.className = 'hero-footnotes';
     content.insertBefore(fnRow, footnotes[0]);
     fnRow.append(...footnotes);
+  }
+
+  if (valueCallout && stats.length) {
+    content.querySelector('.hero-stats').append(valueCallout);
   }
 
   // Retail credit-card PDP variant: no background image and a two-column white
@@ -163,6 +237,11 @@ export default function decorate(block) {
   }
 
   hydrateOfferValues(block, sheetUrl);
+
+  if (document.body.classList.contains('credit-card-pdp')) {
+    decoratePdpStickyBar(block);
+    return;
+  }
 
   if (!document.body.classList.contains('credit-card-retail-pdp')) return;
   const ctaEl = block.querySelector('.button-container a');

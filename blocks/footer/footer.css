@@ -216,6 +216,10 @@ footer .footer-logo {
 
 /* ---------- Desktop (>= 900px) ---------- */
 @media (width >= 992px) {
+  footer {
+    margin: 0;
+  }
+
   footer .footer-inner {
     padding: 0;
   }

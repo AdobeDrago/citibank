@@ -53,17 +53,51 @@ a.category-nav-link:focus-visible {
   text-decoration: none;
 }
 
-.category-nav .category-nav-icon {
-  display: inline-flex;
+/*
+ * Category glyphs ship with the block rather than as authored assets: they are
+ * fixed UI furniture, and masking them keeps them on currentColor so the hover
+ * state applies. Items are matched by position, in the authored row order.
+ */
+.category-nav .category-nav-link::before {
+  content: '';
   width: 36px;
   height: 36px;
   flex: none;
+  background-color: currentcolor;
+  mask: var(--category-nav-glyph) center / contain no-repeat;
 }
 
-.category-nav .category-nav-icon img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
+/* The glyph replaces whatever icon art the row carried, if any. */
+.category-nav .category-nav-icon {
+  display: none;
+}
+
+.category-nav .category-nav-item:nth-child(1) .category-nav-link {
+  --category-nav-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.4'%3E%3Crect x='2.5' y='5.5' width='19' height='13' rx='2'/%3E%3Cpath d='M2.5 10h19M6 14.5h4'/%3E%3C/svg%3E");
+}
+
+.category-nav .category-nav-item:nth-child(2) .category-nav-link {
+  --category-nav-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.4' stroke-linecap='round'%3E%3Cpath d='M21.5 12V7.5a2 2 0 0 0-2-2h-15a2 2 0 0 0-2 2v9a2 2 0 0 0 2 2H12'/%3E%3Cpath d='M2.5 10h19'/%3E%3Cpath d='M20.5 18a3.5 3.5 0 1 1-1-4.4'/%3E%3Cpath d='M19.8 12.3v2.4h-2.4'/%3E%3C/svg%3E");
+}
+
+.category-nav .category-nav-item:nth-child(3) .category-nav-link {
+  --category-nav-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.4' stroke-linejoin='round'%3E%3Cpath d='M21.5 12.2c.5-.6.5-1.5 0-2.1a1.6 1.6 0 0 0-2-.3l-3.4 1.9-6.4-4.4-1.9.8 3.7 4.8-3.4 1.9-2.6-1-1.4.8 2.6 2.8.7 3.7 1.4-.8.4-2.7 3.4-1.9.6 6 1.9-.8.8-7.7z'/%3E%3C/svg%3E");
+}
+
+.category-nav .category-nav-item:nth-child(4) .category-nav-link {
+  --category-nav-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.4'%3E%3Crect x='2.5' y='6.5' width='19' height='11' rx='2'/%3E%3Cpath d='M14.5 6.5v11' stroke-dasharray='2 2'/%3E%3Cpath d='M5.5 10.5h5M5.5 13.5h3'/%3E%3C/svg%3E");
+}
+
+.category-nav .category-nav-item:nth-child(5) .category-nav-link {
+  --category-nav-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.4' stroke-linecap='round'%3E%3Cellipse cx='14.5' cy='12' rx='5.5' ry='7.5'/%3E%3Cpath d='M8 7.8c0-1-.9-1.8-2-1.8s-2 .8-2 1.8.9 1.5 2 1.9 2 .9 2 1.9-.9 1.8-2 1.8-2-.8-2-1.8'/%3E%3Cpath d='M6 4.5v11'/%3E%3C/svg%3E");
+}
+
+.category-nav .category-nav-item:nth-child(6) .category-nav-link {
+  --category-nav-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.4'%3E%3Crect x='2.5' y='6.5' width='19' height='11' rx='1.5'/%3E%3Ccircle cx='12' cy='12' r='2.6'/%3E%3Cpath d='M5.5 9.5v5M18.5 9.5v5'/%3E%3C/svg%3E");
+}
+
+.category-nav .category-nav-item:nth-child(7) .category-nav-link {
+  --category-nav-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.4' stroke-linejoin='round'%3E%3Cpath d='M4.5 7.5h15l-1.2 13H5.7z'/%3E%3Cpath d='M9 7.5V6a3 3 0 0 1 6 0v1.5'/%3E%3C/svg%3E");
 }
 
 .category-nav .category-nav-label {
@@ -77,3 +111,51 @@ a.category-nav-link:focus-visible {
     gap: 0;
   }
 }
+
+/* CSS Start For category nav  container */
+
+.section.category-nav-container .category-nav-wrapper{
+  margin: 0;
+}
+
+.section.category-nav-container .category-nav .category-nav-list {
+  margin: 0;
+  flex-direction: column;
+  justify-content: left;
+}
+
+.section.category-nav-container .category-nav .category-nav-list .category-nav-item a{
+  flex-direction: row;
+  gap: 12px;
+}
+
+@media (width >=992px) {
+  .section.category-nav-container .category-nav .category-nav-list {
+    flex-direction: row;
+    padding-top: 8px;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  /* Equal columns on the content grid: short labels sit on one line and only
+     the longest ("Balance Transfer Cards (4)") wrap, as in the source nav. */
+  .section.category-nav-container .category-nav .category-nav-item {
+    flex: 1 1 0;
+    min-width: 0;
+  }
+
+  /* Section is a column flex container, so the wrapper needs an explicit width
+     to fill it before max-width can cap and centre it on the content grid. */
+  .section.category-nav-container .category-nav-wrapper {
+    width: 100%;
+    max-width: 1140px;
+    margin: auto;
+  }
+
+  .section.category-nav-container .category-nav .category-nav-list .category-nav-item a {
+    flex-direction: column;
+  }
+
+}
+
+/* CSS End For category nav  container */

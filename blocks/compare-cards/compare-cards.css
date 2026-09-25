@@ -294,38 +294,6 @@ a.compare-cards-add-card-btn {
   color: #fff;
 }
 
-/* ===== Footnote links — matches live .card-information-links .link-para
- * Base (mobile): smaller size, no left padding.
- */
-.compare-cards-footnotes,
-.compare-cards-sticky-footnotes {
-  text-align: center;
-}
-
-.compare-cards-footnotes a:any-link,
-.compare-cards-sticky-footnotes a:any-link {
-  display: inline-block;
-  margin: 0;
-  padding-left: 0;
-  color: #056dae;
-  font-family: "Interstate_Light", Helvetica, sans-serif;
-  font-size: 11px;
-  letter-spacing: 0;
-  line-height: 18px;
-  text-align: center;
-  text-decoration: none;
-}
-
-.compare-cards-footnotes a:any-link sup,
-.compare-cards-sticky-footnotes a:any-link sup {
-  font-size: 0.75em;
-}
-
-.compare-cards-footnotes a:any-link:hover,
-.compare-cards-sticky-footnotes a:any-link:hover {
-  text-decoration: underline;
-}
-
 /* ===== Repeating topic rows =====
  * Base (mobile): 2-card flex scroller matching the header.
  */
@@ -489,6 +457,79 @@ a.compare-cards-add-card-btn {
   margin-bottom: 6px;
 }
 
+/*
+ * Footnotes — matches live .card-information-links .link-para in spirit,
+ * but as <details>/<summary> expandable text (pricingInfo/additionalInfo
+ * are plain strings from the shared product index, not URLs) rather than
+ * anchor tags. Placed after .compare-cards-topic-cell's rules so selectors
+ * of overlapping specificity stay in a consistent, ascending order.
+ * Base (mobile): smaller size.
+ */
+
+.compare-cards-footnotes,
+.compare-cards-sticky-footnotes {
+  text-align: center;
+}
+
+.compare-cards-footnotes details,
+.compare-cards-sticky-footnotes details {
+  margin: 0 0 4px;
+}
+
+.compare-cards-footnotes summary,
+.compare-cards-sticky-footnotes summary {
+  display: inline-block;
+  color: #056dae;
+  font-family: "Interstate_Light", Helvetica, sans-serif;
+  font-size: 11px;
+  letter-spacing: 0;
+  line-height: 18px;
+  text-align: center;
+  cursor: pointer;
+  list-style: none;
+}
+
+.compare-cards-footnotes summary::-webkit-details-marker,
+.compare-cards-sticky-footnotes summary::-webkit-details-marker {
+  display: none;
+}
+
+.compare-cards-footnotes summary:hover,
+.compare-cards-sticky-footnotes summary:hover {
+  text-decoration: underline;
+}
+
+.compare-cards-footnotes summary sup,
+.compare-cards-sticky-footnotes summary sup {
+  font-size: 0.75em;
+}
+
+.compare-cards-footnotes details p,
+.compare-cards-sticky-footnotes details p {
+  margin: 4px 0 0;
+  color: #151515;
+  font-family: "Interstate_Light", Helvetica, sans-serif;
+  font-size: 11px;
+  line-height: 16px;
+  text-align: left;
+}
+
+@media (width >= 768px) {
+  .compare-cards-footnotes summary,
+  .compare-cards-sticky-footnotes summary {
+    font-size: 12px;
+    line-height: 24px;
+  }
+}
+
+@media (width <= 1024px) {
+  .compare-cards-footnotes summary,
+  .compare-cards-sticky-footnotes summary {
+    font-size: 12px;
+    line-height: 18px;
+  }
+}
+
 /* ===== Sticky comparison bar =====
  * Base (mobile): 2-card flex scroller, title hidden.
  */
@@ -562,6 +603,62 @@ a.compare-cards-add-card-btn {
   object-fit: contain;
 }
 
+/* ===== Sticky bar's own Add Card/Undo (empty slot) — compact counterpart
+ * to .compare-cards-add-card above.
+ */
+.compare-cards-sticky-add-card {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+
+.compare-cards-sticky-add-card-title {
+  margin: 0;
+  font-family: "Interstate_Bold", Helvetica, sans-serif;
+  font-size: 12px;
+  color: #333;
+  font-weight: 700;
+  text-align: center;
+  line-height: 16px;
+}
+
+.compare-cards-sticky-undo {
+  position: absolute;
+  top: 4px;
+  left: 6px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #056dae;
+  font-family: "Interstate_Bold", Helvetica, sans-serif;
+  font-size: 11px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.compare-cards-sticky-undo:hover {
+  color: #034c81;
+}
+
+a.compare-cards-sticky-add-card-btn {
+  display: inline-block;
+  padding: 12px 20px;
+  border: 1px solid #333;
+  border-radius: 5px;
+  background: transparent;
+  color: #000;
+  font-family: "Interstate_Bold", Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
 /* =========================================================================
  * Tablet and up (min-width: 768px): full 3-column grid layout, dots hidden.
  * ========================================================================= */
@@ -602,6 +699,20 @@ a.compare-cards-add-card-btn {
     overflow: visible;
   }
 
+  .compare-cards-sticky-add-card {
+    gap: 16px;
+  }
+
+  .compare-cards-sticky-add-card-title {
+    font-size: 14px;
+    margin-bottom: 4px;
+  }
+
+  a.compare-cards-sticky-add-card-btn {
+    padding: 16px 28px;
+    font-size: 14px;
+  }
+
   .compare-cards-name {
     margin: 0;
     min-height: 48px;
@@ -628,13 +739,6 @@ a.compare-cards-add-card-btn {
   .compare-cards-sticky-cta:any-link {
     padding: 8px 16px;
     font-size: 13px;
-  }
-
-  .compare-cards-footnotes a:any-link,
-  .compare-cards-sticky-footnotes a:any-link {
-    padding-left: 10px;
-    font-size: 12px;
-    line-height: 24px;
   }
 
   .compare-cards-topic-label-wrap {
@@ -668,14 +772,6 @@ a.compare-cards-add-card-btn {
     text-overflow: ellipsis;
     white-space: nowrap;
     max-width: 100%;
-  }
-}
-
-@media (width <= 1024px) {
-  .compare-cards-footnotes a:any-link,
-  .compare-cards-sticky-footnotes a:any-link {
-    font-size: 12px;
-    line-height: 18px;
   }
 }
 
