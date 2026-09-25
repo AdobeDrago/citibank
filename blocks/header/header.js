@@ -61,6 +61,16 @@ const loadNavFragment = () => loadNavFragmentNamed('nav');
  *   <p><img Citigold></p>                   → Citigold brand mark (right)
  * No nav items / mega-menu — a static branded bar.
  */
+function isBrandLogoParagraph(p) {
+  const img = p.querySelector('img');
+  if (!img) return false;
+  const alt = (img.getAttribute('alt') || '').trim();
+  if (/^citi$/i.test(alt)) return true;
+  if (alt) return false;
+  const text = p.textContent.replace(/\s+/g, ' ').trim();
+  return !text && !!p.querySelector('picture, img');
+}
+
 function renderCbolHeader(block, frag) {
   const section = [...frag.children].find((el) => el.tagName === 'DIV') || frag;
   const paras = [...section.querySelectorAll(':scope > p')];
@@ -78,9 +88,15 @@ function renderCbolHeader(block, frag) {
   mark.className = 'nav-cbol-mark';
 
   paras.forEach((p) => {
-    if (p.querySelector('img[alt="Citi" i]')) brand.append(p);
-    else if (p.querySelector('img[alt="Citigold" i]')) mark.append(p);
-    else fdic.append(p);
+    if (isBrandLogoParagraph(p)) {
+      const img = p.querySelector('img');
+      if (img && !(img.getAttribute('alt') || '').trim()) img.setAttribute('alt', 'Citi');
+      brand.append(p);
+    } else if (p.querySelector('img[alt="Citigold" i]')) {
+      mark.append(p);
+    } else {
+      fdic.append(p);
+    }
   });
 
   nav.append(brand, fdic, mark);
