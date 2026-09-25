@@ -369,7 +369,6 @@ body.credit-card-retail-pdp .cards .cards-card-body:has(p br) h3 ~ p ~ p {
   padding: 16px 2% 25px;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
 .section.landing-bonus .cards-wrapper + .default-content-wrapper p {
   font-size: 12px;
   color: #555;
@@ -385,7 +384,6 @@ body.credit-card-retail-pdp .cards .cards-card-body:has(p br) h3 ~ p ~ p {
   display: none;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
 .section.landing-bonus .cards > ul {
   display: block;
   list-style: none;
@@ -395,7 +393,6 @@ body.credit-card-retail-pdp .cards .cards-card-body:has(p br) h3 ~ p ~ p {
   position: relative;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
 .section.landing-bonus .cards > ul > li {
   display: flex;
   flex-direction: row;
@@ -415,7 +412,6 @@ body.credit-card-retail-pdp .cards .cards-card-body:has(p br) h3 ~ p ~ p {
   padding-bottom: 0;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
 .section.landing-bonus .cards > ul > li::before {
   content: '';
   display: block;
@@ -452,7 +448,7 @@ body.credit-card-retail-pdp .cards .cards-card-body:has(p br) h3 ~ p ~ p {
   background-color: #0f1632;
   z-index: 0;
 }
-/* stylelint-disable-next-line no-descending-specificity */
+
 .section.landing-bonus .cards .cards-card-body {
   padding: 0;
   margin-left: 10px;
@@ -460,7 +456,6 @@ body.credit-card-retail-pdp .cards .cards-card-body:has(p br) h3 ~ p ~ p {
   flex: 1;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
 .section.landing-bonus .cards .cards-card-body p:first-child {
   color: #8e6f32;
   font-size: 14px;
@@ -470,7 +465,6 @@ body.credit-card-retail-pdp .cards .cards-card-body:has(p br) h3 ~ p ~ p {
   margin-bottom: 15px;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
 .section.landing-bonus .cards .cards-card-body p:nth-child(2) {
   font-size: 18px;
   font-weight: 400;
@@ -485,7 +479,6 @@ body.credit-card-retail-pdp .cards .cards-card-body:has(p br) h3 ~ p ~ p {
   font-weight: 400;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
 .section.landing-bonus .cards .cards-card-body p:nth-child(3) {
   color: #0f1632;
   font-size: 13px;
@@ -503,13 +496,11 @@ body.credit-card-retail-pdp .cards .cards-card-body:has(p br) h3 ~ p ~ p {
     width: 644px;
   }
 
-  /* stylelint-disable-next-line no-descending-specificity */
   .section.landing-bonus .cards > ul {
     width: 73%;
     padding: 40px 0 15px;
   }
 
-  /* stylelint-disable-next-line no-descending-specificity */
   .section.landing-bonus .cards > ul > li::before {
     width: 44px;
     height: 44px;
@@ -520,30 +511,25 @@ body.credit-card-retail-pdp .cards .cards-card-body:has(p br) h3 ~ p ~ p {
     top: 44px;
   }
 
-  /* stylelint-disable-next-line no-descending-specificity */
   .section.landing-bonus .cards .cards-card-body {
     margin-left: 20px;
     max-width: 90%;
   }
 
-  /* stylelint-disable-next-line no-descending-specificity */
   .section.landing-bonus .cards .cards-card-body p:first-child {
     margin-bottom: 10px;
   }
 
-  /* stylelint-disable-next-line no-descending-specificity */
   .section.landing-bonus .cards .cards-card-body p:nth-child(2) {
     margin: 0;
     width: auto;
   }
 
-  /* stylelint-disable-next-line no-descending-specificity */
   .section.landing-bonus .cards .cards-card-body p:nth-child(3) {
     padding-bottom: 40px;
     margin: 8px 0 15px;
   }
 
-  /* stylelint-disable-next-line no-descending-specificity */
   .section.landing-bonus .cards > ul > li:last-child .cards-card-body p:nth-child(3) {
     margin: 8px 0 0;
     padding-bottom: 0;
@@ -563,7 +549,6 @@ body.credit-card-retail-pdp .cards .cards-card-body:has(p br) h3 ~ p ~ p {
     padding: 0 80px 25px;
   }
 
-  /* stylelint-disable-next-line no-descending-specificity */
   .section.landing-bonus .cards > ul {
     display: flex;
     justify-content: space-between;
@@ -580,38 +565,32 @@ body.credit-card-retail-pdp .cards .cards-card-body:has(p br) h3 ~ p ~ p {
     height: 1px;
   }
 
-  /* stylelint-disable-next-line no-descending-specificity */
   .section.landing-bonus .cards > ul > li {
     flex-direction: column;
     width: 33.3%;
     align-items: flex-start;
   }
 
-  /* stylelint-disable-next-line no-descending-specificity */
   .section.landing-bonus .cards > ul > li::before {
     width: 34px;
     height: 34px;
     margin-bottom: 0;
   }
 
-  /* stylelint-disable-next-line no-descending-specificity */
   .section.landing-bonus .cards .cards-card-body {
     margin-left: 0;
     max-width: 100%;
   }
 
-  /* stylelint-disable-next-line no-descending-specificity */
   .section.landing-bonus .cards .cards-card-body p:first-child {
     margin: 6px 0 20px;
   }
 
-  /* stylelint-disable-next-line no-descending-specificity */
   .section.landing-bonus .cards .cards-card-body p:nth-child(2) {
     width: 122px;
     margin: 0;
   }
 
-  /* stylelint-disable-next-line no-descending-specificity */
   .section.landing-bonus .cards .cards-card-body p:nth-child(3) {
     padding-bottom: 0;
     width: 223px;
