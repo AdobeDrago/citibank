@@ -60,6 +60,22 @@
 
   /* nav height */
   --nav-height: 64px;
+
+  /*
+   * Multi-brand token contract. Each brand overrides these in
+   * styles/{brand}/{brand}.css, scoped to its own [data-brand] value, so the files can
+   * never collide. Block CSS should reach for these rather than hardcoding colours,
+   * fonts or radii - a brand override is then enough to restyle a shared block without
+   * forking it (see the promotion test in docs/multi-brand.md).
+   *
+   * Defaults must be literal values, not var() references to tokens a brand file
+   * overrides, or the two become circular.
+   */
+  --brand-primary: #255be3;
+  --brand-secondary: #0f1632;
+  --brand-font-heading: "Citi Sans Display", citi-sans-display-fallback, sans-serif;
+  --brand-logo-url: none;
+  --brand-radius: 100px;
 }
 
 /*

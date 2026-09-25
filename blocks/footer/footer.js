@@ -9,13 +9,17 @@
 import { decorateBlock, loadBlock } from '../../scripts/aem.js';
 
 /**
- * cbol landing pages (banking.citi.com/cbol/…) ship a distinct compact legal
- * footer — logo, a single row of legal links, social icons, and FDIC/Equal
- * Housing badges — rather than the retail mega-footer with link columns.
- * Detect those pages (localhost preview /content/cbol/… and DA/EDS prod /cbol/…).
+ * The banking brand (banking.citi.com, served by the banking-citibank site) ships a
+ * distinct compact legal footer — logo, a single row of legal links, social icons, and
+ * FDIC/Equal Housing badges — rather than the retail mega-footer with link columns.
+ *
+ * Brand-based, not path-based: scripts/brand.js resolves the brand once, from the
+ * hostname or its explicit content-path map, and stamps it on <html data-brand>. Keeping
+ * that decision in one module means this block does not need to know which hostnames or
+ * paths belong to which brand.
  */
-function isCbolPage() {
-  return /(^|\/)(content\/)?cbol(\/|$)/i.test(window.location.pathname);
+function isBankingBrand() {
+  return document.documentElement.dataset.brand === 'banking';
 }
 
 /**
@@ -113,7 +117,7 @@ export default async function decorate(block) {
   block.textContent = '';
 
   // cbol landing pages get a distinct compact legal footer from their fragment.
-  if (isCbolPage()) {
+  if (isBankingBrand()) {
     const cbolFrag = await loadFooterFragmentNamed('cbol-footer');
     if (cbolFrag) {
       block.classList.add('footer-cbol');
