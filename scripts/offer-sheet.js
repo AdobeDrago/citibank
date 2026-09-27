@@ -53,8 +53,8 @@ function readCookie(name, cookieSource) {
 }
 
 /**
- * Reads the offer segment tab from the ecid cookie (e.g. ecid=seg-a).
- * Falls back to ?ecid= when the cookie is not set.
+ * Reads the offer segment tab from the ecid cookie (e.g. ecid=seg-a|seg-b|seg-c).
+ * Falls back to ?ecid= when the cookie is not set. Empty means the `default` tab.
  * @returns {string}
  */
 export function getEcid() {
@@ -81,8 +81,8 @@ function pageNameOf(row) {
 }
 
 /**
- * Picks the workbook tab for the ecid cookie / ?ecid= (seg-a, seg-b).
- * First tab if missing.
+ * Picks the workbook tab for the ecid cookie / ?ecid= (seg-a, seg-b, seg-c).
+ * Anonymous / unmatched → `default`; last resort → first tab.
  * @param {object} json
  * @param {string} ecid
  * @returns {object}
@@ -95,9 +95,11 @@ function getSegmentSheet(json, ecid) {
   const names = Array.isArray(json[':names'])
     ? json[':names']
     : Object.keys(json).filter((key) => !key.startsWith(':'));
+  const findTab = (wanted) => (
+    wanted ? names.find((name) => normalizeName(name) === wanted) : null
+  );
   const wanted = normalizeName(ecid);
-  const match = wanted ? names.find((name) => normalizeName(name) === wanted) : null;
-  const name = match || names[0];
+  const name = findTab(wanted) || findTab('default') || names[0];
   return (name && json[name] && typeof json[name] === 'object') ? json[name] : json;
 }
 
@@ -151,9 +153,10 @@ function rowToValues(row) {
 
 /**
  * Maps a Franklin/DA sheet payload to camelCase keys.
- * Shared workbook: the ecid cookie (or ?ecid=) selects the tab (seg-a, seg-b);
- * Page Name selects the card matching `slug`. Also supports a legacy Ecid
- * column, Key/Value rows, and a single row of named columns.
+ * Shared workbook: the ecid cookie (or ?ecid=) selects the tab (seg-a, seg-b,
+ * seg-c); missing or unmatched ecid uses the `default` tab. Page Name selects
+ * the card matching `slug`. Also supports a legacy Ecid column, Key/Value
+ * rows, and a single row of named columns.
  * @param {object} json
  * @param {string} [slug] Page slug to match against a Page Name column. Defaults
  *   to the current page (getPageSlug()); callers resolving values for OTHER
