@@ -478,6 +478,15 @@ body.credit-card-pdp main > .section:has(.cards) > div > h2 {
   font-size: 36px;
 }
 
+body.credit-card-pdp .section.columns-container {
+  padding: 0 12px;
+  margin: 24px auto;
+}
+
+body.credit-card-pdp .section.columns-container > div {
+  padding: 0;
+}
+
 body.credit-card-retail-pdp strong,
 body.credit-card-retail-pdp b {
   font-family: var(--bold-font-family);
