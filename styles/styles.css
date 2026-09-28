@@ -478,6 +478,15 @@ body.credit-card-pdp main > .section:has(.cards) > div > h2 {
   font-size: 36px;
 }
 
+body.credit-card-pdp .section.columns-container {
+  padding: 0 12px;
+  margin: 24px auto;
+}
+
+body.credit-card-pdp .section.columns-container > div {
+  padding: 0;
+}
+
 body.credit-card-retail-pdp strong,
 body.credit-card-retail-pdp b {
   font-family: var(--bold-font-family);
@@ -3016,7 +3025,7 @@ body.auth-authenticated [data-auth='authenticated'] { display: block; }
 
 /* CSS Start For citi---aadvantage--globe--mastercard--pricing-details  */
 /* stylelint-disable no-descending-specificity */
-.section:has(> .default-content-wrapper > h3 ~ p ~ ul) {
+body.credit-card-pdp .section:has(> .default-content-wrapper > h3 ~ p ~ ul) {
   margin-top: 24px;
   padding: 48px 0;
   margin-bottom: 0;
@@ -3026,12 +3035,12 @@ body.auth-authenticated [data-auth='authenticated'] { display: block; }
   font-size: 24px;
 }
 
-.section>.default-content-wrapper:has(> h3, > p, > ul)>p {
+body.credit-card-pdp .section>.default-content-wrapper:has(> h3, > p, > ul)>p {
   font-size: 14px;
   margin: 0 0 8px;
 }
 
-.section>.default-content-wrapper:has(> h3, > p, > ul)>ul {
+body.credit-card-pdp .section>.default-content-wrapper:has(> h3, > p, > ul)>ul {
   display: flex;
   flex-direction: column;
   gap: 24px;
@@ -3044,11 +3053,11 @@ body.auth-authenticated [data-auth='authenticated'] { display: block; }
 /* stylelint-enable no-descending-specificity */
 
 @media (width >=992px) {
-  .section .default-content-wrapper:has(> h3):has(> p):has(> ul) {
+  body.credit-card-pdp .section .default-content-wrapper:has(> h3):has(> p):has(> ul) {
     padding: 0 40px;
   }
 
-  .section>.default-content-wrapper:has(> h3, > p, > ul)>ul {
+  body.credit-card-pdp .section>.default-content-wrapper:has(> h3, > p, > ul)>ul {
     flex-direction: row;
     padding: 0;
   }
@@ -3058,7 +3067,7 @@ body.auth-authenticated [data-auth='authenticated'] { display: block; }
 
 /* CSS Start For category nav default container */
 
-.section.category-nav-container {
+body.credit-card-pdp .section.category-nav-container {
   display: flex;
   gap: 24px;
   padding: 48px 36px;
@@ -3067,7 +3076,7 @@ body.auth-authenticated [data-auth='authenticated'] { display: block; }
 }
 
 @media (width >=992px) {
-  .section.category-nav-container .default-content-wrapper {
+  body.credit-card-pdp .section.category-nav-container .default-content-wrapper {
     letter-spacing: 14px;
     text-transform: uppercase;
   }
