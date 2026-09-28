@@ -25,6 +25,18 @@ function toId(text, i) {
   return `primary-benefits-detail-${slug || i}`;
 }
 
+function setToggleLabel(toggle, label, expanded) {
+  const verb = expanded ? 'Close' : 'View';
+  toggle.setAttribute('aria-label', `${verb} additional information about ${label}`);
+}
+
+function setExpanded(tile, toggle, detail, label, expanded) {
+  toggle.setAttribute('aria-expanded', String(expanded));
+  setToggleLabel(toggle, label, expanded);
+  detail.hidden = !expanded;
+  tile.classList.toggle('primary-benefits-tile-open', expanded);
+}
+
 export default function decorate(block) {
   const ul = document.createElement('ul');
   ul.className = 'primary-benefits-list';
@@ -35,10 +47,13 @@ export default function decorate(block) {
     const li = document.createElement('li');
     li.className = 'primary-benefits-tile';
 
-    // image (background photo)
-    if (imageCell) {
+    // image (background photo) — omit empty cells; solid blue fallback when no photo
+    const hasImage = imageCell && imageCell.querySelector('img, picture');
+    if (hasImage) {
       imageCell.className = 'primary-benefits-image';
       li.append(imageCell);
+    } else {
+      li.classList.add('primary-benefits-tile-no-image');
     }
 
     // overlaid content (heading + optional toggle + detail)
@@ -53,25 +68,20 @@ export default function decorate(block) {
     const label = headingCell ? headingCell.textContent.trim() : `benefit ${i + 1}`;
     const hasDetail = detailCell && detailCell.textContent.trim() !== '';
     if (hasDetail) {
-      // Interactive "+" toggle that expands the detail (progressive disclosure).
       const detailId = toId(headingCell ? headingCell.textContent : '', i);
 
       const toggle = document.createElement('button');
       toggle.className = 'primary-benefits-toggle';
       toggle.type = 'button';
-      toggle.setAttribute('aria-expanded', 'false');
       toggle.setAttribute('aria-controls', detailId);
-      toggle.setAttribute('aria-label', `View additional information about ${label}`);
+      setExpanded(li, toggle, detailCell, label, false);
 
       detailCell.className = 'primary-benefits-detail';
       detailCell.id = detailId;
-      detailCell.hidden = true;
 
       toggle.addEventListener('click', () => {
         const expanded = toggle.getAttribute('aria-expanded') === 'true';
-        toggle.setAttribute('aria-expanded', String(!expanded));
-        detailCell.hidden = expanded;
-        li.classList.toggle('primary-benefits-tile--open', !expanded);
+        setExpanded(li, toggle, detailCell, label, !expanded);
       });
 
       content.append(toggle);
