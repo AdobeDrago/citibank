@@ -1,3 +1,15 @@
+@font-face {
+  font-family: "citigold-text-regular";
+  src: url("/fonts/Citi-Sans-Text-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "citigold-text-bold";
+  src: url("/fonts/Citi-Sans-Text-Bold.woff2") format("woff2");
+  font-display: swap;
+}
+
 /* Citi footer — dark charcoal mega-footer. Mobile-first; min-width breakpoints only.
    Bands: link columns (accordion on mobile, 5-col grid on desktop), app/social,
    copyright + legal links, legal disclosures + logo. */
@@ -212,6 +224,10 @@ footer .footer-logo {
   padding-top: 35px;
 }
 
+.citigold-landing footer {
+    margin: 0;
+  }
+
   /* stylelint-enable no-descending-specificity */
 
 /* ---------- Desktop (>= 900px) ---------- */
@@ -387,6 +403,7 @@ footer .footer-cbol-legal a {
   color: #fff;
   font-size: 14px; /* 0.875rem */
   font-weight: 400;
+  font-family: "citigold-text-bold", Helvetica, sans-serif;
   line-height: 14px;
   padding: 1px;
   text-decoration: none;
@@ -442,6 +459,7 @@ footer .footer-cbol-disclosures h4 {
 footer .footer-cbol-disclosures p {
   margin: 1em 0 0;
   font-size: 14px;
+  font-family: "citigold-text-regular", Helvetica, sans-serif;
   line-height: 1.5;
   color: #fff;
 }
@@ -452,6 +470,7 @@ footer .footer-cbol-disclosures p:first-child { margin-top: 0; }
 footer .footer-cbol-disclosures > p:first-child {
   font-weight: 700;
   font-style: italic;
+  font-family: "citigold-text-bold", Helvetica, sans-serif;
 }
 
 footer .footer-cbol-disclosures > p:first-child strong {
