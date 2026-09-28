@@ -6,6 +6,26 @@ const TOKEN_RE = /\{\{\s*([A-Za-z0-9 _-]+)\s*\}\}/g;
 export const SHARED_SHEET_PATH = '/credit-cards/offerpricingpositioning.json';
 
 /**
+ * DA workbook tabs to request. A tab named `default` makes the bare `.json`
+ * URL single-sheet; `?sheet=` is required to load segment tabs as multi-sheet.
+ * @see https://www.aem.live/developer/spreadsheets
+ */
+const OFFER_SHEET_TABS = ['default', 'seg-a', 'seg-b', 'seg-c'];
+
+/**
+ * Appends `?sheet=` params so EDS returns all segment tabs as multi-sheet.
+ * @param {string} sheetUrl
+ * @returns {string}
+ */
+function withOfferSheetParams(sheetUrl) {
+  const url = new URL(sheetUrl, window.location.origin);
+  if (!url.searchParams.has('sheet')) {
+    OFFER_SHEET_TABS.forEach((name) => url.searchParams.append('sheet', name));
+  }
+  return `${url.pathname}${url.search}`;
+}
+
+/**
  * Reads an authored sheet URL from a block (if present) and removes that
  * link so it is not treated as a CTA. Falls back to the shared credit-cards
  * offerpricingpositioning workbook.
@@ -53,8 +73,8 @@ function readCookie(name, cookieSource) {
 }
 
 /**
- * Reads the offer segment tab from the ecid cookie (e.g. ecid=seg-a).
- * Falls back to ?ecid= when the cookie is not set.
+ * Reads the offer segment tab from the ecid cookie (e.g. ecid=seg-a|seg-b|seg-c).
+ * Falls back to ?ecid= when the cookie is not set. Empty means the `default` tab.
  * @returns {string}
  */
 export function getEcid() {
@@ -81,8 +101,8 @@ function pageNameOf(row) {
 }
 
 /**
- * Picks the workbook tab for the ecid cookie / ?ecid= (seg-a, seg-b).
- * First tab if missing.
+ * Picks the workbook tab for the ecid cookie / ?ecid= (seg-a, seg-b, seg-c).
+ * Anonymous / unmatched → `default`; last resort → first tab.
  * @param {object} json
  * @param {string} ecid
  * @returns {object}
@@ -95,9 +115,11 @@ function getSegmentSheet(json, ecid) {
   const names = Array.isArray(json[':names'])
     ? json[':names']
     : Object.keys(json).filter((key) => !key.startsWith(':'));
+  const findTab = (wanted) => (
+    wanted ? names.find((name) => normalizeName(name) === wanted) : null
+  );
   const wanted = normalizeName(ecid);
-  const match = wanted ? names.find((name) => normalizeName(name) === wanted) : null;
-  const name = match || names[0];
+  const name = findTab(wanted) || findTab('default') || names[0];
   return (name && json[name] && typeof json[name] === 'object') ? json[name] : json;
 }
 
@@ -151,9 +173,10 @@ function rowToValues(row) {
 
 /**
  * Maps a Franklin/DA sheet payload to camelCase keys.
- * Shared workbook: the ecid cookie (or ?ecid=) selects the tab (seg-a, seg-b);
- * Page Name selects the card matching `slug`. Also supports a legacy Ecid
- * column, Key/Value rows, and a single row of named columns.
+ * Shared workbook: the ecid cookie (or ?ecid=) selects the tab (seg-a, seg-b,
+ * seg-c); missing or unmatched ecid uses the `default` tab. Page Name selects
+ * the card matching `slug`. Also supports a legacy Ecid column, Key/Value
+ * rows, and a single row of named columns.
  * @param {object} json
  * @param {string} [slug] Page slug to match against a Page Name column. Defaults
  *   to the current page (getPageSlug()); callers resolving values for OTHER
@@ -237,12 +260,13 @@ export function replaceOfferTokens(root, values) {
 
 /**
  * Fetches and parses the offer sheet JSON. Returns null on a non-OK response
- * or a non-object payload.
+ * or a non-object payload. Requests all segment tabs via `?sheet=` so a
+ * workbook with a `default` tab still returns multi-sheet JSON.
  * @param {string} [sheetUrl]
  * @returns {Promise<object|null>}
  */
 export async function fetchOfferSheetJson(sheetUrl = SHARED_SHEET_PATH) {
-  const resp = await fetch(sheetUrl);
+  const resp = await fetch(withOfferSheetParams(sheetUrl));
   if (!resp.ok) return null;
   const json = await resp.json();
   return (json && typeof json === 'object') ? json : null;
