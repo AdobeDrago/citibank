@@ -685,7 +685,7 @@
 
         <h3>Purpose</h3>
         <ul class="req-list">
-          <li>Validate a <strong>hosted-page migration path</strong> from the existing <code class="code-inline">banking.citi.com</code> ELP platform into EDS — including a <strong>zip-gated offer</strong> pattern using a mocked ZIP / <code class="code-inline">outOfBTA</code> eligibility endpoint in place of the live service.</li>
+          <li>Validate a <strong>hosted-page migration path</strong> from the existing <code class="code-inline">banking.citi.com</code> ELP platform into EDS — including a <strong>zip-gated offer</strong> pattern using an authored DA ZIP / <code class="code-inline">outOfBTA</code> sheet (<code class="code-inline">scripts/bta.js</code>) in place of the live eligibility service.</li>
           <li>Validate the <strong>authoring workflow and governance model</strong> changes EDS requires for hosted pages (Excel/DA sheets, code-select, metadata-driven listing).</li>
           <li>Validate <strong>segment-based personalization</strong> with a mocked login / offer decision and EDS-authored content, standing in for a live Pega integration — with a clear path to Citi's AEM GraphQL (<code class="code-inline">pz/get-pz-offers</code>) later.</li>
           <li>Validate <strong>headless-to-block</strong> migration for credit-card listing, details (26 PDPs), and filterable/search experiences, including session-aware chrome.</li>
@@ -704,7 +704,7 @@
             </tr>
             <tr>
               <td><a href="#scenario-2" style="color:var(--citi-blue);">2 · Citigold Featured Offer (ELP)</a></td>
-              <td>Hosted-page migration · zip-gated offer mock · authoring governance · Pega banner E2E gate</td>
+              <td>Hosted-page migration · DA ZIP / <code class="code-inline">outOfBTA</code> sheet · authoring governance · Pega banner E2E gate</td>
               <td>Pre-login</td>
               <td><span class="nav-status ns-progress">In progress</span></td>
             </tr>
@@ -719,7 +719,7 @@
 
         <div class="notice info">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
-          <span><strong>Why these three together.</strong> Individually, each scenario is a strong but narrow test. Together they cover the full surface we need EDS to prove out: <strong>session handling</strong> (pre-login and mocked post-login), <strong>personalization at scale</strong> (segment offers, EDS sheets/fragments, path to Pega), <strong>authoring governance</strong> (hosted-page transition, Universal Editor/DA model), <strong>content release workflows</strong> (bi-weekly content vs. monthly tech releases), and <strong>dynamic API integration</strong> (mocked ZIP eligibility, index-driven listing, eventual Pega GraphQL). See <a href="#themes" style="color:#0d51b5;">Evaluation themes</a> for the coverage matrix.</span>
+          <span><strong>Why these three together.</strong> Individually, each scenario is a strong but narrow test. Together they cover the full surface we need EDS to prove out: <strong>session handling</strong> (pre-login and mocked post-login), <strong>personalization at scale</strong> (segment offers, EDS sheets/fragments, path to Pega), <strong>authoring governance</strong> (hosted-page transition, Universal Editor/DA model), <strong>content release workflows</strong> (bi-weekly content vs. monthly tech releases), and <strong>dynamic API integration</strong> (DA ZIP / <code class="code-inline">outOfBTA</code> sheet, index-driven listing, eventual Pega GraphQL). See <a href="#themes" style="color:#0d51b5;">Evaluation themes</a> for the coverage matrix.</span>
         </div>
 
         <h3>Where the build stands today</h3>
@@ -728,8 +728,8 @@
           <thead><tr><th>Workstream</th><th>What it covers</th><th>Status</th></tr></thead>
           <tbody>
             <tr><td>1 · CC details &amp; listing</td><td>Explore category filters · View All card catalog</td><td><span class="nav-status ns-done">Completed</span></td></tr>
-            <tr><td>2 · CC search with facets</td><td>Filterable credit-card search experience</td><td><span class="nav-status ns-done">Completed</span></td></tr>
-            <tr><td>3 · Zip-gated Citigold offer</td><td>Location-based offer gate via mocked ZIP / <code class="code-inline">outOfBTA</code></td><td><span class="nav-status ns-progress">In progress</span></td></tr>
+            <tr><td>2 · CC search with facets</td><td>Keyword search over indexed cards (<code class="code-inline">blocks/search</code>); full facet UI still open</td><td><span class="nav-status ns-progress">In progress</span></td></tr>
+            <tr><td>3 · Zip-gated Citigold offer</td><td>Location-based offer gate via DA ZIP / <code class="code-inline">outOfBTA</code> sheet</td><td><span class="nav-status ns-progress">In progress</span></td></tr>
             <tr><td>4 · Personalization</td><td>Segment views driven by mocked login / ECID</td><td><span class="nav-status ns-done">Completed</span></td></tr>
             <tr><td>5 · Authoring</td><td>26 credit card detail pages migrated</td><td><span class="nav-status ns-done">Completed</span></td></tr>
             <tr><td>6 · Improved Lighthouse score</td><td>Live vs EDS performance comparison</td><td><span class="nav-status ns-done">Captured</span></td></tr>
@@ -829,7 +829,7 @@
             <div class="step-num"></div>
             <div class="step-body">
               <div class="step-title">Clone and install</div>
-              <div class="code-block">git clone https://github.com/codeandtheory/citibank.git
+              <div class="code-block">git clone https://github.com/AdobeDrago/citibank.git
 cd citibank
 npm install</div>
               <p>Installs ESLint / Stylelint and other dev dependencies from <code class="code-inline">package.json</code>.</p>
@@ -841,7 +841,7 @@ npm install</div>
               <div class="step-title">Run the AEM CLI</div>
               <div class="code-block">npm install -g @adobe/aem-cli
 aem up</div>
-              <p>Starts the standard EDS local dev server at <code class="code-inline">http://localhost:3000</code>, serving local code against content from Document Authoring (<a href="https://da.live/#/codeandtheory/citibank/" target="_blank" rel="noopener" style="color:var(--citi-blue);">da.live/#/codeandtheory/citibank/</a>). Mountpoint is defined in <code class="code-inline">fstab.yaml</code>.</p>
+              <p>Starts the standard EDS local dev server at <code class="code-inline">http://localhost:3000</code>, serving local code against content from Document Authoring (<a href="https://da.live/#/adobedrago/citibank/" target="_blank" rel="noopener" style="color:var(--citi-blue);">da.live/#/adobedrago/citibank/</a>). Mountpoint is defined in <code class="code-inline">fstab.yaml</code> (<code class="code-inline">content.da.live/adobedrago/citibank/</code>).</p>
               <div class="notice tip" style="margin-top:12px;">
                 <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
                 <span><strong>Alternate.</strong> Without a global install: <code class="code-inline">npx -y @adobe/aem-cli up --no-open --forward-browser-logs</code>.</span>
@@ -880,21 +880,25 @@ npm run lint:fix     <span class="cmt"># auto-fix JS + CSS where possible</span>
         <table class="spec-table">
           <thead><tr><th>Block</th><th>Purpose</th></tr></thead>
           <tbody>
-            <tr><td><code class="code-inline">header</code> / <code class="code-inline">footer</code></td><td>Site chrome — nav and footer fragments.</td></tr>
+            <tr><td><code class="code-inline">header</code> / <code class="code-inline">footer</code></td><td>Site chrome — nav and footer fragments; header wires simulated Log In via <code class="code-inline">auth.js</code>.</td></tr>
             <tr><td><code class="code-inline">fragment</code></td><td>Loads authored fragment HTML; used by fragment auto-blocking in <code class="code-inline">scripts.js</code>.</td></tr>
-            <tr><td><code class="code-inline">hero</code></td><td>Credit-card PDP feature hero — lifestyle background, card art, offer headline, stats, CTA, legal.</td></tr>
-            <tr><td><code class="code-inline">hero-apply</code></td><td>Closing “Apply Now” banner — card art + heading + CTA.</td></tr>
+            <tr><td><code class="code-inline">hero</code></td><td>Credit-card PDP feature hero — lifestyle background, card art, offer headline, stats, CTA, legal. Also builds the sticky Apply bar (<code class="code-inline">.hero-sticky-bar</code>) — not a separate block.</td></tr>
+            <tr><td><code class="code-inline">cta-banner</code></td><td>Closing Apply / promo band — media + heading + CTA.</td></tr>
             <tr><td><code class="code-inline">cc-category</code></td><td>Explore Credit Cards category stack (header + card tiles); <code class="code-inline">featured</code> variant for the first stack. Scenario 1.</td></tr>
             <tr><td><code class="code-inline">category-nav</code></td><td>Horizontal icon + label category links (e.g. Explore / Balance Transfer / Travel).</td></tr>
-            <tr><td><code class="code-inline">cards</code> / <code class="code-inline">cards-offer</code></td><td>Generic card grids; offer tiles with eyebrow / title / description.</td></tr>
+            <tr><td><code class="code-inline">product-list</code></td><td>View All / category card grid from <code class="code-inline">/credit-card-index.json</code>; category chips and compare selection. Scenario 1.</td></tr>
+            <tr><td><code class="code-inline">compare-cards</code> / <code class="code-inline">compare-tray</code></td><td>Side-by-side card compare UI and sticky compare tray.</td></tr>
+            <tr><td><code class="code-inline">cards</code></td><td>Generic card grids (including Explore card-holder layouts).</td></tr>
             <tr><td><code class="code-inline">primary-benefits</code></td><td>Benefit tiles with optional expandable detail (+ toggle).</td></tr>
             <tr><td><code class="code-inline">pricing-tiers</code></td><td>Relationship-tier comparison cards (Everyday / Priority / Citigold / …) with accent colors.</td></tr>
-            <tr><td><code class="code-inline">table-compare</code></td><td>Two-product feature comparison matrix (✓ / ✗ cells, sub-headings).</td></tr>
-            <tr><td><code class="code-inline">tabs</code> / <code class="code-inline">tabs-benefits</code></td><td>Generic tabs; benefits tab bar with panels (e.g. Convenience / …).</td></tr>
-            <tr><td><code class="code-inline">accordion</code> / <code class="code-inline">accordion-faq</code></td><td>Generic details/summary accordion; Citi-styled FAQ chevron variant.</td></tr>
+            <tr><td><code class="code-inline">table</code></td><td>HTML table builder; retail PDP compare matrix uses <code class="code-inline">retail-compare</code> styling on this block.</td></tr>
+            <tr><td><code class="code-inline">tabs</code></td><td>Tab panels for PDP / marketing content.</td></tr>
+            <tr><td><code class="code-inline">accordion</code></td><td>Details/summary accordion with Citi FAQ chevron styling.</td></tr>
+            <tr><td><code class="code-inline">zip-banner</code> / <code class="code-inline">deposit-account</code></td><td>Citigold ZIP capture and Monthly Service Fee schedule branching on BTA IN/OUT. Scenario 2.</td></tr>
+            <tr><td><code class="code-inline">content-fragment</code> / <code class="code-inline">cc-fragment</code></td><td>Segment personalization POC — GraphQL CF by path/variation, or segment child-fragment routing. Scenario 3.</td></tr>
             <tr><td><code class="code-inline">steps</code></td><td>Numbered step sequence (title + description per row).</td></tr>
-            <tr><td><code class="code-inline">columns</code> / <code class="code-inline">table</code></td><td>Multi-column layouts; generic HTML table builder.</td></tr>
-            <tr><td><code class="code-inline">carousel</code> / <code class="code-inline">search</code></td><td>Slide carousel; site search UI over indexed content.</td></tr>
+            <tr><td><code class="code-inline">columns</code></td><td>Multi-column layouts.</td></tr>
+            <tr><td><code class="code-inline">carousel</code> / <code class="code-inline">search</code></td><td>Slide carousel; keyword search UI over indexed content.</td></tr>
             <tr><td><code class="code-inline">embed</code> / <code class="code-inline">video</code> / <code class="code-inline">modal</code> / <code class="code-inline">quote</code> / <code class="code-inline">form</code></td><td>Third-party embeds, video players, modal dialogs, blockquotes, authored forms.</td></tr>
           </tbody>
         </table>
@@ -932,11 +936,31 @@ npm run lint:fix     <span class="cmt"># auto-fix JS + CSS where possible</span>
               <td><code class="code-inline">delayed.js</code></td>
               <td>Delayed phase stub (loaded ~3s after page load). Reserved for martech / non-critical scripts.</td>
             </tr>
+            <tr>
+              <td><code class="code-inline">bta.js</code></td>
+              <td>ZIP → Banking Territory Area lookup against authored DA sheet <code class="code-inline">/cbol/zipcode-bta.json</code>; IN/OUT fee tabs for <code class="code-inline">zip-banner</code> / <code class="code-inline">deposit-account</code>. Scenario 2.</td>
+            </tr>
+            <tr>
+              <td><code class="code-inline">auth.js</code></td>
+              <td>Simulated login via same-site <code class="code-inline">ecid</code> cookie; toggles <code class="code-inline">auth-authenticated</code> / <code class="code-inline">auth-anonymous</code>. Used by header and personalization blocks.</td>
+            </tr>
+            <tr>
+              <td><code class="code-inline">offer-sheet.js</code></td>
+              <td>Replaces authored <code class="code-inline">{{token}}</code> placeholders from segment-tabbed DA sheet <code class="code-inline">/credit-cards/offerpricingpositioning.json</code>.</td>
+            </tr>
+            <tr>
+              <td><code class="code-inline">aem-content-fragment.js</code></td>
+              <td>Adobe AEM Cloud GraphQL CF client (persisted query <code class="code-inline">cf-services/ccbypathandvariation</code>) for the personalization POC — not Citi <code class="code-inline">qa3</code>.</td>
+            </tr>
+            <tr>
+              <td><code class="code-inline">dev-aem-graphql-proxy.mjs</code></td>
+              <td>Optional local Node proxy for AEM GraphQL during development.</td>
+            </tr>
           </tbody>
         </table>
         <div class="notice tip">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
-          <span><strong>Related (outside EDS page runtime).</strong> <code class="code-inline">app-builder/byom-cc</code> is an Adobe I/O Runtime app that fetches credit-card Content Fragments via Adobe AEM Cloud GraphQL (<code class="code-inline">cf-services/ccbypath</code>) for BYOM/preview workflows — separate from the browser block pipeline above. Importers live under <code class="code-inline">tools/importer/</code>.</span>
+          <span><strong>Related (outside EDS page runtime).</strong> <code class="code-inline">app-builder/byom-cc</code> is an Adobe I/O Runtime app that fetches credit-card Content Fragments via Adobe AEM Cloud GraphQL (<code class="code-inline">cf-services/ccbypath</code>) for BYOM/preview workflows — separate from the browser block pipeline above. Importers live under <code class="code-inline">tools/importer/</code> (e.g. <code class="code-inline">import-citigold-landing.js</code>). Citigold draft markup: <code class="code-inline">drafts/citigold-featured-offer.html</code>.</span>
         </div>
       </section>
 
@@ -1210,14 +1234,14 @@ npm run lint:fix     <span class="cmt"># auto-fix JS + CSS where possible</span>
 
         <div class="notice tip">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
-          <span><strong>Engineering update (demo POV).</strong> The zip-gated Citigold offer pattern is in progress. ZIP / <code class="code-inline">outOfBTA</code> variations are configured in Excel/DA authoring sheets (IN and OUT tabs). Footer/legal offer metadata populates automatically from sheet status rather than manual authoring. This uses a <strong>mocked ZIP-eligibility endpoint</strong> in place of the live Citi service — proving the architecture without requiring the production backend. A shared EDS preview URL for this scenario has not been confirmed yet.</span>
+          <span><strong>Engineering update (demo POV).</strong> The zip-gated Citigold offer pattern is in progress. Client-side lookup via <code class="code-inline">scripts/bta.js</code> reads authored DA workbook <code class="code-inline">/cbol/zipcode-bta.json</code>; IN and OUT tabs drive fee rows and visibility in <code class="code-inline">zip-banner</code> / <code class="code-inline">deposit-account</code>. Draft page: <code class="code-inline">drafts/citigold-featured-offer.html</code> (imported via <code class="code-inline">tools/importer/import-citigold-landing.js</code>). This proves the architecture without the live Citi offer/eligibility API. A shared EDS preview URL for this scenario has not been confirmed yet.</span>
         </div>
 
         <h3>What this validates</h3>
         <ul class="req-list">
           <li><strong>Hosted page migration path</strong> — demonstrates how a hosted page could transition into EDS as part of the broader cloud migration strategy.</li>
           <li><strong>Authoring workflow changes</strong> — Excel/DA sheet authoring for ZIP Code and <code class="code-inline">outOfBTA</code> response data, with IN/OUT tab personalization.</li>
-          <li><strong>Dynamic API integration</strong> — mocked location-based offer gate; validates how EDS handles real-time, ZIP-driven rendering inside an authored page structure.</li>
+          <li><strong>Dynamic API integration</strong> — DA ZIP / <code class="code-inline">outOfBTA</code> sheet via <code class="code-inline">bta.js</code>; validates how EDS handles ZIP-driven rendering inside an authored page structure.</li>
           <li><strong>Automated footer content</strong> — legal and offer footer metadata populated from the sheet based on IN / OUT status with zero manual effort.</li>
         </ul>
 
@@ -1233,7 +1257,7 @@ npm run lint:fix     <span class="cmt"># auto-fix JS + CSS where possible</span>
             <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 3a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 018 3zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Fetch and render dynamic ZIP / outOfBTA data</div>
-              <div class="check-note"><strong>Partial.</strong> Excel/DA sheets hold ZIP Code and <code class="code-inline">outOfBTA</code> response data with IN/OUT tabs; footer content auto-populates from status. Uses a mocked eligibility endpoint — not the live Citi offer/eligibility backend.</div>
+              <div class="check-note"><strong>Partial.</strong> DA sheet <code class="code-inline">/cbol/zipcode-bta.json</code> holds ZIP Code and <code class="code-inline">outOfBTA</code> (IN/OUT); <code class="code-inline">bta.js</code> fetches it client-side and fee/footer content follows sheet status. Not the live Citi offer/eligibility backend.</div>
             </div>
           </li>
           <li class="check-item">
@@ -1298,7 +1322,7 @@ npm run lint:fix     <span class="cmt"># auto-fix JS + CSS where possible</span>
         </div>
         <div class="notice question">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          <span><strong>2. What is the production ZIP / offer-eligibility API, and can EDS call it without a proxy?</strong> The demo proves the pattern with a mocked ZIP / <code class="code-inline">outOfBTA</code> endpoint and Excel IN/OUT tabs. Confirm the real Citi source, its auth model, and whether it can be called from an EDS-rendered page without a server-side proxy before treating the mock as production-ready.</span>
+          <span><strong>2. What is the production ZIP / offer-eligibility API, and can EDS call it without a proxy?</strong> The demo proves the pattern with DA sheet <code class="code-inline">/cbol/zipcode-bta.json</code> (IN/OUT tabs) via <code class="code-inline">scripts/bta.js</code> — not a live eligibility API. Confirm the real Citi source, its auth model, and whether it can be called from an EDS-rendered page without a server-side proxy before treating the sheet stand-in as production-ready.</span>
         </div>
         <div class="notice question">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
@@ -1429,10 +1453,10 @@ npm run lint:fix     <span class="cmt"># auto-fix JS + CSS where possible</span>
           <thead><tr><th>Theme</th><th>Scenario 1 · Credit Cards</th><th>Scenario 2 · Citigold ELP</th><th>Scenario 3 · Pega banners</th></tr></thead>
           <tbody>
             <tr><td>Session handling</td><td>Session-aware header/footer</td><td>Pre-login, hosted-page session</td><td>Mocked login / ECID → path to post-login identity</td></tr>
-            <tr><td>Personalization</td><td>Segment-driven banners/pricing on listing &amp; PDPs</td><td>Zip-gated offer (mocked <code class="code-inline">outOfBTA</code>)</td><td>EDS sheets/fragments stand-in · live Pega target</td></tr>
+            <tr><td>Personalization</td><td>Segment-driven banners/pricing on listing &amp; PDPs</td><td>Zip-gated offer (DA <code class="code-inline">outOfBTA</code> sheet)</td><td>EDS sheets/fragments stand-in · live Pega target</td></tr>
             <tr><td>Authoring governance</td><td>Headless → block model · 26 PDPs · metadata blocks</td><td>Hosted-page → EDS · Excel IN/OUT tabs</td><td>Code-select · fragment variations</td></tr>
             <tr><td>Content release workflows</td><td>Content/code decoupling — native to EDS, no custom sync needed</td><td>Pega E2E gate before publish</td><td>—</td></tr>
-            <tr><td>Dynamic API integration</td><td>Index query · search facets · engagement-module signals</td><td>Mocked ZIP eligibility → live offer API TBD</td><td>AEM GraphQL (<code class="code-inline">get-pz-offers</code>) target</td></tr>
+            <tr><td>Dynamic API integration</td><td>Index query · search · engagement-module signals</td><td>DA ZIP sheet → live offer API TBD</td><td>AEM GraphQL (<code class="code-inline">get-pz-offers</code>) target</td></tr>
           </tbody>
         </table>
       </section>
@@ -1457,7 +1481,7 @@ npm run lint:fix     <span class="cmt"># auto-fix JS + CSS where possible</span>
           </div>
           <div class="skill-card">
             <div class="skill-card-header"><span class="skill-tag tag-cfg">3</span><span class="skill-card-name">Wire live backends</span></div>
-            <p class="skill-card-desc">Replace mocked ZIP eligibility and mocked login/segment decisions with Citi's real offer API and <code class="code-inline">qa3</code> Pega GraphQL when access is available.</p>
+            <p class="skill-card-desc">Replace the DA ZIP / <code class="code-inline">outOfBTA</code> sheet stand-in and mocked login/segment decisions with Citi's real offer API and <code class="code-inline">qa3</code> Pega GraphQL when access is available.</p>
           </div>
           <div class="skill-card">
             <div class="skill-card-header"><span class="skill-tag tag-cfg">4</span><span class="skill-card-name">Expand Lighthouse sample</span></div>
