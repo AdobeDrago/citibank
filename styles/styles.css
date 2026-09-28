@@ -28,37 +28,37 @@
 
 
  @font-face {
-  font-family: "citigold-display-bold";
+  font-family: citigold-display-bold;
   src: url("/fonts/Citi-Sans-Display-Bold.woff2") format("woff2");
   font-weight: 700;
 }
 
  @font-face {
-  font-family: "citigold-display-regular";
+  font-family: citigold-display-regular;
   src: url("/fonts/Citi-Sans-Display-Regular.woff2") format("woff2");
   font-weight: 400;
 }
 
 @font-face {
-  font-family: "citigold-text-regular";
+  font-family: citigold-text-regular;
   src: url("/fonts/Citi-Sans-Text-Regular.woff2") format("woff2");
   font-display: swap;
 }
 
 @font-face {
-  font-family: "citigold-text-bold";
+  font-family: citigold-text-bold;
   src: url("/fonts/Citi-Sans-Text-Bold.woff2") format("woff2");
   font-display: swap;
 }
 
 @font-face {
-  font-family: "citigold-display-regular-italic";
+  font-family: citigold-display-regular-italic;
   src: url("/fonts/Citi-Serif-Display-Regular-Italic.woff2") format("woff2");
   font-display: swap;
 }
 
 @font-face {
-  font-family: "citigold-condensed-regular";
+  font-family: citigold-condensed-regular;
   src: url("/fonts/Citi-Sans-Condensed-Regular.woff2") format("woff2");
   font-display: swap;
 }
@@ -488,6 +488,9 @@ main .section.light-grey {
   padding: 40px 0;
 }
 
+/* Disable descending specificity check across template-scoped sections */
+/* stylelint-disable no-descending-specificity */
+
 /*
  * Credit-cards PDP template overrides.
  * Scoped to body.credit-card-pdp (the class decorateTemplateAndTheme adds from the
@@ -504,7 +507,6 @@ body.credit-card-pdp main > .section > div {
 /* Citi credit-cards headings are light (weight 400), not the global 600.
  * These template-scoped rules intentionally appear after the section-color
  * heading rules above; specificity ordering is not a concern here. */
-/* stylelint-disable no-descending-specificity */
 body.credit-card-pdp main h1,
 body.credit-card-pdp main h2,
 body.credit-card-pdp main h3,
@@ -513,7 +515,6 @@ body.credit-card-pdp main h5,
 body.credit-card-pdp main h6 {
   font-weight: 400;
 }
-/* stylelint-enable no-descending-specificity */
 
 /* Section-level default-content headings render centered on the source.
  * Base size 28px (e.g. "Find the right card for you"). */
@@ -619,7 +620,6 @@ body.credit-card-retail-pdp .section.rewards-section {
   margin-top: 0;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
 body.credit-card-retail-pdp main > .section.rewards-section > .default-content-wrapper {
   box-sizing: border-box;
   display: flow-root;
@@ -706,7 +706,6 @@ body.credit-card-retail-pdp main > .section > .columns-wrapper:has(.columns-2-co
   }
 }
 
-/* stylelint-disable no-descending-specificity */
 body.credit-card-retail-pdp main > .section > .default-content-wrapper:has(+ .tabs-wrapper) {
   box-sizing: border-box;
   width: 100%;
@@ -860,9 +859,7 @@ body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > o
     font-size: 1.25rem;
   }
 }
-/* stylelint-enable no-descending-specificity */
 
-/* stylelint-disable no-descending-specificity */
 body.credit-card-retail-pdp .section.benefits,
 body.credit-card-retail-pdp .section.how-it-works,
 body.credit-card-retail-pdp .section.faq,
@@ -872,7 +869,6 @@ body.credit-card-retail-pdp .section.faq + .section {
   margin-top: 0;
   margin-bottom: 0;
 }
-/* stylelint-enable no-descending-specificity */
 
 body.credit-card-retail-pdp .section.benefits > :first-child::before,
 body.credit-card-retail-pdp .section.how-it-works > :first-child::before,
@@ -897,7 +893,6 @@ body.credit-card-retail-pdp .section.faq + .section > :first-child::before {
   }
 }
 
-/* stylelint-disable no-descending-specificity */
 body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper) {
   display: flex;
   flex-wrap: wrap;
@@ -1016,9 +1011,7 @@ body.credit-card-retail-pdp .accordion-wrapper {
     padding-right: calc(0.05 * min(100vw, 1520px));
   }
 }
-/* stylelint-enable no-descending-specificity */
 
-/* stylelint-disable no-descending-specificity */
 body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper {
   display: flex;
   flex-wrap: wrap;
@@ -1203,7 +1196,6 @@ body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wr
     padding-right: calc(0.05 * min(100vw, 1520px));
   }
 }
-/* stylelint-enable no-descending-specificity */
 
 /*
  * Retail terms & conditions bundle (body.credit-card-retail-pdp).
@@ -1212,7 +1204,6 @@ body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wr
  * inset; headings/paragraphs use their ordinary typography, matching live
  * (no divider above this section either — it sits flush under "No Annual Fee").
  */
-/* stylelint-disable-next-line no-descending-specificity -- distinct section (terms-conditions vs hero), not an override conflict */
 body.credit-card-retail-pdp .section.terms-conditions > .default-content-wrapper {
   box-sizing: border-box;
   width: 100%;
@@ -1236,8 +1227,6 @@ body.credit-card-retail-pdp .section.terms-conditions > .default-content-wrapper
     padding-right: calc(0.05 * min(100vw, 1520px));
   }
 }
-
-/* stylelint-disable no-descending-specificity */
 
 /*
  * Compare section chrome.
@@ -1475,10 +1464,30 @@ body.credit-card-explore main > .section.explore-disclaimer > div {
   line-height: 1.5;
 }
 
-/* stylelint-enable no-descending-specificity */
 /*
  * Citigold featured-offer LANDING template (body.citigold-landing).
-/* stylelint-disable no-descending-specificity */
+ * Scoped so it never affects the credit-card templates. Values measured from the
+ * source banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm at
+ * 1440px: navy #0f1632, gold band #8e6f32, white cards, pill CTAs.
+ *
+ * Structure (mobile-first):
+ *   1. Base (mobile)              — all sections
+ *   2. @media (width >= 768px)    — tablet
+ *   3. @media (width >= 992px)    — desktop
+ *   4. @media (width >= 1200px)   — wide desktop
+ *   5. @media (prefers-reduced-motion)
+ * Each breakpoint appears once. Inside it, rules follow the base section order
+ * and restate only what changes from the previous breakpoint.
+ *
+ * Conventions:
+ *   - rem for type and spacing (1rem = 16px); px only for borders, hairlines,
+ *     shadows and source-measured layout widths/offsets.
+ *   - Property order: position > box model > typography > visual.
+ *   - Colours and font stacks come from the tokens below.
+ *
+ * Assumed to be defined globally (not in this file):
+ *   --citi-blue, --citi-private-client, --body-font-family
+ */
 
 /* ==========================================================================
    1. BASE (mobile)
@@ -1492,12 +1501,12 @@ body.citigold-landing {
   --citi-sand: #faf7f4;
   --citi-sand-border: #dfd0be;
   --citi-band-bg: var(--citi-pale-blue-bg, #ecf6fe);
-  --citi-font-display-bold: "citigold-display-bold", Helvetica, sans-serif;
-  --citi-font-display: "citigold-display-regular", Helvetica, sans-serif;
-  --citi-font-display-italic: "citigold-display-regular-italic", Helvetica, sans-serif;
-  --citi-font-text: "citigold-text-regular", Helvetica, sans-serif;
-  --citi-font-text-bold: "citigold-text-bold", Helvetica, sans-serif;
-  --citi-font-condensed: "citigold-condensed-regular", Helvetica, sans-serif;
+  --citi-font-display-bold: "citigold-display-bold", helvetica, sans-serif;
+  --citi-font-display: "citigold-display-regular", helvetica, sans-serif;
+  --citi-font-display-italic: "citigold-display-regular-italic", helvetica, sans-serif;
+  --citi-font-text: "citigold-text-regular", helvetica, sans-serif;
+  --citi-font-text-bold: "citigold-text-bold", helvetica, sans-serif;
+  --citi-font-condensed: "citigold-condensed-regular", helvetica, sans-serif;
 }
 
 /* Superscripts / subscripts (was unscoped `sup` — leaked to other templates) */
@@ -2208,6 +2217,7 @@ body.citigold-landing main .landing-tiers .cards > ul > li {
   border-radius: 1.25rem;
   background: #fff;
   text-align: left;
+  
   --tier: var(--citi-blue);
 }
 
@@ -2599,59 +2609,6 @@ body.citigold-landing main .landing-cta a.button.primary:hover {
 .citigold-landing table tbody th,
 .citigold-landing table tbody td {
   font-family: "Interstate_Light", Helvetica, sans-serif;
-}
-
-/* ---------- Simulated auth gating (scripts/auth.js decorateAuthGate) ----------
-   A "Log in to view content" heading and everything after it are tagged
-   data-auth. Kept critical (not lazy-styles.css) so gated content never
-   flashes on load. */
-[data-auth='anonymous'],
-[data-auth='authenticated'] {
-  display: none;
-}
-
-body.auth-anonymous [data-auth='anonymous'],
-body.auth-authenticated [data-auth='authenticated'] {
-  display: block;
-}
-
-/* ---------- NOT scoped to .citigold-landing — shared by other templates ----------
-   Intentionally global. Candidate to move into its own stylesheet. */
-
-/* citi--aadvantage--globe--mastercard--pricing-details */
-.section:has(> .default-content-wrapper > h3 ~ p ~ ul) {
-  margin-top: 1.5rem;
-  margin-bottom: 0;
-  padding: 3rem 0;
-}
-
-.section > .default-content-wrapper:has(> h3, > p, > ul) > h3 {
-  font-size: 1.5rem;
-}
-
-.section > .default-content-wrapper:has(> h3, > p, > ul) > p {
-  margin: 0 0 0.5rem;
-  font-size: 0.875rem;
-}
-
-.section > .default-content-wrapper:has(> h3, > p, > ul) > ul {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin-top: 1rem;
-  margin-bottom: 0;
-  padding: 0.5rem 0;
-  list-style: none;
-  font-size: 0.875rem;
-}
-
-/* category nav default container */
-.section.category-nav-container {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
-  margin: 1.5rem auto 0;
-  padding: 3rem 2.25rem;
 }
 
 /* ==========================================================================
