@@ -476,11 +476,15 @@ function buildNav(frag) {
   return nav;
 }
 
-/** Applies the current locale's translations to a freshly-built nav element. */
+/**
+ * Resolves the `{{key}}` placeholders authored in the nav fragment to the
+ * active locale's text. Runs for every locale (English included) — the
+ * fragment is authored as keys, not literal copy, so English needs the
+ * dictionary just as much as Spanish does.
+ */
 async function applyCurrentLocale(nav) {
-  const locale = getLocale();
-  const dict = locale === SPANISH_LOCALE ? await fetchTranslationDictionary() : {};
-  applyTranslations(nav, dict, locale);
+  const dict = await fetchTranslationDictionary();
+  applyTranslations(nav, dict, getLocale());
 }
 
 /**

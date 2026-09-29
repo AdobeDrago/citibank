@@ -8,7 +8,7 @@
 
 import { decorateBlock, loadBlock } from '../../scripts/aem.js';
 import {
-  getLocale, SPANISH_LOCALE, fetchTranslationDictionary, applyTranslations,
+  getLocale, fetchTranslationDictionary, applyTranslations,
 } from '../../scripts/i18n.js';
 
 /**
@@ -243,11 +243,15 @@ function buildFooterContent(frag) {
   return content;
 }
 
-/** Applies the current locale's translations to a freshly-built footer. */
+/**
+ * Resolves the `{{key}}` placeholders authored in the footer fragment to
+ * the active locale's text. Runs for every locale (English included) — the
+ * fragment is authored as keys, not literal copy, so English needs the
+ * dictionary just as much as Spanish does.
+ */
 async function applyCurrentLocale(root) {
-  const locale = getLocale();
-  const dict = locale === SPANISH_LOCALE ? await fetchTranslationDictionary() : {};
-  applyTranslations(root, dict, locale);
+  const dict = await fetchTranslationDictionary();
+  applyTranslations(root, dict, getLocale());
 }
 
 /**

@@ -1,10 +1,15 @@
 /*
  * Header/footer chrome translation — cookie-driven locale + a DA-authored
- * dictionary sheet. Mirrors what citi.com itself does today: switching the
- * language sets a `locale` cookie (no URL change) and swaps only chrome
- * strings (nav labels, footer headings/legal links); anything not in the
- * dictionary silently stays in English rather than erroring or looking broken.
+ * key/value dictionary sheet. Chrome content is authored as `{{key}}`
+ * placeholders (same token convention as scripts/offer-sheet.js); the value
+ * shown for each key is whichever locale's column is filled in for the
+ * active cookie, falling back to English when a translation is missing, and
+ * left as the raw `{{key}}` text when the key itself has no row at all —
+ * that visible fallback is deliberate: a broken/missing key should be
+ * obvious to authors and QA, not silently blank.
  */
+
+import { replaceOfferTokens } from './offer-sheet.js';
 
 export const LOCALE_COOKIE = 'locale';
 export const DEFAULT_LOCALE = 'en_US';
@@ -64,10 +69,11 @@ export function setLocale(locale) {
 let dictionaryPromise = null;
 
 /**
- * Fetches and parses the `/translations.json` DA sheet (columns: en, es).
- * Cached for the life of the page; any failure resolves to `{}` so callers
- * degrade to "leave everything in English" rather than throwing.
- * @returns {Promise<Record<string, string>>}
+ * Fetches and parses the `/translations.json` DA sheet (columns: key, en,
+ * es) into `{ [key]: { en_US: '...', es_US: '...' } }`. Cached for the life
+ * of the page; any failure resolves to `{}` so callers degrade to "leave
+ * every {{key}} as-authored" rather than throwing.
+ * @returns {Promise<Record<string, Record<string, string>>>}
  */
 export function fetchTranslationDictionary() {
   if (dictionaryPromise) return dictionaryPromise;
@@ -77,9 +83,11 @@ export function fetchTranslationDictionary() {
       const rows = Array.isArray(json?.data) ? json.data : [];
       const dict = {};
       rows.forEach((row) => {
+        const key = String(row?.key ?? '').trim();
+        if (!key) return;
         const en = String(row?.en ?? '').trim();
         const es = String(row?.es ?? '').trim();
-        if (en && es) dict[en] = es;
+        dict[key] = { [DEFAULT_LOCALE]: en, [SPANISH_LOCALE]: es };
       });
       return dict;
     })
@@ -88,29 +96,34 @@ export function fetchTranslationDictionary() {
 }
 
 /**
- * Replaces chrome text under `root` with its Spanish counterpart wherever the
- * exact (trimmed) English text is a key in `dict`. Only translates when
- * `locale` is exactly `SPANISH_LOCALE` — anything else (English, missing, or
- * an unrecognized value) leaves the DOM untouched — callers always pass a
- * pristine, unmutated DOM tree so re-running this after a locale switch
- * never double-translates.
+ * Flattens the nested per-key dictionary to one value per key for a given
+ * locale, falling back to English when that locale's column is blank for a
+ * key that does have a row. A key with no row at all is left out entirely,
+ * so `replaceOfferTokens` leaves its `{{key}}` visible as-authored.
+ * @param {Record<string, Record<string, string>>} dict
+ * @param {string} locale
+ * @returns {Record<string, string>}
+ */
+function resolveValuesForLocale(dict, locale) {
+  const values = {};
+  Object.entries(dict).forEach(([key, byLocale]) => {
+    const value = byLocale[locale] || byLocale[DEFAULT_LOCALE];
+    if (value) values[key] = value;
+  });
+  return values;
+}
+
+/**
+ * Replaces `{{key}}` placeholders under `root` with the dictionary's value
+ * for the active locale. Reuses `replaceOfferTokens`'s TreeWalker/token
+ * matching (same `{{token}}` convention this codebase already uses for
+ * offer-sheet values) — callers always pass a pristine, unmutated DOM tree
+ * so re-running this after a locale switch never double-resolves.
  * @param {Element} root
- * @param {Record<string, string>} dict
+ * @param {Record<string, Record<string, string>>} dict
  * @param {string} locale
  */
 export function applyTranslations(root, dict, locale) {
-  if (!root || locale !== SPANISH_LOCALE || !dict) return;
-  const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
-  const nodes = [];
-  while (walker.nextNode()) nodes.push(walker.currentNode);
-
-  nodes.forEach((node) => {
-    const text = node.textContent.trim();
-    if (!text) return;
-    const translated = dict[text];
-    // Function replacer — a plain-string replacement would interpret `$&`,
-    // `$1`, etc. in `translated` as special patterns (e.g. a fee amount like
-    // "$100" written into the dictionary would otherwise get mangled).
-    if (translated) node.textContent = node.textContent.replace(text, () => translated);
-  });
+  if (!root || !dict) return;
+  replaceOfferTokens(root, resolveValuesForLocale(dict, locale));
 }
