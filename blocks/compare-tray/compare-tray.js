@@ -5,6 +5,10 @@ import getProducts from '../product-list/product-list-data.js';
 // an extra file to wire up; if this key or JSON shape ever changes, update
 // both files together.
 const SELECTION_KEY = 'compare-cards-selected';
+// Remembers which listing page the person clicked "Compare now" from, so the
+// compare page's "Add Card" can send them back there. Must match the same
+// key in compare-cards.js.
+const ORIGIN_KEY = 'compare-cards-origin';
 const MAX_SLOTS = 3;
 const COMPARE_PATH = '/credit-cards/compare-cards';
 const INDEX_URL = '/credit-card-index.json';
@@ -132,6 +136,11 @@ function renderTray(tray, cardsById) {
   const canCompare = ids.length >= 2;
   if (canCompare) {
     compareBtn.href = COMPARE_PATH;
+    compareBtn.addEventListener('click', () => {
+      // Remember which listing page the person is leaving from, so
+      // "Add Card" on the compare page can return them here.
+      sessionStorage.setItem(ORIGIN_KEY, window.location.pathname);
+    });
   } else {
     compareBtn.setAttribute('aria-disabled', 'true');
     compareBtn.classList.add('compare-tray-compare-disabled');
@@ -157,9 +166,13 @@ export default async function decorate(block) {
   document.addEventListener('change', (event) => {
     if (!event.target.classList.contains('product-list-compare-input')) return;
 
-    const checkedIds = [...document.querySelectorAll('.product-list-compare-input:checked')]
-      .map((box) => findIdForCheckbox(box))
-      .filter(Boolean);
+    // Unique cards only (a card can have several checkboxes across category
+    // sections), and never more than the tray can hold.
+    const checkedIds = [...new Set(
+      [...document.querySelectorAll('.product-list-compare-input:checked')]
+        .map((box) => findIdForCheckbox(box))
+        .filter(Boolean),
+    )].slice(0, MAX_SLOTS);
 
     setSelection(checkedIds);
     renderTray(block, cardsById);

@@ -90,9 +90,15 @@ function createBenefits(product, values) {
 // `scope` is whatever compare checkboxes should be counted/capped together —
 // a single grid in flat mode, or the whole block in grouped mode so the limit
 // applies across category sections instead of resetting per section.
+// Counts UNIQUE cards (by compare path), since a card can appear in several
+// category sections and therefore have several checkboxes.
 function syncCompareUI(scope) {
   const boxes = [...scope.querySelectorAll('.product-list-compare-input')];
-  const selectedCount = boxes.filter((box) => box.checked).length;
+  const selectedPaths = new Set(
+    boxes.filter((box) => box.checked).map((box) => box.dataset.comparePath),
+  );
+  const selectedCount = selectedPaths.size;
+
   scope.querySelectorAll('.product-list-compare-count').forEach((count) => {
     count.textContent = `(${selectedCount}/${MAX_COMPARE})`;
   });
@@ -113,14 +119,20 @@ function getSharedSelection() {
 // already in the shared selection (e.g. returning here after removing a
 // card on the tray/compare page) and dispatches 'change' so syncCompareUI
 // updates the "(n/3)" count and disabled state exactly as if the person
-// had clicked them.
-
+// had clicked them. Unique paths only and never more than MAX_COMPARE, so a
+// stale or oversized stored selection can't push the count past the limit.
 function restoreCompareSelection(block) {
-  const selected = new Set(getSharedSelection());
+  const selected = new Set([...new Set(getSharedSelection())].slice(0, MAX_COMPARE));
   if (!selected.size) return;
+
+  const restored = new Set();
   block.querySelectorAll('.product-list-compare-input').forEach((box) => {
-    if (selected.has(box.dataset.comparePath)) {
-      box.checked = true;
+    const path = box.dataset.comparePath;
+    if (!selected.has(path)) return;
+    box.checked = true;
+    // One 'change' per card is enough to refresh the count and the tray.
+    if (!restored.has(path)) {
+      restored.add(path);
       box.dispatchEvent(new Event('change', { bubbles: true }));
     }
   });
@@ -137,7 +149,16 @@ function createCompare(product, scope) {
   input.className = 'product-list-compare-input';
   input.setAttribute('aria-label', `Compare ${product.title}`);
   input.dataset.comparePath = product.path;
-  input.addEventListener('change', () => syncCompareUI(scope));
+  input.addEventListener('change', () => {
+    // Keep duplicate checkboxes of the same card (other category sections)
+    // in sync, so it reads as one selection everywhere it appears.
+    scope.querySelectorAll('.product-list-compare-input').forEach((box) => {
+      if (box !== input && box.dataset.comparePath === input.dataset.comparePath) {
+        box.checked = input.checked;
+      }
+    });
+    syncCompareUI(scope);
+  });
 
   const text = document.createElement('span');
   text.append('Compare ', Object.assign(document.createElement('span'), {
