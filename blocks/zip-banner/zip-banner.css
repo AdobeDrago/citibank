@@ -242,6 +242,7 @@
   }
 }
 
+/* stylelint-disable no-descending-specificity */
 
 /*
  * Citigold featured-offer LANDING template (body.citigold-landing).
@@ -1968,5 +1969,3 @@ body.citigold-landing main .landing-cta a.button.primary:hover {
     transition: none;
   }
 }
-
-/* stylelint-enable no-descending-specificity */
