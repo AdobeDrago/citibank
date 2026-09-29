@@ -92,6 +92,8 @@
 .cards .cards-card-image img[src^="data:image/svg"] {
   width: 40px;
   height: 40px;
+  object-fit: contain;
+  object-position: center;
 }
 
 @media (width >= 992px) {
@@ -132,29 +134,30 @@ body.credit-card-pdp main .section.cards-container.accordion-container .cards .c
   color: rgb(94 103 107);
 }
 
-body.credit-card-pdp .cards .cards-card-image img {
+/* Sprite-sheet benefit icons (AAdvantage tiles) — one SVG sprite, cropped per tile */
+body.credit-card-pdp main .section.cards-container.accordion-container .cards .cards-card-image img {
   object-fit: none;
   width: 50px;
   height: 50px;
 }
 
-body.credit-card-pdp .cards > ul > li:nth-child(1) > .cards-card-image img {
+body.credit-card-pdp main .section.cards-container.accordion-container .cards > ul > li:nth-child(1) > .cards-card-image img {
   object-position: -349px -618px;
 }
 
-body.credit-card-pdp .cards > ul > li:nth-child(2) > .cards-card-image img {
+body.credit-card-pdp main .section.cards-container.accordion-container .cards > ul > li:nth-child(2) > .cards-card-image img {
   object-position: -202px -618px;
 }
 
-body.credit-card-pdp .cards > ul > li:nth-child(3) > .cards-card-image img {
+body.credit-card-pdp main .section.cards-container.accordion-container .cards > ul > li:nth-child(3) > .cards-card-image img {
   object-position: -468px -190px;
 }
 
-body.credit-card-pdp .cards > ul > li:nth-child(4) > .cards-card-image img {
+body.credit-card-pdp main .section.cards-container.accordion-container .cards > ul > li:nth-child(4) > .cards-card-image img {
   object-position: -51px -618px;
 }
 
-body.credit-card-pdp .cards > ul > li:nth-child(5) > .cards-card-image img {
+body.credit-card-pdp main .section.cards-container.accordion-container .cards > ul > li:nth-child(5) > .cards-card-image img {
   object-position: -627px -478px;
 }
 
@@ -162,6 +165,130 @@ body.credit-card-pdp .cards > ul > li:nth-child(5) > .cards-card-image img {
   body.credit-card-pdp .cards > ul {
     grid-template-columns: repeat(3, 1fr);
   }
+}
+
+/*
+ * points-redemption section style: centered icon + h3 + body; no card chrome.
+ * Author adds "points-redemption" to the section containing the Cards block.
+ */
+body.credit-card-pdp .section.points-redemption .cards > ul {
+  gap: 24px;
+}
+
+body.credit-card-pdp .section.points-redemption .cards > ul > li {
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  overflow: visible;
+  gap: 0;
+  padding: 0 40px;
+  text-align: center;
+}
+
+body.credit-card-pdp .section.points-redemption .cards .cards-card-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 0 16px;
+  text-align: center;
+  line-height: 0;
+}
+
+body.credit-card-pdp .section.points-redemption .cards .cards-card-image picture,
+body.credit-card-pdp .section.points-redemption .cards .cards-card-image > img {
+  display: block;
+  width: 40px;
+  height: 40px;
+}
+
+body.credit-card-pdp .section.points-redemption .cards .cards-card-image img {
+  width: 40px;
+  height: 40px;
+  margin: 0;
+  object-fit: contain;
+  object-position: center;
+  filter: brightness(0);
+}
+
+body.credit-card-pdp .section.points-redemption .cards .cards-card-body {
+  padding: 0;
+  align-items: center;
+}
+
+body.credit-card-pdp .section.points-redemption .cards .cards-card-body h3 {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+  letter-spacing: 0.2px;
+  color: #26292b;
+}
+
+body.credit-card-pdp .section.points-redemption .cards .cards-card-body p {
+  margin: 0;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.14px;
+  color: #5e676b;
+}
+
+body.credit-card-pdp .section.points-redemption .cards .cards-card-body a:any-link {
+  color: inherit;
+  text-decoration: underline;
+}
+
+/* Optional subheading authored as an h3 right under the section title (Costco) */
+body.credit-card-pdp .section.points-redemption .default-content-wrapper > h2 + h3 {
+  margin: -15px 0 48px;
+  font-size: 28px;
+  font-weight: 400;
+  line-height: 34px;
+  letter-spacing: 1.8px;
+  text-align: center;
+}
+
+/* 2 tiles: two equal halves; 4 tiles: 2×2 — from tablet */
+@media (width >= 768px) {
+  body.credit-card-pdp .section.points-redemption .cards > ul:not(:has(> li:nth-child(3))),
+  body.credit-card-pdp .section.points-redemption .cards > ul:has(> li:nth-child(4)):not(:has(> li:nth-child(5))) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 0;
+  }
+}
+
+/* 3 tiles: 3-up from desktop; 4 tiles stay 2×2 */
+@media (width >= 992px) {
+  body.credit-card-pdp .section.points-redemption .cards > ul {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0;
+  }
+
+  body.credit-card-pdp .section.points-redemption .cards > ul:has(> li:nth-child(4)):not(:has(> li:nth-child(5))) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 40px 0;
+  }
+}
+
+/* ---- Dark theme ---- */
+body.dark.credit-card-pdp main > .section.points-redemption > div > h2 {
+  color: #fff;
+  font-weight: 500;
+  letter-spacing: 14px;
+  text-transform: uppercase;
+}
+
+body.dark.credit-card-pdp .section.points-redemption .cards > ul > li {
+  background-color: transparent;
+}
+
+body.dark.credit-card-pdp .section.points-redemption .cards .cards-card-body h3,
+body.dark.credit-card-pdp .section.points-redemption .cards .cards-card-body p,
+body.dark.credit-card-pdp .section.points-redemption .cards .cards-card-body a:any-link {
+  color: #fff;
+}
+
+body.dark.credit-card-pdp .section.points-redemption .cards .cards-card-image img {
+  filter: brightness(0) invert(1);
 }
 
 /*

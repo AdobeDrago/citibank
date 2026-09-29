@@ -113,8 +113,9 @@ body.credit-card-pdp .columns.pdp-content > div > .columns-img-col img {
 }
 
 /* label (first paragraph) above the description, when a tile authors both
-   in the SAME cell (AT&T: "Gas & EV charging stations" + description) */
-body.credit-card-pdp .columns.pdp-content p:first-child:not(:last-child) {
+   in the SAME cell (AT&T: "Gas & EV charging stations" + description).
+   Tiles with an h3 already have a title, so their first paragraph is body copy. */
+body.credit-card-pdp .columns.pdp-content > div:not(:has(h3)) p:first-child:not(:last-child) {
   margin: 0 0 4px;
   font-size: 20px;
   line-height: 26px;
@@ -1261,8 +1262,10 @@ body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> d
   display: none;
 }
 
-body.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty),
-body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(> div:last-child:empty) {
+/* Full-width disclaimer only: empty 2nd cell AND no fee value (h3).
+ * Value-only tiles (e.g. Annual Fee $350 with no description) keep row flex. */
+body.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty):not(:has(h3)),
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(> div:last-child:empty):not(:has(h3)) {
   flex: 1 1 100%;
   width: 100%;
   padding: 0;
@@ -1271,12 +1274,12 @@ body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> d
   text-align: center;
 }
 
-body.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty) > div:first-child,
-body.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty) > div:first-child > p,
-body.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty) > div > p,
-body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(> div:last-child:empty) > div:first-child,
-body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(> div:last-child:empty) > div:first-child > p,
-body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(> div:last-child:empty) > div > p {
+body.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty):not(:has(h3)) > div:first-child,
+body.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty):not(:has(h3)) > div:first-child > p,
+body.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty):not(:has(h3)) > div > p,
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(> div:last-child:empty):not(:has(h3)) > div:first-child,
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(> div:last-child:empty):not(:has(h3)) > div:first-child > p,
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(> div:last-child:empty):not(:has(h3)) > div > p {
   margin: 0;
   font-size: 12px;
   font-weight: 400;
@@ -1304,13 +1307,13 @@ body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> d
   }
 
   /* Vertical dividers between fee tiles (skip only the full-width disclaimer) */
-  body.credit-card-pdp .columns.annual-fees > div:not(:has(> div:last-child:empty)) + div:not(:has(> div:last-child:empty)),
-  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:not(:has(> div:last-child:empty)) + div:not(:has(> div:last-child:empty)) {
+  body.credit-card-pdp .columns.annual-fees > div:not(:has(> div:last-child:empty):not(:has(h3))) + div:not(:has(> div:last-child:empty):not(:has(h3))),
+  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:not(:has(> div:last-child:empty):not(:has(h3))) + div:not(:has(> div:last-child:empty):not(:has(h3))) {
     border-left: 1px solid rgb(188 197 201);
   }
 
-  body.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty),
-  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(> div:last-child:empty) {
+  body.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty):not(:has(h3)),
+  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(> div:last-child:empty):not(:has(h3)) {
     flex: 1 1 100%;
     width: 100%;
     padding: 0;
@@ -1331,9 +1334,9 @@ body.dark.credit-card-pdp .columns.annual-fees > div:not(:has(h3), :has(> div:la
 body.dark.credit-card-pdp .columns.annual-fees > div:not(:has(h3), :has(> div:last-child:empty)) > div:first-child > p,
 body.dark.credit-card-pdp .columns.annual-fees > div:not(:has(h3), :has(> div:last-child:empty)) > div:last-child,
 body.dark.credit-card-pdp .columns.annual-fees > div:not(:has(h3), :has(> div:last-child:empty)) > div:last-child > p,
-body.dark.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty) > div:first-child,
-body.dark.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty) > div:first-child > p,
-body.dark.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty) > div > p,
+body.dark.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty):not(:has(h3)) > div:first-child,
+body.dark.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty):not(:has(h3)) > div:first-child > p,
+body.dark.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty):not(:has(h3)) > div > p,
 body.dark.credit-card-pdp .columns.annual-fees h3,
 body.dark.credit-card-pdp .columns.annual-fees a:any-link,
 body.dark.credit-card-pdp .columns.annual-fees sup,
@@ -1356,8 +1359,8 @@ body.dark.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):ha
 }
 
 @media (width >= 992px) {
-  body.dark.credit-card-pdp .columns.annual-fees > div:not(:has(> div:last-child:empty)) + div:not(:has(> div:last-child:empty)),
-  body.dark.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:not(:has(> div:last-child:empty)) + div:not(:has(> div:last-child:empty)) {
+  body.dark.credit-card-pdp .columns.annual-fees > div:not(:has(> div:last-child:empty):not(:has(h3))) + div:not(:has(> div:last-child:empty):not(:has(h3))),
+  body.dark.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:not(:has(> div:last-child:empty):not(:has(h3))) + div:not(:has(> div:last-child:empty):not(:has(h3))) {
     border-left-color: rgb(94 103 107);
   }
 }

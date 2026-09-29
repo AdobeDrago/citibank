@@ -51,21 +51,29 @@
   border-width: 0 2px 2px 0;
   transform: rotate(45deg);
   transform-origin: center;
-  transition: transform 0.3s ease-in-out;
+  transition: transform 0.6s ease-in-out;
 }
 
 .accordion .accordion-item[open] .accordion-item-label::after {
   transform: rotate(-135deg);
-  grid-template-rows: 1fr;
-
 }
 
 /* --- body --- */
-.accordion .accordion-item .accordion-item-body {
-  padding: 0 0 24px;
+.accordion .accordion-item > .accordion-item-body {
   display: grid;
   grid-template-rows: 0fr;
-  transition: grid-template-rows 0.4s ease;
+  padding: 0;
+  overflow: hidden;
+  transition: grid-template-rows 0.6s ease-in-out 0.05s, padding 0.6s ease-in-out 0.05s;
+}
+
+.accordion .accordion-item[open] > .accordion-item-body {
+  grid-template-rows: 1fr;
+  padding: 0 0 24px;
+}
+
+.accordion .accordion-item-body-inner {
+  overflow: hidden;
 }
 
 .accordion .accordion-item-body h4 {
@@ -77,9 +85,9 @@
   color: rgb(38 41 43);
 }
 
-.accordion .accordion-item-body p,
-.accordion .accordion-item-body li,
-.accordion .accordion-item-body div {
+.accordion .accordion-item-body-inner > p,
+.accordion .accordion-item-body-inner > li,
+.accordion .accordion-item-body-inner > div {
   margin: 0 0 0.8em;
   font-family: var(--body-font-family);
   font-size: 16px;
@@ -87,14 +95,20 @@
   color: rgb(94 103 107);
 }
 
-.accordion .accordion-item-body p:last-child,
-.accordion .accordion-item-body div:last-child {
+.accordion .accordion-item-body-inner > :last-child {
   margin-bottom: 0;
 }
 
 .accordion .accordion-item-body a:any-link {
   color: var(--link-color);
   text-decoration: underline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .accordion .accordion-item-label::after,
+  .accordion .accordion-item > .accordion-item-body {
+    transition: none;
+  }
 }
 
 @media (width >= 992px) {
@@ -178,15 +192,19 @@ body.credit-card-retail-pdp .accordion .accordion-item-label h3 {
 }
 
 body.credit-card-retail-pdp .accordion .accordion-item .accordion-item-body {
+  padding: 0;
+}
+
+body.credit-card-retail-pdp .accordion .accordion-item[open] .accordion-item-body {
   padding: 0 0 0 52px;
 }
 
 /* Source .category-content children: mt 15 / mb 30 / fw 100 / lh 21.
  * .matlist-section { margin-bottom: 25px } is separate (item spacing). */
 body.credit-card-retail-pdp .accordion .accordion-item-body h4,
-body.credit-card-retail-pdp .accordion .accordion-item-body p,
-body.credit-card-retail-pdp .accordion .accordion-item-body li,
-body.credit-card-retail-pdp .accordion .accordion-item-body div {
+body.credit-card-retail-pdp .accordion .accordion-item-body-inner > p,
+body.credit-card-retail-pdp .accordion .accordion-item-body-inner > li,
+body.credit-card-retail-pdp .accordion .accordion-item-body-inner > div {
   margin: 15px 0 30px;
   font-family: var(--body-font-family);
   font-size: 16px;
@@ -195,8 +213,7 @@ body.credit-card-retail-pdp .accordion .accordion-item-body div {
   color: var(--text-color);
 }
 
-body.credit-card-retail-pdp .accordion .accordion-item-body p:last-child,
-body.credit-card-retail-pdp .accordion .accordion-item-body div:last-child {
+body.credit-card-retail-pdp .accordion .accordion-item-body-inner > :last-child {
   margin-bottom: 30px;
 }
 
@@ -230,6 +247,12 @@ body.credit-card-retail-pdp .accordion .accordion-item-body a:any-link {
 main .section.light-grey.accordion-container {
   border-radius: 24px;
   margin: 0 12px;
+}
+
+@media (width >= 992px) {
+  main .section.light-grey.accordion-container {
+    margin-top: -24px;
+  }
 }
 
 main .section.light-grey.accordion-container .accordion-wrapper {

@@ -529,7 +529,18 @@ body.credit-card-pdp main > .section > div > h2 {
  * .default-content-wrapper; the .cards block is a sibling wrapper in the same
  * section, so scope to a section that contains a .cards block. */
 body.credit-card-pdp main > .section:has(.cards) > div > h2 {
-  font-size: 36px;
+  margin: 0 0 24px;
+  font-size: 28px;
+  line-height: 34px;
+  letter-spacing: 1.808px;
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp main > .section:has(.cards) > div > h2 {
+    margin-bottom: 48px;
+    font-size: 36px;
+    line-height: 42px;
+  }
 }
 
 body.credit-card-pdp .section.columns-container {
