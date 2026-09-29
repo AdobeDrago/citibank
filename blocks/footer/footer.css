@@ -483,7 +483,7 @@ footer .footer-cbol-disclosures a {
   text-decoration: underline;
 }
 
-/* fee-schedule: <table> and DA <div class="deposit-account"> */
+/* fee-schedule table (deposit-account block renders a real <table>) */
 footer .footer-cbol-disclosures table {
   border-collapse: collapse;
   table-layout: fixed;
@@ -509,25 +509,11 @@ footer .footer-cbol-disclosures thead th {
   padding-bottom: 23px;
 }
 
+/* Spacing comes from the table; do not border the block wrapper
+   (that drew an empty L-outline above the header). */
 footer .footer-cbol-disclosures .deposit-account {
-  margin: 48px 0;
+  margin: 0;
   font-size: 14px;
-  border-top: 1px solid #fff;
-  border-left: 1px solid #fff;
-}
-
-footer .footer-cbol-disclosures .deposit-account > div {
-  display: flex;
-  border-bottom: 1px solid #fff;
-}
-
-footer .footer-cbol-disclosures .deposit-account > div > div {
-  flex: 1;
-  padding: 20px 5px 19px;
-  border-right: 1px solid #fff;
-  color: #fff;
-  font-size: 14px;
-  text-align: left;
 }
 
 /* Badges — live `.footer__icons` after all terms */
