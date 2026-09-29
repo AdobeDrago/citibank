@@ -479,7 +479,7 @@ function buildNav(frag) {
 /** Applies the current locale's translations to a freshly-built nav element. */
 async function applyCurrentLocale(nav) {
   const locale = getLocale();
-  const dict = locale !== DEFAULT_LOCALE ? await fetchTranslationDictionary() : {};
+  const dict = locale === SPANISH_LOCALE ? await fetchTranslationDictionary() : {};
   applyTranslations(nav, dict, locale);
 }
 

@@ -22,10 +22,15 @@ function readCookie(name) {
 }
 
 /**
- * @returns {string} the active locale — `en` or `es_US`
+ * Resolves the active locale from the cookie. Anything other than the exact
+ * recognized Spanish value — missing, malformed, or some unrecognized
+ * third value — resolves to the default (English) rather than passing
+ * through, so a stale/garbage cookie can never accidentally trigger
+ * translation.
+ * @returns {string} `DEFAULT_LOCALE` or `SPANISH_LOCALE`
  */
 export function getLocale() {
-  return readCookie(LOCALE_COOKIE) || DEFAULT_LOCALE;
+  return readCookie(LOCALE_COOKIE) === SPANISH_LOCALE ? SPANISH_LOCALE : DEFAULT_LOCALE;
 }
 
 /**
@@ -84,15 +89,17 @@ export function fetchTranslationDictionary() {
 
 /**
  * Replaces chrome text under `root` with its Spanish counterpart wherever the
- * exact (trimmed) English text is a key in `dict`. Leaves English untouched
- * when `locale` is the default — callers always pass a pristine, unmutated
- * DOM tree so re-running this after a locale switch never double-translates.
+ * exact (trimmed) English text is a key in `dict`. Only translates when
+ * `locale` is exactly `SPANISH_LOCALE` — anything else (English, missing, or
+ * an unrecognized value) leaves the DOM untouched — callers always pass a
+ * pristine, unmutated DOM tree so re-running this after a locale switch
+ * never double-translates.
  * @param {Element} root
  * @param {Record<string, string>} dict
  * @param {string} locale
  */
 export function applyTranslations(root, dict, locale) {
-  if (!root || locale === DEFAULT_LOCALE || !dict) return;
+  if (!root || locale !== SPANISH_LOCALE || !dict) return;
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   const nodes = [];
   while (walker.nextNode()) nodes.push(walker.currentNode);

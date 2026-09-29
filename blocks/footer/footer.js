@@ -8,7 +8,7 @@
 
 import { decorateBlock, loadBlock } from '../../scripts/aem.js';
 import {
-  getLocale, DEFAULT_LOCALE, fetchTranslationDictionary, applyTranslations,
+  getLocale, SPANISH_LOCALE, fetchTranslationDictionary, applyTranslations,
 } from '../../scripts/i18n.js';
 
 /**
@@ -246,7 +246,7 @@ function buildFooterContent(frag) {
 /** Applies the current locale's translations to a freshly-built footer. */
 async function applyCurrentLocale(root) {
   const locale = getLocale();
-  const dict = locale !== DEFAULT_LOCALE ? await fetchTranslationDictionary() : {};
+  const dict = locale === SPANISH_LOCALE ? await fetchTranslationDictionary() : {};
   applyTranslations(root, dict, locale);
 }
 
