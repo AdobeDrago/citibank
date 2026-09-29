@@ -81,53 +81,15 @@ function extractCbolBadges(disclosures) {
 }
 
 /**
- * Convert DA `.deposit-account` fee grids into a live-matching table with
- * "Deposit Account" / "Monthly Service Fee" column headers.
- * @param {Element} disclosures
- */
-function decorateDepositAccountTables(disclosures) {
-  disclosures.querySelectorAll('.deposit-account').forEach((grid) => {
-    const rows = [...grid.children].filter((el) => el.tagName === 'DIV');
-    if (!rows.length) return;
-
-    const table = document.createElement('table');
-    table.className = 'fixed simple left';
-
-    const thead = document.createElement('thead');
-    const headRow = document.createElement('tr');
-    ['Deposit Account', 'Monthly Service Fee'].forEach((label) => {
-      const th = document.createElement('th');
-      th.scope = 'col';
-      th.textContent = label;
-      headRow.append(th);
-    });
-    thead.append(headRow);
-
-    const tbody = document.createElement('tbody');
-    rows.forEach((row) => {
-      const cells = [...row.children];
-      const tr = document.createElement('tr');
-      const th = document.createElement('th');
-      th.scope = 'row';
-      th.textContent = cells[0]?.textContent?.trim() || '';
-      const td = document.createElement('td');
-      td.textContent = cells[1]?.textContent?.trim() || '';
-      tr.append(th, td);
-      tbody.append(tr);
-    });
-
-    table.append(thead, tbody);
-    grid.replaceWith(table);
-  });
-}
-
-/**
  * Render the compact cbol landing footer. Fragment sections, in order:
  *   [0] logo:        <p><a><img></a></p>
  *   [1] legal:       <ul> of legal links
  *   [2] social:      <p> of image links
  *   [3] disclosures: long-form legal T&C (+ optional trailing badge imgs)
  * Structure matches live: nav row (logo | links | social) → terms → badges.
+ *
+ * Do not convert `.deposit-account` into a static table here — that block
+ * loads IN/OUT fee rows from /cbol/zipcode-bta.json via deposit-account.js.
  */
 function renderCbolFooter(block, frag) {
   const sections = [...frag.children].filter((el) => el.tagName === 'DIV');
@@ -148,7 +110,6 @@ function renderCbolFooter(block, frag) {
       return;
     }
 
-    decorateDepositAccountTables(band);
     const badges = extractCbolBadges(band);
     inner.append(band);
     if (badges) inner.append(badges);
@@ -157,8 +118,8 @@ function renderCbolFooter(block, frag) {
   if (nav.children.length) inner.prepend(nav);
   block.append(inner);
 
-  // The disclosures carry an authored `deposit-account` fee schedule. Fragment
-  // content never passes through decorateBlocks, so load that block here.
+  // Fragment content never passes through decorateBlocks, so load the
+  // deposit-account fee schedule (ZIP → BTA IN/OUT sheet rows) here.
   inner.querySelectorAll('.deposit-account').forEach((fees) => {
     decorateBlock(fees);
     loadBlock(fees);
