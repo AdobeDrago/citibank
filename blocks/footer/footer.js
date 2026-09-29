@@ -7,6 +7,9 @@
 // footer.js READS this DOM; it never invents copy.
 
 import { decorateBlock, loadBlock } from '../../scripts/aem.js';
+import {
+  getLocale, SPANISH_LOCALE, fetchTranslationDictionary, applyTranslations,
+} from '../../scripts/i18n.js';
 
 /**
  * cbol landing pages (banking.citi.com/cbol/…) ship a distinct compact legal
@@ -171,28 +174,65 @@ function classify(section) {
   return 'other';
 }
 
+// Cached across locale toggles so a rebuild re-reads the pristine authored
+// fragment instead of an already-mutated DOM (mirrors blocks/header/header.js).
+let cachedFooterFrag = null;
+let localeListenerAttached = false;
+let resizeListenerAttached = false;
+const isDesktopMql = window.matchMedia('(min-width: 900px)');
+
 /**
- * loads and decorates the footer
- * @param {Element} block The footer block element
+ * Mobile: column headings act as accordion toggles (collapsed by default).
+ * On desktop the CSS keeps every list expanded and disables the toggle.
+ * @param {Element} columnsBand
  */
-export default async function decorate(block) {
-  block.textContent = '';
+function wireFooterAccordion(columnsBand) {
+  columnsBand.querySelectorAll('.footer-column').forEach((col) => {
+    const heading = col.querySelector('h2');
+    const list = col.querySelector('ul');
+    if (!heading || !list) return;
+    heading.setAttribute('role', 'button');
+    heading.setAttribute('tabindex', '0');
+    heading.setAttribute('aria-expanded', 'false');
+    const toggle = () => {
+      if (isDesktopMql.matches) return;
+      const open = col.getAttribute('aria-expanded') === 'true';
+      col.setAttribute('aria-expanded', open ? 'false' : 'true');
+      heading.setAttribute('aria-expanded', open ? 'false' : 'true');
+    };
+    heading.addEventListener('click', toggle);
+    heading.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
+    });
+  });
 
-  // cbol landing pages get a distinct compact legal footer from their fragment.
-  if (isCbolPage()) {
-    const cbolFrag = await loadFooterFragmentNamed('cbol-footer');
-    if (cbolFrag) {
-      block.classList.add('footer-cbol');
-      renderCbolFooter(block, cbolFrag);
-      return;
-    }
-    // fall through to the default footer if the cbol fragment is unavailable
-  }
+  // Registered once and delegated against whatever `.footer-column`s are
+  // currently live — a locale toggle replaces the footer content, so a
+  // listener closed over this specific columnsBand would keep firing on a
+  // detached element after the first switch.
+  if (resizeListenerAttached) return;
+  resizeListenerAttached = true;
+  isDesktopMql.addEventListener('change', () => {
+    document.querySelectorAll('.footer-column').forEach((col) => {
+      col.setAttribute('aria-expanded', 'false');
+      col.querySelector('h2')?.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
 
-  const frag = await loadFooterFragment();
-  if (!frag) return;
-
-  const sections = [...frag.children].filter((el) => el.tagName === 'DIV');
+/**
+ * Builds the full retail footer from a (never-mutated) parsed footer
+ * fragment. Callable more than once against the same `frag` — safe to call
+ * again after a locale switch to get back a clean, untranslated footer.
+ * @param {Element} frag
+ * @returns {DocumentFragment}
+ */
+function buildFooterContent(frag) {
+  // The section-grouping logic below MOVES nodes out of each section (not
+  // cloneNode) — clone the whole fragment up front so `frag` itself (cached
+  // for a later locale-switch rebuild) is never consumed/emptied.
+  const clone = frag.cloneNode(true);
+  const sections = [...clone.children].filter((el) => el.tagName === 'DIV');
   const nav = document.createElement('div');
   nav.className = 'footer-nav';
 
@@ -260,37 +300,61 @@ export default async function decorate(block) {
   const footer = document.createElement('div');
   footer.className = 'footer-inner';
   footer.append(nav);
-  block.append(footer);
-  if (logoBand) block.append(logoBand);
 
-  // Mobile: column headings act as accordion toggles (collapsed by default).
-  // On desktop the CSS keeps every list expanded and disables the toggle.
-  const isDesktop = window.matchMedia('(min-width: 900px)');
-  columnsBand.querySelectorAll('.footer-column').forEach((col) => {
-    const heading = col.querySelector('h2');
-    const list = col.querySelector('ul');
-    if (!heading || !list) return;
-    heading.setAttribute('role', 'button');
-    heading.setAttribute('tabindex', '0');
-    heading.setAttribute('aria-expanded', 'false');
-    const toggle = () => {
-      if (isDesktop.matches) return;
-      const open = col.getAttribute('aria-expanded') === 'true';
-      col.setAttribute('aria-expanded', open ? 'false' : 'true');
-      heading.setAttribute('aria-expanded', open ? 'false' : 'true');
-    };
-    heading.addEventListener('click', toggle);
-    heading.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
-    });
-  });
+  const content = document.createDocumentFragment();
+  content.append(footer);
+  if (logoBand) content.append(logoBand);
 
-  // Reset accordion state when crossing the breakpoint so desktop is never left collapsed.
-  isDesktop.addEventListener('change', () => {
-    columnsBand.querySelectorAll('.footer-column').forEach((col) => {
-      col.setAttribute('aria-expanded', 'false');
-      const h = col.querySelector('h2');
-      if (h) h.setAttribute('aria-expanded', 'false');
-    });
+  wireFooterAccordion(columnsBand);
+  return content;
+}
+
+/** Applies the current locale's translations to a freshly-built footer. */
+async function applyCurrentLocale(root) {
+  const locale = getLocale();
+  const dict = locale === SPANISH_LOCALE ? await fetchTranslationDictionary() : {};
+  applyTranslations(root, dict, locale);
+}
+
+/**
+ * Once per page, reacts to a locale switch (fired by the header's toggle) by
+ * rebuilding the footer from the cached pristine fragment and re-applying
+ * translations for the new locale.
+ * @param {Element} block
+ */
+function wireLocaleReactivity(block) {
+  if (localeListenerAttached) return;
+  localeListenerAttached = true;
+  document.addEventListener('localechange', async () => {
+    if (!cachedFooterFrag || isCbolPage()) return;
+    block.replaceChildren(buildFooterContent(cachedFooterFrag));
+    await applyCurrentLocale(block);
   });
+}
+
+/**
+ * loads and decorates the footer
+ * @param {Element} block The footer block element
+ */
+export default async function decorate(block) {
+  block.textContent = '';
+
+  // cbol landing pages get a distinct compact legal footer from their fragment.
+  if (isCbolPage()) {
+    const cbolFrag = await loadFooterFragmentNamed('cbol-footer');
+    if (cbolFrag) {
+      block.classList.add('footer-cbol');
+      renderCbolFooter(block, cbolFrag);
+      return;
+    }
+    // fall through to the default footer if the cbol fragment is unavailable
+  }
+
+  const frag = await loadFooterFragment();
+  if (!frag) return;
+  cachedFooterFrag = frag;
+
+  block.append(buildFooterContent(frag));
+  await applyCurrentLocale(block);
+  wireLocaleReactivity(block);
 }

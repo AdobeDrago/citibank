@@ -21,12 +21,12 @@ This repository is currently being used to prototype an **EDS migration pilot fo
 
 - **`docs/index.html`** is a standalone GitHub Pages proposal/tracker for this pilot — it is *not* EDS content and is not served by `*.aem.page`/`*.aem.live`. It documents the candidate scenarios below, what each validates, open questions, and next steps. Read it before starting work on any scenario, and keep it current (status badges, open questions) as scenarios move from "Proposed" to actually built.
 - **`docs/icons/citi-logo.svg`** is the Citi brand mark used in that doc's top nav.
-- The doc was generated with the **`pilot-playbook`** skill, maintained separately at [github.com/lamontacrook/pilot-playbook](https://github.com/lamontacrook/pilot-playbook) — reuse it if this pilot gains new scenarios or a similar proposal doc is needed for another pilot.
+- The doc was originally generated with the **`pilot-playbook`** skill and later refreshed toward the Adobe Drago EDS docs pattern (`eds-docs-generate`). Keep it current (status badges, open questions, block/module inventory) as scenarios move forward.
 
 ### The three candidate scenarios
-1. **Citigold Featured Offer (ELP)** — `banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm` — hosted-page migration path, authoring/governance model, dynamic API integration; must pass a Pega banner end-to-end test against Citi UAT before publishing live.
-2. **Post-Login Pega Banners** — no public URL (renders only post-login); content sourced via AEM GraphQL (`qa3.aemapi.citi.com/graphql/execute.json/pz/get-pz-offers`). Validates session/identity integration, real-time Pega decisioning, and slot-based placement.
-3. **Credit Cards Explore page** — `www.citi.com/credit-cards/?intc=citihpmenu~creditcards~explore` — currently server-side-rendered Angular; validates headless→EDS migration, segment personalization, engagement modules, and a bi-weekly content release cadence alongside monthly tech releases.
+1. **Credit Cards Explore page** — `www.citi.com/credit-cards/?intc=citihpmenu~creditcards~explore` — currently server-side-rendered Angular; validates headless→EDS migration, listing/PDPs, segment personalization, engagement modules, and a bi-weekly content release cadence alongside monthly tech releases.
+2. **Citigold Featured Offer (ELP)** — `banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm` — hosted-page migration path, authoring/governance model, ZIP/BTA-driven dynamic rendering; must pass a Pega banner end-to-end test against Citi UAT before publishing live.
+3. **Post-Login Pega Banners** — no public URL (renders only post-login); production content sourced via AEM GraphQL (`qa3.aemapi.citi.com/graphql/execute.json/pz/get-pz-offers`). Demo proves the pattern with mocked login/ECID + EDS sheets/fragments. Validates session/identity integration, real-time Pega decisioning, and slot-based placement.
 
 See `docs/index.html` for full detail, current status, and open questions on each scenario.
 
