@@ -329,6 +329,13 @@ function wireGlobalNavListeners() {
     nav?.querySelector('.nav-hamburger')?.setAttribute('aria-expanded', 'false');
     nav?.classList.remove('nav-open', 'nav-subpanel-open');
   });
+  // Viewport resize handling: reset menus/hamburger when crossing the breakpoint.
+  isDesktop.addEventListener('change', () => {
+    const nav = document.querySelector('#nav');
+    closeAllMenus(document.querySelector('.nav-list'));
+    nav?.querySelector('.nav-hamburger')?.setAttribute('aria-expanded', 'false');
+    nav?.classList.remove('nav-open', 'nav-subpanel-open');
+  });
 }
 
 /**
@@ -461,13 +468,6 @@ function buildNav(frag) {
     li.setAttribute('aria-expanded', open ? 'false' : 'true');
     btn.setAttribute('aria-expanded', open ? 'false' : 'true');
     nav.classList.toggle('nav-subpanel-open', !open);
-  });
-
-  // Viewport resize handling: reset menus/hamburger when crossing the breakpoint.
-  isDesktop.addEventListener('change', () => {
-    closeAllMenus(navList);
-    hamburger.setAttribute('aria-expanded', 'false');
-    nav.classList.remove('nav-open', 'nav-subpanel-open');
   });
 
   nav.append(util, main);

@@ -7,7 +7,7 @@
  */
 
 export const LOCALE_COOKIE = 'locale';
-export const DEFAULT_LOCALE = 'en';
+export const DEFAULT_LOCALE = 'en_US';
 export const SPANISH_LOCALE = 'es_US';
 
 const TRANSLATIONS_URL = '/translations.json';
@@ -101,6 +101,9 @@ export function applyTranslations(root, dict, locale) {
     const text = node.textContent.trim();
     if (!text) return;
     const translated = dict[text];
-    if (translated) node.textContent = node.textContent.replace(text, translated);
+    // Function replacer — a plain-string replacement would interpret `$&`,
+    // `$1`, etc. in `translated` as special patterns (e.g. a fee amount like
+    // "$100" written into the dictionary would otherwise get mangled).
+    if (translated) node.textContent = node.textContent.replace(text, () => translated);
   });
 }
