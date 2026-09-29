@@ -152,6 +152,7 @@ body.credit-card-pdp main .section.cards-container.accordion-container .cards .c
   margin: 0;
   object-fit: contain;
   object-position: center;
+  filter: brightness(0) saturate(100%) invert(40%) sepia(7%) saturate(520%) hue-rotate(152deg) brightness(94%) contrast(88%);
 }
 
 @media (width >= 992px) {

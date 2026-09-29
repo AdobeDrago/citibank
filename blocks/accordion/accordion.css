@@ -325,21 +325,21 @@ body.credit-card-pdp main .section.light-grey.accordion-container .accordion .ac
   background: var(--accordion-glyph) center / contain no-repeat;
 }
 
-/* Topic glyphs — colour in the SVG (CSS mask + stroke is unreliable across browsers) */
+/* Topic glyphs — live Double Cash drawer uses grey #5e676b (not brand blue) */
 body.credit-card-pdp main .section.light-grey.accordion-container .accordion-item:nth-of-type(1) .accordion-item-label {
-  --accordion-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23056dae' stroke-width='1.5' stroke-linejoin='round'%3E%3Crect x='4' y='10' width='16' height='11' rx='2'/%3E%3Cpath d='M8 10V7a4 4 0 0 1 8 0v3'/%3E%3Ccircle cx='12' cy='15.5' r='1.6'/%3E%3C/svg%3E");
+  --accordion-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235e676b' stroke-width='1.5' stroke-linejoin='round'%3E%3Crect x='4' y='10' width='16' height='11' rx='2'/%3E%3Cpath d='M8 10V7a4 4 0 0 1 8 0v3'/%3E%3Ccircle cx='12' cy='15.5' r='1.6'/%3E%3C/svg%3E");
 }
 
 body.credit-card-pdp main .section.light-grey.accordion-container .accordion-item:nth-of-type(2) .accordion-item-label {
-  --accordion-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23056dae' stroke-width='1.5'%3E%3Crect x='2.5' y='5.5' width='19' height='13' rx='2'/%3E%3Cpath d='M2.5 10h19M6 14.5h4'/%3E%3C/svg%3E");
+  --accordion-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235e676b' stroke-width='1.5'%3E%3Crect x='2.5' y='5.5' width='19' height='13' rx='2'/%3E%3Cpath d='M2.5 10h19M6 14.5h4'/%3E%3C/svg%3E");
 }
 
 body.credit-card-pdp main .section.light-grey.accordion-container .accordion-item:nth-of-type(3) .accordion-item-label {
-  --accordion-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23056dae' stroke-width='1.5' stroke-linejoin='round'%3E%3Cpath d='M7.5 21V9.8l4.7-6.8a2 2 0 0 1 2 2v4.3h5.2a2 2 0 0 1 2 2.3l-1.3 7.1a2 2 0 0 1-2 1.3z'/%3E%3Crect x='2.5' y='9.8' width='5' height='11.2' rx='1'/%3E%3C/svg%3E");
+  --accordion-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235e676b' stroke-width='1.5' stroke-linejoin='round'%3E%3Cpath d='M7.5 21V9.8l4.7-6.8a2 2 0 0 1 2 2v4.3h5.2a2 2 0 0 1 2 2.3l-1.3 7.1a2 2 0 0 1-2 1.3z'/%3E%3Crect x='2.5' y='9.8' width='5' height='11.2' rx='1'/%3E%3C/svg%3E");
 }
 
 body.credit-card-pdp main .section.light-grey.accordion-container .accordion-item:nth-of-type(4) .accordion-item-label {
-  --accordion-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23056dae' stroke-width='1.5' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9.2'/%3E%3Cpath d='M14.2 8.3l5.3 9.1M9.8 8.3h10.6M7.6 12.1l5.3-9.2M9.8 15.7L4.5 6.6M14.2 15.7H3.6M16.4 11.9l-5.3 9.2'/%3E%3C/svg%3E");
+  --accordion-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%235e676b' stroke-width='1.5' stroke-linecap='round'%3E%3Ccircle cx='12' cy='12' r='9.2'/%3E%3Cpath d='M14.2 8.3l5.3 9.1M9.8 8.3h10.6M7.6 12.1l5.3-9.2M9.8 15.7L4.5 6.6M14.2 15.7H3.6M16.4 11.9l-5.3 9.2'/%3E%3C/svg%3E");
 }
 
 /* submenu: padding 0 24px; ≥992 drawer faq-content adds +56px left (align under title) */
@@ -350,7 +350,8 @@ body.credit-card-pdp main .section.light-grey.accordion-container .accordion .ac
 }
 
 body.credit-card-pdp main .section.light-grey.accordion-container .accordion .accordion-item[open] > .accordion-item-body {
-  padding-bottom: 16px;
+  /* Live faq-content pb is 0; last .body-text.pb-3 is 16px + ~9px to the section border */
+  padding-bottom: 8px;
 }
 
 @media (width >= 992px) {
@@ -385,7 +386,7 @@ body.credit-card-pdp main .section.light-grey.accordion-container .accordion .ac
 }
 
 body.credit-card-pdp main .section.light-grey.accordion-container .accordion .accordion-item-body-inner > :last-child {
-  margin-bottom: 0;
+  margin-bottom: 16px;
 }
 
 /*
