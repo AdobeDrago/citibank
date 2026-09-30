@@ -1,6 +1,7 @@
 import getProducts from '../product-list/product-list-data.js';
 
 const VIEW_ALL_URL = '/credit-cards/view-all-credit-cards';
+const COMPARE_PATH = '/credit-cards/compare-cards';
 const INDEX_URL = '/credit-card-index.json';
 // Static comparison content (About this card, Benefits, Annual Fee, APR,
 // Travel Perks, With This Card) for the sections below the header. Assigned
@@ -17,6 +18,9 @@ const MAX_SLOTS = 3;
 // file to wire up; if this key or JSON shape ever changes, update both
 // files together.
 const SELECTION_KEY = 'compare-cards-selected';
+// Written by compare-tray.js when "Compare now" is clicked: the listing page
+// the person came from. Must match the same key in compare-tray.js.
+const ORIGIN_KEY = 'compare-cards-origin';
 
 function getSelection() {
   try {
@@ -29,6 +33,22 @@ function getSelection() {
 function setSelection(paths) {
   sessionStorage.setItem(SELECTION_KEY, JSON.stringify(paths));
   document.dispatchEvent(new CustomEvent('compare-selection-changed', { detail: { paths } }));
+}
+
+// Where "Add Card" should send the person: the listing page they started
+// from (e.g. /credit-cards or /credit-cards/view-all-credit-cards). Falls
+// back to the view-all page for direct navigation, or if the stored value
+// isn't a same-site path.
+function getAddCardUrl() {
+  try {
+    const origin = sessionStorage.getItem(ORIGIN_KEY);
+    if (origin && origin.startsWith('/') && !origin.startsWith('//') && origin !== COMPARE_PATH) {
+      return origin;
+    }
+  } catch {
+    // sessionStorage unavailable — use the default below
+  }
+  return VIEW_ALL_URL;
 }
 
 function splitList(value) {
@@ -166,7 +186,7 @@ function buildAddCardCell(slotIndex, lastRemoved) {
 
   const addBtn = document.createElement('a');
   addBtn.className = 'compare-cards-add-card-btn';
-  addBtn.href = VIEW_ALL_URL;
+  addBtn.href = getAddCardUrl();
   addBtn.textContent = 'Add Card';
   body.append(addBtn);
 
@@ -197,7 +217,7 @@ function buildStickyAddCardCell(slotIndex, lastRemoved) {
 
   const addBtn = document.createElement('a');
   addBtn.className = 'compare-cards-add-card-btn compare-cards-sticky-add-card-btn';
-  addBtn.href = VIEW_ALL_URL;
+  addBtn.href = getAddCardUrl();
   addBtn.textContent = 'Add Card';
   cell.append(addBtn);
 
@@ -564,7 +584,9 @@ export default async function decorate(block) {
 
     const addBtn = event.target.closest('.compare-cards-add-card-btn');
     if (addBtn) {
-      window.location.href = VIEW_ALL_URL;
+      // Prevent the anchor's own navigation so we don't navigate twice.
+      event.preventDefault();
+      window.location.href = getAddCardUrl();
     }
   });
 }

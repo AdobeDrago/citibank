@@ -241,3 +241,1731 @@
     padding: 32px 32px 28px;
   }
 }
+
+/* stylelint-disable no-descending-specificity */
+
+/*
+ * Citigold featured-offer LANDING template (body.citigold-landing).
+ * Scoped so it never affects the credit-card templates. Values measured from the
+ * source banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm at
+ * 1440px: navy #0f1632, gold band #8e6f32, white cards, pill CTAs.
+ *
+ * Structure (mobile-first):
+ *   1. Base (mobile)              — all sections
+ *   2. @media (width >= 768px)    — tablet
+ *   3. @media (width >= 992px)    — desktop
+ *   4. @media (width >= 1200px)   — wide desktop
+ *   5. @media (prefers-reduced-motion)
+ * Each breakpoint appears once. Inside it, rules follow the base section order
+ * and restate only what changes from the previous breakpoint.
+ *
+ * Conventions:
+ *   - rem for type and spacing (1rem = 16px); px only for borders, hairlines,
+ *     shadows and source-measured layout widths/offsets.
+ *   - Property order: position > box model > typography > visual.
+ *   - Colours and font stacks come from the tokens below.
+ *
+ * Assumed to be defined globally (not in this file):
+ *   --citi-blue, --citi-private-client, --body-font-family
+ */
+
+/* ==========================================================================
+   1. BASE (mobile)
+   ========================================================================== */
+
+/* ---------- Tokens ---------- */
+body.citigold-landing {
+  --citi-navy: #0f1632;
+  --citi-gold: #8e6f32;
+  --citi-text: #333;
+  --citi-sand: #faf7f4;
+  --citi-sand-border: #dfd0be;
+  --citi-band-bg: var(--citi-pale-blue-bg, #ecf6fe);
+  --citi-font-display-bold: "citigold-display-bold", helvetica, sans-serif;
+  --citi-font-display: "citigold-display-regular", helvetica, sans-serif;
+  --citi-font-display-italic: "citigold-display-regular-italic", helvetica, sans-serif;
+  --citi-font-text: "citigold-text-regular", helvetica, sans-serif;
+  --citi-font-text-bold: "citigold-text-bold", helvetica, sans-serif;
+  --citi-font-condensed: "citigold-condensed-regular", helvetica, sans-serif;
+}
+
+/* Superscripts / subscripts (was unscoped `sup` — leaked to other templates) */
+body.citigold-landing sub,
+body.citigold-landing sup {
+  font-size: 65%;
+}
+
+/* ---------- Layout + headings ---------- */
+
+/* Content column matches the source's narrower measure (~1128px outer with
+   ~76px side gutters at desktop, vs the boilerplate's 1200px). border-box keeps
+   the section padding inside that cap. */
+body.citigold-landing main > .section > div {
+  max-width: 1128px;
+  box-sizing: border-box;
+}
+
+/* Boilerplate puts a 40px margin between sections, which shows the white page
+   body as stripes between the gold bands. Source is one continuous surface, so
+   each band owns its internal padding instead. */
+body.citigold-landing main > .section {
+  margin: 0;
+}
+
+body.citigold-landing main h1,
+body.citigold-landing main h2,
+body.citigold-landing main h3,
+body.citigold-landing main h4 {
+  color: var(--citi-navy);
+  font-weight: 400;
+}
+
+body.citigold-landing main > .section > div > h2 {
+  font-size: 2.375rem;
+  line-height: 1.2;
+  text-align: center;
+}
+
+/* ---------- Hero ----------
+   Mobile: simple white panel. >=768: white/gold split with photo on gold side. */
+body.citigold-landing main .landing-hero {
+  position: relative;
+  display: flow-root;
+  padding-top: 0;
+  background: linear-gradient(#fff 92%, var(--citi-gold) 92%);
+}
+
+/* Full-bleed wrapper — cancel section max-width/padding so bg matches header */
+body.citigold-landing main .landing-hero > div,
+body.citigold-landing main .section.hero-container > .hero-wrapper {
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body.citigold-landing main .landing-hero .hero.block {
+  position: relative;
+  z-index: 1;
+  display: block;
+  width: 95%;
+  max-width: 76rem;
+  height: auto;
+  min-height: 0;
+  margin: 0 auto;
+  padding: 0 0 2rem;
+  overflow: visible;
+  text-align: left;
+  background: none;
+}
+
+/* Single-row hero: kill lifestyle-strip sizing / absolute bg from hero.css */
+body.citigold-landing main .landing-hero .hero .hero-bg,
+body.citigold-landing main .landing-hero .hero .hero-content-row {
+  position: relative;
+  inset: auto;
+  z-index: 1;
+  display: block;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  line-height: normal;
+  grid-area: auto;
+}
+
+body.citigold-landing main .landing-hero .hero .hero-bg picture,
+body.citigold-landing main .landing-hero .hero .hero-bg img {
+  display: none;
+}
+
+body.citigold-landing main .landing-hero .hero .hero-content {
+  position: relative;
+  z-index: 1;
+  display: block;
+  box-sizing: border-box;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  background: none;
+  text-align: left;
+}
+
+body.citigold-landing main .landing-hero .hero h1 {
+  margin: 0 0 1rem;
+  color: var(--citi-navy);
+  font-family: var(--citi-font-display-bold);
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1.875rem;
+  letter-spacing: -0.0625rem;
+  text-transform: none;
+}
+
+body.citigold-landing main .landing-hero .hero p {
+  margin: 0;
+  font-size: 0.875rem;
+  line-height: 1.375rem;
+}
+
+/* Neutralize retail PDP eyebrow badge — offer copy is plain text */
+body.citigold-landing main .landing-hero .hero .hero-eyebrow {
+  display: block;
+  margin: 0 0 1rem;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  color: var(--citi-navy);
+  font-family: var(--citi-font-text);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.375rem;
+  letter-spacing: normal;
+}
+
+body.citigold-landing main .landing-hero .hero .hero-eyebrow a {
+  color: #000;
+  font-family: var(--citi-font-text-bold);
+  font-weight: 700;
+  text-decoration: underline;
+  text-transform: capitalize;
+}
+
+body.citigold-landing main .landing-hero .hero a.button,
+body.citigold-landing main .landing-hero .hero a.button.primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: auto;
+  max-width: 100%;
+  margin: 1.5rem 0;
+  padding: 1.25rem 4.375rem;
+  border-radius: 6.25rem;
+  background: var(--citi-navy);
+  color: #fff;
+  font-family: var(--citi-font-text-bold);
+  font-size: 1.25rem;
+  font-weight: 700;
+  line-height: 1.25rem;
+  letter-spacing: 0.0313rem;
+  text-decoration: none;
+}
+
+body.citigold-landing main .landing-hero .hero .hero-disclaimer {
+  display: block;
+  width: 100%;
+  color: var(--citi-navy);
+  font-family: var(--citi-font-text);
+  font-size: 0.75rem;
+  line-height: 1.1875rem;
+  letter-spacing: -0.0158rem;
+}
+
+/* ---------- "Explore features" gold band ---------- */
+body.citigold-landing main .landing-features {
+  position: relative;
+  z-index: 1;
+  background: var(--citi-gold);
+}
+
+/* Mobile: narrow centered column (source max-width 17.5rem) */
+body.citigold-landing main .landing-features > div {
+  max-width: 17.5rem;
+  margin-inline: auto;
+  padding-inline: 0;
+  box-sizing: border-box;
+}
+
+body.citigold-landing main .landing-features h2,
+body.citigold-landing main .landing-features .cards strong,
+body.citigold-landing main .landing-features .cards p {
+  color: #fff;
+}
+
+body.citigold-landing main .landing-features > div > h2 {
+  margin: 0 auto 1.5625rem;
+  font-family: var(--citi-font-display-bold);
+  font-size: 1.625rem;
+  font-weight: 400;
+  line-height: 1.875rem;
+  letter-spacing: 0.01em;
+  text-align: center;
+}
+
+body.citigold-landing main .landing-features .cards > ul {
+  width: 100%;
+  margin: 0 auto 1.25rem;
+  padding: 0;
+  gap: 0;
+  list-style: none;
+}
+
+body.citigold-landing main .landing-features .cards > ul > li {
+  display: list-item;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 0 0 0 2rem;
+  overflow: visible;
+  border: 0;
+  border-radius: 0;
+  background-color: transparent;
+  background-image: url("/icons/citigold-checkmark.svg");
+  background-repeat: no-repeat;
+  background-position: left 0.25rem;
+  background-size: auto 0.8125rem;
+  color: #fff;
+  text-align: left;
+  break-inside: avoid;
+}
+
+body.citigold-landing main .landing-features .cards .cards-card-body {
+  display: block;
+  margin: 0;
+  padding: 0;
+}
+
+body.citigold-landing main .landing-features .cards > ul > li p {
+  margin: 0;
+  font-family: var(--citi-font-text);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+}
+
+body.citigold-landing main .landing-features .cards > ul > li p + p {
+  margin: 0 0 1.5625rem;
+}
+
+body.citigold-landing main .landing-features .cards > ul > li > .cards-card-body > p:only-child {
+  margin-bottom: 1.5625rem;
+}
+
+body.citigold-landing main .landing-features .cards strong {
+  font-family: var(--citi-font-display-bold);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+}
+
+/* ---------- Offer cards ----------
+   Renders as TWO stacked wrappers (heading + tabs) plus a disclaimer wrapper.
+   They must read as ONE white panel with rounded outer corners: the first
+   rounds only its top corners, the last only its bottom corners, flush between. */
+body.citigold-landing main .landing-offer-cards {
+  position: relative;
+  z-index: 2;
+  padding: 0 0 3rem;
+  overflow: visible;
+  background: var(--citi-gold);
+}
+
+body.citigold-landing main .landing-offer-cards > div {
+  display: flow-root; /* contain child margins — no gold seams between wrappers */
+  position: relative;
+  z-index: 2;
+  width: 95%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  box-sizing: border-box;
+  overflow: visible;
+  border-radius: 0;
+  background: #fff;
+  box-shadow: none;
+}
+
+body.citigold-landing main .landing-offer-cards > div:first-child {
+  margin-top: -1.25rem;
+  padding: 2rem 0.9375rem 0;
+  border-radius: 1.5rem 1.5rem 0 0;
+}
+
+body.citigold-landing main .landing-offer-cards > .tabs-wrapper {
+  padding: 0.625rem 0.9375rem 0.9375rem;
+}
+
+/* Source .benefits_features__ndip — shadow only here so it falls under the
+   card, not across the disclaimer */
+body.citigold-landing main .landing-offer-cards > div:last-child {
+  padding: 0 0 1rem;
+  border-radius: 0 0 1.5rem 1.5rem;
+  box-shadow: rgb(0 0 0 / 15%) 0 17px 34px 0;
+}
+
+body.citigold-landing main .landing-offer-cards > div:last-child p {
+  margin: 0;
+  padding: 0 0.9375rem;
+  color: var(--citi-text);
+  font-family: var(--citi-font-text-bold);
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1.125rem;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+/* Source .benefits_features__heading — margin 0 so it cannot escape the shell */
+body.citigold-landing main .landing-offer-cards h2 {
+  margin: 0;
+  padding: 0;
+  color: var(--citi-navy);
+  font-family: var(--citi-font-display);
+  font-size: 1.625rem;
+  font-weight: 400;
+  line-height: 2.125rem;
+  text-align: center;
+}
+
+body.citigold-landing main .landing-offer-cards h2 em,
+body.citigold-landing main .landing-offer-cards h2 i,
+body.citigold-landing main .landing-offer-cards h2 strong,
+body.citigold-landing main .landing-offer-cards h2 b,
+body.citigold-landing main .landing-offer-cards h2 .gold {
+  color: var(--citi-gold);
+  font-family: var(--citi-font-display-italic);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Tabs: stacked pills on mobile */
+body.citigold-landing main .landing-offer-cards .tabs {
+  max-width: 870px;
+  margin: auto;
+  overflow: visible;
+}
+
+body.citigold-landing main .landing-offer-cards .tabs .tabs-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+}
+
+body.citigold-landing main .landing-offer-cards .tabs .tabs-list button {
+  position: relative;
+  display: flex;
+  flex: none;
+  align-items: center;
+  box-sizing: border-box;
+  width: 100%;
+  min-width: 0;
+  height: 3.5rem;
+  margin: 0 0 1rem;
+  padding: 0.625rem 1.25rem 0.625rem 0.9375rem;
+  border: 1px solid var(--citi-sand-border);
+  border-radius: 2.5rem;
+  background: var(--citi-sand);
+  color: var(--citi-gold);
+  font-family: var(--citi-font-text-bold);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 0.875rem;
+  letter-spacing: 0.1rem;
+  text-align: left;
+  text-transform: uppercase;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+body.citigold-landing main .landing-offer-cards .tabs .tabs-list button p {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+}
+
+body.citigold-landing main .landing-offer-cards .tabs .tabs-list button img,
+body.citigold-landing main .landing-offer-cards .tabs .tabs-list button picture {
+  display: inline-block;
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  object-fit: contain;
+}
+
+body.citigold-landing main .landing-offer-cards .tabs .tabs-list button[aria-selected='true'] {
+  border-color: var(--citi-gold);
+  background: var(--citi-gold);
+  color: #fff;
+}
+
+body.citigold-landing main .landing-offer-cards .tabs .tabs-list button[aria-selected='true'] img {
+  filter: brightness(0) invert(1);
+}
+
+/* Tab panels — source .benefits_features__tabpanel */
+body.citigold-landing main .landing-offer-cards .tabs .tabs-panel {
+  margin: 0;
+  padding: 0;
+  overflow: visible;
+  border: 0;
+  background: transparent;
+}
+
+body.citigold-landing main .landing-offer-cards .tabs .tabs-panel > div {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  padding: 0.75rem 0 0;
+  box-sizing: border-box;
+}
+
+body.citigold-landing main .landing-offer-cards .tabs .tabs-panel h3 {
+  margin: 0;
+  color: var(--citi-text);
+  font-family: var(--citi-font-text-bold);
+  font-size: 0.875rem;
+  font-weight: 700;
+  line-height: 1.375rem;
+}
+
+body.citigold-landing main .landing-offer-cards .tabs .tabs-panel h3 strong {
+  font-weight: 700;
+}
+
+body.citigold-landing main .landing-offer-cards .tabs .tabs-panel p {
+  max-width: 238px;
+  margin: 0.1875rem 0 1.25rem;
+  color: var(--citi-text);
+  font-family: var(--citi-font-text);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.375rem;
+  text-align: left;
+}
+
+/* ---------- Bonus: deposit amounts + steps ----------
+   Source .bonus / #bonus — white band; gold serif $ amounts split by OR.
+   Steps panel styling lives in blocks/cards/cards.css. */
+body.citigold-landing main .landing-bonus {
+  padding: 1.25rem 0;
+  background: #fff;
+}
+
+/* Source .bonus__title — narrow centered measure, wraps to 2 lines */
+body.citigold-landing main .landing-bonus > .default-content-wrapper:first-child > h2 {
+  width: 17.5rem;
+  margin: 0 auto;
+  font-family: var(--citi-font-display);
+  font-size: 2rem;
+  font-weight: 400;
+  line-height: 2.5rem;
+  text-align: center;
+}
+
+/* Live wraps "the more you earn" in gold italic serif — author as bold */
+body.citigold-landing main .landing-bonus > .default-content-wrapper:first-child > h2 strong {
+  color: var(--citi-gold);
+  font-family: var(--citi-font-display-italic);
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Earnings columns: stacked on mobile (live .bonus__earnings) */
+body.citigold-landing main .landing-bonus .columns > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 2.5rem 0;
+}
+
+/* Override accelerator tile fills — transparent centered stacks */
+body.citigold-landing main .landing-bonus .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div,
+body.citigold-landing main .landing-bonus .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:first-child,
+body.citigold-landing main .landing-bonus .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) {
+  position: relative;
+  gap: 0;
+  padding: 0;
+  border-radius: 0;
+  background: transparent;
+  color: var(--citi-navy);
+  text-align: center;
+}
+
+/* Divider between the two amounts, with a centered "OR" badge on the seam */
+body.citigold-landing main .landing-bonus .columns > div > div + div {
+  border-left: 0;
+}
+
+body.citigold-landing main .landing-bonus .columns > div > div + div::before {
+  content: "OR";
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 88%;
+  margin: 1.25rem auto;
+  color: #000;
+  font-family: var(--citi-font-display-bold);
+  font-size: 1.75rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  background:
+    linear-gradient(#000, #000) left center / 38% 0.0625rem no-repeat,
+    linear-gradient(#000, #000) right center / 38% 0.0625rem no-repeat;
+}
+
+body.citigold-landing main .landing-bonus .columns p {
+  margin: 0;
+  color: var(--citi-navy);
+  font-family: var(--body-font-family);
+}
+
+/* EARN label — live .bonus__copy1 */
+body.citigold-landing main .landing-bonus .columns p:first-child {
+  font-family: var(--citi-font-display-bold);
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: 0;
+  text-transform: uppercase;
+}
+
+/* Minimum Balance — live .bonus__copy3 */
+body.citigold-landing main .landing-bonus .columns p:nth-child(3) {
+  margin-top: 0;
+  font-size: 0.9375rem;
+  line-height: 1.125rem;
+}
+
+/* $ amounts — live .bonus__copy2 / .bonus__copy4 (serif italic gold) */
+body.citigold-landing main .landing-bonus .columns strong {
+  display: block;
+  margin: 0.625rem 0;
+  color: var(--citi-gold);
+  font-family: var(--citi-font-display-italic);
+  font-size: 2.5rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 2.3125rem;
+}
+
+body.citigold-landing main .landing-bonus .columns p:nth-child(2) strong {
+  font-size: 4.5rem;
+  line-height: 5.3125rem;
+}
+
+body.citigold-landing main .landing-bonus .columns strong sup {
+  font-size: 0.45em;
+  font-style: italic;
+  vertical-align: super;
+}
+
+/* Steps (cards) */
+body.citigold-landing main .landing-bonus .cards .cards-card-body p {
+  min-height: auto;
+}
+
+body.citigold-landing main .landing-bonus .cards .cards-card-body p:first-child {
+  font-family: var(--citi-font-text-bold);
+}
+
+body.citigold-landing main .landing-bonus .cards .cards-card-body p:nth-child(2) {
+  min-width: 124px;
+  font-family: var(--citi-font-display);
+}
+
+body.citigold-landing main .landing-bonus .cards .cards-card-body p:nth-child(3) {
+  font-family: var(--citi-font-text);
+}
+
+/* Step connector line */
+body.citigold-landing main .landing-bonus .cards > ul > li::after {
+  content: "";
+  position: absolute;
+  z-index: 0;
+  display: block;
+  inset: 1.0625rem 10% auto calc(2.125rem + 10%);
+  height: 1px;
+  background-color: var(--citi-navy);
+}
+
+body.citigold-landing main .landing-bonus .cards-wrapper {
+  box-shadow: none;
+}
+
+body.citigold-landing main .landing-bonus .cards-wrapper + .default-content-wrapper {
+  border-top: none;
+  box-shadow: none;
+}
+
+body.citigold-landing main .landing-bonus .cards-wrapper + .default-content-wrapper p {
+  margin: 0;
+  padding-top: 0.625rem;
+  color: var(--citi-text);
+  font-family: var(--citi-font-condensed);
+}
+
+body.citigold-landing main .landing-bonus .cards-wrapper + .default-content-wrapper p:first-child {
+  border-top: 1px solid #d3d9dd;
+}
+
+/* Disclaimer under earnings — live .bonus__earnings-disclaimer */
+body.citigold-landing main .landing-bonus > .columns-wrapper + .default-content-wrapper > p {
+  width: 75%;
+  margin: 0 auto 2.1875rem;
+  color: var(--citi-navy);
+  font-family: var(--citi-font-text);
+  font-size: 0.875rem;
+  line-height: 1.125rem;
+  text-align: center;
+}
+
+/* ---------- Relationship tiers: navy band, white cards ----------
+   Per-tier accent is driven by --tier / --tier-star on each card <li>:
+   1 Everyday (blue), 2 Priority (navy), 3 Citigold (gold), 4 Private Client. */
+body.citigold-landing main .landing-tiers {
+  padding: 2.5rem 0;
+  background: var(--citi-navy);
+}
+
+body.citigold-landing main .landing-tiers > div > h2,
+body.citigold-landing main .landing-tiers > div > p {
+  color: #fff;
+}
+
+body.citigold-landing main .landing-tiers > div > h2 {
+  font-family: var(--citi-font-display);
+}
+
+body.citigold-landing main .landing-tiers > div > h2 em {
+  font-family: var(--citi-font-display-italic);
+}
+
+body.citigold-landing main .landing-tiers > div > h2 + p {
+  margin-bottom: 1.25rem;
+  text-align: center;
+}
+
+body.citigold-landing main .landing-tiers > div > p {
+  font-family: var(--citi-font-text);
+}
+
+/* "Citi Relationship Tiers" label — small caps line that sits on the bracket */
+body.citigold-landing main .landing-tiers .default-content-wrapper p em {
+  position: absolute;
+  right: 37%;
+  z-index: 1;
+  display: inline-block;
+  margin: 0.5rem auto 0;
+  padding: 0 0.625rem;
+  background: var(--citi-navy);
+  font-family: var(--citi-font-text-bold);
+  font-size: 0.875rem;
+  font-style: normal;
+  letter-spacing: 0.5px;
+  text-align: center;
+}
+
+/* Disclaimer paragraph under the cards */
+body.citigold-landing main .landing-tiers > div:nth-child(3) p {
+  max-width: 670px;
+  margin: 1.25rem auto;
+  font-size: 0.875rem;
+  line-height: 1.125rem;
+}
+
+body.citigold-landing main .landing-tiers .cards {
+  position: relative;
+  padding-top: 2.5rem;
+}
+
+body.citigold-landing main .landing-tiers .cards > ul {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.125rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* Cards are left-aligned in the source. position: relative anchors the pinned
+   CTA row below. */
+body.citigold-landing main .landing-tiers .cards > ul > li {
+  position: relative;
+  margin-bottom: 0.75rem; /* space below each card, outside its box */
+  padding: 2rem 1.75rem;
+  border-radius: 1.25rem;
+  background: #fff;
+  text-align: left;
+  
+  --tier: var(--citi-blue);
+}
+
+body.citigold-landing main .landing-tiers .cards > ul > li:nth-child(2) {
+  --tier: var(--citi-navy);
+  --tier-star: url("/icons/citigold-star-black.svg");
+}
+
+body.citigold-landing main .landing-tiers .cards > ul > li:nth-child(3) {
+  --tier: var(--citi-gold);
+  --tier-star: url("/icons/citigold-star-gold.svg");
+}
+
+body.citigold-landing main .landing-tiers .cards > ul > li:nth-child(4) {
+  --tier: var(--citi-private-client);
+  --tier-star: url("/icons/citigold-star-brown.svg");
+}
+
+body.citigold-landing main .landing-tiers .cards .cards-card-body {
+  padding: 0;
+}
+
+body.citigold-landing main .landing-tiers .cards .cards-card-body p {
+  position: relative;
+  padding-top: 0.3125rem;
+  color: var(--citi-navy);
+  font-family: var(--citi-font-text);
+  font-size: 0.75rem;
+  line-height: 1.0625rem;
+}
+
+/* Tier name — serif, larger; scoped to the first line so the CAMB range below
+   is unaffected */
+body.citigold-landing main .landing-tiers .cards .cards-card-body p:first-child strong {
+  min-height: 4.25rem;
+  margin: 0;
+  color: var(--tier);
+  font-family: var(--citi-font-display);
+  font-size: 1.625rem;
+  font-weight: 400;
+  line-height: 2rem;
+}
+
+/* CAMB range: bold navy on its own line */
+body.citigold-landing main .landing-tiers .cards p:nth-child(2) strong {
+  display: block;
+  margin-top: 0.125rem;
+  color: var(--citi-navy);
+}
+
+/* "Includes all … Benefits" — bold label with thin divider rules */
+body.citigold-landing main .landing-tiers .cards p em {
+  display: block;
+  margin-top: 1rem;
+  padding: 1rem 0 1rem 1.25rem;
+  border-top: 1px solid #a4acaf;
+  border-bottom: 1px solid #a4acaf;
+  color: var(--citi-navy);
+  font-family: var(--citi-font-text-bold);
+  font-style: normal;
+  font-weight: 700;
+}
+
+/* Benefit list — min-height reserves room for the pinned CTA below */
+body.citigold-landing main .landing-tiers .cards .cards-card-body ul {
+  min-height: 16.875rem;
+  margin: 0.75rem 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+body.citigold-landing main .landing-tiers .cards .cards-card-body ul li {
+  position: relative;
+  margin-bottom: 0.625rem;
+  padding-left: 1.625rem;
+  color: var(--citi-text);
+  font-family: var(--citi-font-text);
+  font-size: 0.75rem;
+  line-height: 1rem;
+  letter-spacing: -0.2px;
+}
+
+/* Benefit checkmarks in tier colour */
+body.citigold-landing main .landing-tiers .cards .cards-card-body ul li::before {
+  content: "";
+  position: absolute;
+  top: 0.4375rem;
+  left: 0.25rem;
+  width: 0.5rem;
+  height: 0.25rem;
+  border-bottom: 2px solid var(--tier, var(--citi-navy));
+  border-left: 2px solid var(--tier, var(--citi-navy));
+  transform: rotate(-45deg);
+}
+
+/* Star icon before the "Includes all …" line (tiers 2-4 only) */
+body.citigold-landing main .landing-tiers .cards > ul > li:nth-child(n + 2) .cards-card-body p:nth-child(3)::before {
+  content: "";
+  position: absolute;
+  bottom: 1.0625rem;
+  left: 0;
+  width: 0.875rem;
+  height: 0.875rem;
+  margin-right: 0.3125rem;
+  background: var(--tier-star);
+}
+
+/* Pinned CTA row (bottom of the card) */
+body.citigold-landing main .landing-tiers .cards .cards-card-body p:last-child {
+  position: absolute;
+  bottom: 1.25rem;
+}
+
+/* Solid filled "Open an Account" CTA in tier colour */
+body.citigold-landing main .landing-tiers .cards .cards-card-body p a {
+  display: inline-block;
+  margin-top: 0.75rem;
+  padding: 0.75rem 2rem;
+  border: 0;
+  border-radius: 6.25rem;
+  background: var(--tier, var(--citi-navy));
+  color: #fff;
+  font-family: var(--citi-font-text-bold);
+  font-size: 1rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+/* ---------- ZIP / Have Questions band ----------
+   Two columns on desktop: pricing heading left, "Have Questions?" right.
+   Small uppercase headings, each with a thin divider rule above. */
+body.citigold-landing main .landing-zip {
+  background: var(--citi-band-bg);
+  text-align: center;
+}
+
+body.citigold-landing main .landing-zip > div {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem 3rem;
+  width: 90%;
+  max-width: 1555px;
+  margin: 0 auto;
+  padding-top: 2.5rem;
+  padding-bottom: 1.875rem;
+}
+
+body.citigold-landing main .landing-zip h2 {
+  margin: 0;
+  padding-top: 1.25rem;
+  border-top: 1px solid #c9d9e8;
+  color: var(--citi-navy);
+  font-size: 0.9375rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+body.citigold-landing main > .section > .zip-banner-wrapper > h2 {
+  margin: 0;
+  padding-top: 1.25rem;
+  border-top: 3px solid #255be3;
+  color: #255be3;
+  font-family: var(--citi-font-text-bold);
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+body.citigold-landing main .landing-zip p {
+  margin: 0.5rem 0 0.3125rem;
+  font-family: var(--citi-font-text-bold);
+  font-size: 1.375rem;
+}
+
+body.citigold-landing main .landing-zip a {
+  color: var(--citi-blue);
+  font-family: var(--citi-font-text);
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-decoration: underline;
+}
+
+/* zip-banner contributes only the ZIP + change control; the band supplies the rest */
+body.citigold-landing main .landing-zip .zip-banner {
+  padding: 0;
+  background: none;
+}
+
+body.citigold-landing main .landing-zip .zip-banner button {
+  font-family: var(--citi-font-text);
+  font-size: 0.75rem;
+}
+
+/* ---------- Disclaimers + Terms ---------- */
+body.citigold-landing main .landing-miranda,
+body.citigold-landing main .landing-terms {
+  color: #555;
+  font-size: 0.75rem;
+}
+
+body.citigold-landing main .landing-miranda {
+  padding: 0 0 2.5rem;
+  background: var(--citi-band-bg);
+  text-align: center;
+}
+
+body.citigold-landing main .landing-miranda .default-content-wrapper {
+  padding: 1.5625rem 3.75rem;
+  border: 1px solid var(--citi-navy);
+}
+
+body.citigold-landing main .landing-miranda .default-content-wrapper p {
+  margin: 0;
+  color: var(--citi-navy);
+  font-family: var(--citi-font-text-bold);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.375rem;
+  text-align: center;
+}
+
+body.citigold-landing main .landing-terms table {
+  margin: 1rem 0;
+  border-collapse: collapse;
+}
+
+body.citigold-landing main .landing-terms table th,
+body.citigold-landing main .landing-terms table td {
+  padding: 0.5rem 1rem;
+  border: 1px solid #ccc;
+  text-align: left;
+}
+
+/* ---------- Sticky CTA bar (fixed top; revealed via .sticky-visible) ---------- */
+body.citigold-landing main .landing-cta {
+  position: fixed;
+  z-index: 999;
+  inset: 0 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 3.4375rem; /* 55px — live mobile */
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background: #fff;
+  box-shadow: 0 3px 3px 0 rgb(173 171 173 / 70%);
+  color: #000;
+  font-size: 0.875rem;
+  opacity: 0;
+  transform: translateY(-110%);
+  transition: transform 0.2s ease-in-out, opacity 0.2s ease-in-out;
+  pointer-events: none;
+}
+
+body.citigold-landing main .landing-cta.sticky-visible {
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+/* Cancel section max-width so the inner wrapper can be 92% / 70rem */
+body.citigold-landing main .landing-cta > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-sizing: border-box;
+  width: 92%;
+  max-width: 70rem;
+  margin: 0 auto;
+  padding: 0;
+}
+
+body.citigold-landing main .landing-cta h2,
+body.citigold-landing main .landing-cta > div > h2,
+body.citigold-landing main .landing-cta .default-content-wrapper h2 {
+  max-width: 10.3125rem; /* 165px — live mobile */
+  margin: 0;
+  color: var(--citi-gold);
+  font-family: var(--body-font-family);
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 1.25rem;
+  letter-spacing: 0.0262rem;
+  text-align: left;
+}
+
+body.citigold-landing main .landing-cta p {
+  margin: 0;
+}
+
+body.citigold-landing main .landing-cta a,
+body.citigold-landing main .landing-cta a.button,
+body.citigold-landing main .landing-cta a.button.primary {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 8.125rem; /* 130px — live max-width 767 */
+  height: 1.875rem;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 6.25rem;
+  background: var(--citi-navy);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  line-height: 1rem;
+  letter-spacing: normal;
+  text-decoration: none;
+}
+
+body.citigold-landing main .landing-cta a:hover,
+body.citigold-landing main .landing-cta a.button:hover,
+body.citigold-landing main .landing-cta a.button.primary:hover {
+  background: var(--citi-blue);
+}
+
+/* ---------- Citigold footer + tables ---------- */
+.citigold-landing .footer-cbol-inner {
+  display: block;
+}
+
+.citigold-landing .footer-cbol-inner .footer-cbol-nav {
+  display: inline-block;
+  width: 100%;
+}
+
+.citigold-landing .footer-cbol-inner .footer-cbol-brand {
+  display: inline-block;
+  width: 25%;
+  padding: 0.3125rem 0;
+  border: none;
+  vertical-align: middle;
+}
+
+.citigold-landing .footer-cbol-inner .footer-cbol-brand p img {
+  height: auto;
+}
+
+.citigold-landing .footer-cbol-inner .footer-cbol-social {
+  display: inline-block;
+  width: auto;
+  border: none;
+  vertical-align: text-top;
+}
+
+.citigold-landing .footer-cbol-inner .footer-cbol-social p img {
+  height: 1rem;
+}
+
+.citigold-landing .footer-cbol-legal {
+  display: inline-block;
+  width: 100%;
+  margin-left: 2%;
+  padding: 1.25rem 0;
+}
+
+.citigold-landing .footer-cbol-band p {
+  display: inline-block;
+  float: left;
+  width: auto;
+  padding: 0 0.625rem;
+}
+
+.citigold-landing table {
+  width: 100%;
+  margin: 3rem auto;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.citigold-landing table th,
+.citigold-landing table td {
+  padding: 1.5rem 0.3125rem 1.4375rem;
+  border: 1px solid currentcolor;
+  font-size: 0.875rem;
+  font-weight: 400;
+  text-align: left;
+}
+
+.citigold-landing table thead th {
+  font-family: "Interstate_Bold", Helvetica, sans-serif;
+}
+
+.citigold-landing table tbody th,
+.citigold-landing table tbody td {
+  font-family: "Interstate_Light", Helvetica, sans-serif;
+}
+
+/* ==========================================================================
+   2. TABLET  (>= 768px)
+   ========================================================================== */
+@media (width >= 768px) {
+  /* ----- Hero: white/gold split, photo on gold side ----- */
+  body.citigold-landing main .landing-hero {
+    background: linear-gradient(
+      90deg,
+      #fff calc((100% - min(100%, 76rem)) / 2 + min(100%, 76rem) * 0.8),
+      var(--citi-gold) 0
+    );
+  }
+
+  body.citigold-landing main .landing-hero .hero.block {
+    width: 100%;
+    min-height: 24.0625rem;
+    padding: 1.875rem 0 0;
+  }
+
+  /* white panel behind the copy */
+  body.citigold-landing main .landing-hero .hero.block::before {
+    content: "";
+    position: absolute;
+    z-index: 0;
+    inset: 0 auto 0 0;
+    width: 80%;
+    background: #fff;
+    border-bottom-right-radius: 1.5rem;
+  }
+
+  /* photo floating over the white/gold boundary */
+  body.citigold-landing main .landing-hero .hero.block::after {
+    content: "";
+    position: absolute;
+    z-index: 10;
+    top: 0;
+    left: 50%;
+    width: 37.5%;
+    height: 24.0625rem;
+    min-height: 24.0625rem;
+    margin-left: 3.4375rem;
+    background-image: url("/icons/citigold-hero-dsk.webp");
+    background-repeat: no-repeat;
+    background-position: center top;
+    background-size: cover;
+    border-radius: 1.5rem;
+  }
+
+  body.citigold-landing main .landing-hero .hero .hero-content {
+    max-width: 48%;
+    margin-left: calc(min(100%, 76rem) * 0.8 * 0.075 / 2);
+  }
+
+  body.citigold-landing main .landing-hero .hero h1 {
+    margin-bottom: 0.625rem;
+    font-size: 2.25rem;
+    line-height: 2.625rem;
+  }
+
+  body.citigold-landing main .landing-hero .hero p,
+  body.citigold-landing main .landing-hero .hero .hero-eyebrow {
+    font-size: 0.8125rem;
+    line-height: 1.25rem;
+  }
+
+  /* ----- Features ----- */
+  body.citigold-landing main .landing-features {
+    padding: 2.1875rem 0;
+  }
+
+  body.citigold-landing main .landing-features > div {
+    max-width: 90%;
+  }
+
+  body.citigold-landing main .landing-features > div > h2 {
+    max-width: 31.5625rem;
+    line-height: 120%;
+  }
+
+  /* Column flow: items 1-3 fill column 1, then column 2 (see nth-child(3)) */
+  body.citigold-landing main .landing-features .cards > ul {
+    display: block;
+    columns: 2;
+    max-width: 56.25rem;
+    margin-top: 0.625rem;
+    margin-bottom: 0;
+    gap: 2.5rem;
+  }
+
+  body.citigold-landing main .landing-features .cards > ul > li {
+    padding-right: 2rem;
+  }
+
+  body.citigold-landing main .landing-features .cards > ul > li:nth-child(3) {
+    break-after: column;
+  }
+
+  body.citigold-landing main .landing-features .cards > ul > li:nth-child(4) {
+    padding-right: 0;
+  }
+
+  body.citigold-landing main .landing-features .cards strong,
+  body.citigold-landing main .landing-features .cards > ul > li p {
+    font-size: 1.125rem;
+    line-height: 1.25rem;
+  }
+
+  /* ----- Offer cards ----- */
+
+  /* Source .benefits_features__wrapper: width 90% */
+  body.citigold-landing main .landing-offer-cards > div {
+    width: 90%;
+  }
+
+  body.citigold-landing main .landing-offer-cards > div:first-child {
+    margin-top: 0;
+
+    /* top + bottom pad = live h2 margin space before tabs (inside white) */
+    padding: 2.5rem 2rem 1.75rem;
+    border-radius: 2rem 2rem 0 0;
+  }
+
+  /* Source --rtb cards @768 */
+  body.citigold-landing main .landing-offer-cards > .tabs-wrapper {
+    padding: 0.625rem 2.1875rem 0.9375rem;
+  }
+
+  body.citigold-landing main .landing-offer-cards > div:last-child {
+    padding: 0 0 1.5rem;
+    border-radius: 0 0 2rem 2rem;
+  }
+
+  body.citigold-landing main .landing-offer-cards h2 {
+    font-size: 2.375rem;
+    line-height: 3rem;
+  }
+
+  /* Horizontal track — padding contains labels; no scale (clips under ~1200) */
+  body.citigold-landing main .landing-offer-cards .tabs .tabs-list {
+    flex-flow: row nowrap;
+    padding: 0.25rem;
+    box-sizing: border-box;
+    border: 1px solid var(--citi-sand-border);
+    border-radius: 2.5rem;
+    background: var(--citi-sand);
+  }
+
+  body.citigold-landing main .landing-offer-cards .tabs .tabs-list button {
+    flex: 1 1 0;
+    justify-content: center;
+    width: auto;
+    height: 3.875rem;
+    margin: 0;
+    padding: 0.625rem 0.75rem;
+    z-index: 0;
+    overflow: visible;
+    border: 0;
+    background: transparent;
+    font-size: 0.8125rem;
+    letter-spacing: 0.06rem;
+    text-align: center;
+  }
+
+  body.citigold-landing main .landing-offer-cards .tabs .tabs-list button p {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  body.citigold-landing main .landing-offer-cards .tabs .tabs-list button[aria-selected='true'] {
+    z-index: 1;
+    border: 0;
+    background: transparent;
+  }
+
+  body.citigold-landing main .landing-offer-cards .tabs .tabs-list button[aria-selected='true']::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: 2.5rem;
+    background: var(--citi-gold);
+  }
+
+  /* Source tabpanel ul @768: 3 columns */
+  body.citigold-landing main .landing-offer-cards .tabs .tabs-panel > div {
+    grid-template-columns: repeat(3, 1fr);
+    column-gap: 1.25rem;
+    padding: 1.5rem 1.125rem 0.75rem;
+  }
+
+  body.citigold-landing main .landing-offer-cards .tabs .tabs-panel h3 {
+    grid-row: 1;
+    line-height: 1.125rem;
+  }
+
+  body.citigold-landing main .landing-offer-cards .tabs .tabs-panel p {
+    grid-row: 2;
+    margin: 0.1875rem 0 0;
+    line-height: 1.125rem;
+  }
+
+  /* ----- Bonus ----- */
+  body.citigold-landing main .landing-bonus {
+    padding: 3.125rem 0;
+  }
+
+  body.citigold-landing main .landing-bonus > .default-content-wrapper:first-child > h2 {
+    width: 26.25rem;
+  }
+
+  /* Side-by-side earnings from tablet (live >=768), not boilerplate 992 */
+  body.citigold-landing main .landing-bonus .columns > div {
+    flex-direction: row;
+    align-items: center;
+    width: 37.375rem;
+    margin: 0 auto;
+    padding: 1.875rem 0;
+  }
+
+  body.citigold-landing main .landing-bonus .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div,
+  body.citigold-landing main .landing-bonus .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:first-child,
+  body.citigold-landing main .landing-bonus .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) {
+    flex: 1;
+  }
+
+  body.citigold-landing main .landing-bonus .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:first-child {
+    max-width: 186px;
+  }
+
+  body.citigold-landing main .landing-bonus .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) {
+    max-width: 234px;
+    margin-left: 135px;
+    padding-left: 135px;
+  }
+
+  /* Vertical OR divider between columns — black rule with OR on white */
+  body.citigold-landing main .landing-bonus .columns > div > div + div {
+    border-left: 0.0625rem solid #000;
+  }
+
+  body.citigold-landing main .landing-bonus .columns > div > div + div::before {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    display: block;
+    width: auto;
+    margin: 0;
+    padding: 0.5rem 0;
+    background: #fff;
+    line-height: 1;
+    transform: translate(-50%, -50%);
+  }
+
+  body.citigold-landing main .landing-bonus .columns p:first-child {
+    font-size: 1.25rem;
+  }
+
+  body.citigold-landing main .landing-bonus .columns p:nth-child(3) {
+    font-family: var(--citi-font-text);
+    font-size: 0.8125rem;
+    line-height: 0.9375rem;
+  }
+
+  body.citigold-landing main .landing-bonus .columns strong {
+    margin: 0.3125rem 0;
+    font-size: 2rem;
+    line-height: 2.3125rem;
+  }
+
+  body.citigold-landing main .landing-bonus .columns p:nth-child(2) strong {
+    font-size: 3.75rem;
+    line-height: 3.75rem;
+  }
+
+  body.citigold-landing main .landing-bonus > .columns-wrapper + .default-content-wrapper > p {
+    width: 36rem;
+    margin-bottom: 2.8125rem;
+  }
+
+  /* ----- Sticky CTA ----- */
+  body.citigold-landing main .landing-cta {
+    height: 4.0625rem; /* 65px */
+  }
+
+  body.citigold-landing main .landing-cta h2,
+  body.citigold-landing main .landing-cta > div > h2,
+  body.citigold-landing main .landing-cta .default-content-wrapper h2 {
+    max-width: 100%;
+    font-family: var(--citi-font-text);
+    font-size: 1rem;
+    line-height: 1.5rem;
+  }
+
+  body.citigold-landing main .landing-cta a,
+  body.citigold-landing main .landing-cta a.button,
+  body.citigold-landing main .landing-cta a.button.primary {
+    width: 10rem; /* 160px */
+    height: 2rem;
+    font-family: var(--citi-font-text-bold);
+    font-size: 0.8125rem;
+    line-height: 2rem;
+  }
+
+  /* ----- Footer ----- */
+  .citigold-landing .footer-cbol-inner .footer-cbol-brand {
+    width: 5%;
+  }
+
+  .citigold-landing .footer-cbol-legal {
+    width: 60%;
+    margin-right: 10%;
+    margin-left: 15%;
+  }
+}
+
+/* ==========================================================================
+   3. DESKTOP  (>= 992px)
+   ========================================================================== */
+@media (width >= 992px) {
+  /* ----- Hero ----- */
+  body.citigold-landing main .landing-hero .hero.block {
+    height: 29.625rem; /* 474px */
+    min-height: 29.625rem;
+    padding: 0;
+  }
+
+  body.citigold-landing main .landing-hero .hero.block::after {
+    top: 1.5625rem;
+    width: 34.5%;
+    height: 25.125rem;
+    min-height: 25.125rem;
+    background-position: center bottom;
+  }
+
+  /* padding (not margin) so it cannot collapse through the section and open a
+     white gap between header and hero gold */
+  body.citigold-landing main .landing-hero .hero .hero-content {
+    max-width: 45%;
+    padding-top: 5rem;
+  }
+
+  body.citigold-landing main .landing-hero .hero h1 {
+    max-width: 95%;
+    font-size: 3rem;
+    line-height: 3.5rem;
+  }
+
+  body.citigold-landing main .landing-hero .hero p,
+  body.citigold-landing main .landing-hero .hero .hero-eyebrow {
+    font-size: 1rem;
+    line-height: 1.375rem;
+  }
+
+  body.citigold-landing main .landing-hero .hero .hero-eyebrow {
+    letter-spacing: -0.0158rem;
+  }
+
+  body.citigold-landing main .landing-hero .hero .hero-disclaimer {
+    width: 75%;
+    font-size: 0.8125rem;
+  }
+
+  body.citigold-landing main .landing-hero .hero a.button,
+  body.citigold-landing main .landing-hero .hero a.button.primary {
+    font-size: 1.5rem;
+  }
+
+  /* ----- Offer cards ----- */
+  body.citigold-landing main .landing-offer-cards .tabs .tabs-list button {
+    padding: 0.625rem 1.125rem;
+    font-size: 0.875rem;
+    letter-spacing: 0.1rem;
+  }
+
+  /* ----- Bonus: 3 steps side by side inside the single white panel ----- */
+  body.citigold-landing main .landing-bonus .cards > ul {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 0.125rem;
+  }
+
+  /* ----- Tiers ----- */
+  body.citigold-landing main .landing-tiers .default-content-wrapper p em {
+    right: 22%;
+  }
+
+  body.citigold-landing main .landing-tiers .cards > ul {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  /* Decorative bracket above the cards (source-measured, fixed geometry) */
+  body.citigold-landing main .landing-tiers .cards::before {
+    content: "";
+    position: absolute;
+    top: -15px;
+    left: 0;
+    width: 530px;
+    height: 350px;
+    margin-top: 36px;
+    margin-left: 395px;
+    border-top: 1px solid #fff;
+    border-right: 1px solid #fff;
+    border-left: 1px solid #fff;
+    border-radius: 5px 5px 0 0;
+  }
+
+  /* ----- ZIP band: pricing left, questions right ----- */
+  body.citigold-landing main .landing-zip > div {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+
+  body.citigold-landing main .landing-zip h2:nth-of-type(1) {
+    grid-column: 1;
+  }
+
+  body.citigold-landing main .landing-zip h2:nth-of-type(2) {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  body.citigold-landing main .landing-zip p {
+    grid-column: 2;
+  }
+
+  /* ZIP + change control sit under the pricing heading, left column */
+  body.citigold-landing main .landing-zip .zip-banner {
+    grid-column: 1;
+  }
+
+  /* ----- Disclaimer ----- */
+  body.citigold-landing main .landing-miranda .default-content-wrapper {
+    width: 712px;
+    margin: auto;
+  }
+
+  /* ----- Global (unscoped) ----- */
+  .section .default-content-wrapper:has(> h3):has(> p):has(> ul) {
+    padding: 0 2.5rem;
+  }
+
+  .section > .default-content-wrapper:has(> h3, > p, > ul) > ul {
+    flex-direction: row;
+    padding: 0;
+  }
+
+  .section.category-nav-container .default-content-wrapper {
+    letter-spacing: 0.875rem;
+    text-transform: uppercase;
+  }
+}
+
+/* ==========================================================================
+   4. WIDE DESKTOP  (>= 1200px)
+   ========================================================================== */
+@media (width >= 1200px) {
+  /* ----- Features ----- */
+  body.citigold-landing main .landing-features > div {
+    max-width: 1128px;
+  }
+
+  body.citigold-landing main .landing-features > div > h2 {
+    max-width: 43.75rem;
+    font-size: 2.25rem;
+  }
+
+  body.citigold-landing main .landing-features .cards strong,
+  body.citigold-landing main .landing-features .cards > ul > li p {
+    font-size: 1.375rem;
+    line-height: 1.625rem;
+  }
+
+  body.citigold-landing main .landing-features .cards > ul > li p + p {
+    margin-top: 0.3125rem;
+  }
+
+  /* ----- Offer cards ----- */
+
+  /* Source .benefits_features__wrapper: width 1128px */
+  body.citigold-landing main .landing-offer-cards > div {
+    width: 1128px;
+  }
+
+  body.citigold-landing main .landing-offer-cards > div:first-child {
+    padding: 4.0625rem 0 1.75rem;
+  }
+
+  body.citigold-landing main .landing-offer-cards > .tabs-wrapper {
+    padding: 1.5rem 0.9375rem 0.9375rem;
+  }
+
+  body.citigold-landing main .landing-offer-cards .tabs .tabs-list button {
+    font-size: 1rem;
+    line-height: 1rem;
+  }
+
+  /* Live active pill is slightly oversized vs the track at 1200+ */
+  body.citigold-landing main .landing-offer-cards .tabs .tabs-list button[aria-selected='true']::before {
+    inset: auto;
+    top: 0;
+    left: 5%;
+    width: 90%;
+    height: 100%;
+    scale: 1.16;
+  }
+
+  body.citigold-landing main .landing-offer-cards .tabs .tabs-panel > div {
+    column-gap: 2.5rem;
+  }
+
+  /* ----- Bonus ----- */
+  body.citigold-landing main .landing-bonus {
+    padding: 4.0625rem 0;
+  }
+
+  body.citigold-landing main .landing-bonus > .default-content-wrapper:first-child > h2 {
+    width: 31.25rem;
+    font-size: 2.375rem;
+    line-height: 2.8125rem;
+  }
+
+  body.citigold-landing main .landing-bonus .columns > div {
+    width: 42.5rem;
+    padding: 2.5rem 0 1.875rem;
+  }
+
+  body.citigold-landing main .landing-bonus .columns p:first-child {
+    font-size: 1.5rem;
+  }
+
+  body.citigold-landing main .landing-bonus .columns p:nth-child(3) {
+    font-size: 0.9375rem;
+    line-height: 1.125rem;
+  }
+
+  body.citigold-landing main .landing-bonus .columns strong {
+    font-size: 2.5rem;
+    line-height: 2.9375rem;
+  }
+
+  body.citigold-landing main .landing-bonus .columns p:nth-child(2) strong {
+    font-size: 4.5rem;
+    line-height: 5.3125rem;
+  }
+
+  body.citigold-landing main .landing-bonus .columns > div > div:nth-child(2) p:nth-child(4) strong {
+    font-size: 2.875rem;
+  }
+
+  /* ----- Tiers ----- */
+  body.citigold-landing main .landing-tiers .default-content-wrapper p em {
+    right: 37%;
+  }
+
+  /* ----- Disclaimer ----- */
+  body.citigold-landing main .landing-miranda .default-content-wrapper {
+    width: 100%;
+  }
+
+  /* ----- Sticky CTA ----- */
+  body.citigold-landing main .landing-cta a,
+  body.citigold-landing main .landing-cta a.button,
+  body.citigold-landing main .landing-cta a.button.primary {
+    width: 12.4375rem; /* 199px */
+    height: 2.375rem;
+    font-size: 1rem;
+    line-height: 2.375rem;
+  }
+}
+
+/* ==========================================================================
+   5. USER PREFERENCES
+   ========================================================================== */
+@media (prefers-reduced-motion: reduce) {
+  body.citigold-landing main .landing-cta {
+    transition: none;
+  }
+}
