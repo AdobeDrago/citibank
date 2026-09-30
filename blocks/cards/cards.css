@@ -155,6 +155,32 @@ body.credit-card-pdp main .section.cards-container.accordion-container .cards .c
   filter: brightness(0) saturate(100%) invert(40%) sepia(7%) saturate(520%) hue-rotate(152deg) brightness(94%) contrast(88%);
 }
 
+/* cdc-full-size these are standalone card-art photos */
+body.credit-card-pdp .section.cdc-full-size {
+  background-color:#f0f5f7;
+  border-radius: 16px;
+  margin: 0 12px;
+  padding-top: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+body.credit-card-pdp .section.cdc-full-size >.default-content-wrapper h2 {
+margin: 0;
+}
+
+body.credit-card-pdp .section.cdc-full-size .cards-wrapper > .cards .cards-card-image {
+  text-align: center;
+}
+
+body.credit-card-pdp .section.cdc-full-size .cards-wrapper >.cards > ul > li > .cards-card-image img {
+  width: 103px;
+  height: auto;
+  object-fit: contain;
+  object-position: center;
+}
+
 @media (width >= 992px) {
   body.credit-card-pdp .cards > ul {
     grid-template-columns: repeat(3, 1fr);
@@ -162,6 +188,10 @@ body.credit-card-pdp main .section.cards-container.accordion-container .cards .c
 
   body.credit-card-pdp main .section.cards-container.accordion-container .cards > ul {
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  body.credit-card-pdp .section.cdc-full-size {
+    gap: 48px;
   }
 }
 

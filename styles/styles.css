@@ -173,6 +173,11 @@ body.appear {
   display: block;
 }
 
+body.dark.credit-card-pdp:not(.header-wrapper){
+  background-color: #000;
+  color:#fff;
+}
+
 /* Two-row Citi header: reserve at least the fallback nav height to avoid CLS,
    but allow the header to grow to fit both the utility bar and the main nav row
    (a fixed height clips the second row and lets the hero paint over it). */
@@ -486,6 +491,12 @@ main .section.light-grey {
   background-color: var(--citi-light-grey-bg);
   margin: 0;
   padding: 40px 0;
+}
+
+/* On the dark theme this is the only band that is not transparent over the
+   black page, so it inverts to a faintly raised dark panel instead. */
+body.dark.credit-card-pdp main .section.light-grey {
+  background-color: #141618;
 }
 
 /* Disable descending specificity check across template-scoped sections */
@@ -1491,24 +1502,44 @@ body.credit-card-pdp .section:has(> .default-content-wrapper > h3 ~ p ~ ul) {
   margin-bottom: 0;
 }
 
-.section>.default-content-wrapper:has(> h3, > p, > ul)>h3 {
+
+body.credit-card-pdp .section.pd-zero:has(> .default-content-wrapper > h3 ~ p ~ ul){
+  padding: 0;
+}
+
+body.credit-card-pdp .section>.default-content-wrapper:has(> h3, > p, > ul)>h3 {
   font-size: 24px;
+  color: rgb(38 41 43);
+}
+
+body.dark.credit-card-pdp .section>.default-content-wrapper:has(> h3, > p, > ul)>h3{
+  color: #fff;
 }
 
 body.credit-card-pdp .section>.default-content-wrapper:has(> h3, > p, > ul)>p {
   font-size: 14px;
   margin: 0 0 8px;
+  color: rgb(94 103 107);
+}
+
+body.dark.credit-card-pdp .section>.default-content-wrapper:has(> h3, > p, > ul)>p {
+color: #fff;
 }
 
 body.credit-card-pdp .section>.default-content-wrapper:has(> h3, > p, > ul)>ul {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 10px;
   padding: 8px 0;
-  margin-top: 16px;
+  margin-top: 0;
   list-style: none;
   font-size: 14px;
   margin-bottom: 0;
+}
+
+body.credit-card-pdp .pd-zero.pd-24.section>.default-content-wrapper:has(> h3, > p, > ul)>ul  li a{
+  text-decoration: underline;
+  color: #111;
 }
 
 @media (width >=992px) {
@@ -1520,26 +1551,62 @@ body.credit-card-pdp .section>.default-content-wrapper:has(> h3, > p, > ul)>ul {
     flex-direction: row;
     padding: 0;
   }
+
+  body.credit-card-pdp .pd-zero.pd-24.section:has(> .default-content-wrapper > h3 ~ p ~ ul){
+    margin-top: 48px;
+ }
+
 }
 
 /* CSS End For citi---aadvantage--globe--mastercard--pricing-details  */
 
 /* CSS Start For category nav default container */
-
 body.credit-card-pdp .section.category-nav-container {
   display: flex;
   gap: 24px;
-  padding: 48px 36px;
+  padding: 0 12px;
   flex-direction: column;
-  margin: 24px auto 0;
+  margin: 48px auto 0;
 }
 
+body.dark.credit-card-pdp .section.category-nav-container .default-content-wrapper {
+  letter-spacing: 11px;
+}
+
+body.credit-card-pdp .section.head-letter-spacing.category-nav-container > .default-content-wrapper:nth-child(1) > h2 {
+  letter-spacing: 11px;
+  text-transform: uppercase;
+  font-size: 18px
+}
+
+
+body.credit-card-pdp .section.head-small-letter.category-nav-container > .default-content-wrapper:nth-child(1) > h2 {
+  text-transform:none;
+  letter-spacing: 9px;
+}
+
+
 @media (width >=992px) {
-  body.credit-card-pdp .section.category-nav-container .default-content-wrapper {
+  body.credit-card-pdp .section.category-nav-container > .default-content-wrapper > h2 {
     letter-spacing: 14px;
     text-transform: uppercase;
+  }
+
+  body.credit-card-pdp .section.head-letter-spacing.category-nav-container > .default-content-wrapper:nth-child(1) > h2 {
+   letter-spacing: 14px;
+   text-transform: uppercase;
   }
 }
 
 /* CSS End For category nav default container */
 /* stylelint-enable no-descending-specificity */
+
+/* Default (non-block) content on the dark theme: the global link blue fails
+   contrast on black, so authored links follow the inverted body copy.
+   Scoped to .default-content-wrapper so every block keeps its own treatment. */
+   
+/* stylelint-disable-next-line no-descending-specificity */
+body.dark.credit-card-pdp main .section .default-content-wrapper a:any-link {
+  color: rgb(255 255 255);
+  text-decoration: underline;
+}
