@@ -312,6 +312,26 @@ function buildTitle() {
   return wrapper;
 }
 
+function buildNoCardsMessage() {
+  const p = document.createElement('p');
+  p.className = 'sectionpart no-cards';
+
+  const before = document.createElement('span');
+  before.textContent = 'You have not chosen any cards to compare. Add several credit cards that interest you, then compare them by feature, by interest rate, or by whatever is important to you. However you want to compare credit cards, you can do it right here. Select ';
+
+  const link = document.createElement('a');
+  link.className = 'text-blue';
+  link.href = getAddCardUrl();
+  link.setAttribute('aria-label', 'Add');
+  link.textContent = 'Add';
+
+  const after = document.createElement('span');
+  after.textContent = ' to Compare to view the features of up to 3 cards.';
+
+  p.append(before, link, after);
+  return p;
+}
+
 function buildDots(slots) {
   if (slots.length < 3) return null;
 
@@ -535,20 +555,28 @@ export default async function decorate(block) {
       <ul>${(card.withThisCard || []).map((w) => `<li>${w}</li>`).join('')}</ul>
     `);
 
-    const children = [stickyBar, buildTitle()];
-    if (dotsNav) children.push(dotsNav);
-    children.push(
-      header,
-      aboutRow,
-      benefitsRow,
-      annualFeeRow,
-      aprRow,
-      travelPerksRow,
-      withThisCardRow,
-    );
+    const hasCards = slots.some(Boolean);
+
+    const children = [];
+    if (hasCards) children.push(stickyBar);
+    children.push(buildTitle());
+    if (!hasCards) children.push(buildNoCardsMessage());
+    if (hasCards && dotsNav) children.push(dotsNav);
+    children.push(header);
+
+    if (hasCards) {
+      children.push(
+        aboutRow,
+        benefitsRow,
+        annualFeeRow,
+        aprRow,
+        travelPerksRow,
+        withThisCardRow,
+      );
+    }
 
     block.replaceChildren(...children);
-    initStickySync(block, header, stickyBar);
+    if (hasCards) initStickySync(block, header, stickyBar);
     initCarouselSync(block, dotsNav);
   }
 

@@ -48,6 +48,30 @@ b {
   line-height: 25px;
 }
 
+.compare-cards-wrapper .sectionpart.no-cards {
+  padding: 20px;
+  margin: 0 0 20px;
+  color: #151515;
+  font-family: "Interstate_Light", Helvetica, sans-serif;
+  font-size: 1rem;
+  line-height: 24px;
+}
+
+.compare-cards-wrapper .sectionpart.no-cards .text-blue {
+  color: #056dae;
+  text-decoration: none;
+}
+
+.compare-cards-wrapper .sectionpart.no-cards .text-blue:hover {
+  text-decoration: underline;
+}
+
+@media (width >= 768px) {
+  .compare-cards-wrapper .sectionpart.no-cards {
+    margin: -40px 0 20px;
+  }
+}
+
 /* ===== Card-toggle dots (base: visible; hidden from tablet up) ===== */
 .compare-cards-dots {
   display: flex;
