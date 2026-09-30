@@ -18,35 +18,50 @@ function decorateRetailNumberHeadings(block) {
 }
 
 /**
- * Card-holder explore: keep authored h3 > a, group fan | list for CSS layout.
- * Selects the default-content sibling after the cards block (not by heading text).
+ * Explore-cards section: the default content after the cards block is
+ *   [collage picture] h2 ( [thumb picture] p(eyebrow) h3 > a )*
+ * Group it into collage | panel, and each thumb/eyebrow/h3 triple into a list item.
  * @param {Element} block
  */
-function decorateCardHolderExplore(block) {
-  const wrapper = block.closest('.section')
+function decorateExploreCards(block) {
+  const wrapper = block.closest('.section.explore-cards')
     ?.querySelector(':scope > .cards-wrapper + .default-content-wrapper');
-  if (!wrapper || wrapper.classList.contains('card-holder-explore')) return;
+  if (!wrapper || wrapper.classList.contains('explore-cards-explore')) return;
+  wrapper.classList.add('explore-cards-explore');
 
-  wrapper.classList.add('card-holder-explore');
-
-  const [fan, ...rest] = wrapper.children;
-  if (fan?.querySelector('picture') && rest.length) {
-    const panel = document.createElement('div');
+  const panel = document.createElement('div');
+  panel.className = 'explore-cards-panel';
+  const [first, ...rest] = wrapper.children;
+  if (first?.tagName === 'P' && first.querySelector('picture')) {
+    first.className = 'explore-cards-media';
     panel.append(...rest);
-    wrapper.append(panel);
+  } else {
+    panel.append(...wrapper.children);
   }
+  wrapper.append(panel);
 
-  wrapper.querySelectorAll('h3').forEach((heading) => {
-    const link = heading.querySelector(':scope > a');
+  const list = document.createElement('ul');
+  list.className = 'explore-cards-list';
+  panel.querySelectorAll(':scope > h3').forEach((heading) => {
+    const li = document.createElement('li');
+    const text = document.createElement('div');
+    text.className = 'explore-cards-text';
     const eyebrow = heading.previousElementSibling;
-    const media = eyebrow?.previousElementSibling;
-    if (!link || eyebrow?.tagName !== 'P' || !media?.querySelector('picture')) return;
-
-    // Thumb + eyebrow stay outside <a>; only the name is the link
-    const text = document.createElement('span');
-    text.append(eyebrow, link);
-    heading.replaceChildren(media, text);
+    const thumb = eyebrow?.tagName === 'P' && !eyebrow.querySelector('picture')
+      ? eyebrow.previousElementSibling : eyebrow;
+    if (thumb?.tagName === 'P' && thumb.querySelector('picture')) {
+      thumb.className = 'explore-cards-thumb';
+      li.append(thumb);
+    }
+    if (eyebrow && eyebrow !== thumb) {
+      eyebrow.className = 'explore-cards-eyebrow';
+      text.append(eyebrow);
+    }
+    text.append(heading);
+    li.append(text);
+    list.append(li);
   });
+  if (list.children.length) panel.append(list);
 }
 
 export default function decorate(block) {
@@ -66,5 +81,5 @@ export default function decorate(block) {
   });
   block.replaceChildren(ul);
   decorateRetailNumberHeadings(block);
-  if (block.classList.contains('card-holder')) decorateCardHolderExplore(block);
+  decorateExploreCards(block);
 }

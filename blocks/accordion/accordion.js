@@ -38,8 +38,47 @@ function decorateRetailExpandAll(block) {
   headingWrapper.append(toggle);
 }
 
+function toBodyId(label, i) {
+  const slug = (label || `item-${i}`)
+    .toLowerCase()
+    .trim()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/(^-|-$)/g, '');
+  return `accordion-panel-${slug || i}`;
+}
+
+/**
+ * Sync aria-expanded / inert with <details open>, and wrap body content so the
+ * CSS grid 0fr→1fr height animation has a single track (live max-height 0.6s).
+ * @param {HTMLDetailsElement} details
+ * @param {HTMLElement} summary
+ * @param {HTMLElement} body
+ * @param {number} index
+ */
+function decorateAccordionItem(details, summary, body, index) {
+  const label = summary.textContent.trim();
+  const bodyId = toBodyId(label, index);
+  body.id = bodyId;
+  summary.setAttribute('aria-controls', bodyId);
+  summary.setAttribute('aria-expanded', String(details.open));
+
+  const inner = document.createElement('div');
+  inner.className = 'accordion-item-body-inner';
+  inner.append(...body.childNodes);
+  body.append(inner);
+
+  const sync = () => {
+    const expanded = details.open;
+    summary.setAttribute('aria-expanded', String(expanded));
+    if (expanded) body.removeAttribute('inert');
+    else body.setAttribute('inert', '');
+  };
+  sync();
+  details.addEventListener('toggle', sync);
+}
+
 export default function decorate(block) {
-  [...block.children].forEach((row) => {
+  [...block.children].forEach((row, i) => {
     const label = row.children[0];
     const summary = document.createElement('summary');
     summary.className = 'accordion-item-label';
@@ -49,6 +88,7 @@ export default function decorate(block) {
     const details = document.createElement('details');
     details.className = 'accordion-item';
     details.append(summary, body);
+    decorateAccordionItem(details, summary, body, i);
     row.replaceWith(details);
   });
 

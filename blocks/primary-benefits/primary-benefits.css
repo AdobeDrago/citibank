@@ -106,7 +106,8 @@ body.credit-card-pdp .primary-benefits-container:has(.primary-benefits-wrapper >
 }
 
 /* white circular toggle with a Citi-blue "+" glyph, anchored bottom-right.
- * Whole button rotates -45° when open so the plus reads as an "×". */
+ * Whole button rotates -45° when open so the plus reads as an "×"
+ * (live ng-trigger-rotate, 0.7s with the tile fade). */
 .primary-benefits .primary-benefits-toggle {
   position: absolute;
   right: 40px;
@@ -119,7 +120,7 @@ body.credit-card-pdp .primary-benefits-container:has(.primary-benefits-wrapper >
   background: #fff;
   cursor: pointer;
   flex: none;
-  transition: transform 0.3s ease;
+  transition: transform 0.7s ease;
 }
 
 .primary-benefits .primary-benefits-toggle::before,
@@ -160,18 +161,30 @@ body.credit-card-pdp .primary-benefits-container:has(.primary-benefits-wrapper >
   cursor: default;
 }
 
+/* Detail reveals with the same 0.7s cadence as the photo/scrim fade (live pb-active).
+ * Collapsed: 0fr + inert (no focus trap). Open: 1fr + visible. */
 .primary-benefits .primary-benefits-detail {
-  margin: 12px 0 0;
+  display: grid;
+  grid-template-rows: 0fr;
+  margin: 0;
   color: #5e676b;
   font-size: 14px;
   font-weight: 400;
   line-height: 1.29;
   max-width: 100%;
   padding-right: 56px;
+  opacity: 0;
+  transition: grid-template-rows 0.7s ease, opacity 0.7s ease, margin 0.7s ease;
 }
 
-.primary-benefits .primary-benefits-detail[hidden] {
-  display: none;
+.primary-benefits .primary-benefits-detail-inner {
+  overflow: hidden;
+}
+
+.primary-benefits .primary-benefits-tile-open .primary-benefits-detail {
+  grid-template-rows: 1fr;
+  margin: 12px 0 0;
+  opacity: 1;
 }
 
 .primary-benefits .primary-benefits-detail p {
@@ -186,6 +199,18 @@ body.credit-card-pdp .primary-benefits-container:has(.primary-benefits-wrapper >
 .primary-benefits .primary-benefits-detail a {
   color: inherit;
   text-decoration: underline;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .primary-benefits .primary-benefits-tile,
+  .primary-benefits .primary-benefits-image,
+  .primary-benefits .primary-benefits-image img,
+  .primary-benefits .primary-benefits-tile::after,
+  .primary-benefits .primary-benefits-heading,
+  .primary-benefits .primary-benefits-toggle,
+  .primary-benefits .primary-benefits-detail {
+    transition: none;
+  }
 }
 
 /* ---- Expanded / pb-active ----
