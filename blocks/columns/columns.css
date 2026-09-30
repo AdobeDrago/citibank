@@ -2033,4 +2033,232 @@ body.credit-card-pdp .accordion-container.section.columns-container .columns-wra
     width: 35%;
   }
 }
+
+/* =========================================================
+ * Variant - media-feature: image + text feature (tds-feature inline_6_6)
+ * Authoring: Columns (media-feature), one row, image cell + text cell.
+ * Cell order sets the side on desktop (image first = image left).
+ * Optional card row in the text cell: one paragraph with a picture + link.
+ * ========================================================= */
+
+body.credit-card-pdp main > .section > .columns-wrapper:has(.columns.media-feature) {
+  padding: 0;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div {
+  box-sizing: border-box;
+  flex: 1 1 0;
+  min-width: 0;
+  order: 0;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > .columns-img-col {
+  display: block;
+  order: 0;
+  line-height: 0;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > .columns-img-col img {
+  display: block;
+  width: 100%;
+  height: 280px;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+/* mobile: image always on top */
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  order: 1;
+  padding: 24px;
+  border-radius: 24px;
+  background-color: transparent;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) h2 {
+  margin: 0 0 16px;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 30px;
+  text-align: left;
+  color: rgb(38 41 43);
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) h3 {
+  margin: 8px 0 4px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+  color: rgb(38 41 43);
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p {
+  margin: 0 0 8px;
+  padding: 0;
+  font-size: 16px;
+  line-height: 21.92px;
+  letter-spacing: normal;
+  color: rgb(58 62 64);
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) > :last-child {
+  margin-bottom: 0;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) sup {
+  line-height: 0;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) a:any-link {
+  color: var(--citi-nav-navy, #04208f);
+  text-decoration: underline;
+}
+
+/* ---- card row: p > picture + a (tds-card-item) ---- */
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) {
+  position: relative;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  gap: 12px;
+  min-height: 64px;
+  margin-top: 8px;
+  padding: 8px 0 8px 8px;
+  border-radius: 8px;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) img {
+  display: block;
+  flex: 0 0 64px;
+  width: 64px;
+  height: 40px;
+  border-radius: 0;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) > a:any-link {
+  flex: 1 1 auto;
+  font-size: 14px;
+  line-height: 18px;
+  color: rgb(38 41 43);
+  text-decoration: none;
+}
+
+/* whole row clickable via the card link */
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) > a::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) > a:hover {
+  text-decoration: underline;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) > a:focus-visible {
+  outline: none;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) > a:focus-visible::before {
+  outline: 2px solid var(--citi-nav-navy, #04208f);
+}
+
+/* chevron */
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a)::after {
+  content: '';
+  flex: 0 0 16px;
+  height: 16px;
+  margin-left: auto;
+  background-color: var(--citi-nav-navy, #04208f);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6.13 22.56c.31.316.82.32 1.136.011L18.1 12 7.266 1.429a.806.806 0 0 0-1.136.011.797.797 0 0 0 .011 1.131L15.804 12 6.14 21.429a.797.797 0 0 0-.011 1.131'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+@media (width >= 768px) {
+  body.credit-card-pdp main > .section > .columns-wrapper:has(.columns.media-feature) {
+    padding: 0 24px;
+  }
+
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) {
+    padding: 24px 40px;
+  }
+
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) h2 {
+    font-size: 36px;
+    line-height: 1.17;
+  }
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp main > .section > .columns-wrapper:has(.columns.media-feature) {
+    padding: 0 32px;
+  }
+
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    min-height: 360px;
+  }
+
+  /* desktop: keep authored cell order (image first = image left) */
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div,
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) {
+    order: 0;
+  }
+
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div > .columns-img-col img {
+    height: 320px;
+  }
+
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) {
+    align-self: stretch;
+    padding: 40px;
+    border-radius: 16px;
+    background-color: rgb(255 255 255);
+  }
+
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) h2 {
+    line-height: 1.22;
+  }
+
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) > a:any-link {
+    font-size: 20px;
+    line-height: 26px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) {
+    padding: 40px 72px;
+  }
+}
+
+/* ---- Dark theme ---- */
+body.dark.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) {
+  background-color: transparent;
+}
+
+body.dark.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) h2,
+body.dark.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) h3,
+body.dark.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) > a:any-link {
+  color: rgb(255 255 255);
+}
+
+body.dark.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p,
+body.dark.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) a:any-link {
+  color: rgb(230 235 237);
+}
+
+body.dark.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a)::after {
+  background-color: rgb(230 235 237);
+}
 /* stylelint-enable no-descending-specificity */
