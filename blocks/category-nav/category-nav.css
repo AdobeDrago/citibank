@@ -72,6 +72,10 @@ a.category-nav-link:focus-visible {
   display: none;
 }
 
+body.credit-card-pdp .category-nav .category-nav-link{
+  color: rgb(94 103 107);
+}
+
 .category-nav .category-nav-item:nth-child(1) .category-nav-link {
   --category-nav-glyph: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.4'%3E%3Crect x='2.5' y='5.5' width='19' height='13' rx='2'/%3E%3Cpath d='M2.5 10h19M6 14.5h4'/%3E%3C/svg%3E");
 }
@@ -159,3 +163,23 @@ a.category-nav-link:focus-visible {
 }
 
 /* CSS End For category nav  container */
+
+/* =========================================================
+ * Dark theme (page metadata "theme: dark").
+ * The glyphs are masked to currentcolor, so recolouring the link recolours
+ * the icon with it — no separate icon rule needed.
+ * ========================================================= */
+body.dark.credit-card-pdp .category-nav .category-nav-link {
+  color: rgb(255 255 255);
+}
+
+body.dark.credit-card-pdp a.category-nav-link:hover,
+body.dark.credit-card-pdp a.category-nav-link:focus-visible {
+  color: rgb(232 236 238);
+}
+
+
+/* find the right card variation */
+body.credit-card-pdp .black-icon.category-nav .category-nav-link {
+color: #26292b
+}

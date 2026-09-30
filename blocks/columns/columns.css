@@ -1762,13 +1762,13 @@ body.credit-card-pdp .accordion-container.section.columns-container .columns-wra
     color: #fff;
   }
 
-  body.credit-card-pdp .accordion-container.section.columns-container .columns p:last-child {
+  body.credit-card-pdp .accordion-container.section.columns-container .columns p:has(> a) {
     font-size: 16px;
     line-height: 150%;
     letter-spacing: 0.16px;
     text-align: center;
     padding: 16px 24px;
-    max-width: 150px;
+    max-width: 100px;
     background-color: #fff;
     color: var(--citi-navy);
     border-radius: 8px;
@@ -2261,4 +2261,53 @@ body.dark.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(
 body.dark.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a)::after {
   background-color: rgb(230 235 237);
 }
+/* stylelint-enable no-descending-specificity */
+
+/* =========================================================
+ * Dark theme (page metadata "theme: dark") — Strata promo band.
+ * The section itself is transparent over the black page; only its copy
+ * needs inverting. Scoped to .pale-blue so light pages are untouched.
+ * ========================================================= */
+/* stylelint-disable no-descending-specificity -- theme override, scoped to body.dark */
+body.dark.credit-card-pdp main .section.pale-blue .columns :is(h2, h3) {
+  color: rgb(255 255 255);
+}
+
+body.dark.credit-card-pdp main .section.pale-blue .columns p {
+  color: rgb(232 236 238);
+}
+
+/* Plain links stay legible until an author bolds them; once bolded,
+   decorateButtons promotes them and the button rule below applies. */
+body.dark.credit-card-pdp main .section.pale-blue .columns a:any-link {
+  color: rgb(255 255 255);
+}
+
+body.dark.credit-card-pdp main .section.pale-blue .columns a.button {
+  border-color: rgb(255 255 255);
+  background-color: rgb(255 255 255);
+  color: rgb(4 32 143);
+}
+
+body.dark.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper {
+  background-color: inherit;
+}
+
+body.credit-card-pdp .accordion-container.section.columns-container .columns ul{
+padding: 0;
+}
+
+body.credit-card-pdp .accordion-container.section.columns-container .columns li a{
+  color: rgb(255 255 255);
+  text-decoration: underline;
+  font-size: 14px;
+  list-style: none;
+}
+
+@media (width > 992px) {
+body.dark.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper {
+  background-color: #3B3B3D;
+}
+}
+
 /* stylelint-enable no-descending-specificity */
