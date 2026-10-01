@@ -1099,7 +1099,7 @@ body .columns.aa-tiles > div > div:last-child > p {
 
 @media (width >= 992px) {
   main > .section.columns-container .columns-wrapper .columns.aa-tiles {
-    margin-top: -80px;
+    margin-top: -96px;
     position: relative;
     z-index: 1;
   }

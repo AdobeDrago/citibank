@@ -122,10 +122,12 @@ export default function decorate(block) {
     // supporting line "after spending $1,000 in the first 3 months<a><sup>2</sup></a>")
     // has text beyond the link, so it is treated as a text paragraph — otherwise
     // the offer's footnote superscript would be misread as the primary CTA.
-    const anchor = el.querySelector('a');
-    const pText = el.textContent.replace(/\s+/g, ' ').trim();
-    const aText = anchor ? anchor.textContent.replace(/\s+/g, ' ').trim() : '';
-    if (anchor && aText && pText === aText) {
+    // Several links in one paragraph (Apply now + "See if you pre-qualify") also
+    // count, as long as the paragraph holds nothing but link text.
+    const norm = (s) => s.replace(/\s+/g, ' ').trim();
+    const pText = norm(el.textContent);
+    const aText = norm([...el.querySelectorAll('a')].map((a) => a.textContent).join(' '));
+    if (aText && pText === aText) {
       links.push(el);
     } else {
       texts.push(el);
@@ -145,15 +147,37 @@ export default function decorate(block) {
   }
 
   // Text-only paragraphs, in document order: eyebrow, supporting, disclaimer.
-  if (texts[0]) texts[0].classList.add('hero-eyebrow');
-  if (texts[1]) texts[1].classList.add('hero-supporting');
+  // On PDPs the eyebrow is optional and only counts when authored above the h2
+  // offer headline; otherwise a page without one (Secured, Simplicity) would get
+  // its supporting line or disclaimer styled as the eyebrow badge.
+  const h2 = headings.find((h) => h.tagName === 'H2');
+  const isRetail = document.body.classList.contains('credit-card-retail-pdp');
+  const eyebrow = texts[0]
+    && (isRetail || !h2 || kids.indexOf(texts[0]) < kids.indexOf(h2)) ? texts[0] : null;
+  if (eyebrow) eyebrow.classList.add('hero-eyebrow');
+  const bodyTexts = eyebrow ? texts.slice(1) : texts;
+  // Without an eyebrow, a lone body text is the disclaimer, not a supporting line.
+  if (bodyTexts[0] && (eyebrow || bodyTexts.length > 1)) {
+    bodyTexts[0].classList.add('hero-supporting');
+  }
   const disclaimer = texts[texts.length - 1];
-  if (disclaimer && disclaimer !== texts[0]) disclaimer.classList.add('hero-disclaimer');
-  stats.push(...texts.slice(2, -1));
+  if (disclaimer && disclaimer !== eyebrow) disclaimer.classList.add('hero-disclaimer');
+  // Retail cobrand PDPs (e.g. Home Depot) use a short sign-on line in place of
+  // the legal disclaimer; the source sets it larger with a rule beneath it.
+  if (disclaimer && /already have a card/i.test(disclaimer.textContent)) {
+    disclaimer.classList.add('hero-signon');
+  }
+  stats.push(...bodyTexts.slice(1, -1));
+  // Bolded and unbolded stats land in separate buckets; restore authored order.
+  stats.sort((a, b) => kids.indexOf(a) - kids.indexOf(b));
 
   // Stat paragraphs: <strong>value</strong> — label<sup>n</sup>.
   stats.forEach((p) => {
     p.classList.add('hero-stat');
+    // Text authored before the bold run is part of the value, e.g.
+    // "$0 <strong>Liability</strong> — on unauthorized charges".
+    const lead = p.querySelector(':scope > strong');
+    while (lead && lead.previousSibling) lead.prepend(lead.previousSibling);
     // CSS cannot target part of a text node, so an unbolded value needs an element.
     if (!p.querySelector('strong')) {
       p.innerHTML = p.innerHTML.replace(/^\s*(\S+)/, '<strong>$1</strong>');
@@ -177,7 +201,8 @@ export default function decorate(block) {
   // The value callout can be authored before the CTA, so classify each link by
   // its visible role instead of relying on document order.
   const valueCallout = links.find((p) => /over\s+\$[\d,]+\s+in\s+value/i.test(p.textContent));
-  const ctaParagraph = links.find((p) => /^apply\s+now$/i.test(p.textContent.trim())) || links[0];
+  const ctaParagraph = links.find((p) => /^apply\s+now$/i.test(p.querySelector('a').textContent.trim()))
+    || links[0];
   if (valueCallout) {
     valueCallout.classList.add('hero-value-callout');
     // Joins the stat row so its border-left reads as a divider beside the fee.
@@ -190,10 +215,34 @@ export default function decorate(block) {
     const cta = ctaParagraph.querySelector('a');
     if (cta) cta.classList.add('button', 'primary');
   }
+  // A secondary text CTA (e.g. "See if you pre-qualify ›") sits beside Apply now.
+  // Authors can put it in the same paragraph as Apply now or in the paragraph
+  // directly below; either way it is not a footnote.
+  let secondaryCta = null;
+  if (ctaParagraph && !document.body.classList.contains('credit-card-retail-pdp')) {
+    const [, secondLink] = ctaParagraph.querySelectorAll('a');
+    const afterCta = kids[kids.indexOf(ctaParagraph) + 1];
+    if (secondLink) {
+      secondaryCta = document.createElement('p');
+      secondaryCta.append(secondLink);
+      ctaParagraph.after(secondaryCta);
+    } else if (links.includes(afterCta) && afterCta !== valueCallout
+      && !/important pricing|additional information/i.test(afterCta.textContent)) {
+      secondaryCta = afterCta;
+    }
+  }
+  if (secondaryCta) {
+    secondaryCta.classList.add('hero-secondary-cta');
+    const ctas = document.createElement('div');
+    ctas.className = 'hero-ctas';
+    ctaParagraph.before(ctas);
+    ctas.append(ctaParagraph, secondaryCta);
+  }
+
   // The "Important Pricing & Terms Information +" link (retail) sits directly under
   // the CTA in the source; pull it out of the footnotes group so it can be placed
   // and styled on its own. Identified by its visible text.
-  const rest = links.filter((p) => p !== ctaParagraph && p !== valueCallout);
+  const rest = links.filter((p) => p !== ctaParagraph && p !== valueCallout && p !== secondaryCta);
   const pricingLink = document.body.classList.contains('credit-card-retail-pdp')
     ? rest.find((p) => /important pricing/i.test(p.textContent))
     : null;
