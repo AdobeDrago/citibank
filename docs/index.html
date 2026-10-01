@@ -790,6 +790,12 @@
             <div class="url-card-url">…/credit-cards/view-all-credit-cards</div>
             <div class="url-card-desc">Index-driven grid · category filter chips</div>
           </a>
+          <a class="url-card" href="https://main--citibank--adobedrago.aem.page/cbol/om/checking/citigold/featured-offer/default?zip=30301" target="_blank" rel="noopener">
+            <div class="url-card-label"><span class="dot dot-navy"></span>Scenario 2 — Citigold ELP</div>
+            <div class="url-card-title">Citigold Featured Offer (zip-gated)</div>
+            <div class="url-card-url">…/cbol/om/checking/citigold/featured-offer/default?zip=30301</div>
+            <div class="url-card-desc">ZIP / outOfBTA gate via DA sheet mock · try <code class="code-inline">?zip=</code></div>
+          </a>
           <a class="url-card" href="https://main--citibank--adobedrago.aem.page/credit-cards/aadvantage-mile-up-credit-card" target="_blank" rel="noopener">
             <div class="url-card-label"><span class="dot dot-orange"></span>Scenario 3 — Personalization</div>
             <div class="url-card-title">AAdvantage Mile Up PDP</div>
@@ -1230,11 +1236,12 @@ npm run lint:fix     <span class="cmt"># auto-fix JS + CSS where possible</span>
         </h2>
         <div class="section-rule"></div>
         <p><strong>Live (production, migration source):</strong> <a href="https://banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm" target="_blank" rel="noopener" style="color:var(--citi-blue);">banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm</a></p>
+        <p><strong>EDS preview (demo):</strong> <a href="https://main--citibank--adobedrago.aem.page/cbol/om/checking/citigold/featured-offer/default?zip=30301" target="_blank" rel="noopener" style="color:var(--citi-blue);">main--citibank--adobedrago.aem.page/cbol/om/checking/citigold/featured-offer/default?zip=30301</a></p>
         <p>This is one of our most complex hosted <strong>External Landing Pages (ELP)</strong> and a strong fit for the prototype because it exercises three things at once: whether a hosted page can transition into EDS, how the authoring and governance model needs to evolve for hosted pages, and whether EDS can render dynamic, location-based offer data inside an authored page.</p>
 
         <div class="notice tip">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
-          <span><strong>Engineering update (demo POV).</strong> The zip-gated Citigold offer pattern is in progress. Client-side lookup via <code class="code-inline">scripts/bta.js</code> reads authored DA workbook <code class="code-inline">/cbol/zipcode-bta.json</code>; IN and OUT tabs drive fee rows and visibility in <code class="code-inline">zip-banner</code> / <code class="code-inline">deposit-account</code>. Draft page: <code class="code-inline">drafts/citigold-featured-offer.html</code> (imported via <code class="code-inline">tools/importer/import-citigold-landing.js</code>). This proves the architecture without the live Citi offer/eligibility API. A shared EDS preview URL for this scenario has not been confirmed yet.</span>
+          <span><strong>Engineering update (demo POV).</strong> The zip-gated Citigold offer pattern is in progress on preview. Client-side lookup via <code class="code-inline">scripts/bta.js</code> reads authored DA workbook <code class="code-inline">/cbol/zipcode-bta.json</code> (published sheet → JSON, standing in for the live eligibility API); IN and OUT tabs drive fee rows and visibility in <code class="code-inline">zip-banner</code> / <code class="code-inline">deposit-account</code>. Pass <code class="code-inline">?zip=</code> on the preview URL (e.g. <code class="code-inline">30301</code> → OUT) to exercise the gate. Draft page: <code class="code-inline">drafts/citigold-featured-offer.html</code> (imported via <code class="code-inline">tools/importer/import-citigold-landing.js</code>).</span>
         </div>
 
         <h3>What this validates</h3>
@@ -1245,19 +1252,56 @@ npm run lint:fix     <span class="cmt"># auto-fix JS + CSS where possible</span>
           <li><strong>Automated footer content</strong> — legal and offer footer metadata populated from the sheet based on IN / OUT status with zero manual effort.</li>
         </ul>
 
+        <h3>Mocking the eligibility API — DA sheet → JSON</h3>
+        <p>Instead of calling Citi's live ZIP / offer-eligibility service, authors maintain a Document Authoring workbook (<code class="code-inline">zipcode-bta</code>) under CBOL. EDS publishes that sheet as <code class="code-inline">/cbol/zipcode-bta.json</code>; <code class="code-inline">scripts/bta.js</code> fetches it at runtime and maps the visitor's ZIP to an IN / OUT BTA status and governing state — the same contract a real API would return.</p>
+        <ol class="steps">
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Author ZIP → BTA rows in DA</div>
+            <p>Workbook <code class="code-inline">zipcode-bta</code> has tabs <code class="code-inline">data</code>, <code class="code-inline">IN</code>, and <code class="code-inline">OUT</code>. The <code class="code-inline">data</code> tab holds columns <code class="code-inline">zip</code>, <code class="code-inline">outOfBTA</code> (IN / OUT), and <code class="code-inline">governingState</code> — sample rows include <code class="code-inline">10022</code> → IN / NY and <code class="code-inline">30301</code> → OUT / SX.</p>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Publish sheet → JSON (API stand-in)</div>
+            <p>On preview/publish, EDS serves the workbook as <code class="code-inline">/cbol/zipcode-bta.json</code>. The browser Network panel shows a fetch returning <code class="code-inline">{ data: { total, offset, limit, data: […] } }</code> with the same rows — this is the mocked eligibility response <code class="code-inline">bta.js</code> consumes.</p>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Page applies IN / OUT from <code class="code-inline">?zip=</code></div>
+            <p>With <code class="code-inline">?zip=30301</code>, lookup resolves to OUT; fee schedules and footer content switch via the IN / OUT sheet tabs. Swap to an IN ZIP (e.g. <code class="code-inline">10022</code>) to confirm the alternate branch.</p>
+          </div></li>
+        </ol>
+
+        <div class="lh-compare" style="margin-top:8px;">
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">ZIP / BTA mock — authored sheet → published JSON <span>/cbol/zipcode-bta</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">DA sheet</span>
+                </div>
+                <img src="images/zipcode-bta-sheet.png" alt="Document Authoring zipcode-bta workbook showing zip, outOfBTA, and governingState columns">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">JSON response</span>
+                </div>
+                <img src="images/zipcode-bta-json-mock.png" alt="EDS Citigold Featured Offer page with Network panel showing zipcode-bta.json mock API response for zip 30301">
+              </div>
+            </div>
+          </div>
+        </div>
+
         <ul class="checklist" style="margin-top:16px;">
           <li class="check-item">
             <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 3a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 018 3zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Render the hosted ELP structure through EDS</div>
-              <div class="check-note"><strong>Partial.</strong> Zip-gated Citigold offer pattern is under construction in the demo POV. Shared DA-authored preview URL still TBD.</div>
+              <div class="check-note"><strong>Partial.</strong> Zip-gated Citigold offer is live on preview at <code class="code-inline">/cbol/om/checking/citigold/featured-offer/default</code>. Full hosted-page parity and governance model still open.</div>
             </div>
           </li>
           <li class="check-item">
             <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 3a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 018 3zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Fetch and render dynamic ZIP / outOfBTA data</div>
-              <div class="check-note"><strong>Partial.</strong> DA sheet <code class="code-inline">/cbol/zipcode-bta.json</code> holds ZIP Code and <code class="code-inline">outOfBTA</code> (IN/OUT); <code class="code-inline">bta.js</code> fetches it client-side and fee/footer content follows sheet status. Not the live Citi offer/eligibility backend.</div>
+              <div class="check-note"><strong>Partial.</strong> DA sheet <code class="code-inline">zipcode-bta</code> → <code class="code-inline">/cbol/zipcode-bta.json</code> mocks the eligibility API; <code class="code-inline">bta.js</code> fetches it client-side and fee/footer content follows sheet status. Not the live Citi offer/eligibility backend.</div>
             </div>
           </li>
           <li class="check-item">
@@ -1370,6 +1414,97 @@ npm run lint:fix     <span class="cmt"># auto-fix JS + CSS where possible</span>
           </div></li>
         </ol>
 
+        <h3>Segment fragments — authoring &amp; runtime</h3>
+        <p>On the AAdvantage Mile Up PDP, a <code class="code-inline">cc-fragment</code> block points at a folder of child fragment pages. Signed out loads the <code class="code-inline">*-default</code> variation; after simulated Sign On, the <code class="code-inline">ecid</code> cookie (e.g. <code class="code-inline">seg-a</code>) selects the matching child. Same pattern as production Pega segment offers — mocked with DA-authored fragments for the demo.</p>
+        <ol class="steps">
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Author fragment variations in DA</div>
+            <p>Under <code class="code-inline">/fragments/credit-cards/aadvantage-mile-up-credit-card/</code>: <code class="code-inline">…-default</code> (signed out), plus <code class="code-inline">…-seg-a</code>, <code class="code-inline">…-seg-b</code>, <code class="code-inline">…-seg-c</code> for signed-in segments.</p>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Embed the folder on the page</div>
+            <p>Authors drop a <code class="code-inline">cc-fragment</code> block and set the path to <code class="code-inline">/fragments/credit-cards/aadvantage-mile-up-credit-card</code>. <code class="code-inline">blocks/cc-fragment</code> resolves the child suffix from <code class="code-inline">ecid</code> (or <code class="code-inline">default</code> when unset).</p>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Signed out → default · Signed in → segment</div>
+            <p>With Sign On showing (no <code class="code-inline">ecid</code>), the hero shows the default MileUp offer. After Sign On, <code class="code-inline">ecid=seg-a</code> swaps in the segment-A fragment (e.g. “Logged in User Diamond Card”). Change the cookie to <code class="code-inline">seg-b</code> / <code class="code-inline">seg-c</code> to exercise the other variations.</p>
+          </div></li>
+        </ol>
+
+        <div class="lh-compare" style="margin-top:8px;">
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">DA fragment folder &amp; page authoring <span>/fragments/…/aadvantage-mile-up-credit-card</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Fragment variations</span>
+                </div>
+                <img src="images/fragments-da-browse.png" alt="Document Authoring browse view listing default, seg-a, seg-b, and seg-c fragment pages for AAdvantage Mile Up">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">cc-fragment on PDP</span>
+                </div>
+                <img src="images/cc-fragment-authoring.png" alt="Document Authoring page with cc-fragment block pointing at /fragments/credit-cards/aadvantage-mile-up-credit-card">
+              </div>
+            </div>
+          </div>
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">Runtime — signed out vs signed in (ecid) <span>/credit-cards/aadvantage-mile-up-credit-card</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Signed out · default</span>
+                </div>
+                <img src="images/fragment-signed-out-default.jpg" alt="AAdvantage MileUp PDP signed out showing default fragment offer Earn 20,000 AAdvantage bonus miles">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Signed in · seg-a</span>
+                </div>
+                <img src="images/fragment-signed-in-seg-a.png" alt="Same PDP signed in with ecid cookie set to seg-a showing Logged in User Diamond Card fragment">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3>Offer sheet + code-select — token personalization</h3>
+        <p>The complementary path to whole-fragment swaps: authors keep pricing/offer numbers in a shared DA workbook and place <code class="code-inline">{{token}}</code> placeholders in page copy. At runtime <code class="code-inline">scripts/offer-sheet.js</code> loads <code class="code-inline">/credit-cards/offerpricingpositioning.json</code>, picks the tab from <code class="code-inline">ecid</code> (<code class="code-inline">default</code> / <code class="code-inline">seg-a</code> / <code class="code-inline">seg-b</code> / <code class="code-inline">seg-c</code>), matches the row by page name, and fills tokens (used by <code class="code-inline">hero</code>, listing, etc.).</p>
+        <ol class="steps">
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Author segment tabs in the offer sheet</div>
+            <p>Workbook <code class="code-inline">offerpricingpositioning</code> under credit-cards has tabs <code class="code-inline">seg-a</code>, <code class="code-inline">seg-b</code>, <code class="code-inline">seg-c</code>, and <code class="code-inline">default</code>. Columns include Page Name, Bonus Amount, Spend Requirement, Annual Fee Amount, Liability — one row per card PDP.</p>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Insert tokens with Code Select</div>
+            <p>In DA, open the Code Select plugin and click fields (Bonus Amount, Spend Requirement, Annual Fee Amount, …). That inserts placeholders such as <code class="code-inline">{{bonusAmount}}</code>, <code class="code-inline">{{spendRequirement}}</code>, and <code class="code-inline">{{annualFeeAmount}}</code> into the block copy — no hand-typed JSON keys required.</p>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Runtime fills tokens from the matching tab</div>
+            <p>Signed out (no <code class="code-inline">ecid</code>) uses the <code class="code-inline">default</code> tab; signed in with <code class="code-inline">ecid=seg-a</code> uses that tab’s values for the current page’s row. Same cookie signal as the fragment path — sheet tokens change numbers in place without swapping the whole hero.</p>
+          </div></li>
+        </ol>
+
+        <div class="lh-compare" style="margin-top:8px;">
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">DA offer sheet → Code Select tokens <span>/credit-cards/offerpricingpositioning</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Offer sheet · seg-a</span>
+                </div>
+                <img src="images/offerpricingpositioning-sheet.png" alt="Document Authoring offerpricingpositioning workbook with seg-a tab and columns Page Name, Bonus Amount, Spend Requirement, Annual Fee Amount, Liability">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Code Select on page</span>
+                </div>
+                <img src="images/code-select-tokens.png" alt="DA authoring with Code Select plugin inserting bonusAmount, spendRequirement, and annualFeeAmount tokens into hero copy">
+              </div>
+            </div>
+          </div>
+        </div>
+
         <h3>Production target — AEM / Pega Content Endpoint</h3>
         <p>Personalized offer content in production is fetched from a persisted GraphQL query against the <code class="code-inline">qa3</code> (QA/UAT) AEM instance:</p>
         <div class="code-block"><span class="kw">GET</span> https://qa3.aemapi.citi.com/graphql/execute.json/pz/get-pz-offers<span class="str">;path=/content/dam/cfs/uspb/pz/en/offers/cbol/PLCTA01_2a</span>
@@ -1384,14 +1519,14 @@ npm run lint:fix     <span class="cmt"># auto-fix JS + CSS where possible</span>
             <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 3a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 018 3zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Fetch personalized banner / offer content post-login</div>
-              <div class="check-note"><strong>Partial (mocked).</strong> Demo resolves segment from login/ECID and loads matching authored content. Live <code class="code-inline">get-pz-offers</code> call still todo.</div>
+              <div class="check-note"><strong>Partial (mocked).</strong> Demo resolves segment from login/ECID via fragment children <em>and</em> <code class="code-inline">offerpricingpositioning</code> sheet tokens (<code class="code-inline">offer-sheet.js</code> + Code Select). Live <code class="code-inline">get-pz-offers</code> call still todo.</div>
             </div>
           </li>
           <li class="check-item">
             <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 3a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 018 3zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Render into named, slot-based placements</div>
-              <div class="check-note"><strong>Partial.</strong> Pre-created fragment variations and EDS sheet tabs demonstrate placement of segment content on PDP (e.g. AAdvantage Mile Up). Production post-login slot map still open.</div>
+              <div class="check-note"><strong>Partial.</strong> <code class="code-inline">cc-fragment</code> + DA child pages (<code class="code-inline">default</code> / <code class="code-inline">seg-a|b|c</code>) demonstrate placement on the AAdvantage Mile Up PDP. Production post-login slot map still open.</div>
             </div>
           </li>
           <li class="check-item">
@@ -1413,29 +1548,29 @@ npm run lint:fix     <span class="cmt"># auto-fix JS + CSS where possible</span>
           Open questions
         </h2>
         <div class="section-rule"></div>
-        <div class="notice question">
-          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          <span><strong>1. Screenshot pending.</strong> The requesting team referenced a screenshot of the rendered banner placements that has not yet been shared into this repo. Attach it (e.g. under an <code class="code-inline">assets/</code> or design-reference folder) so the block layout can be modeled against it.</span>
+        <div class="notice tip">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+          <span><strong>Resolved — demo screenshots attached.</strong> Fragment folder / <code class="code-inline">cc-fragment</code>, signed-out vs <code class="code-inline">ecid=seg-a</code> runtime, plus the <code class="code-inline">offerpricingpositioning</code> sheet and Code Select token authoring are documented above under <a href="#scenario-3" style="color:#0d51b5;">Scenario 3</a>. Production post-login slot layout (non-PDP placements) remains an open scoping question (#3).</span>
         </div>
         <div class="notice question">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          <span><strong>2. What authenticates the browser's call to <code class="code-inline">qa3.aemapi.citi.com</code>?</strong> Since this is a post-login surface, confirm whether the customer's session token/cookie is forwarded directly, or whether a server-side/edge proxy is required to avoid exposing internal AEM endpoints to the client.</span>
+          <span><strong>1. What authenticates the browser's call to <code class="code-inline">qa3.aemapi.citi.com</code>?</strong> Since this is a post-login surface, confirm whether the customer's session token/cookie is forwarded directly, or whether a server-side/edge proxy is required to avoid exposing internal AEM endpoints to the client.</span>
         </div>
         <div class="notice tip">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
-          <span><strong>Working assumption (from engineering review), pending confirmation:</strong> the login flow returns identifying cookies that are then forwarded to Pega for decisioning. If that holds, question 2 above shouldn't be a blocker — but it's still worth getting Citi to confirm the mechanism rather than assuming it.</span>
+          <span><strong>Working assumption (from engineering review), pending confirmation:</strong> the login flow returns identifying cookies that are then forwarded to Pega for decisioning. If that holds, question 1 above shouldn't be a blocker — but it's still worth getting Citi to confirm the mechanism rather than assuming it.</span>
         </div>
         <div class="notice question">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          <span><strong>3. Personalized content is inherently uncacheable at the edge.</strong> Confirm the intended caching strategy (e.g. no-cache for the banner block's data call, cache everything else) so this doesn't regress EDS's default performance profile.</span>
+          <span><strong>2. Personalized content is inherently uncacheable at the edge.</strong> Confirm the intended caching strategy (e.g. no-cache for the banner block's data call, cache everything else) so this doesn't regress EDS's default performance profile.</span>
         </div>
         <div class="notice question">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          <span><strong>4. What are the actual post-login page(s) and placements in scope for the pilot?</strong> No production URL exists for this scenario — we need at least one representative post-login template to author the block against.</span>
+          <span><strong>3. What are the actual post-login page(s) and placements in scope for the pilot?</strong> No production URL exists for this scenario — we need at least one representative post-login template to author the block against.</span>
         </div>
         <div class="notice question">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          <span><strong>5. What determines which slot a given piece of content renders into?</strong> Is the placement/slot identifier part of the <code class="code-inline">get-pz-offers</code> response, or is it hardcoded per block instance on the page? This decides whether "slot-based rendering" is a data-driven or an authoring-driven concern.</span>
+          <span><strong>4. What determines which slot a given piece of content renders into?</strong> Is the placement/slot identifier part of the <code class="code-inline">get-pz-offers</code> response, or is it hardcoded per block instance on the page? This decides whether "slot-based rendering" is a data-driven or an authoring-driven concern.</span>
         </div>
       </section>
 
@@ -1476,19 +1611,15 @@ npm run lint:fix     <span class="cmt"># auto-fix JS + CSS where possible</span>
             <p class="skill-card-desc">Close the environment-switching, auth, and ownership questions raised in each scenario before treating mocks as production-ready.</p>
           </div>
           <div class="skill-card">
-            <div class="skill-card-header"><span class="skill-tag tag-cfg">2</span><span class="skill-card-name">Attach the Scenario 3 screenshot</span></div>
-            <p class="skill-card-desc">Get the referenced post-login banner screenshot into the repo so production slot layout can be modeled against it.</p>
-          </div>
-          <div class="skill-card">
-            <div class="skill-card-header"><span class="skill-tag tag-cfg">3</span><span class="skill-card-name">Wire live backends</span></div>
+            <div class="skill-card-header"><span class="skill-tag tag-cfg">2</span><span class="skill-card-name">Wire live backends</span></div>
             <p class="skill-card-desc">Replace the DA ZIP / <code class="code-inline">outOfBTA</code> sheet stand-in and mocked login/segment decisions with Citi's real offer API and <code class="code-inline">qa3</code> Pega GraphQL when access is available.</p>
           </div>
           <div class="skill-card">
-            <div class="skill-card-header"><span class="skill-tag tag-cfg">4</span><span class="skill-card-name">Expand Lighthouse sample</span></div>
+            <div class="skill-card-header"><span class="skill-tag tag-cfg">3</span><span class="skill-card-name">Expand Lighthouse sample</span></div>
             <p class="skill-card-desc">Citigold Featured Offer, Goodyear, and Exxon Mobil are captured in <a href="#lighthouse-compare" style="color:var(--citi-blue);">Lighthouse comparison</a>. Optionally add Explore Cards and more PDPs under <code class="code-inline">docs/images/</code>.</p>
           </div>
           <div class="skill-card">
-            <div class="skill-card-header"><span class="skill-tag tag-cfg">5</span><span class="skill-card-name">Educate Citi on the branch model</span></div>
+            <div class="skill-card-header"><span class="skill-tag tag-cfg">4</span><span class="skill-card-name">Educate Citi on the branch model</span></div>
             <p class="skill-card-desc">Walk Citi's team through how EDS's single content source + git branches already satisfy their prod/lower-env sync and release-isolation requirement.</p>
           </div>
         </div>
