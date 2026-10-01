@@ -69,6 +69,18 @@ footer .footer-column h2 {
   cursor: pointer;
 }
 
+footer .footer-column .footer-column-toggle {
+  flex: 1;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: inherit;
+}
+
 footer .footer-column[aria-expanded='false'] h2 {
   border-bottom: 1px solid var(--citi-footer-divider);
 }
@@ -184,7 +196,7 @@ footer .footer-legal a { font-size: 12px; }
 
 /* footer .footer-disclosures { margin-top: 24px; } */
 
-footer .footer-disclosures h4 {
+footer .footer-disclosures h3 {
   margin: 0 0 12px;
   font-size: 12px;
   font-weight: 500;
