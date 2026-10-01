@@ -17,6 +17,22 @@ function cloneStickyPicture(picture) {
 }
 
 /**
+ * @param {Element} bar
+ * @param {Element} ctaEl
+ */
+function observeStickyBarCta(bar, ctaEl) {
+  let ctaSeen = false;
+  const observer = new IntersectionObserver(
+    ([entry]) => {
+      if (entry.isIntersecting) ctaSeen = true;
+      bar.classList.toggle('is-visible', ctaSeen && !entry.isIntersecting);
+    },
+    { threshold: 0 },
+  );
+  observer.observe(ctaEl);
+}
+
+/**
  * Sticky apply bar for travel/cobrand credit-card PDPs.
  * Placed before <footer> with position:sticky; bottom:0 so it sticks to the
  * viewport bottom while scrolling and docks above the footer at page end.
@@ -62,11 +78,7 @@ function decoratePdpStickyBar(block) {
   if (footer) footer.before(bar);
   else document.body.append(bar);
 
-  const observer = new IntersectionObserver(
-    ([entry]) => bar.classList.toggle('is-visible', !entry.isIntersecting),
-    { threshold: 0 },
-  );
-  observer.observe(ctaEl);
+  observeStickyBarCta(bar, ctaEl);
 }
 
 /**
@@ -102,7 +114,6 @@ export default function decorate(block) {
   content.classList.add('hero-content');
 
   const kids = [...content.children];
-  let cardArt = null;
   const headings = [];
   const stats = [];
   const links = [];
@@ -112,22 +123,22 @@ export default function decorate(block) {
   // the card-art image. It carries a footnote <a>, so without this it would be
   // misclassified as the CTA. Identify it as any <p> that precedes the card-art
   // picture and pull it out so it can overlay the card art (retail branch below).
+  // Card art is always the FIRST <p><picture> — later icon pictures must not replace it.
   const cardArtIdx = kids.findIndex((el) => el.tagName === 'P' && el.querySelector('picture'));
+  const cardArt = cardArtIdx >= 0 ? kids[cardArtIdx] : null;
   const ribbon = cardArtIdx > 0
     ? kids.find((el, i) => i < cardArtIdx && el.tagName === 'P' && !el.querySelector('picture'))
     : null;
 
   kids.forEach((el) => {
-    if (el === ribbon) return;
+    if (el === ribbon || el === cardArt) return;
     if (/^H[1-6]$/.test(el.tagName)) {
       headings.push(el);
       return;
     }
     if (el.tagName !== 'P') return;
-    if (el.querySelector('picture')) {
-      cardArt = el;
-      return;
-    }
+    // Skip additional pictures (inline icons); card art already pinned above.
+    if (el.querySelector('picture')) return;
     if (el.querySelector('strong')) {
       stats.push(el);
       return;
@@ -172,35 +183,47 @@ export default function decorate(block) {
     head.append(cardArt, h1);
   }
 
-  // Text-only paragraphs, in document order: eyebrow, supporting, disclaimer.
-  // On PDPs the eyebrow is optional and only counts when authored above the h2
-  // offer headline; otherwise a page without one (Secured, Simplicity) would get
-  // its supporting line or disclaimer styled as the eyebrow badge.
+  // Text-only paragraphs, in document order: eyebrow, supporting, disclaimer /
+  // sign-on. Classification is structural (position + markup), never copy text —
+  // CMS authors can change wording at any time.
   const h2 = headings.find((h) => h.tagName === 'H2');
+  // Footnote markers are digit-only / <sup> links inside copy. A real inline
+  // action link (e.g. account sign-on) is anything else — detect by markup,
+  // not by English phrases that authors may rewrite.
+  const isFootnoteMarkerLink = (a) => {
+    const label = a.textContent.replace(/\s+/g, ' ').trim();
+    return a.querySelector('sup') || /^\d+$/.test(label);
+  };
+  const hasActionLink = (p) => [...p.querySelectorAll('a')].some((a) => !isFootnoteMarkerLink(a));
+  // Sign-on: last text paragraph that mixes copy + a non-footnote inline link.
+  // Pure-link paragraphs already landed in `links`.
+  const signon = [...texts].reverse().find(hasActionLink) || null;
   const eyebrow = texts[0]
-    && (isRetail || !h2 || kids.indexOf(texts[0]) < kids.indexOf(h2)) ? texts[0] : null;
+    && texts[0] !== signon
+    && (isRetail || !h2 || kids.indexOf(texts[0]) < kids.indexOf(h2))
+    ? texts[0]
+    : null;
   if (eyebrow) eyebrow.classList.add('hero-eyebrow');
-  const bodyTexts = eyebrow ? texts.slice(1) : texts;
+
+  const bodyTexts = eyebrow ? texts.filter((p) => p !== eyebrow) : texts;
   // Without an eyebrow, a lone body text is the disclaimer, not a supporting line.
-  if (bodyTexts[0] && (eyebrow || bodyTexts.length > 1)) {
+  // Sign-on is never the supporting line.
+  if (bodyTexts[0] && bodyTexts[0] !== signon && (eyebrow || bodyTexts.length > 1)) {
     bodyTexts[0].classList.add('hero-supporting');
   }
-  const disclaimer = texts[texts.length - 1];
+  const disclaimer = bodyTexts.length ? bodyTexts[bodyTexts.length - 1] : null;
   if (disclaimer && disclaimer !== eyebrow) disclaimer.classList.add('hero-disclaimer');
-  // Retail cobrand PDPs (e.g. Home Depot) use a short sign-on line in place of
-  // the legal disclaimer; the source sets it larger with a rule beneath it.
-  if (disclaimer && /already have a card/i.test(disclaimer.textContent)) {
-    disclaimer.classList.add('hero-signon');
-  }
-  stats.push(...bodyTexts.slice(1, -1));
+  if (signon) signon.classList.add('hero-signon');
+  // Middle body texts (between supporting and disclaimer) join the stats row.
+  stats.push(...bodyTexts.slice(1, -1).filter((p) => p !== signon));
   // Bolded and unbolded stats land in separate buckets; restore authored order.
   stats.sort((a, b) => kids.indexOf(a) - kids.indexOf(b));
 
   // Stat paragraphs: <strong>value</strong> — label<sup>n</sup>.
   stats.forEach((p) => {
     p.classList.add('hero-stat');
-    // Text authored before the bold run is part of the value, e.g.
-    // "$0 <strong>Liability</strong> — on unauthorized charges".
+    // Text authored before the bold run is part of the value
+    // (structure: leading text nodes before :scope > strong).
     const lead = p.querySelector(':scope > strong');
     while (lead && lead.previousSibling) lead.prepend(lead.previousSibling);
     // CSS cannot target part of a text node, so an unbolded value needs an element.
@@ -209,7 +232,7 @@ export default function decorate(block) {
     }
     const value = p.querySelector('strong');
     if (value) value.classList.add('hero-stat-value');
-    // Strip the leading " — " separator from the first text node.
+    // Strip a leading dash separator from the first text node (authoring convention).
     [...p.childNodes].forEach((node) => {
       if (node.nodeType === Node.TEXT_NODE) {
         node.textContent = node.textContent.replace(/^\s*[—–-]\s*/, ' ');
@@ -223,37 +246,53 @@ export default function decorate(block) {
     statsRow.append(...stats);
   }
 
-  // The value callout can be authored before the CTA, so classify each link by
-  // its visible role instead of relying on document order.
-  const valueCallout = links.find((p) => /over\s+\$[\d,]+\s+in\s+value/i.test(p.textContent));
-  const ctaParagraph = links.find((p) => /^apply\s+now$/i.test(p.querySelector('a').textContent.trim()))
-    || links[0];
+  // Link roles by document structure (not link label copy):
+  //   - footnotes = pure-link paragraphs after the disclaimer/sign-on anchor
+  //   - retail pre-links: first = CTA, second = pricing
+  //   - travel pre-links: last = CTA, earlier = value callout(s)
+  //   - secondary CTA = extra <a> inside the CTA paragraph only
+  //   - no disclaimer/sign-on: first link (or buttonized) is CTA; rest are footnotes
+  const anchorEl = signon || disclaimer;
+  const anchorIdx = anchorEl ? kids.indexOf(anchorEl) : -1;
+  let preLinks;
+  if (anchorIdx >= 0) {
+    preLinks = links.filter((p) => kids.indexOf(p) < anchorIdx);
+  } else if (links[0]) {
+    preLinks = [links[0]];
+  } else {
+    preLinks = [];
+  }
+
+  const buttonized = preLinks.find((p) => p.querySelector('a.button, strong > a'));
+  let ctaParagraph = buttonized || null;
+  if (!ctaParagraph && preLinks.length) {
+    ctaParagraph = isRetail ? preLinks[0] : preLinks[preLinks.length - 1];
+  }
+  if (!ctaParagraph) ctaParagraph = links[0] || null;
+
+  const valueCallout = !isRetail && ctaParagraph && preLinks.length > 1
+    ? preLinks.find((p) => p !== ctaParagraph)
+    : null;
   if (valueCallout) {
     valueCallout.classList.add('hero-value-callout');
     // Joins the stat row so its border-left reads as a divider beside the fee.
     content.querySelector('.hero-stats')?.append(valueCallout);
   }
 
-  // Link paragraphs: the Apply now link is the CTA; remaining links are footnotes.
   if (ctaParagraph) {
     ctaParagraph.classList.add('button-container');
     const cta = ctaParagraph.querySelector('a');
     if (cta) cta.classList.add('button', 'primary');
   }
-  // A secondary text CTA (e.g. "See if you pre-qualify ›") sits beside Apply now.
-  // Authors can put it in the same paragraph as Apply now or in the paragraph
-  // directly below; either way it is not a footnote.
+
+  // Secondary CTA: second <a> authored in the same paragraph as the primary CTA.
   let secondaryCta = null;
-  if (ctaParagraph && !document.body.classList.contains('credit-card-retail-pdp')) {
+  if (ctaParagraph && !isRetail) {
     const [, secondLink] = ctaParagraph.querySelectorAll('a');
-    const afterCta = kids[kids.indexOf(ctaParagraph) + 1];
     if (secondLink) {
       secondaryCta = document.createElement('p');
       secondaryCta.append(secondLink);
       ctaParagraph.after(secondaryCta);
-    } else if (links.includes(afterCta) && afterCta !== valueCallout
-      && !/important pricing|additional information/i.test(afterCta.textContent)) {
-      secondaryCta = afterCta;
     }
   }
   if (secondaryCta) {
@@ -264,15 +303,17 @@ export default function decorate(block) {
     ctas.append(ctaParagraph, secondaryCta);
   }
 
-  // The "Important Pricing & Terms Information +" link (retail) sits directly under
-  // the CTA in the source; pull it out of the footnotes group so it can be placed
-  // and styled on its own. Identified by its visible text.
-  const rest = links.filter((p) => p !== ctaParagraph && p !== valueCallout && p !== secondaryCta);
-  const pricingLink = document.body.classList.contains('credit-card-retail-pdp')
-    ? rest.find((p) => /important pricing/i.test(p.textContent))
+  // Retail pricing: next pure-link paragraph after the CTA (still before sign-on).
+  const pricingLink = isRetail && ctaParagraph
+    ? (preLinks.find((p) => p !== ctaParagraph)
+      || links[links.indexOf(ctaParagraph) + 1]
+      || null)
     : null;
   if (pricingLink) pricingLink.classList.add('hero-pricing-link');
-  const footnotes = rest.filter((p) => p !== pricingLink);
+
+  const footnotes = links.filter(
+    (p) => p !== ctaParagraph && p !== valueCallout && p !== secondaryCta && p !== pricingLink,
+  );
   footnotes.forEach((p) => p.classList.add('hero-footnote'));
   if (footnotes.length) {
     const fnRow = document.createElement('div');
@@ -336,10 +377,6 @@ export default function decorate(block) {
     bar.append(imgWrap, stickyBtn);
     document.body.append(bar);
 
-    const observer = new IntersectionObserver(
-      ([entry]) => bar.classList.toggle('is-visible', !entry.isIntersecting),
-      { threshold: 0 },
-    );
-    observer.observe(ctaEl);
+    observeStickyBarCta(bar, ctaEl);
   }
 }

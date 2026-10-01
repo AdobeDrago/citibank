@@ -1990,7 +1990,8 @@ body.credit-card-pdp .accordion-container.section.columns-container .columns-wra
     margin-top:30px;
   }
   
-  body.credit-card-pdp .accordion-container.section.columns-container .columns > div > div:last-child > p:last-child > a:any-link {
+  body.credit-card-pdp .accordion-container.section.columns-container .columns > div > div:last-child > p:last-child > a:any-link,
+  body.dark.credit-card-pdp .accordion-container.section.columns-container .columns p:has(> a){
     font-size: 16px;
     line-height: 150%;
     letter-spacing: 0.16px;
