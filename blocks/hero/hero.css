@@ -332,12 +332,17 @@
     margin-bottom: 8px;
   }
 
+  /* Footnote marker trails the label as a superscript ("Annual fee¹"). */
   body.credit-card-pdp .hero .hero-stat a {
-    position: absolute;
-    left: 60px;
-    top: 30px;
-    bottom: 0;
-    vertical-align: baseline;
+    font-size: 0.75em;
+    line-height: 0;
+    vertical-align: super;
+  }
+
+  /* Source separates stat pairs with a thin vertical rule. */
+  body.credit-card-pdp .hero .hero-stat + .hero-stat {
+    border-left: 1px solid rgb(188 197 201);
+    padding-left: 16px;
   }
 
   body.credit-card-pdp .hero .hero-value-callout {
@@ -365,6 +370,7 @@
   body.credit-card-pdp .hero .hero-footnotes {
     gap: 24px;
     padding: 8px 0;
+    counter-reset: hero-footnote;
   }
 
   body.credit-card-pdp .hero .hero-footnote {
@@ -374,6 +380,69 @@
   body.credit-card-pdp .hero .hero-footnote a:any-link {
     line-height: 1.125rem;
     letter-spacing: .009rem;
+  }
+
+  /* Source prefixes each footnote link with its reference number
+     ("¹Important Pricing…", "²Additional Information…"). */
+  body.credit-card-pdp:not(.credit-card-retail-pdp) .hero .hero-footnote::before {
+    counter-increment: hero-footnote;
+    content: counter(hero-footnote);
+    color: var(--hero-cta-color);
+    font-size: 10.5px;
+    line-height: 0;
+    vertical-align: super;
+  }
+
+  /* Apply now + secondary text CTA ("See if you pre-qualify ›") side by side. */
+  body.credit-card-pdp .hero .hero-ctas {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 16px;
+    margin: 0 0 24px;
+  }
+
+  body.credit-card-pdp .hero .hero-ctas > p {
+    margin: 0;
+  }
+
+  body.credit-card-pdp .hero .hero-secondary-cta a:any-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    color: var(--hero-cta-color);
+    font-size: 16px;
+    line-height: 24px;
+    letter-spacing: 0.16px;
+    text-decoration: none;
+  }
+
+  body.credit-card-pdp .hero .hero-secondary-cta a:any-link::after {
+    content: '';
+    width: 7px;
+    height: 7px;
+    border-top: 1.5px solid currentcolor;
+    border-right: 1.5px solid currentcolor;
+    transform: rotate(45deg);
+  }
+
+  body.credit-card-pdp .hero .hero-secondary-cta a:hover,
+  body.credit-card-pdp .hero .hero-secondary-cta a:focus-visible {
+    text-decoration: underline;
+  }
+
+  /* "Already have a card? Sign on…" line, ruled off from the footnotes. */
+  body.credit-card-pdp:not(.credit-card-retail-pdp) .hero .hero-disclaimer.hero-signon {
+    align-self: stretch;
+    margin: 0 0 16px;
+    border-top: 0;
+    border-bottom: 1px solid rgb(188 197 201);
+    padding: 0 0 24px;
+    color: var(--hero-body-color);
+    font-size: 14px;
+    line-height: 16.8px;
+    letter-spacing: 0.14px;
   }
 
   /* Mobile-only: content-row overlap + content padding (must not apply on desktop) */
@@ -393,7 +462,8 @@
       align-items: flex-start;
     }
 
-    body.credit-card-pdp:not(.credit-card-retail-pdp) .hero .button-container {
+    body.credit-card-pdp:not(.credit-card-retail-pdp) .hero .hero-content > .button-container,
+    body.credit-card-pdp:not(.credit-card-retail-pdp) .hero .hero-ctas {
       order: 4;
     }
 
@@ -402,9 +472,7 @@
     }
 
     body.credit-card-pdp:not(.credit-card-retail-pdp) .hero .hero-disclaimer {
-      padding-top: 16px;
       order: 6;
-      border-top: 1px solid #bcc5c9;
       font-size: 12px;
       line-height: 16px;
       font-weight: 400;
@@ -412,6 +480,7 @@
 
     body.credit-card-pdp:not(.credit-card-retail-pdp) .hero .hero-footnotes {
       order: 7;
+      row-gap: 16px;
     }
   }
 
@@ -421,9 +490,12 @@
       min-height: 744px;
     }
 
+    /* Fill the whole hero (min 744px) so a taller content card doesn't leave a
+       strip below the image that the overlapping tiles then sit on. */
+    body.credit-card-pdp .hero .hero-bg > div,
     body.credit-card-pdp .hero .hero-bg picture,
     body.credit-card-pdp .hero .hero-bg img {
-      height: 744px;
+      height: 100%;
     }
 
     body.credit-card-pdp .hero .hero-content-row {
@@ -1255,7 +1327,11 @@ body.dark.credit-card-pdp .hero a.button.primary:not([href^="javascript"]):focus
   color: rgb(4 32 143);
 }
 
+/* Source rules the pricing group (disclaimer + footnotes) off from the CTA. */
 body.credit-card-pdp:not(.credit-card-retail-pdp) .hero .hero-disclaimer {
+  align-self: stretch;
+  border-top: 1px solid rgb(188 197 201);
+  padding-top: 16px;
   color: var(--hero-heading-color);
 }
 
