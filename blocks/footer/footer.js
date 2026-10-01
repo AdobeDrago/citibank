@@ -152,19 +152,21 @@ function wireFooterAccordion(columnsBand) {
     const heading = col.querySelector('h2');
     const list = col.querySelector('ul');
     if (!heading || !list) return;
-    heading.setAttribute('role', 'button');
-    heading.setAttribute('tabindex', '0');
-    heading.setAttribute('aria-expanded', 'false');
+    // A real <button> inside the heading keeps the h2 semantics intact
+    // (role="button" on the h2 itself erases it from the heading outline).
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'footer-column-toggle';
+    button.setAttribute('aria-expanded', 'false');
+    button.append(...heading.childNodes);
+    heading.append(button);
     const toggle = () => {
       if (isDesktopMql.matches) return;
       const open = col.getAttribute('aria-expanded') === 'true';
       col.setAttribute('aria-expanded', open ? 'false' : 'true');
-      heading.setAttribute('aria-expanded', open ? 'false' : 'true');
+      button.setAttribute('aria-expanded', open ? 'false' : 'true');
     };
-    heading.addEventListener('click', toggle);
-    heading.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
-    });
+    button.addEventListener('click', toggle);
   });
 
   // Registered once and delegated against whatever `.footer-column`s are
@@ -176,7 +178,7 @@ function wireFooterAccordion(columnsBand) {
   isDesktopMql.addEventListener('change', () => {
     document.querySelectorAll('.footer-column').forEach((col) => {
       col.setAttribute('aria-expanded', 'false');
-      col.querySelector('h2')?.setAttribute('aria-expanded', 'false');
+      col.querySelector('.footer-column-toggle')?.setAttribute('aria-expanded', 'false');
     });
   });
 }
@@ -256,6 +258,15 @@ function buildFooterContent(frag) {
     const logoParas = [...disclosures.querySelectorAll(':scope > p')]
       .filter((p) => p.querySelector('img'));
     logoParas.slice(1).forEach((p) => p.classList.add('footer-logo-duplicate'));
+
+    // Authors use <h4> to mark this section (see sectionKind), but it follows
+    // the <h2> column headings — render it as <h3> so the outline doesn't skip.
+    disclosures.querySelectorAll(':scope > h4').forEach((h4) => {
+      const h3 = document.createElement('h3');
+      [...h4.attributes].forEach(({ name, value }) => h3.setAttribute(name, value));
+      h3.append(...h4.childNodes);
+      h4.replaceWith(h3);
+    });
   }
 
   const footer = document.createElement('div');

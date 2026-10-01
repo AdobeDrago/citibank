@@ -381,6 +381,15 @@ function buildNav(frag) {
     const tools = document.createElement('ul');
     tools.className = 'nav-utility-links';
     if (utilLinks) [...utilLinks.children].forEach((li) => tools.append(li.cloneNode(true)));
+    // Icon-only utility links (e.g. location finder) are authored with an
+    // empty image alt — give them an accessible name derived from the path.
+    tools.querySelectorAll('a').forEach((a) => {
+      if (a.textContent.trim() || a.querySelector('img[alt]:not([alt=""])')) return;
+      const slug = new URL(a.href, window.location.href).pathname.split('/').filter(Boolean).pop();
+      if (!slug) return;
+      const label = slug.replace(/[-_]+/g, ' ');
+      a.setAttribute('aria-label', label.charAt(0).toUpperCase() + label.slice(1));
+    });
     util.append(brand, tools);
   }
 

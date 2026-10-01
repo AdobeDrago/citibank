@@ -111,8 +111,9 @@
   --heading-font-size-s: 24px;
   --heading-font-size-xs: 22px;
 
-  /* nav height */
-  --nav-height: 64px;
+  /* nav height — rendered height of the two-row header (utility bar + main
+     nav); reserved up front so the lazily loaded header doesn't shift main */
+  --nav-height: 122px;
 }
 
 /*
@@ -144,6 +145,8 @@
 
 @media (width >= 992px) {
   :root {
+    --nav-height: 148px;
+
     /* body sizes */
     --body-font-size-m: 18px;
     --body-font-size-s: 16px;

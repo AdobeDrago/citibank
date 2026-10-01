@@ -1,6 +1,22 @@
 import { getOfferSheetUrl, hydrateOfferValues } from '../../scripts/offer-sheet.js';
 
 /**
+ * Clones a picture for the sticky bar. The copy sits off-screen until scroll,
+ * so it must not compete with the hero LCP image for bandwidth.
+ * @param {Element} picture
+ * @returns {Element}
+ */
+function cloneStickyPicture(picture) {
+  const clone = picture.cloneNode(true);
+  const img = clone.querySelector('img');
+  if (img) {
+    img.removeAttribute('fetchpriority');
+    img.loading = 'lazy';
+  }
+  return clone;
+}
+
+/**
  * Sticky apply bar for travel/cobrand credit-card PDPs.
  * Placed before <footer> with position:sticky; bottom:0 so it sticks to the
  * viewport bottom while scrolling and docks above the footer at page end.
@@ -22,7 +38,7 @@ function decoratePdpStickyBar(block) {
 
   const imgWrap = document.createElement('div');
   imgWrap.className = 'hero-sticky-bar-image';
-  imgWrap.append(cardArtEl.cloneNode(true));
+  imgWrap.append(cloneStickyPicture(cardArtEl));
 
   const copy = document.createElement('p');
   copy.className = 'hero-sticky-bar-copy';
@@ -136,6 +152,16 @@ export default function decorate(block) {
   // Card art + h1 label share a header row.
   const h1 = headings.find((h) => h.tagName === 'H1');
   if (cardArt) cardArt.classList.add('hero-card-art');
+
+  // LCP hint: on the retail variant (no background image) the card art is the
+  // largest above-the-fold element; otherwise the full-bleed background is.
+  const isRetail = document.body.classList.contains('credit-card-retail-pdp');
+  const lcpImg = (isRetail ? cardArt : bgRow)?.querySelector('img')
+    || cardArt?.querySelector('img');
+  if (lcpImg) {
+    lcpImg.loading = 'eager';
+    lcpImg.fetchPriority = 'high';
+  }
   if (h1) h1.classList.add('hero-title');
   if (cardArt && h1) {
     const head = document.createElement('div');
@@ -252,7 +278,7 @@ export default function decorate(block) {
 
     const imgWrap = document.createElement('div');
     imgWrap.className = 'hero-sticky-bar-image';
-    imgWrap.append(cardArtEl.cloneNode(true));
+    imgWrap.append(cloneStickyPicture(cardArtEl));
 
     const stickyBtn = document.createElement('a');
     stickyBtn.href = ctaEl.href;
