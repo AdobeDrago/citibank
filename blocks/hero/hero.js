@@ -177,7 +177,6 @@ export default function decorate(block) {
   // offer headline; otherwise a page without one (Secured, Simplicity) would get
   // its supporting line or disclaimer styled as the eyebrow badge.
   const h2 = headings.find((h) => h.tagName === 'H2');
-  const isRetail = document.body.classList.contains('credit-card-retail-pdp');
   const eyebrow = texts[0]
     && (isRetail || !h2 || kids.indexOf(texts[0]) < kids.indexOf(h2)) ? texts[0] : null;
   if (eyebrow) eyebrow.classList.add('hero-eyebrow');
