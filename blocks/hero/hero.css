@@ -24,6 +24,14 @@
     margin: 0;
     padding: 0;
   }
+
+  /* Same escape when the hero arrives inside a fragment (cc-fragment): the
+     outer page section's wrapper would otherwise re-cap it at 1296px + inset. */
+  main > .section > div:has(.section.hero-container) {
+    max-width: none;
+    margin: 0;
+    padding: 0;
+  }
   
   .hero.block {
     position: relative;
