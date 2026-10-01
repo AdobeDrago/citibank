@@ -1540,6 +1540,16 @@ body.credit-card-pdp .section>.default-content-wrapper:has(> h3, > p, > ul)>ul {
   margin-bottom: 0;
 }
 
+body.credit-card-pdp .section.txt-underline>.default-content-wrapper:has(> h3, > p, > ul)>ul li a {
+text-decoration: underline;
+color: #255be3;
+}
+
+body.credit-card-pdp .section.txt-underline>.default-content-wrapper:has(> h3, > p, > ul)>ul li sup {
+color: #255be3;
+}
+
+
 body.credit-card-pdp .pd-zero.pd-24.section>.default-content-wrapper:has(> h3, > p, > ul)>ul  li a{
   text-decoration: underline;
   color: #111;
