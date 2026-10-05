@@ -325,6 +325,7 @@
 
   body.credit-card-pdp .hero .hero-stats {
     gap: 16px;
+    flex-wrap: nowrap;
   }
 
   body.credit-card-pdp .hero .hero-stat {
