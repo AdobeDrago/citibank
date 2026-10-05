@@ -1913,6 +1913,183 @@ body.credit-card-pdp .columns.offer-cta:has(.columns-img-col) a:not([title="Appl
   text-decoration: underline;
 }
 
+/* Footnote links authored as a list ("¹ Important Pricing…", "² Additional…")
+ * sit inline in one wrapping row on the source, not as a bulleted list. */
+body.credit-card-pdp .columns.offer-cta:has(.columns-img-col) ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+body.credit-card-pdp .columns.offer-cta:has(.columns-img-col) ul li {
+  margin: 0;
+}
+
+/*
+ * offer-dark — additive class next to offer-cta for the dark recap panel
+ * (tds-feature recap-section on the Home Depot PDPs): near-black rounded
+ * panel, white copy, white Apply button, green "Limited time offer" flag,
+ * card art centred above the copy (stacked) / right of it (desktop).
+ * Authoring: Columns (heroctacolor-cscc, offer-cta, offer-dark) — card art
+ * cell + text cell: <strong> flag, card name, h2, line, Apply now, sign-on,
+ * footnote list. Selectors carry `main .section` so they beat the pale-blue /
+ * heroctacolor-cscc rules when those classes are also present.
+ */
+
+/* pale-blue section around the panel: drop its band padding/margins */
+body.credit-card-pdp main .section.pale-blue:has(.columns.offer-dark) {
+  margin: 24px auto;
+  padding: 0 12px;
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) {
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: rgb(18 18 18);
+  color: rgb(255 255 255);
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > .columns-img-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  order: 0;
+  padding: 59px 0 60px;
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > .columns-img-col img {
+  width: 257px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > div:not(.columns-img-col) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  order: 1;
+  padding: 40px 24px;
+  background: none;
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) h2 {
+  margin: 0 0 16px;
+  font-size: 28px;
+  line-height: 34px;
+  color: rgb(255 255 255);
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) h2 sup {
+  line-height: 0;
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) p {
+  margin: 0 0 16px;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.14px;
+  color: rgb(255 255 255);
+}
+
+/* line under the headline */
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) h2 + p {
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: 0.16px;
+}
+
+/* "Limited time offer" flag: first paragraph that is only bold text */
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > div > p:first-child:has(> strong:only-child) {
+  margin: 0 0 8px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: rgb(19 132 109);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 17px;
+  letter-spacing: -0.14px;
+}
+
+/* card name: first plain paragraph (after the flag, or first when no flag) */
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > div > p:first-child:has(> strong:only-child) + p,
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > div > p:first-child:not(:has(> strong:only-child)) {
+  margin: 0 0 8px;
+  letter-spacing: 0.84px;
+  text-transform: uppercase;
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) a[title="Apply now"],
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) p > strong > a {
+  margin: 8px 0;
+  padding: 15px;
+  border-color: rgb(255 255 255);
+  background-color: rgb(255 255 255);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: rgb(4 32 143);
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) a[title="Apply now"]:hover,
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) p > strong > a:hover {
+  border-color: rgb(232 236 238);
+  background-color: rgb(232 236 238);
+  color: rgb(4 32 143);
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) a:not([title="Apply now"]),
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) a:not([title="Apply now"]):hover,
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) ul {
+  color: rgb(255 255 255);
+}
+
+@media (width >= 768px) {
+  body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > div:not(.columns-img-col) {
+    padding: 24px 40px 48px;
+  }
+
+  body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) h2 {
+    font-size: 36px;
+    line-height: 44px;
+  }
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+  }
+
+  body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > .columns-img-col {
+    order: 1;
+    padding: 40px;
+  }
+
+  body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > .columns-img-col img {
+    width: 379px;
+    height: auto;
+    border-radius: 16px;
+  }
+
+  body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > div:not(.columns-img-col) {
+    order: 0;
+    padding: 88px;
+  }
+}
+
 @media (width >= 992px) {
   body.credit-card-pdp .section.pale-blue.columns-container {
     margin-top: 56px;

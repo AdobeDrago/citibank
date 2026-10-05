@@ -1555,6 +1555,116 @@ body.credit-card-pdp .pd-zero.pd-24.section>.default-content-wrapper:has(> h3, >
   color: #111;
 }
 
+/*
+ * Pricing details authored with an h2 (h2 → p → ul, e.g. Home Depot Pro Xtra
+ * under the offer panel): source renders it like the h3 variant — 24px heading
+ * left-aligned, regular-weight 14/21 grey copy, navy footnote links in a row
+ * from tablet. Inset 36px mobile / 76px tablet / 96px desktop.
+ */
+body.credit-card-pdp main > .section.txt-underline:has(> .default-content-wrapper > h2 + p + ul) {
+  margin: 24px 0 0;
+  padding: 0;
+}
+
+body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) {
+  padding: 0 36px;
+}
+
+body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) > h2 {
+  margin: 0 0 4px;
+  font-size: 24px;
+  line-height: 30px;
+  text-align: left;
+  color: rgb(38 41 43);
+}
+
+body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) > p {
+  margin: 0 0 16px;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: 0.14px;
+  color: rgb(94 103 107);
+}
+
+body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) > p strong {
+  font-weight: 400;
+}
+
+body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) > ul {
+  gap: 16px 24px;
+  padding: 0;
+  line-height: 18px;
+}
+
+body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) > ul li,
+body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) > ul li a,
+body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) > ul li sup {
+  color: rgb(4 32 143);
+}
+
+/*
+ * Standalone pricing note: a section that is only h3 + p (e.g. Home Depot
+ * Pro Xtra under the media feature). Same inset as the pricing block above,
+ * 14/21 copy, 24px to the next section (96px on desktop).
+ */
+body.credit-card-pdp main > .section:has(> .default-content-wrapper:only-child > h3:first-child + p:last-child) {
+  margin: 24px 0;
+  padding: 0;
+}
+
+body.credit-card-pdp main > .section:has(> .default-content-wrapper:only-child > h3:first-child + p:last-child) + .section {
+  margin-top: 0;
+}
+
+body.credit-card-pdp main > .section > .default-content-wrapper:only-child:has(> h3:first-child + p:last-child) {
+  padding: 0 36px;
+}
+
+body.credit-card-pdp main > .section > .default-content-wrapper:only-child:has(> h3:first-child + p:last-child) > h3 {
+  margin: 0 0 4px;
+  line-height: 30px;
+}
+
+body.credit-card-pdp main > .section > .default-content-wrapper:only-child:has(> h3:first-child + p:last-child) > p {
+  margin: 0;
+  line-height: 21px;
+  letter-spacing: 0.14px;
+}
+
+@media (width >= 768px) {
+  body.credit-card-pdp main > .section > .default-content-wrapper:only-child:has(> h3:first-child + p:last-child) {
+    padding: 0 76px;
+  }
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp main > .section:has(> .default-content-wrapper:only-child > h3:first-child + p:last-child) {
+    margin: 48px 0 96px;
+  }
+
+  body.credit-card-pdp main > .section > .default-content-wrapper:only-child:has(> h3:first-child + p:last-child) {
+    max-width: 1248px;
+    padding: 0 32px;
+  }
+}
+
+@media (width >= 768px) {
+  body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) {
+    padding: 0 76px;
+  }
+
+  body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) > ul {
+    flex-direction: row;
+  }
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) {
+    max-width: 1248px;
+    padding: 0 32px;
+  }
+}
+
 @media (width >=992px) {
   body.credit-card-pdp .section .default-content-wrapper:has(> h3):has(> p):has(> ul) {
     padding: 0 40px;

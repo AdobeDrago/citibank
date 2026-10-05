@@ -299,6 +299,70 @@ body.credit-card-pdp .section.points-redemption .default-content-wrapper > h2 + 
   text-align: center;
 }
 
+/*
+ * Intro paragraph + uppercase sub-heading between the title and the tiles
+ * (h2 → p → h3, e.g. Home Depot Pro Xtra "Get 4x Perks…").
+ */
+body.credit-card-pdp main > .section.points-redemption > .default-content-wrapper > h2:has(+ p) {
+  max-width: 1032px;
+  margin: 0 auto 16px;
+  letter-spacing: normal;
+  color: rgb(38 41 43);
+}
+
+body.credit-card-pdp .section.points-redemption .default-content-wrapper > h2 + p {
+  max-width: 1032px;
+  margin: 0 auto 24px;
+  font-size: 16px;
+  line-height: 22px;
+  text-align: center;
+  color: rgb(38 41 43);
+}
+
+body.credit-card-pdp .section.points-redemption .default-content-wrapper > h2 + p + h3 {
+  max-width: 1032px;
+  margin: 0 auto 32px;
+  font-size: 18px;
+  font-weight: 700;
+  line-height: 21.6px;
+  letter-spacing: 1.808px;
+  text-align: center;
+  text-transform: uppercase;
+  color: rgb(38 41 43);
+}
+
+body.credit-card-pdp .section.points-redemption .default-content-wrapper > h2 + p + h3 strong {
+  font-weight: inherit;
+}
+
+/* tile titles on this layout are regular weight, 20/26 */
+body.credit-card-pdp .section.points-redemption:has(.default-content-wrapper > h2 + p + h3) .cards .cards-card-body h3 {
+  font-weight: 400;
+  line-height: 26px;
+}
+
+/* tablet: title + intro inset to a 640px column, sub-heading to 696px */
+@media (width >= 768px) and (width < 992px) {
+  body.credit-card-pdp main > .section.points-redemption > .default-content-wrapper > h2:has(+ p),
+  body.credit-card-pdp .section.points-redemption .default-content-wrapper > h2 + p {
+    padding: 0 40px;
+  }
+
+  body.credit-card-pdp .section.points-redemption .default-content-wrapper > h2 + p + h3 {
+    padding: 0 12px;
+  }
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp main > .section.points-redemption > .default-content-wrapper > h2:has(+ p) {
+    margin-bottom: 24px;
+  }
+
+  body.credit-card-pdp .section.points-redemption .default-content-wrapper > h2 + p + h3 {
+    margin: 48px auto 56px;
+  }
+}
+
 /* 2 tiles: two equal halves; 4 tiles: 2×2 — from tablet */
 @media (width >= 768px) {
   body.credit-card-pdp .section.points-redemption .cards > ul:not(:has(> li:nth-child(3))),
