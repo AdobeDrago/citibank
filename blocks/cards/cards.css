@@ -102,10 +102,12 @@
   }
 }
 
-body.credit-card-pdp .cards .cards-card-image {
+body.credit-card-pdp .cards:not(.icon-center) .cards-card-image {
   padding: 0;
   text-align: start;
 }
+
+
 
 /* Cards in this band are left-aligned benefit rows (not centered promo tiles) */
 /* stylelint-disable no-descending-specificity -- variant scopes are mutually exclusive */
@@ -185,6 +187,11 @@ body.credit-card-pdp .section.cdc-full-size .cards-wrapper >.cards > ul > li > .
   body.credit-card-pdp .cards > ul {
     grid-template-columns: repeat(3, 1fr);
   }
+
+  body.credit-card-pdp .icon-center.cards > ul {
+      grid-template-columns: repeat(2, 1fr);
+  }
+
 
   body.credit-card-pdp main .section.cards-container.accordion-container .cards > ul {
     grid-template-columns: repeat(3, 1fr);

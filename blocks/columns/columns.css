@@ -1363,6 +1363,10 @@ body.dark.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):ha
   body.dark.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:not(:has(> div:last-child:empty):not(:has(h3))) + div:not(:has(> div:last-child:empty):not(:has(h3))) {
     border-left-color: rgb(94 103 107);
   }
+
+  body.dark.credit-card-pdp .columns.card-reverse.columns-2-cols:has(.columns-img-col):not(.feature-unlock) > div{
+  flex-direction: row-reverse;
+}
 }
 
 /* =========================================================
@@ -1713,6 +1717,202 @@ body.credit-card-pdp .pale-blue .columns p {
   line-height: 18px;
 }
 
+body.credit-card-pdp .pale-blue .hero-cta-color.columns:has(.columns-img-col) a.button:any-link {
+  background-color: rgb(4 32 143);
+  color: rgb(255 255 255);
+  border: 1px solid rgb(4 32 143);
+  padding: 12px 16px;
+  border-radius:8px
+}
+
+body.credit-card-pdp .pale-blue .hero-cta-color.columns:has(.columns-img-col) a.button:hover {
+background-color: rgb(68 0 204);
+}
+
+body.credit-card-pdp .pale-blue .heroctacolor-cscc.columns:has(.columns-img-col) p:last-child a {
+  background-color: rgb(4 32 143);
+  color: rgb(255 255 255);
+  border: 1px solid rgb(4 32 143);
+  padding: 12px 16px;
+  border-radius:8px
+}
+
+/* hero-cta-color-reverse: inverted palette of hero-cta-color (above) — a
+ * solid navy rounded panel with white copy and a white button, instead of a
+ * white panel with a navy button. Author-added as a SECOND class alongside
+ * hero-cta-color (e.g. "Costco Anywhere Visa"), so hero-cta-color's own
+ * rules (and the pages that only carry that one class, e.g. Double Cash)
+ * are untouched. */
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse {
+  background-color: rgb(4 32 143);
+  border-radius: 24px;
+}
+
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse .columns-img-col {
+  padding: 24px 24px 0;
+}
+
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:has(.columns-img-col) h2,
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:has(.columns-img-col) > div > div > p:first-child,
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse p {
+  color: rgb(255 255 255);
+}
+
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:has(.columns-img-col) a.button:any-link {
+  background-color: rgb(255 255 255);
+  color: rgb(4 32 143);
+  border-color: rgb(255 255 255);
+}
+
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:has(.columns-img-col) a.button:hover {
+  background-color: rgb(232 236 238);
+}
+
+body.credit-card-pdp .pale-blue .heroctacolor-cscc.columns:has(.columns-img-col) p:last-child a:hover {
+  background-color: rgb(68 0 204);
+  text-decoration: none;
+}
+
+/*
+ * content-panel — bottom offer card (e.g. AT&T Points Plus).
+ * Already authored on the columns block. Reuses:
+ *   outer blue  = .pdp-content.blue (rgb(76 123 162))
+ *   inner panel = .hero.content-panel (rgb(242 250 253))
+ *   Apply navy  = same tokens as hero-cta-color / offer-cta
+ * Does not change heroctacolor-cscc, hero-cta-color, or offer-cta pages.
+ */
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) {
+  background-color: rgb(76 123 162);
+  border-radius: 24px;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) > div {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) .columns-img-col img {
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) > div > div:not(.columns-img-col) {
+  background-color: rgb(242 250 253);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) > div > div > p:first-child {
+  color: rgb(94 103 107);
+}
+
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) a[title="Apply now"],
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) p > strong > a {
+  display: inline-block;
+  background-color: rgb(4 32 143);
+  color: rgb(255 255 255);
+  border: 1px solid rgb(4 32 143);
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  margin: 16px 0;
+}
+
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) a[title="Apply now"]:hover,
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) p > strong > a:hover {
+  background-color: rgb(68 0 204);
+  border-color: rgb(68 0 204);
+  color: rgb(255 255 255);
+  text-decoration: none;
+}
+
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) a:not([title="Apply now"]) {
+  display: inline;
+  background: none;
+  background-color: transparent;
+  color: var(--link-color);
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  font-weight: 400;
+  margin: 0;
+  text-decoration: underline;
+}
+
+@media (width >= 992px) {
+  /* keep stacked card layout; do not inherit pale-blue desktop row */
+  body.credit-card-pdp .pale-blue .columns.content-panel:has(.columns-img-col) > div,
+  body.credit-card-pdp .columns.content-panel:has(.columns-img-col) > div {
+    flex-direction: column;
+  }
+}
+
+/*
+ * offer-cta — additive EDS class on the columns block only.
+ * Handles both markup shapes:
+ *   A) h2 → p(Apply a) → footnotes
+ *   B) h2 → p(body) → p(strong>a Apply + footnotes)  ← Diamond Preferred
+ * Only a[title="Apply now"] / strong>a Apply become the navy button.
+ * Footnote anchors stay normal blue links. Other variants without this class are untouched.
+ */
+body.credit-card-pdp .columns.offer-cta:has(.columns-img-col) > div > div > p:first-child {
+  color: rgb(94 103 107);
+}
+
+/* Apply now — title attr is set by author or decorateButtons; strong>a covers pre-decoration */
+body.credit-card-pdp .columns.offer-cta:has(.columns-img-col) a[title="Apply now"],
+body.credit-card-pdp .columns.offer-cta:has(.columns-img-col) p > strong > a {
+  display: inline-block;
+  background-color: rgb(4 32 143);
+  color: rgb(255 255 255);
+  border: 1px solid rgb(4 32 143);
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  margin: 16px 0;
+}
+
+body.credit-card-pdp .columns.offer-cta:has(.columns-img-col) a[title="Apply now"]:hover,
+body.credit-card-pdp .columns.offer-cta:has(.columns-img-col) p > strong > a:hover {
+  background-color: rgb(68 0 204);
+  border-color: rgb(68 0 204);
+  color: rgb(255 255 255);
+  text-decoration: none;
+}
+
+/*
+ * Every other anchor in this block stays a text link
+ * (beats pale-blue .heroctacolor-cscc p:last-child a when both classes are present).
+ */
+body.credit-card-pdp .pale-blue .heroctacolor-cscc.columns.offer-cta:has(.columns-img-col) a:not([title="Apply now"]),
+body.credit-card-pdp .columns.offer-cta:has(.columns-img-col) a:not([title="Apply now"]) {
+  display: inline;
+  background: none;
+  background-color: transparent;
+  color: var(--link-color);
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  font-weight: 400;
+  margin: 0;
+  text-decoration: underline;
+}
+
+body.credit-card-pdp .pale-blue .heroctacolor-cscc.columns.offer-cta:has(.columns-img-col) a:not([title="Apply now"]):hover,
+body.credit-card-pdp .columns.offer-cta:has(.columns-img-col) a:not([title="Apply now"]):hover {
+  background: none;
+  background-color: transparent;
+  color: var(--link-hover-color, var(--link-color));
+  text-decoration: underline;
+}
+
 @media (width >= 992px) {
   body.credit-card-pdp .section.pale-blue.columns-container {
     margin-top: 56px;
@@ -1751,6 +1951,30 @@ body.credit-card-pdp .accordion-container.section.columns-container .columns-wra
   border-radius: 16px;
   }
 
+  body.credit-card-pdp .blue.accordion-container.section.columns-container .columns-wrapper {
+    background-color: #4c7ba2;
+  }
+
+  body.credit-card-pdp .blue.accordion-container.section.columns-container .columns-wrapper .columns.columns-2-cols > div > div:nth-child(2) > p:has(a[title="Apply now"]){
+    margin-top: 25px;
+  }
+
+
+  body.credit-card-pdp .blue.accordion-container.section.columns-container .columns-wrapper .columns.columns-2-cols > div > div:nth-child(2) > p > a[title="Apply now"]{
+    background-color: #fff;
+    color: var(--citi-navy);
+    padding: 16px 24px;
+    border-radius: 8px;
+  }
+
+  body.credit-card-pdp .blue.accordion-container.section.columns-container .columns-wrapper .columns ul li{
+    list-style: none;
+  }
+
+  body.credit-card-pdp .blue.accordion-container.section.columns-container .columns-wrapper .columns ul li sup{
+    color: #fff;
+  }
+
   body.credit-card-pdp .accordion-container.section.columns-container .columns.columns-2-cols:has(.columns-img-col) h2 {
     color: #fff;
     line-height: 45px;
@@ -1761,8 +1985,13 @@ body.credit-card-pdp .accordion-container.section.columns-container .columns-wra
   body.credit-card-pdp .accordion-container.section.columns-container .columns p {
     color: #fff;
   }
-
-  body.credit-card-pdp .accordion-container.section.columns-container .columns p:has(> a) {
+  
+  body.credit-card-pdp .accordion-container.section.columns-container .columns > div > div:last-child > p:last-child {
+    margin-top:30px;
+  }
+  
+  body.credit-card-pdp .accordion-container.section.columns-container .columns > div > div:last-child > p:last-child > a:any-link,
+  body.dark.credit-card-pdp .accordion-container.section.columns-container .columns p:has(> a){
     font-size: 16px;
     line-height: 150%;
     letter-spacing: 0.16px;
@@ -2274,14 +2503,22 @@ body.dark.credit-card-pdp main .section.pale-blue .columns :is(h2, h3) {
 }
 
 body.dark.credit-card-pdp main .section.pale-blue .columns p {
-  color: rgb(232 236 238);
+    color: rgb(232 236 238);
+}
+
+body.dark.credit-card-pdp main .section.pale-blue .columns p:has(a) {
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 16px 24px;
+  width: 150px;
+  text-align: center;
 }
 
 /* Plain links stay legible until an author bolds them; once bolded,
    decorateButtons promotes them and the button rule below applies. */
 body.dark.credit-card-pdp main .section.pale-blue .columns a:any-link {
-  color: rgb(255 255 255);
-}
+    color: #40c;
+  }
 
 body.dark.credit-card-pdp main .section.pale-blue .columns a.button {
   border-color: rgb(255 255 255);
@@ -2305,9 +2542,27 @@ body.credit-card-pdp .accordion-container.section.columns-container .columns li 
 }
 
 @media (width > 992px) {
-body.dark.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper {
-  background-color: #3B3B3D;
+  body.dark.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper {
+    background-color: #3B3B3D;
+  }
 }
+
+/* =========================================================
+ * Dark theme (page metadata "theme: dark") — rewards-multiplier tiles
+ * (Strata Elite's "12x / 6x / 6x / 3x / 1.5x" band, .columns.pdp-content.grey). */
+@media (width < 992px) {
+  body.dark.credit-card-pdp .columns.pdp-content.grey {
+    gap: 16px;
+    padding: 0;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  body.dark.credit-card-pdp .columns.pdp-content.grey > div {
+    border-bottom: none;
+    border-radius: 16px;
+    background-color: rgb(99 102 106);
+  }
 }
 
 /* stylelint-enable no-descending-specificity */
