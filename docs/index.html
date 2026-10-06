@@ -1183,14 +1183,35 @@ npm run lint:fix     <span class="cmt"># auto-fix JS + CSS where possible</span>
           <li class="step"><div class="step-num"></div><div class="step-body">
             <div class="step-title">Metadata block authoring on each PDP</div>
             <p>Each credit card details page includes a metadata block with title, image, fee information, and category tags for filter chips.</p>
+            <div class="lh-compare-side" style="margin-top:10px;max-width:480px;">
+              <img src="images/pdp-metadata-table.png" alt="PDP metadata block authored in Document Authoring, showing Title, Description, template, Product, Card Title, Card benefits, Eyebrow, Categories, Apply URL, image, Pricing info, and Additional info fields">
+            </div>
           </div></li>
           <li class="step"><div class="step-num"></div><div class="step-body">
             <div class="step-title">Admin indexing</div>
             <p>Metadata from all PDPs is crawled and indexed; a single query endpoint exposes structured card data for real-time frontend consumption.</p>
+            <div class="lh-compare-side" style="margin-top:10px;max-width:480px;">
+              <img src="images/index-admin-config.png" alt="AEM Index Admin configured with a credit-cards index targeting /credit-card-index.json, including /credit-cards/** and excluding fragments, drafts, and JSON paths">
+            </div>
           </div></li>
           <li class="step"><div class="step-num"></div><div class="step-body">
             <div class="step-title">Dynamic rendering &amp; filtering</div>
-            <p>View All fetches indexed records into a visual grid with interactive category chips (e.g. Rewards, Travel, No Annual Fee). Explore filters category card stacks.</p>
+            <p>View All fetches indexed records into a visual grid with interactive category chips (e.g. Rewards, Travel, No Annual Fee). Explore filters category card stacks. The same dynamic-mount pattern drives per-PDP content: a <code class="code-inline">cc-fragment</code> block authored against a fragment path renders its target fragment into the page at runtime.</p>
+            <div class="lh-compare" style="margin-top:10px;">
+              <div class="lh-compare-page">
+                <div class="lh-compare-page-title">cc-fragment authoring &amp; runtime render <span>/credit-cards/citi-aadvantage-business-credit-card</span></div>
+                <div class="lh-compare-cols">
+                  <div class="lh-compare-side">
+                    <div class="lh-compare-side-header"><span class="lh-compare-label">cc-fragment metadata</span></div>
+                    <img src="images/cc-fragment-metadata.png" alt="cc-fragment metadata table authored with path /fragments/credit-cards/citi-aadvantage-business-credit-card">
+                  </div>
+                  <div class="lh-compare-side">
+                    <div class="lh-compare-side-header"><span class="lh-compare-label">Rendered PDP</span></div>
+                    <img src="images/pdp-fragment-rendered.png" alt="Live PDP for the Citi AAdvantage Business card showing the cc-fragment block rendered as the hero and offer content">
+                  </div>
+                </div>
+              </div>
+            </div>
           </div></li>
         </ol>
 
