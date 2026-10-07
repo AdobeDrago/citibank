@@ -2844,11 +2844,6 @@ body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.
   border-radius: 4px;
 }
 
-body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a):hover,
-body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a):focus-within {
-  border-color: var(--citi-nav-navy, #04208f);
-}
-
 body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) img {
   flex: 0 0 80px;
   width: 80px;
