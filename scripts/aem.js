@@ -523,6 +523,70 @@ function buildBlock(blockName, content) {
   return blockEl;
 }
 
+/*
+ * MULTI-BRAND VENDOR PATCH - the single deliberate edit to this vendored file.
+ *
+ * Adds brand-aware block resolution: for every block, `blocks/{brand}/{block}/` is tried
+ * first and `blocks/{block}/` is used as a fallback. The only signal is folder existence,
+ * so there is no block-to-brand mapping to maintain and a block added later is picked up
+ * with no change here. Resolution is cached per (brand, block) so repeated instances of a
+ * block on one page do not repeat a failed probe.
+ *
+ * WARNING: this patch must be RE-APPLIED after any upstream sync of aem.js (a fresh
+ * boilerplate pull, sync-block-collection.sh, etc.). A freshly synced aem.js will not
+ * contain it, and every brand block override will then silently stop resolving - pages
+ * render with the shared blocks and no error is raised. Grep for `resolveBlockPath` to
+ * check whether the patch is still present.
+ *
+ * Cost: one cached 404 probe per (brand, block) for brands with no override for that
+ * block. Expected in the network panel, not a bug.
+ *
+ * See docs/multi-brand.md (B2).
+ */
+const blockResolutionCache = new Map();
+
+/**
+ * Resolves a block's module and stylesheet, preferring the active brand's fork.
+ * @param {string} blockName The block name
+ * @returns {{modulePromise: Promise, cssPromise: Promise}} The resolved loaders
+ */
+function resolveBlockPath(blockName) {
+  const { brand } = document.documentElement.dataset;
+  const cacheKey = `${brand || ''}::${blockName}`;
+  if (blockResolutionCache.has(cacheKey)) return blockResolutionCache.get(cacheKey);
+
+  const sharedBase = `${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}`;
+  const brandBase = brand
+    ? `${window.hlx.codeBasePath}/blocks/${brand}/${blockName}/${blockName}`
+    : null;
+
+  const modulePromise = (async () => {
+    if (brandBase) {
+      try {
+        return await import(`${brandBase}.js`);
+      } catch (error) {
+        // no brand-specific module - fall back to the shared one silently
+      }
+    }
+    return import(`${sharedBase}.js`);
+  })();
+
+  const cssPromise = (async () => {
+    if (brandBase) {
+      try {
+        return await loadCSS(`${brandBase}.css`);
+      } catch (error) {
+        // no brand-specific stylesheet - fall back to the shared one silently
+      }
+    }
+    return loadCSS(`${sharedBase}.css`);
+  })();
+
+  const resolution = { modulePromise, cssPromise };
+  blockResolutionCache.set(cacheKey, resolution);
+  return resolution;
+}
+
 /**
  * Loads JS and CSS for a block.
  * @param {Element} block The block element
@@ -533,13 +597,12 @@ async function loadBlock(block) {
     block.dataset.blockStatus = 'loading';
     const { blockName } = block.dataset;
     try {
-      const cssLoaded = loadCSS(`${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}.css`);
+      const { modulePromise, cssPromise } = resolveBlockPath(blockName);
+      const cssLoaded = cssPromise;
       const decorationComplete = new Promise((resolve) => {
         (async () => {
           try {
-            const mod = await import(
-              `${window.hlx.codeBasePath}/blocks/${blockName}/${blockName}.js`
-            );
+            const mod = await modulePromise;
             if (mod.default) {
               await mod.default(block);
             }

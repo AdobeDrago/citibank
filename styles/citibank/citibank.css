@@ -1,0 +1,18 @@
+/*
+ * Token overrides for the `citibank` brand - the default/base brand (www.citi.com).
+ *
+ * Loaded only when <html data-brand="citibank">, so anything declared here is scoped to
+ * this brand for free. Per-brand @font-face rules belong in this file for the same
+ * reason: declaring them in a shared stylesheet would load the font for every brand.
+ *
+ * The base brand deliberately restates the contract defaults rather than leaving the
+ * file empty, so the full set of overridable tokens is visible in one place per brand.
+ */
+
+:root[data-brand="citibank"] {
+  --brand-primary: #255be3;
+  --brand-secondary: #0f1632;
+  --brand-font-heading: "Citi Sans Display", citi-sans-display-fallback, sans-serif;
+  --brand-logo-url: none;
+  --brand-radius: 100px;
+}
