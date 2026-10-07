@@ -499,6 +499,12 @@
       min-height: 744px;
     }
 
+    /* Costco: hero sizes to its card (live: photo ends 96px under it) so the
+       reward tiles overlap the photo by 56px rather than sitting on a strip. */
+    body.credit-card-pdp .section.hero-container:has(+ .section.costco-rewards) .hero.block {
+      min-height: 0;
+    }
+
     /* Fill the whole hero (min 744px) so a taller content card doesn't leave a
        strip below the image that the overlapping tiles then sit on. */
     body.credit-card-pdp .hero .hero-bg > div,

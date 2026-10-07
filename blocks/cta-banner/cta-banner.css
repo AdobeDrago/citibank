@@ -113,3 +113,107 @@
     line-height: 1.375;
   }
 }
+
+/* Eyebrow label above the heading (all variants; panel overrides colour). */
+.cta-banner .cta-banner-eyebrow {
+  margin: 0 0 8px;
+  color: #fff;
+  font-size: 14px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+/* Panel variant — "CTA Banner (Panel)": cyan card-art background with an inset
+   light-blue panel holding dark copy and a navy button (PDP closing banner). */
+.cta-banner.panel {
+  min-height: 0;
+  padding: 16px;
+  border-radius: 16px;
+  background: #09a3e8;
+}
+
+.cta-banner.panel .cta-banner-media img {
+  object-position: right center;
+}
+
+.cta-banner.panel .cta-banner-content {
+  flex: 1 1 auto;
+  align-items: flex-start;
+  justify-content: flex-start;
+  box-sizing: border-box;
+  min-height: 420px;
+  border-radius: 8px;
+  padding: 24px;
+  background: #d9e8f6;
+}
+
+.cta-banner.panel .cta-banner-eyebrow {
+  margin: 0 0 8px;
+  color: #1a1a1a;
+  font-size: 14px;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.cta-banner.panel .cta-banner-title {
+  margin: 0 0 12px;
+  color: #1a1a1a;
+  font-size: 32px;
+  line-height: 1.2;
+}
+
+.cta-banner.panel .cta-banner-text {
+  color: #333;
+}
+
+.cta-banner.panel .cta-banner-button {
+  min-width: 0;
+  margin: 8px 0 20px;
+  background: #04208f;
+  color: #fff;
+}
+
+.cta-banner.panel .cta-banner-button:hover,
+.cta-banner.panel .cta-banner-button:focus-visible {
+  background: #04208f;
+  color: #fff;
+  text-decoration: underline;
+}
+
+.cta-banner.panel .cta-banner-content a:not(.cta-banner-button) {
+  color: #04208f;
+  font-size: 12px;
+  text-decoration: underline;
+}
+
+.cta-banner.panel .cta-banner-eyebrow + .cta-banner-title {
+  margin-top: 0;
+}
+
+.cta-banner.panel .cta-banner-text:has(a) {
+  margin: 0 0 16px;
+  font-size: 12px;
+}
+
+@media (width >= 992px) {
+  .cta-banner.panel {
+    padding: 24px;
+  }
+
+  .cta-banner.panel .cta-banner-content {
+    flex: 0 1 49%;
+    min-height: 500px;
+    justify-content: center;
+    padding: 40px clamp(48px, 7vw, 100px);
+  }
+
+  .cta-banner.panel .cta-banner-title {
+    font-size: 40px;
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  .cta-banner.panel .cta-banner-text {
+    font-size: 16px;
+  }
+}

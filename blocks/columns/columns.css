@@ -1744,7 +1744,10 @@ body.credit-card-pdp .pale-blue .heroctacolor-cscc.columns:has(.columns-img-col)
  * rules (and the pages that only carry that one class, e.g. Double Cash)
  * are untouched. */
 body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse {
-  background-color: rgb(4 32 143);
+  background-color: rgb(4 32 143); /* fallback while the artwork loads */
+  background-image: url("https://aemapi.citi.com/content/dam/cfs/uspb/usmkt/cards/en/static/images/citi-costco-anywhere-visa-business-credit-card/features/feature-resale-background--XXL-L--costco-consumer.webp");
+  background-position: center;
+  background-size: cover;
   border-radius: 24px;
 }
 
@@ -1766,6 +1769,110 @@ body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:h
 
 body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:has(.columns-img-col) a.button:hover {
   background-color: rgb(232 236 238);
+}
+
+/* Desktop measurements from live costco-business-recap-section @1440:
+ * 379px band, 16px radius, copy column inset 88px / 472px wide, 40px heading,
+ * 379px card art. charcoal (AAdvantage) keeps its own sizing below. */
+@media (width >= 992px) {
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal) {
+    border-radius: 16px;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal) > div {
+    min-height: 379px;
+    gap: 0;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal).columns-2-cols > div > div:not(.columns-img-col) {
+    flex: 0 0 50%;
+    box-sizing: border-box;
+    justify-content: center;
+    padding: 24px 88px;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal) .columns-img-col {
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 50%;
+    padding: 0 0 0 34px;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal) .columns-img-col img {
+    width: 379px;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal):has(.columns-img-col) > div > div > p:first-child {
+    margin: 0 0 4px;
+    padding: 0;
+    letter-spacing: 0.84px;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal) h2 {
+    margin: 0 0 20px;
+    font-size: 40px;
+    line-height: 46px;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal) p {
+    margin-bottom: 0;
+    line-height: 17.5px;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal) .button-wrapper {
+    margin-top: 23px;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal):has(.columns-img-col) a.button:any-link {
+    margin: 0;
+    padding: 11px 16px; /* + 1px border = live 48px */
+    font-weight: 400;
+    line-height: 24px;
+  }
+}
+
+/* charcoal: grey colourway of hero-cta-color-reverse (e.g. AAdvantage MileUp) —
+ * same layout/white button, panel uses the aa-tiles.mile-up grey. Added as a
+ * THIRD class: "Columns (hero-cta-color, hero-cta-color-reverse, charcoal)". */
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse.charcoal {
+  background-color: rgb(51 51 51);
+  background-image: url("https://aemapi.citi.com/content/dam/cfs/uspb/usmkt/cards/en/static/images/aadvantage-mile-up-credit-card/features/feature-resale-background--XXL-L--aa-mileup.webp");
+  background-position: center;
+  background-size: cover;
+}
+
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse.charcoal .columns-img-col {
+  align-items: center;
+  justify-content: center;
+}
+
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse.charcoal .columns-img-col img {
+  max-width: 470px;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse.charcoal > div {
+    min-height: 600px;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse.charcoal.columns-2-cols > div > div:not(.columns-img-col) {
+    padding: 48px 0 48px 64px;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse.charcoal h2 {
+    font-size: 56px;
+    line-height: 1.15;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse.charcoal p {
+    font-size: 18px;
+    line-height: 1.4;
+  }
 }
 
 body.credit-card-pdp .pale-blue .heroctacolor-cscc.columns:has(.columns-img-col) p:last-child a:hover {
@@ -2373,6 +2480,14 @@ body.credit-card-pdp .accordion-container.section.columns-container .columns-wra
  * (gap: 48px; align-items: center) which also matches .costco-rewards-tiles.
  */
 @media (width >= 992px) {
+  /* Pull the tiles 56px up over the hero photo (live: tiles sit 40px under the
+     hero card; photo ends 96px under it). Same shift as .aa-tiles. */
+  main > .section.costco-rewards .columns-wrapper .columns {
+    position: relative;
+    z-index: 1;
+    margin-top: -96px;
+  }
+
   .section.costco-rewards .columns.columns-2-cols > .costco-rewards-tiles {
     display: grid;
     grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -2419,11 +2534,13 @@ body.credit-card-pdp .accordion-container.section.columns-container .columns-wra
 
   .section.costco-rewards .costco-rewards-pair-inner > div > div:not(.columns-img-col) p,
   .section.costco-rewards .costco-rewards-tiles > div:not(.costco-rewards-pair) > div:not(.columns-img-col) p {
-    padding-bottom: 0;
+    padding-bottom: 0.25rem;
   }
 
+  /* live benefits-explainer-container: 16px 0 4px — anything taller stretches
+     the 3%/2%/1% tiles past the 5%/4% pair */
   .section.costco-rewards .costco-rewards-explainer {
-    padding: 1rem 0 3rem;
+    padding: 1rem 0 0.25rem;
   }
 
   .section.costco-rewards .costco-rewards-explainer-left,

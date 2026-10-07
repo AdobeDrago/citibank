@@ -43,7 +43,14 @@ export default function decorate(block) {
   const heading = content.querySelector('h1, h2, h3, h4, h5, h6');
   if (heading) heading.classList.add('cta-banner-title');
 
+  // Copy authored above the heading is the eyebrow label (panel variant).
+  const eyebrow = heading?.previousElementSibling;
+  if (eyebrow?.tagName === 'P' && eyebrow.textContent.trim()) {
+    eyebrow.classList.add('cta-banner-eyebrow');
+  }
+
   content.querySelectorAll('p').forEach((paragraph) => {
+    if (paragraph.classList.contains('cta-banner-eyebrow')) return;
     if (isLinkOnly(paragraph)) {
       const link = paragraph.querySelector('a');
       // A bolded/italicised CTA is decorated into a global button variant before
