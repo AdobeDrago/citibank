@@ -9,4 +9,14 @@
  * --*-font-family variables in styles.css fall back to Source Sans 3, loaded
  * below from Google Fonts.
  */
-@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@200;300;400;500;600;700&display=swap');
+
+/*
+ * Bold/strong text on the retail credit-card PDP (e.g. citi.com/credit-cards/
+ * exxon-mobil-credit-card) is set in Interstate Bold, a Monotype typeface
+ * Citi licenses - same restriction as above, it must not be scraped or
+ * redistributed from the live site. Overpass is an open, metrically-compatible
+ * replacement designed to match Interstate's letterforms, so it's used here
+ * as the --bold-font-family fallback instead of just bolding the body font.
+ */
+@import url('https://fonts.googleapis.com/css2?family=Overpass:wght@700;800;900&display=swap');

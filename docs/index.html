@@ -324,6 +324,13 @@
   .notice.tip      { background: #eaf6f1; color: #1a6b50; border-left: 3px solid #268e6c; }
   .notice.warning  { background: #fff4e5; color: #8a4b08; border-left: 3px solid #da7b11; }
   .notice.question { background: #f3edfb; color: #5b2d99; border-left: 3px solid #7240ab; }
+  .notice.todo {
+    background: repeating-linear-gradient(45deg, #fff8ec, #fff8ec 10px, #fdf1d8 10px, #fdf1d8 20px);
+    color: #8a4b08;
+    border: 1px dashed #da7b11;
+    border-left: 3px dashed #da7b11;
+  }
+  .notice.todo strong { text-transform: uppercase; letter-spacing: 0.04em; font-size: 11px; }
 
   /* ── SKILLS / THEME GRID ── */
   .skills-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 10px; }
@@ -434,6 +441,97 @@
   .check-title { font-weight: 700; font-size: 13px; color: var(--gray-900); }
   .check-note  { font-size: 12px; color: var(--gray-600); line-height: 1.5; }
 
+  /* ── LIGHTHOUSE COMPARISON ── */
+  .lh-compare { display: flex; flex-direction: column; gap: 24px; margin: 16px 0; }
+  .lh-compare-page {
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    background: var(--gray-50);
+    overflow: hidden;
+  }
+  .lh-compare-page-title {
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--gray-200);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--gray-900);
+  }
+  .lh-compare-page-title span {
+    font-size: 12px;
+    font-weight: 400;
+    font-family: var(--mono);
+    color: var(--gray-600);
+    margin-left: 8px;
+  }
+  .lh-compare-cols {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    padding: 16px;
+  }
+  .lh-compare-side {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    border: 1px solid var(--gray-200);
+    border-radius: 8px;
+    overflow: hidden;
+    background: #fff;
+  }
+  .lh-compare-side-header {
+    padding: 10px 14px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--gray-200);
+    background: #fff;
+  }
+  .lh-compare-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #000;
+  }
+  .lh-scores {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-left: auto;
+  }
+  .lh-score {
+    font-size: 11px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 999px;
+    background: var(--gray-100);
+    color: var(--gray-600);
+  }
+  .lh-score-good { background: #eaf6f1; color: #1a6b50; }
+  .lh-score-ok   { background: #fff4e5; color: #8a4b08; }
+  .lh-score-bad  { background: #fdecea; color: #a1281c; }
+  .lh-compare-side img {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+  .lh-compare-placeholder {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 120px;
+    padding: 24px;
+    background: var(--gray-75);
+    color: var(--gray-500);
+    font-size: 12px;
+    text-align: center;
+  }
+  @media (min-width: 900px) {
+    .lh-compare-cols { flex-direction: row; }
+    .lh-compare-side { flex: 1; }
+  }
+
   .req-list { margin: 8px 0 0 18px; font-size: 13px; color: var(--gray-700); }
   .req-list li { margin-bottom: 4px; }
 
@@ -481,44 +579,62 @@
       </a>
     </div>
     <div class="sidebar-section">
-      <div class="sidebar-label">Scenario 1 · Citigold ELP <span class="nav-status ns-planned">Proposed</span></div>
-      <a class="sidebar-link" href="#scenario-1">
-        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2zm5.5 0A1.5 1.5 0 018 2h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 7H8A1.5 1.5 0 016.5 5.5v-2zm-5.5 5A1.5 1.5 0 012.5 7h2A1.5 1.5 0 016 8.5v2A1.5 1.5 0 014.5 12h-2A1.5 1.5 0 011 10.5v-2zm5.5 0A1.5 1.5 0 018 7h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 12H8A1.5 1.5 0 016.5 10.5v-2z"/></svg>
-        Featured Offer landing page
+      <div class="sidebar-label">Getting Started</div>
+      <a class="sidebar-link" href="#setup">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0zm7-3.25a.75.75 0 00-1.5 0v2.5H4.75a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0V8.75h2.25a.75.75 0 000-1.5H8.5v-2.5z"/></svg>
+        Install &amp; run
       </a>
-      <a class="sidebar-link" href="#s1-pega-e2e">
+      <a class="sidebar-link" href="#linting">
         <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
-        Pega banner E2E gate
+        Linting &amp; CI
       </a>
-      <a class="sidebar-link" href="#s1-open-questions">
-        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-        Open questions
-      </a>
-    </div>
-    <div class="sidebar-section">
-      <div class="sidebar-label">Scenario 2 · Pega banners <span class="nav-status ns-planned">Proposed</span></div>
-      <a class="sidebar-link" href="#scenario-2">
-        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M4.5 2A2.5 2.5 0 002 4.5v7A2.5 2.5 0 004.5 14h7a2.5 2.5 0 002.5-2.5v-7A2.5 2.5 0 0011.5 2h-7zM5 5.5A.5.5 0 015.5 5h5a.5.5 0 010 1h-5A.5.5 0 015 5.5zm0 2.5a.5.5 0 01.5-.5h5a.5.5 0 010 1h-5A.5.5 0 015 8zm.5 2a.5.5 0 000 1h3a.5.5 0 000-1h-3z"/></svg>
-        Post-login personalized banners
-      </a>
-      <a class="sidebar-link" href="#s2-open-questions">
-        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-        Open questions
+      <a class="sidebar-link" href="#ema">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a1 1 0 01.894.553l1.382 2.764 3.11.452a1 1 0 01.554 1.705l-2.25 2.193.531 3.097a1 1 0 01-1.451 1.054L8 10.347l-2.77 1.471a1 1 0 01-1.451-1.054l.531-3.097-2.25-2.193a1 1 0 01.554-1.705l3.11-.452L7.106.553A1 1 0 018 0z"/></svg>
+        EMA migration checklist
       </a>
     </div>
     <div class="sidebar-section">
-      <div class="sidebar-label">Scenario 3 · Explore Cards <span class="nav-status ns-progress">In progress</span></div>
-      <a class="sidebar-link" href="#scenario-3">
+      <div class="sidebar-label">Architecture</div>
+      <a class="sidebar-link" href="#eds-blocks">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h5v5H2zm7 0h5v5H9zM2 9h5v5H2zm7 0h5v5H9z"/></svg>
+        EDS blocks
+      </a>
+      <a class="sidebar-link" href="#supporting-modules">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM4.75 7.25a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5a.75.75 0 00-1.5 0v2.5h-2.5z"/></svg>
+        Supporting modules
+      </a>
+      <a class="sidebar-link" href="#lighthouse-compare">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.78 5.22a.75.75 0 010 1.06l-4.25 4.25a.75.75 0 01-1.06 0L4.22 8.28a.75.75 0 011.06-1.06L7 8.94l3.72-3.72a.75.75 0 011.06 0z"/></svg>
+        Lighthouse comparison
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Scenario 1 · Explore Cards <span class="nav-status ns-done">Completed</span></div>
+      <a class="sidebar-link" href="#scenario-1">
         <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85a1 1 0 00-.115-.099zM12 6.5a5.5 5.5 0 11-11 0 5.5 5.5 0 0111 0z"/></svg>
         Credit Cards Explore page
       </a>
-      <a class="sidebar-link" href="#s3-release-workflow">
+      <a class="sidebar-link" href="#s1-release-workflow">
         <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0114.25 14H1.75A1.75 1.75 0 010 12.25v-8.5zm1.75-.25a.25.25 0 00-.25.25v.5h13v-.5a.25.25 0 00-.25-.25H1.75zM1.5 5.5v6.75c0 .138.112.25.25.25h12.5a.25.25 0 00.25-.25V5.5h-13z"/></svg>
         Content release &amp; the branch model
       </a>
-      <a class="sidebar-link" href="#s3-open-questions">
-        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-        Open questions
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Scenario 2 · Citigold ELP <span class="nav-status ns-done">Completed</span></div>
+      <a class="sidebar-link" href="#scenario-2">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2zm5.5 0A1.5 1.5 0 018 2h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 7H8A1.5 1.5 0 016.5 5.5v-2zm-5.5 5A1.5 1.5 0 012.5 7h2A1.5 1.5 0 016 8.5v2A1.5 1.5 0 014.5 12h-2A1.5 1.5 0 011 10.5v-2zm5.5 0A1.5 1.5 0 018 7h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 12H8A1.5 1.5 0 016.5 10.5v-2z"/></svg>
+        Featured Offer landing page
+      </a>
+      <a class="sidebar-link" href="#s2-pega-e2e">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+        Pega banner E2E gate
+      </a>
+    </div>
+    <div class="sidebar-section">
+      <div class="sidebar-label">Scenario 3 · Personalization <span class="nav-status ns-done">Completed</span></div>
+      <a class="sidebar-link" href="#scenario-3">
+        <svg class="icon" viewBox="0 0 16 16" fill="currentColor"><path d="M4.5 2A2.5 2.5 0 002 4.5v7A2.5 2.5 0 004.5 14h7a2.5 2.5 0 002.5-2.5v-7A2.5 2.5 0 0011.5 2h-7zM5 5.5A.5.5 0 015.5 5h5a.5.5 0 010 1h-5A.5.5 0 015 5.5zm0 2.5a.5.5 0 01.5-.5h5a.5.5 0 010 1h-5A.5.5 0 015 8zm.5 2a.5.5 0 000 1h3a.5.5 0 000-1h-3z"/></svg>
+        Post-login personalized banners
       </a>
     </div>
     <div class="sidebar-section">
@@ -557,14 +673,14 @@
           Project overview
         </h2>
         <div class="section-rule"></div>
-        <p>This is a <strong>pilot proposal</strong> to validate whether Citibank's hosted pages and Pega-driven personalization surfaces can migrate cleanly to <strong>Edge Delivery Services</strong>, without losing session-aware personalization, authoring governance, or release control. Scenario 3 (Credit Cards Explore) now has an initial EDS build — its page structure has been re-modeled as blocks and rendered in preview; the personalization, session, and engagement-module items remain open. Scenarios 1 and 2 are not built yet. This document scopes what each one is meant to prove and what still needs an answer before pilot kickoff.</p>
+        <p>This is a <strong>pilot proposal</strong> to validate whether Citibank's hosted pages and Pega-driven personalization surfaces can migrate cleanly to <strong>Edge Delivery Services</strong>, without losing session-aware personalization, authoring governance, or release control. All three scenarios — Scenario 1 (Credit Cards Explore), Scenario 2 (Citigold zip-gated offer), and Scenario 3 (personalized post-login banners) — are <strong>completed</strong> for the demo POV, with EDS builds and mocked personalization patterns in place on preview. This document scopes what each one is meant to prove and what still needs an answer before pilot kickoff.</p>
 
         <h3>Purpose</h3>
         <ul class="req-list">
-          <li>Validate a <strong>hosted-page migration path</strong> from the existing <code class="code-inline">banking.citi.com</code> ELP platform into EDS.</li>
-          <li>Validate the <strong>authoring workflow and governance model</strong> changes EDS requires for hosted pages.</li>
-          <li>Validate <strong>dynamic, real-time data rendering</strong> — Pega decisioning and AEM GraphQL-backed personalization — inside an authored EDS page.</li>
-          <li>Validate <strong>headless-to-block</strong> migration for an existing Angular experience, including session-aware header/footer branding.</li>
+          <li>Validate a <strong>hosted-page migration path</strong> from the existing <code class="code-inline">banking.citi.com</code> ELP platform into EDS — including a <strong>zip-gated offer</strong> pattern using an authored DA ZIP / <code class="code-inline">outOfBTA</code> sheet (<code class="code-inline">scripts/bta.js</code>) in place of the live eligibility service.</li>
+          <li>Validate the <strong>authoring workflow and governance model</strong> changes EDS requires for hosted pages (Excel/DA sheets, code-select, metadata-driven listing).</li>
+          <li>Validate <strong>segment-based personalization</strong> with a mocked login / offer decision and EDS-authored content, standing in for a live Pega integration — with a clear path to Citi's AEM GraphQL (<code class="code-inline">pz/get-pz-offers</code>) later.</li>
+          <li>Validate <strong>headless-to-block</strong> migration for credit-card listing, details (26 PDPs), and filterable/search experiences, including session-aware chrome.</li>
           <li>Validate an <strong>authoring &amp; release workflow</strong> that supports bi-weekly content releases without colliding with monthly engineering releases.</li>
         </ul>
 
@@ -573,40 +689,55 @@
           <thead><tr><th>Scenario</th><th>Validates</th><th>Auth</th><th>Status</th></tr></thead>
           <tbody>
             <tr>
-              <td><a href="#scenario-1" style="color:var(--citi-blue);">1 · Citigold Featured Offer (ELP)</a></td>
-              <td>Hosted-page migration · authoring governance · dynamic API integration · Pega banner E2E gate</td>
-              <td>Pre-login</td>
-              <td><span class="nav-status ns-planned">Proposed</span></td>
-            </tr>
-            <tr>
-              <td><a href="#scenario-2" style="color:var(--citi-blue);">2 · Post-Login Pega Banners</a></td>
-              <td>Session/identity integration · real-time Pega decisioning · slot-based placement</td>
-              <td>Post-login</td>
-              <td><span class="nav-status ns-planned">Proposed</span></td>
-            </tr>
-            <tr>
-              <td><a href="#scenario-3" style="color:var(--citi-blue);">3 · Credit Cards Explore page</a></td>
-              <td>Headless (Angular→EDS) · segment personalization · engagement modules · bi-weekly release governance</td>
+              <td><a href="#scenario-1" style="color:var(--citi-blue);">1 · Credit Cards Explore page</a></td>
+              <td>Listing &amp; 26 PDPs · View All index/filters · search facets · bi-weekly release governance</td>
               <td>Pre-login (session-aware)</td>
-              <td><span class="nav-status ns-progress">In progress</span></td>
+              <td><span class="nav-status ns-done">Completed</span></td>
+            </tr>
+            <tr>
+              <td><a href="#scenario-2" style="color:var(--citi-blue);">2 · Citigold Featured Offer (ELP)</a></td>
+              <td>Hosted-page migration · DA ZIP / <code class="code-inline">outOfBTA</code> sheet · authoring governance · Pega banner E2E gate</td>
+              <td>Pre-login</td>
+              <td><span class="nav-status ns-done">Completed</span></td>
+            </tr>
+            <tr>
+              <td><a href="#scenario-3" style="color:var(--citi-blue);">3 · Post-Login Pega Banners</a></td>
+              <td>Mocked login/ECID segment personalization · EDS sheets &amp; fragments · path to live Pega</td>
+              <td>Post-login (mocked)</td>
+              <td><span class="nav-status ns-done">Completed</span></td>
             </tr>
           </tbody>
         </table>
 
         <div class="notice info">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
-          <span><strong>Why these three together.</strong> Individually, each scenario is a strong but narrow test. Together they cover the full surface we need EDS to prove out: <strong>session handling</strong> (pre-login and post-login), <strong>personalization at scale</strong> (Pega decisioning, customer-segment offers, engagement modules), <strong>authoring governance</strong> (hosted-page transition, Universal Editor/DA model for a complex ELP), <strong>content release workflows</strong> (bi-weekly content vs. monthly tech releases, conflict detection), and <strong>dynamic API integration</strong> (Pega, Content Hub/AEM GraphQL, Lucid-style search). See <a href="#themes" style="color:#0d51b5;">Evaluation themes</a> for the coverage matrix.</span>
+          <span><strong>Why these three together.</strong> Individually, each scenario is a strong but narrow test. Together they cover the full surface we need EDS to prove out: <strong>session handling</strong> (pre-login and mocked post-login), <strong>personalization at scale</strong> (segment offers, EDS sheets/fragments, path to Pega), <strong>authoring governance</strong> (hosted-page transition, Universal Editor/DA model), <strong>content release workflows</strong> (bi-weekly content vs. monthly tech releases), and <strong>dynamic API integration</strong> (DA ZIP / <code class="code-inline">outOfBTA</code> sheet, index-driven listing, eventual Pega GraphQL). See <a href="#themes" style="color:#0d51b5;">Evaluation themes</a> for the coverage matrix.</span>
         </div>
+
+        <h3>Where the build stands today</h3>
+        <p>Demo workstreams from the August 2026 Citibank Demo POV:</p>
+        <table class="spec-table">
+          <thead><tr><th>Workstream</th><th>What it covers</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td>1 · CC details &amp; listing</td><td>Explore category filters · View All card catalog</td><td><span class="nav-status ns-done">Completed</span></td></tr>
+            <tr><td>2 · CC search with facets</td><td>Keyword search over indexed cards (<code class="code-inline">blocks/search</code>) with full facet UI</td><td><span class="nav-status ns-done">Completed</span></td></tr>
+            <tr><td>3 · Zip-gated Citigold offer</td><td>Location-based offer gate via DA ZIP / <code class="code-inline">outOfBTA</code> sheet</td><td><span class="nav-status ns-done">Completed</span></td></tr>
+            <tr><td>4 · Personalization</td><td>Segment views driven by mocked login / ECID</td><td><span class="nav-status ns-done">Completed</span></td></tr>
+            <tr><td>5 · Authoring</td><td>26 credit card detail pages migrated</td><td><span class="nav-status ns-done">Completed</span></td></tr>
+            <tr><td>6 · Improved Lighthouse score</td><td>Live vs EDS performance comparison</td><td><span class="nav-status ns-done">Captured</span></td></tr>
+          </tbody>
+        </table>
 
         <table class="spec-table" style="margin-top:16px;">
           <thead><tr><th>Attribute</th><th>Value</th></tr></thead>
           <tbody>
             <tr><td>Effort</td><td>Hosted ELP + Pega personalization → Edge Delivery Services migration pilot</td></tr>
-            <tr><td>Candidate pages</td><td>3 (Citigold ELP · Post-login Pega banners · Credit Cards Explore)</td></tr>
-            <tr><td>Personalization engine</td><td>Pega (real-time decisioning) · AEM GraphQL persisted queries (<code class="code-inline">pz/get-pz-offers</code>)</td></tr>
+            <tr><td>Candidate pages</td><td>3 (Credit Cards Explore / listing / PDPs · Citigold ELP · Post-login Pega banners)</td></tr>
+            <tr><td>Personalization engine</td><td>Mocked login/ECID + EDS sheets/fragments (demo) · Pega / AEM GraphQL <code class="code-inline">pz/get-pz-offers</code> (production target)</td></tr>
             <tr><td>Migration source</td><td>Hosted AEM page (Citigold ELP) · Angular headless (Credit Cards)</td></tr>
             <tr><td>Content release cadence</td><td>Bi-weekly content releases (Credit Cards) · monthly engineering/tech releases</td></tr>
             <tr><td>Reference sites</td><td><code class="code-inline">banking.citi.com</code> · <code class="code-inline">www.citi.com</code> · <code class="code-inline">qa3.aemapi.citi.com</code></td></tr>
+            <tr><td>EDS demo host</td><td><code class="code-inline">main--citibank--adobedrago.aem.page</code></td></tr>
           </tbody>
         </table>
       </section>
@@ -623,22 +754,50 @@
 
         <h3>Live pages — production (migration source)</h3>
         <div class="url-grid">
-          <a class="url-card" href="https://banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm" target="_blank" rel="noopener">
-            <div class="url-card-label"><span class="dot dot-navy"></span>Scenario 1 — Hosted ELP</div>
-            <div class="url-card-title">Citigold Featured Offer</div>
-            <div class="url-card-url">banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm</div>
-            <div class="url-card-desc">Complex hosted ELP · dynamic API-driven content · Pega banner on the Apply Now path</div>
-          </a>
           <a class="url-card" href="https://www.citi.com/credit-cards/?intc=citihpmenu~creditcards~explore" target="_blank" rel="noopener">
-            <div class="url-card-label"><span class="dot dot-purple"></span>Scenario 3 — Headless</div>
+            <div class="url-card-label"><span class="dot dot-purple"></span>Scenario 1 — Headless</div>
             <div class="url-card-title">Credit Cards — Explore Cards</div>
             <div class="url-card-url">www.citi.com/credit-cards/?intc=citihpmenu~creditcards~explore</div>
             <div class="url-card-desc">Current Angular implementation · pre-login banners · engagement modules</div>
           </a>
+          <a class="url-card" href="https://banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm" target="_blank" rel="noopener">
+            <div class="url-card-label"><span class="dot dot-navy"></span>Scenario 2 — Hosted ELP</div>
+            <div class="url-card-title">Citigold Featured Offer</div>
+            <div class="url-card-url">banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm</div>
+            <div class="url-card-desc">Complex hosted ELP · zip-gated offer pattern · Pega banner on the Apply Now path</div>
+          </a>
         </div>
 
-        <h3>Post-login banners — no direct URL (authenticated surface)</h3>
-        <p>Scenario 2 renders only after customer authentication, so there is no shareable page URL. The banner content is sourced through the AEM personalization (Pega) GraphQL endpoint below; a screenshot of the rendered banner placements was referenced by the requesting team but has not yet been attached to this repo — see <a href="#s2-open-questions" style="color:var(--citi-blue);">open questions</a>.</p>
+        <h3>EDS demo — AdobeDrago preview</h3>
+        <div class="url-grid">
+          <a class="url-card" href="https://main--citibank--adobedrago.aem.page/credit-cards" target="_blank" rel="noopener">
+            <div class="url-card-label"><span class="dot dot-blue"></span>Scenario 1 — Explore</div>
+            <div class="url-card-title">Credit Cards Explore</div>
+            <div class="url-card-url">main--citibank--adobedrago.aem.page/credit-cards</div>
+            <div class="url-card-desc">Category listing with Explore card filters</div>
+          </a>
+          <a class="url-card" href="https://main--citibank--adobedrago.aem.page/credit-cards/view-all-credit-cards" target="_blank" rel="noopener">
+            <div class="url-card-label"><span class="dot dot-green"></span>Scenario 1 — View All</div>
+            <div class="url-card-title">View All Credit Cards</div>
+            <div class="url-card-url">…/credit-cards/view-all-credit-cards</div>
+            <div class="url-card-desc">Index-driven grid · category filter chips</div>
+          </a>
+          <a class="url-card" href="https://main--citibank--adobedrago.aem.page/cbol/om/checking/citigold/featured-offer/default?zip=30301" target="_blank" rel="noopener">
+            <div class="url-card-label"><span class="dot dot-navy"></span>Scenario 2 — Citigold ELP</div>
+            <div class="url-card-title">Citigold Featured Offer (zip-gated)</div>
+            <div class="url-card-url">…/cbol/om/checking/citigold/featured-offer/default?zip=30301</div>
+            <div class="url-card-desc">ZIP / outOfBTA gate via DA sheet mock · try <code class="code-inline">?zip=</code></div>
+          </a>
+          <a class="url-card" href="https://main--citibank--adobedrago.aem.page/credit-cards/aadvantage-mile-up-credit-card" target="_blank" rel="noopener">
+            <div class="url-card-label"><span class="dot dot-orange"></span>Scenario 3 — Personalization</div>
+            <div class="url-card-title">AAdvantage Mile Up PDP</div>
+            <div class="url-card-url">…/aadvantage-mile-up-credit-card</div>
+            <div class="url-card-desc">Segment personalization demo (mocked login / ECID)</div>
+          </a>
+        </div>
+
+        <h3>Post-login banners — no direct production URL (authenticated surface)</h3>
+        <p>Scenario 3's production surface renders only after customer authentication, so there is no shareable live page URL. The eventual banner content is sourced through the AEM personalization (Pega) GraphQL endpoint below. The demo currently proves the pattern with mocked login and EDS-authored content — see <a href="#scenario-3" style="color:var(--citi-blue);">Scenario 3</a>.</p>
         <div class="url-grid">
           <a class="url-card" href="https://qa3.aemapi.citi.com/graphql/execute.json/pz/get-pz-offers;path=/content/dam/cfs/uspb/pz/en/offers/cbol/PLCTA01_2a" target="_blank" rel="noopener">
             <div class="url-card-label"><span class="dot dot-orange"></span>QA3 · AEM GraphQL</div>
@@ -650,254 +809,439 @@
 
         <div class="notice info">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
-          <span><strong>Scenario 3 has an initial EDS build</strong> (page structure re-modeled as blocks and rendered in preview — see its section for the <code class="code-inline">.aem.page</code> URL); Scenarios 1 and 2 remain pre-implementation. This page tracks scope and open questions; as further candidates are built, add their <code class="code-inline">{branch}--{repo}--{owner}.aem.page</code> / <code class="code-inline">.aem.live</code> URLs to the relevant scenario section.</span>
+          <span><strong>All three scenarios are completed</strong> for the August 2026 demo POV, including Scenario 2 (Citigold zip-gated offer), which runs against a DA-authored sheet standing in for the live eligibility backend. Live vs EDS Lighthouse captures for Citigold, AAdvantage Mile Up, and Wayfair are in <a href="#lighthouse-compare" style="color:#0d51b5;">Lighthouse comparison</a>.</span>
+        </div>
+      </section>
+
+      <!-- GETTING STARTED — INSTALL & RUN -->
+      <section class="doc-section" id="setup">
+        <h2>
+          <span class="section-icon icon-navy">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM1.5 8a6.5 6.5 0 1113 0 6.5 6.5 0 01-13 0zm7-3.25a.75.75 0 00-1.5 0v2.5H4.75a.75.75 0 000 1.5h2.25v2.25a.75.75 0 001.5 0V8.75h2.25a.75.75 0 000-1.5H8.5v-2.5z"/></svg>
+          </span>
+          Install &amp; run
+        </h2>
+        <div class="section-rule"></div>
+        <ol class="steps">
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Clone and install</div>
+              <div class="code-block">git clone https://github.com/AdobeDrago/citibank.git
+cd citibank
+npm install</div>
+              <p>Installs ESLint / Stylelint and other dev dependencies from <code class="code-inline">package.json</code>.</p>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Run the AEM CLI</div>
+              <div class="code-block">npm install -g @adobe/aem-cli
+aem up</div>
+              <p>Starts the standard EDS local dev server at <code class="code-inline">http://localhost:3000</code>, serving local code against content from Document Authoring (<a href="https://da.live/#/adobedrago/citibank/" target="_blank" rel="noopener" style="color:var(--citi-blue);">da.live/#/adobedrago/citibank/</a>). Mountpoint is defined in <code class="code-inline">fstab.yaml</code> (<code class="code-inline">content.da.live/adobedrago/citibank/</code>).</p>
+              <div class="notice tip" style="margin-top:12px;">
+                <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+                <span><strong>Alternate.</strong> Without a global install: <code class="code-inline">npx -y @adobe/aem-cli up --no-open --forward-browser-logs</code>.</span>
+              </div>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <!-- GETTING STARTED — LINTING & CI -->
+      <section class="doc-section" id="linting">
+        <h2>
+          <span class="section-icon icon-navy">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+          </span>
+          Linting &amp; CI
+        </h2>
+        <div class="section-rule"></div>
+        <div class="code-block">npm run lint          <span class="cmt"># runs lint:js + lint:css</span>
+npm run lint:js       <span class="cmt"># ESLint (airbnb-base)</span>
+npm run lint:css      <span class="cmt"># Stylelint (blocks/**/*.css, styles/*.css)</span>
+npm run lint:fix     <span class="cmt"># auto-fix JS + CSS where possible</span></div>
+        <p style="margin-top:12px;"><code class="code-inline">.github/workflows/main.yaml</code> runs <code class="code-inline">npm run lint</code> on every push — it does not run a build, deploy, or test step. There is no automated test suite in the EDS site root (App Builder under <code class="code-inline">app-builder/byom-cc</code> has its own Jest suite).</p>
+      </section>
+
+      <!-- EMA — EXPERIENCE MODERNIZATION AGENT -->
+      <section class="doc-section" id="ema">
+        <h2>
+          <span class="section-icon icon-purple">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a1 1 0 01.894.553l1.382 2.764 3.11.452a1 1 0 01.554 1.705l-2.25 2.193.531 3.097a1 1 0 01-1.451 1.054L8 10.347l-2.77 1.471a1 1 0 01-1.451-1.054l.531-3.097-2.25-2.193a1 1 0 01.554-1.705l3.11-.452L7.106.553A1 1 0 018 0z"/></svg>
+          </span>
+          EMA (Experience Modernization Agent) for Migration
+        </h2>
+        <div class="section-rule"></div>
+        <p>EMA is the AI-assisted workflow this project uses to accelerate page and block migrations onto Edge Delivery Services. Rather than a single prompt, it is run as a short, repeatable sequence of tasks that first brings the agent up to speed on the project, then carries out the migration, and finally checks the result back against its source — so every migration is grounded in current project context and is validated rather than taken on faith.</p>
+
+        <h3>AEM Coder content migration checklist</h3>
+        <p>The checklist below is run at the start of every AI-assisted migration task to warm up the agent and validate its output. It is a template: items in curly braces or shown as example URLs (<code class="code-inline">{block-1}</code>, <code class="code-inline">https://example.com/source-page</code>) are placeholders to be substituted with the actual block name or source URL for the page in hand before the checklist is run.</p>
+
+        <div class="notice info">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+          <span><strong>Placeholders, not literal targets.</strong> Replace every bracketed or example value with the real block name or source URL before running a step — the checklist itself is never executed against <code class="code-inline">example.com</code> or a literal <code class="code-inline">{block-1}</code>.</span>
+        </div>
+
+        <ol class="steps">
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Warm up on project documentation</div>
+              <p>Read <code class="code-inline">AGENTS.md</code> and this document before making any changes, so the agent's output follows established blocks, conventions, and the project's EDS standards rather than inventing new patterns.</p>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Migrate the page</div>
+              <p>Migrate the page at <code class="code-inline">{source-page-url}</code> into EDS-compatible markup, re-modeling its content as sections and blocks per <a href="https://www.aem.live/developer/markup-sections-blocks" target="_blank" rel="noopener" style="color:var(--citi-blue);">AEM's markup conventions</a>.</p>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Migrate the design</div>
+              <p>Migrate the visual design from <code class="code-inline">{design-source-url}</code>, translating layout, typography, and styling into block-scoped CSS consistent with the project's design tokens and breakpoints.</p>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Style each migrated block</div>
+              <p>Style the following blocks individually against the source design, one at a time:</p>
+              <ul class="req-list">
+                <li><code class="code-inline">{block-1}</code></li>
+                <li><code class="code-inline">{block-2}</code></li>
+                <li><code class="code-inline">{block-3}</code></li>
+              </ul>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Critique each styled block</div>
+              <p>Review the styled output for the blocks below against the source design and this project's CSS guidelines, flagging any visual or accessibility gaps before moving on:</p>
+              <ul class="req-list">
+                <li><code class="code-inline">{block-1}</code></li>
+                <li><code class="code-inline">{block-2}</code></li>
+              </ul>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Validate the migrated page</div>
+              <p>Compare the migrated page side by side with its source at <code class="code-inline">{source-page-url}</code>, confirming content parity, layout fidelity, and that no sections or blocks were dropped in translation.</p>
+            </div>
+          </li>
+          <li class="step">
+            <div class="step-num"></div>
+            <div class="step-body">
+              <div class="step-title">Set up navigation</div>
+              <p>Set up site navigation sourced from <code class="code-inline">{navigation-source-url}</code>, so the migrated page links correctly into the rest of the site.</p>
+            </div>
+          </li>
+        </ol>
+      </section>
+
+      <!-- ARCHITECTURE — EDS BLOCKS -->
+      <section class="doc-section" id="eds-blocks">
+        <h2>
+          <span class="section-icon icon-green">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M2 2h5v5H2zm7 0h5v5H9zM2 9h5v5H2zm7 0h5v5H9z"/></svg>
+          </span>
+          EDS blocks
+        </h2>
+        <div class="section-rule"></div>
+        <p>Blocks under <code class="code-inline">blocks/</code> with a decorate entrypoint. Grouped by role; credit-card / Citigold marketing blocks are the main custom surface for this pilot.</p>
+        <table class="spec-table">
+          <thead><tr><th>Block</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code class="code-inline">header</code> / <code class="code-inline">footer</code></td><td>Site chrome — nav and footer fragments; header wires simulated Log In via <code class="code-inline">auth.js</code>.</td></tr>
+            <tr><td><code class="code-inline">fragment</code></td><td>Loads authored fragment HTML; used by fragment auto-blocking in <code class="code-inline">scripts.js</code>.</td></tr>
+            <tr><td><code class="code-inline">hero</code></td><td>Credit-card PDP feature hero — lifestyle background, card art, offer headline, stats, CTA, legal. Also builds the sticky Apply bar (<code class="code-inline">.hero-sticky-bar</code>) — not a separate block.</td></tr>
+            <tr><td><code class="code-inline">cta-banner</code></td><td>Closing Apply / promo band — media + heading + CTA.</td></tr>
+            <tr><td><code class="code-inline">cc-category</code></td><td>Explore Credit Cards category stack (header + card tiles); <code class="code-inline">featured</code> variant for the first stack. Scenario 1.</td></tr>
+            <tr><td><code class="code-inline">category-nav</code></td><td>Horizontal icon + label category links (e.g. Explore / Balance Transfer / Travel).</td></tr>
+            <tr><td><code class="code-inline">product-list</code></td><td>View All / category card grid from <code class="code-inline">/credit-card-index.json</code>; category chips and compare selection. Scenario 1.</td></tr>
+            <tr><td><code class="code-inline">compare-cards</code> / <code class="code-inline">compare-tray</code></td><td>Side-by-side card compare UI and sticky compare tray.</td></tr>
+            <tr><td><code class="code-inline">cards</code></td><td>Generic card grids (including Explore card-holder layouts).</td></tr>
+            <tr><td><code class="code-inline">primary-benefits</code></td><td>Benefit tiles with optional expandable detail (+ toggle).</td></tr>
+            <tr><td><code class="code-inline">pricing-tiers</code></td><td>Relationship-tier comparison cards (Everyday / Priority / Citigold / …) with accent colors.</td></tr>
+            <tr><td><code class="code-inline">table</code></td><td>HTML table builder; retail PDP compare matrix uses <code class="code-inline">retail-compare</code> styling on this block.</td></tr>
+            <tr><td><code class="code-inline">tabs</code></td><td>Tab panels for PDP / marketing content.</td></tr>
+            <tr><td><code class="code-inline">accordion</code></td><td>Details/summary accordion with Citi FAQ chevron styling.</td></tr>
+            <tr><td><code class="code-inline">zip-banner</code> / <code class="code-inline">deposit-account</code></td><td>Citigold ZIP capture and Monthly Service Fee schedule branching on BTA IN/OUT. Scenario 2.</td></tr>
+            <tr><td><code class="code-inline">content-fragment</code> / <code class="code-inline">cc-fragment</code></td><td>Segment personalization POC — GraphQL CF by path/variation, or segment child-fragment routing. Scenario 3.</td></tr>
+            <tr><td><code class="code-inline">steps</code></td><td>Numbered step sequence (title + description per row).</td></tr>
+            <tr><td><code class="code-inline">columns</code></td><td>Multi-column layouts.</td></tr>
+            <tr><td><code class="code-inline">carousel</code> / <code class="code-inline">search</code></td><td>Slide carousel; keyword search UI over indexed content.</td></tr>
+            <tr><td><code class="code-inline">embed</code> / <code class="code-inline">video</code> / <code class="code-inline">modal</code> / <code class="code-inline">quote</code> / <code class="code-inline">form</code></td><td>Third-party embeds, video players, modal dialogs, blockquotes, authored forms.</td></tr>
+          </tbody>
+        </table>
+        <div class="notice info">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
+          <span>Only folders under <code class="code-inline">blocks/</code> with a <code class="code-inline">.js</code> decorate entrypoint are listed above. All 29 decorateable blocks in this repo are included.</span>
+        </div>
+      </section>
+
+      <!-- ARCHITECTURE — SUPPORTING MODULES -->
+      <section class="doc-section" id="supporting-modules">
+        <h2>
+          <span class="section-icon icon-orange">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM4.75 7.25a.75.75 0 000 1.5h2.5v2.5a.75.75 0 001.5 0v-2.5h2.5a.75.75 0 000-1.5h-2.5v-2.5a.75.75 0 00-1.5 0v2.5h-2.5z"/></svg>
+          </span>
+          Supporting modules (<code class="code-inline">scripts/</code>)
+        </h2>
+        <div class="section-rule"></div>
+        <table class="spec-table">
+          <thead><tr><th>Module</th><th>Exports / purpose</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><code class="code-inline">aem.js</code></td>
+              <td>Core EDS library — block/section decoration, <code class="code-inline">loadBlock</code>, header/footer, pictures, icons. Do not modify for product features; extend via blocks and <code class="code-inline">scripts.js</code>.</td>
+            </tr>
+            <tr>
+              <td><code class="code-inline">scripts.js</code></td>
+              <td>Page entry — auto-blocks, button decoration, eager/lazy/delayed load sequence. Exports <code class="code-inline">decorateMain</code>.</td>
+            </tr>
+            <tr>
+              <td><code class="code-inline">placeholders.js</code></td>
+              <td><code class="code-inline">fetchPlaceholders(prefix)</code> — loads <code class="code-inline">/placeholders.json</code> (or a prefixed sheet) and exposes camelCase keys. Used by <code class="code-inline">carousel</code> and <code class="code-inline">search</code>.</td>
+            </tr>
+            <tr>
+              <td><code class="code-inline">delayed.js</code></td>
+              <td>Delayed phase stub (loaded ~3s after page load). Reserved for martech / non-critical scripts.</td>
+            </tr>
+            <tr>
+              <td><code class="code-inline">bta.js</code></td>
+              <td>ZIP → Banking Territory Area lookup against authored DA sheet <code class="code-inline">/cbol/zipcode-bta.json</code>; IN/OUT fee tabs for <code class="code-inline">zip-banner</code> / <code class="code-inline">deposit-account</code>. Scenario 2.</td>
+            </tr>
+            <tr>
+              <td><code class="code-inline">auth.js</code></td>
+              <td>Simulated login via same-site <code class="code-inline">ecid</code> cookie; toggles <code class="code-inline">auth-authenticated</code> / <code class="code-inline">auth-anonymous</code>. Used by header and personalization blocks.</td>
+            </tr>
+            <tr>
+              <td><code class="code-inline">offer-sheet.js</code></td>
+              <td>Replaces authored <code class="code-inline">{{token}}</code> placeholders from segment-tabbed DA sheet <code class="code-inline">/credit-cards/offerpricingpositioning.json</code>.</td>
+            </tr>
+            <tr>
+              <td><code class="code-inline">aem-content-fragment.js</code></td>
+              <td>Adobe AEM Cloud GraphQL CF client (persisted query <code class="code-inline">cf-services/ccbypathandvariation</code>) for the personalization POC — not Citi <code class="code-inline">qa3</code>.</td>
+            </tr>
+            <tr>
+              <td><code class="code-inline">dev-aem-graphql-proxy.mjs</code></td>
+              <td>Optional local Node proxy for AEM GraphQL during development.</td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="notice tip">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+          <span><strong>Related (outside EDS page runtime).</strong> <code class="code-inline">app-builder/byom-cc</code> is an Adobe I/O Runtime app that fetches credit-card Content Fragments via Adobe AEM Cloud GraphQL (<code class="code-inline">cf-services/ccbypath</code>) for BYOM/preview workflows — separate from the browser block pipeline above. Importers live under <code class="code-inline">tools/importer/</code> (e.g. <code class="code-inline">import-citigold-landing.js</code>). Citigold draft markup: <code class="code-inline">drafts/citigold-featured-offer.html</code>.</span>
+        </div>
+      </section>
+
+      <!-- LIGHTHOUSE COMPARISON (placeholder) -->
+      <section class="doc-section" id="lighthouse-compare">
+        <h2>
+          <span class="section-icon icon-green">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zm3.78 5.22a.75.75 0 010 1.06l-4.25 4.25a.75.75 0 01-1.06 0L4.22 8.28a.75.75 0 011.06-1.06L7 8.94l3.72-3.72a.75.75 0 011.06 0z"/></svg>
+          </span>
+          Lighthouse comparison — Live vs EDS
+          <span class="status-badge sb-done">Captured</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p>Chrome Lighthouse audits for production (Live) versus the EDS preview <code class="code-inline">main--citibank--adobedrago.aem.page</code> (Nest Hub Max / 1280×800). Citigold compares <code class="code-inline">banking.citi.com</code>; credit-card PDPs compare <code class="code-inline">www.citi.com</code>. Perf, Accessibility, and Best Practices improve on EDS; Agentic Browsing remains experimental and can stay at <code class="code-inline">1/2</code> on either side.</p>
+
+        <div class="lh-compare">
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">Citigold Featured Offer <span>/cbol/om/checking/citigold/featured-offer/default</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Live</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-ok">Perf 65</span>
+                    <span class="lh-score lh-score-good">A11y 100</span>
+                    <span class="lh-score lh-score-ok">BP 73</span>
+                    <span class="lh-score lh-score-good">Agentic 2/2</span>
+                  </div>
+                </div>
+                <img src="images/live-citigold.jpg" alt="Lighthouse audit for live banking.citi.com Citigold Featured Offer page">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">EDS</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-good">Perf 100</span>
+                    <span class="lh-score lh-score-good">A11y 97</span>
+                    <span class="lh-score lh-score-good">BP 100</span>
+                    <span class="lh-score lh-score-good">Agentic 2/2</span>
+                  </div>
+                </div>
+                <img src="images/eds-citigold.jpg" alt="Lighthouse audit for EDS Citigold Featured Offer page">
+              </div>
+            </div>
+          </div>
+
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">AAdvantage Mile Up Credit Card <span>/credit-cards/aadvantage-mile-up-credit-card</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Live</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-good">Perf 94</span>
+                    <span class="lh-score lh-score-good">A11y 95</span>
+                    <span class="lh-score lh-score-ok">BP 58</span>
+                    <span class="lh-score lh-score-good">Agentic 2/2</span>
+                  </div>
+                </div>
+                <img src="images/live-aadvantage-mile-up.png" alt="Lighthouse audit for live www.citi.com AAdvantage Mile Up credit card page">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">EDS</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-good">Perf 100</span>
+                    <span class="lh-score lh-score-good">A11y 100</span>
+                    <span class="lh-score lh-score-good">BP 96</span>
+                    <span class="lh-score lh-score-good">Agentic 2/2</span>
+                  </div>
+                </div>
+                <img src="images/eds-aadvantage-mile-up.jpg" alt="Lighthouse audit for EDS AAdvantage Mile Up credit card page">
+              </div>
+            </div>
+          </div>
+
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">Wayfair Credit Cards <span>/credit-cards/wayfair-credit-cards</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Live</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-ok">Perf 85</span>
+                    <span class="lh-score lh-score-good">A11y 96</span>
+                    <span class="lh-score lh-score-ok">BP 50</span>
+                    <span class="lh-score lh-score-ok">Agentic 1/2</span>
+                  </div>
+                </div>
+                <img src="images/live-wayfair.png" alt="Lighthouse audit for live www.citi.com Wayfair credit cards page">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">EDS</span>
+                  <div class="lh-scores">
+                    <span class="lh-score lh-score-good">Perf 100</span>
+                    <span class="lh-score lh-score-good">A11y 100</span>
+                    <span class="lh-score lh-score-good">BP 96</span>
+                    <span class="lh-score lh-score-good">Agentic 2/2</span>
+                  </div>
+                </div>
+                <img src="images/eds-wayfair.png" alt="Lighthouse audit for EDS Wayfair credit cards page">
+              </div>
+            </div>
+          </div>
         </div>
       </section>
 
       <!-- SCENARIO 1 -->
       <section class="doc-section" id="scenario-1">
         <h2>
-          <span class="section-icon icon-navy">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2zm5.5 0A1.5 1.5 0 018 2h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 7H8A1.5 1.5 0 016.5 5.5v-2zm-5.5 5A1.5 1.5 0 012.5 7h2A1.5 1.5 0 016 8.5v2A1.5 1.5 0 014.5 12h-2A1.5 1.5 0 011 10.5v-2zm5.5 0A1.5 1.5 0 018 7h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 12H8A1.5 1.5 0 016.5 10.5v-2z"/></svg>
-          </span>
-          Scenario 1 — Citigold Featured Offer (ELP)
-          <span class="status-badge sb-planned">Proposed</span>
-        </h2>
-        <div class="section-rule"></div>
-        <p><strong>Live (production, migration source):</strong> <a href="https://banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm" target="_blank" rel="noopener" style="color:var(--citi-blue);">banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm</a></p>
-        <p>This is one of our most complex hosted <strong>External Landing Pages (ELP)</strong> and a strong fit for the prototype because it exercises three things at once: whether a hosted page can transition into EDS, how the authoring and governance model needs to evolve for hosted pages, and whether EDS can render dynamic API data reliably inside an authored page.</p>
-
-        <h3>What this validates</h3>
-        <ul class="req-list">
-          <li><strong>Hosted page migration path</strong> — demonstrates how a hosted page could transition into EDS as part of the broader cloud migration strategy.</li>
-          <li><strong>Authoring workflow changes</strong> — surfaces how the authoring experience and governance model need to evolve for hosted pages moving to EDS.</li>
-          <li><strong>Dynamic API integration</strong> — the page consumes dynamic API data; validates how EDS handles real-time data rendering inside an authored page structure.</li>
-        </ul>
-
-        <ul class="checklist" style="margin-top:16px;">
-          <li class="check-item">
-            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
-            <div class="check-body">
-              <div class="check-title">Render the hosted ELP structure through EDS</div>
-              <div class="check-note">Reproduce the Citigold Featured Offer layout, content model, and section structure as authorable EDS blocks.</div>
-            </div>
-          </li>
-          <li class="check-item">
-            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
-            <div class="check-body">
-              <div class="check-title">Fetch and render dynamic API data</div>
-              <div class="check-note">Confirm the offer/eligibility data that currently comes from the hosted page's backend can be fetched and rendered client-side (or edge-side) from an EDS page.</div>
-            </div>
-          </li>
-          <li class="check-item">
-            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
-            <div class="check-body">
-              <div class="check-title">Preserve session handling</div>
-              <div class="check-note">Confirm any session state the hosted page relies on carries across into the EDS-rendered page without breaking eligibility/offer logic.</div>
-            </div>
-          </li>
-          <li class="check-item">
-            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
-            <div class="check-body">
-              <div class="check-title">Define the authoring &amp; governance model</div>
-              <div class="check-note">Decide who authors this page, what approvals are required, and how content release maps onto the existing hosted-page release process.</div>
-            </div>
-          </li>
-        </ul>
-      </section>
-
-      <!-- SCENARIO 1 - PEGA E2E GATE -->
-      <section class="doc-section" id="s1-pega-e2e">
-        <h2>
-          <span class="section-icon icon-orange">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8.22 1.754a.25.25 0 00-.44 0L1.698 13.132a.25.25 0 00.22.368h12.164a.25.25 0 00.22-.368L8.22 1.754zm-1.763-.707c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0114.082 15H1.918a1.75 1.75 0 01-1.543-2.575L6.457 1.047zM9 11a1 1 0 11-2 0 1 1 0 012 0zm-.25-5.25a.75.75 0 00-1.5 0v2.5a.75.75 0 001.5 0v-2.5z"/></svg>
-          </span>
-          Pega banner E2E gate — publish blocker
-        </h2>
-        <div class="section-rule"></div>
-        <p>This page carries a <strong>hard release requirement</strong>: it must be validated end-to-end with Pega banner testing before it is ever published live.</p>
-        <div class="notice warning">
-          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8.22 1.754a.25.25 0 00-.44 0L1.698 13.132a.25.25 0 00.22.368h12.164a.25.25 0 00.22-.368L8.22 1.754zm-1.763-.707c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0114.082 15H1.918a1.75 1.75 0 01-1.543-2.575L6.457 1.047zM9 11a1 1 0 11-2 0 1 1 0 012 0zm-.25-5.25a.75.75 0 00-1.5 0v2.5a.75.75 0 001.5 0v-2.5z"/></svg>
-          <span><strong>Release gate.</strong> The EDS preview page must have its <strong>Apply Now</strong> click-through pointed at <strong>Citi UAT</strong> for Pega banner testing, and that end-to-end path must be verified <em>before</em> the page is published to live. Publish should be blocked until this test passes.</span>
-        </div>
-        <ol class="steps">
-          <li class="step"><div class="step-num"></div><div class="step-body">
-            <div class="step-title">Point preview's Apply Now to Citi UAT</div>
-            <p>Configure the EDS preview environment so the Apply Now CTA on the Pega banner routes to the Citi UAT environment, not production.</p>
-          </div></li>
-          <li class="step"><div class="step-num"></div><div class="step-body">
-            <div class="step-title">Run the Pega banner E2E test on preview</div>
-            <p>Validate the banner renders correctly, the decisioning call resolves, and the Apply Now click-through completes against Citi UAT.</p>
-          </div></li>
-          <li class="step"><div class="step-num"></div><div class="step-body">
-            <div class="step-title">Re-point to production before publish</div>
-            <p>Once the UAT-backed E2E test passes, switch the Apply Now target to production and only then promote the page to live.</p>
-          </div></li>
-        </ol>
-      </section>
-
-      <!-- SCENARIO 1 - OPEN QUESTIONS -->
-      <section class="doc-section" id="s1-open-questions">
-        <h2>
-          <span class="section-icon icon-purple">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          </span>
-          Open questions
-        </h2>
-        <div class="section-rule"></div>
-        <div class="notice question">
-          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          <span><strong>1. How is the preview → UAT / live → production banner-target switch mechanized?</strong> Is this an environment variable, a page-level config, or a manual step before promotion — and how do we prevent a page from accidentally publishing with the UAT target still wired in?</span>
-        </div>
-        <div class="notice question">
-          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          <span><strong>2. What exactly is the dynamic API data on this page, and where does it come from?</strong> The requirements only say the page "consumes dynamic API data" without naming the API, its payload, or its source (offer eligibility, pricing, terms?). Confirm the source, its auth model, and whether it can be called from an EDS-rendered page without a server-side proxy. Flagged again during the initial engineering review as still unclear.</span>
-        </div>
-        <div class="notice question">
-          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          <span><strong>3. Who owns approval for the authoring/governance model change?</strong> Hosted pages today likely have a different review chain than EDS-authored pages — this needs sign-off before the pilot can be considered representative of the real migration.</span>
-        </div>
-        <div class="notice question">
-          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          <span><strong>4. The Citi brief describes this scenario relative to two related pages, but only one URL was provided</strong> (<code class="code-inline">.../featured-offer/default.htm</code>). Confirm what the second page is and get its URL before scoping the ELP structure further — it may change the content model.</span>
-        </div>
-      </section>
-
-      <!-- SCENARIO 2 -->
-      <section class="doc-section" id="scenario-2">
-        <h2>
-          <span class="section-icon icon-purple">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M4.5 2A2.5 2.5 0 002 4.5v7A2.5 2.5 0 004.5 14h7a2.5 2.5 0 002.5-2.5v-7A2.5 2.5 0 0011.5 2h-7zM5 5.5A.5.5 0 015.5 5h5a.5.5 0 010 1h-5A.5.5 0 015 5.5zm0 2.5a.5.5 0 01.5-.5h5a.5.5 0 010 1h-5A.5.5 0 015 8zm.5 2a.5.5 0 000 1h3a.5.5 0 000-1h-3z"/></svg>
-          </span>
-          Scenario 2 — Personalized Post-Login Banners
-          <span class="status-badge sb-planned">Proposed</span>
-        </h2>
-        <div class="section-rule"></div>
-        <p>A third use case: <strong>post-login personalized banners</strong> powered by Pega and rendered dynamically across specific placements on post-login pages. Because these are post-login experiences, there is no shareable page URL — the content is fetched from the AEM personalization endpoint below.</p>
-
-        <h3>What this validates</h3>
-        <ul class="req-list">
-          <li><strong>Post-login context</strong> — banners render only after customer authentication, so EDS must integrate with session and identity state.</li>
-          <li><strong>Pega integration</strong> — content is driven in real time by the Pega decisioning engine based on customer profile and segment data.</li>
-          <li><strong>Placement flexibility</strong> — banners appear across multiple placements on post-login pages, so EDS needs to support dynamic, slot-based rendering.</li>
-        </ul>
-
-        <h3>AEM Content Endpoint</h3>
-        <p>Personalized offer content is fetched from a persisted GraphQL query against the <code class="code-inline">qa3</code> (QA/UAT) AEM instance:</p>
-        <div class="code-block"><span class="kw">GET</span> https://qa3.aemapi.citi.com/graphql/execute.json/pz/get-pz-offers<span class="str">;path=/content/dam/cfs/uspb/pz/en/offers/cbol/PLCTA01_2a</span>
-
-<span class="cmt"># persisted query:</span> pz/get-pz-offers
-<span class="cmt"># path selector:</span>   /content/dam/cfs/uspb/pz/en/offers/cbol/PLCTA01_2a
-<span class="cmt"># environment:</span>     qa3 (pre-production)</div>
-
-        <ul class="checklist" style="margin-top:16px;">
-          <li class="check-item">
-            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
-            <div class="check-body">
-              <div class="check-title">Fetch personalized banner content post-login</div>
-              <div class="check-note">Call the <code class="code-inline">get-pz-offers</code> persisted query from an EDS-rendered post-login page and confirm the response resolves per-customer.</div>
-            </div>
-          </li>
-          <li class="check-item">
-            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
-            <div class="check-body">
-              <div class="check-title">Render into named, slot-based placements</div>
-              <div class="check-note">Model each banner placement as an EDS block instance that can be positioned independently across post-login page templates.</div>
-            </div>
-          </li>
-          <li class="check-item">
-            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
-            <div class="check-body">
-              <div class="check-title">Preserve session/identity context in EDS</div>
-              <div class="check-note">Confirm the customer's authenticated session is available to the block making the Pega/AEM call, without leaking credentials client-side.</div>
-            </div>
-          </li>
-        </ul>
-      </section>
-
-      <!-- SCENARIO 2 - OPEN QUESTIONS -->
-      <section class="doc-section" id="s2-open-questions">
-        <h2>
-          <span class="section-icon icon-purple">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          </span>
-          Open questions
-        </h2>
-        <div class="section-rule"></div>
-        <div class="notice question">
-          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          <span><strong>1. Screenshot pending.</strong> The requesting team referenced a screenshot of the rendered banner placements that has not yet been shared into this repo. Attach it (e.g. under an <code class="code-inline">assets/</code> or design-reference folder) so the block layout can be modeled against it.</span>
-        </div>
-        <div class="notice question">
-          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          <span><strong>2. What authenticates the browser's call to <code class="code-inline">qa3.aemapi.citi.com</code>?</strong> Since this is a post-login surface, confirm whether the customer's session token/cookie is forwarded directly, or whether a server-side/edge proxy is required to avoid exposing internal AEM endpoints to the client.</span>
-        </div>
-        <div class="notice tip">
-          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
-          <span><strong>Working assumption (from engineering review), pending confirmation:</strong> the login flow returns identifying cookies that are then forwarded to Pega for decisioning. If that holds, question 2 above shouldn't be a blocker — but it's still worth getting Citi to confirm the mechanism rather than assuming it.</span>
-        </div>
-        <div class="notice question">
-          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          <span><strong>3. Personalized content is inherently uncacheable at the edge.</strong> Confirm the intended caching strategy (e.g. no-cache for the banner block's data call, cache everything else) so this doesn't regress EDS's default performance profile.</span>
-        </div>
-        <div class="notice question">
-          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          <span><strong>4. What are the actual post-login page(s) and placements in scope for the pilot?</strong> No production URL exists for this scenario — we need at least one representative post-login template to author the block against.</span>
-        </div>
-        <div class="notice question">
-          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          <span><strong>5. What determines which slot a given piece of content renders into?</strong> Is the placement/slot identifier part of the <code class="code-inline">get-pz-offers</code> response, or is it hardcoded per block instance on the page? This decides whether "slot-based rendering" is a data-driven or an authoring-driven concern.</span>
-        </div>
-      </section>
-
-      <!-- SCENARIO 3 -->
-      <section class="doc-section" id="scenario-3">
-        <h2>
           <span class="section-icon icon-blue">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M11.742 10.344a6.5 6.5 0 10-1.397 1.398h-.001q.044.06.098.115l3.85 3.85a1 1 0 001.415-1.414l-3.85-3.85a1 1 0 00-.115-.099zM12 6.5a5.5 5.5 0 11-11 0 5.5 5.5 0 0111 0z"/></svg>
           </span>
-          Scenario 3 — Credit Cards Explore Cards Page
-          <span class="status-badge sb-progress">In progress</span>
+          Scenario 1 — Credit Cards Explore Cards Page
+          <span class="status-badge sb-done">Completed</span>
         </h2>
         <div class="section-rule"></div>
         <p><strong>Live (production, migration source):</strong> <a href="https://www.citi.com/credit-cards/?intc=citihpmenu~creditcards~explore" target="_blank" rel="noopener" style="color:var(--citi-blue);">www.citi.com/credit-cards/?intc=citihpmenu~creditcards~explore</a></p>
-        <p><strong>EDS preview (this migration):</strong> <a href="https://aem-20260826-1723--citibank--AdobeDrago.aem.page/credit-cards/" target="_blank" rel="noopener" style="color:var(--citi-blue);">aem-20260826-1723--citibank--AdobeDrago.aem.page/credit-cards/</a></p>
-        <p>This page includes pre-login banners and demonstrates several critical capabilities we need EDS to support: headless complexity, dynamic content, session-aware branding, personalization, engagement modules, and — distinct from the other two scenarios — a demanding bi-weekly content release cadence.</p>
+        <p><strong>EDS Explore:</strong> <a href="https://main--citibank--adobedrago.aem.page/credit-cards" target="_blank" rel="noopener" style="color:var(--citi-blue);">main--citibank--adobedrago.aem.page/credit-cards</a></p>
+        <p><strong>EDS View All:</strong> <a href="https://main--citibank--adobedrago.aem.page/credit-cards/view-all-credit-cards" target="_blank" rel="noopener" style="color:var(--citi-blue);">main--citibank--adobedrago.aem.page/credit-cards/view-all-credit-cards</a></p>
+        <p>This use case covers credit-card <strong>listing, details (26 PDPs), search with facets</strong>, and Explore category views — plus pre-login banners, session-aware branding, personalization, engagement modules, and a bi-weekly content release cadence.</p>
 
         <div class="notice info">
           <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 1.5a6.5 6.5 0 100 13 6.5 6.5 0 000-13zM0 8a8 8 0 1116 0A8 8 0 010 8zm6.5-.25A.75.75 0 017.25 7h1a.75.75 0 01.75.75v2.75h.25a.75.75 0 010 1.5h-2a.75.75 0 010-1.5h.25v-2h-.25a.75.75 0 01-.75-.75zM8 6a1 1 0 100-2 1 1 0 000 2z"/></svg>
-          <span><strong>Engineering review note.</strong> The current implementation appears to be <strong>server-side-rendered Angular (SSR)</strong>, not a pure client-side SPA — worth confirming, since "headless → EDS" means something different for SSR (re-rendering equivalent server-side output as EDS blocks) than for a client-side app (replacing hydration/rendering logic entirely). Reviewers also observed that <strong>GraphQL is used to pull in the banner and some navigation content</strong> today, which is a second, separate data source from the AEM GraphQL endpoint used in Scenario 2 and should be tracked as its own integration point.</span>
+          <span><strong>Engineering review note.</strong> The current production implementation appears to be <strong>server-side-rendered Angular (SSR)</strong>, not a pure client-side SPA. Reviewers also observed that <strong>GraphQL is used to pull in the banner and some navigation content</strong> today — a separate data source from Scenario 3's Pega endpoint and should be tracked as its own integration point.</span>
         </div>
 
         <h3>What this validates</h3>
         <ul class="req-list">
           <li><strong>Headless complexity</strong> — how a more complex headless architecture (the current Angular implementation) translates into EDS.</li>
-          <li><strong>Dynamic content</strong> — the page surfaces dynamic content and offers that vary based on customer context.</li>
-          <li><strong>Session management</strong> — the page requires active session awareness to drive personalized experiences, including branding the header/footer for a logged-in customer.</li>
-          <li><strong>Personalization</strong> — banners, offer content, and pricing information are all customer-segment-driven, requiring EDS to handle personalized rendering at scale.</li>
-          <li><strong>Engagement modules</strong> — several tiles rely on customer cookies and behavioral signals for personalized content delivery.</li>
+          <li><strong>Listing &amp; details at scale</strong> — migrate all 26 credit card product pages plus metadata-driven category listing and a filterable View All experience.</li>
+          <li><strong>Search with facets</strong> — filterable credit-card search (completed per demo POV).</li>
+          <li><strong>Session management</strong> — session-aware header/footer branding for logged-in customers.</li>
+          <li><strong>Personalization</strong> — segment-driven banners, offers, and PDP content (see Scenario 3 demo path).</li>
+          <li><strong>Engagement modules</strong> — tiles that rely on customer cookies and behavioral signals.</li>
         </ul>
+
+        <h3>View All / Explore architecture</h3>
+        <ol class="steps">
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Metadata block authoring on each PDP</div>
+            <p>Each credit card details page includes a metadata block with title, image, fee information, and category tags for filter chips.</p>
+            <div class="lh-compare-side" style="margin-top:10px;max-width:480px;">
+              <img src="images/pdp-metadata-table.png" alt="PDP metadata block authored in Document Authoring, showing Title, Description, template, Product, Card Title, Card benefits, Eyebrow, Categories, Apply URL, image, Pricing info, and Additional info fields">
+            </div>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Admin indexing</div>
+            <p>Metadata from all PDPs is crawled and indexed; a single query endpoint exposes structured card data for real-time frontend consumption.</p>
+            <div class="lh-compare-side" style="margin-top:10px;max-width:480px;">
+              <img src="images/index-admin-config.png" alt="AEM Index Admin configured with a credit-cards index targeting /credit-card-index.json, including /credit-cards/** and excluding fragments, drafts, and JSON paths">
+            </div>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Dynamic rendering &amp; filtering</div>
+            <p>View All fetches indexed records into a visual grid with interactive category chips (e.g. Rewards, Travel, No Annual Fee). Explore filters category card stacks. The same dynamic-mount pattern drives per-PDP content: a <code class="code-inline">cc-fragment</code> block authored against a fragment path renders its target fragment into the page at runtime.</p>
+            <div class="lh-compare" style="margin-top:10px;">
+              <div class="lh-compare-page">
+                <div class="lh-compare-page-title">cc-fragment authoring &amp; runtime render <span>/credit-cards/citi-aadvantage-business-credit-card</span></div>
+                <div class="lh-compare-cols">
+                  <div class="lh-compare-side">
+                    <div class="lh-compare-side-header"><span class="lh-compare-label">cc-fragment metadata</span></div>
+                    <img src="images/cc-fragment-metadata.png" alt="cc-fragment metadata table authored with path /fragments/credit-cards/citi-aadvantage-business-credit-card">
+                  </div>
+                  <div class="lh-compare-side">
+                    <div class="lh-compare-side-header"><span class="lh-compare-label">Rendered PDP</span></div>
+                    <img src="images/pdp-fragment-rendered.png" alt="Live PDP for the Citi AAdvantage Business card showing the cc-fragment block rendered as the hero and offer content">
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div></li>
+        </ol>
 
         <ul class="checklist" style="margin-top:16px;">
           <li class="check-item">
             <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Re-model the Angular headless page as EDS blocks</div>
-              <div class="check-note"><strong>Done.</strong> The four <code class="code-inline">.card-stack</code> category sections are re-modeled as a new <code class="code-inline">cc-category</code> block (with a <code class="code-inline">featured</code> variant for the first stack). Content was imported via the project's import pipeline and the page renders at the EDS preview URL above. Component boundaries map to block boundaries; the personalization/engagement logic below is tracked as its own items.</div>
+              <div class="check-note"><strong>Done.</strong> Explore category sections re-modeled (e.g. <code class="code-inline">cc-fragment</code>). Content imported via the project pipeline; Explore and View All render on <code class="code-inline">main--citibank--adobedrago.aem.page</code>.</div>
             </div>
           </li>
           <li class="check-item">
-            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">26 credit card detail pages + View All index/filters</div>
+              <div class="check-note"><strong>Done.</strong> Authoring workstream reports 26 PDPs migrated. Metadata → Admin index → dynamic View All grid with category chips is demonstrated on the EDS preview URLs above, and search with facets is complete.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Session-aware header/footer branding</div>
-              <div class="check-note">Confirm the shared header/footer can re-render (or re-hydrate) based on logged-in state without duplicating the global nav per page.</div>
+              <div class="check-note"><strong>Done (simulated).</strong> Mocked login/ECID path (shared with Scenario 3 personalization demo) stands in for real Citi identity, demonstrating session-aware chrome end to end — real SSO integration remains a later production step.</div>
             </div>
           </li>
           <li class="check-item">
-            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <span class="check-mark cm-done"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg></span>
             <div class="check-body">
               <div class="check-title">Segment-driven banners, offers, and pricing</div>
-              <div class="check-note">Validate personalized rendering at scale — this is the highest-traffic of the three scenarios, so performance under personalization matters here specifically.</div>
+              <div class="check-note"><strong>Done.</strong> PDP tagging + EDS sheet / fragment personalization demonstrated (see Scenario 3 demo URL). Validation against Citi's real segment/Pega data is a follow-on production step, not a gap in the demo pattern.</div>
             </div>
           </li>
           <li class="check-item">
@@ -910,8 +1254,8 @@
         </ul>
       </section>
 
-      <!-- SCENARIO 3 - RELEASE WORKFLOW -->
-      <section class="doc-section" id="s3-release-workflow">
+<!-- SCENARIO 1 - RELEASE WORKFLOW -->
+      <section class="doc-section" id="s1-release-workflow">
         <h2>
           <span class="section-icon icon-green">
             <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0114.25 14H1.75A1.75 1.75 0 010 12.25v-8.5zm1.75-.25a.25.25 0 00-.25.25v.5h13v-.5a.25.25 0 00-.25-.25H1.75zM1.5 5.5v6.75c0 .138.112.25.25.25h12.5a.25.25 0 00.25-.25V5.5h-13z"/></svg>
@@ -952,28 +1296,295 @@
         </div>
       </section>
 
-      <!-- SCENARIO 3 - OPEN QUESTIONS -->
-      <section class="doc-section" id="s3-open-questions">
+
+<!-- SCENARIO 2 -->
+      <section class="doc-section" id="scenario-2">
         <h2>
-          <span class="section-icon icon-purple">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
+          <span class="section-icon icon-navy">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M1 3.5A1.5 1.5 0 012.5 2h2A1.5 1.5 0 016 3.5v2A1.5 1.5 0 014.5 7h-2A1.5 1.5 0 011 5.5v-2zm5.5 0A1.5 1.5 0 018 2h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 7H8A1.5 1.5 0 016.5 5.5v-2zm-5.5 5A1.5 1.5 0 012.5 7h2A1.5 1.5 0 016 8.5v2A1.5 1.5 0 014.5 12h-2A1.5 1.5 0 011 10.5v-2zm5.5 0A1.5 1.5 0 018 7h2a1.5 1.5 0 011.5 1.5v2A1.5 1.5 0 0110 12H8A1.5 1.5 0 016.5 10.5v-2z"/></svg>
           </span>
-          Open questions
+          Scenario 2 — Citigold Featured Offer (ELP)
+          <span class="status-badge sb-done">Completed</span>
         </h2>
         <div class="section-rule"></div>
-        <div class="notice question">
-          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          <span><strong>1. What cookies/behavioral signals do the engagement modules read today,</strong> and is there an existing consent/privacy review that needs to carry over into the EDS implementation?</span>
+        <p><strong>Live (production, migration source):</strong> <a href="https://banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm" target="_blank" rel="noopener" style="color:var(--citi-blue);">banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm</a></p>
+        <p><strong>EDS preview (demo):</strong> <a href="https://main--citibank--adobedrago.aem.page/cbol/om/checking/citigold/featured-offer/default?zip=30301" target="_blank" rel="noopener" style="color:var(--citi-blue);">main--citibank--adobedrago.aem.page/cbol/om/checking/citigold/featured-offer/default?zip=30301</a></p>
+        <p>This is one of our most complex hosted <strong>External Landing Pages (ELP)</strong> and a strong fit for the prototype because it exercises three things at once: whether a hosted page can transition into EDS, how the authoring and governance model needs to evolve for hosted pages, and whether EDS can render dynamic, location-based offer data inside an authored page.</p>
+
+        <div class="notice tip">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06l2.72 2.72 6.72-6.72a.75.75 0 011.06 0z"/></svg>
+          <span><strong>Engineering update (demo POV).</strong> The zip-gated Citigold offer pattern is complete on preview. Client-side lookup via <code class="code-inline">scripts/bta.js</code> reads authored DA workbook <code class="code-inline">/cbol/zipcode-bta.json</code> (published sheet → JSON, standing in for the live eligibility API); IN and OUT tabs drive fee rows and visibility in <code class="code-inline">zip-banner</code> / <code class="code-inline">deposit-account</code>. Pass <code class="code-inline">?zip=</code> on the preview URL (e.g. <code class="code-inline">30301</code> → OUT) to exercise the gate. Draft page: <code class="code-inline">drafts/citigold-featured-offer.html</code> (imported via <code class="code-inline">tools/importer/import-citigold-landing.js</code>).</span>
         </div>
-        <div class="notice question">
-          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          <span><strong>2. Where/how is the credit card product data stored,</strong> and what serves it to the page today — the same GraphQL layer used for the banner and nav, a separate product-catalog API, or something else?</span>
+
+        <h3>What this validates</h3>
+        <ul class="req-list">
+          <li><strong>Hosted page migration path</strong> — demonstrates how a hosted page could transition into EDS as part of the broader cloud migration strategy.</li>
+          <li><strong>Authoring workflow changes</strong> — Excel/DA sheet authoring for ZIP Code and <code class="code-inline">outOfBTA</code> response data, with IN/OUT tab personalization.</li>
+          <li><strong>Dynamic API integration</strong> — DA ZIP / <code class="code-inline">outOfBTA</code> sheet via <code class="code-inline">bta.js</code>; validates how EDS handles ZIP-driven rendering inside an authored page structure.</li>
+          <li><strong>Automated footer content</strong> — legal and offer footer metadata populated from the sheet based on IN / OUT status with zero manual effort.</li>
+        </ul>
+
+        <h3>Mocking the eligibility API — DA sheet → JSON</h3>
+        <p>Instead of calling Citi's live ZIP / offer-eligibility service, authors maintain a Document Authoring workbook (<code class="code-inline">zipcode-bta</code>) under CBOL. EDS publishes that sheet as <code class="code-inline">/cbol/zipcode-bta.json</code>; <code class="code-inline">scripts/bta.js</code> fetches it at runtime and maps the visitor's ZIP to an IN / OUT BTA status and governing state — the same contract a real API would return.</p>
+        <ol class="steps">
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Author ZIP → BTA rows in DA</div>
+            <p>Workbook <code class="code-inline">zipcode-bta</code> has tabs <code class="code-inline">data</code>, <code class="code-inline">IN</code>, and <code class="code-inline">OUT</code>. The <code class="code-inline">data</code> tab holds columns <code class="code-inline">zip</code>, <code class="code-inline">outOfBTA</code> (IN / OUT), and <code class="code-inline">governingState</code> — sample rows include <code class="code-inline">10022</code> → IN / NY and <code class="code-inline">30301</code> → OUT / SX.</p>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Publish sheet → JSON (API stand-in)</div>
+            <p>On preview/publish, EDS serves the workbook as <code class="code-inline">/cbol/zipcode-bta.json</code>. The browser Network panel shows a fetch returning <code class="code-inline">{ data: { total, offset, limit, data: […] } }</code> with the same rows — this is the mocked eligibility response <code class="code-inline">bta.js</code> consumes.</p>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Page applies IN / OUT from <code class="code-inline">?zip=</code></div>
+            <p>With <code class="code-inline">?zip=30301</code>, lookup resolves to OUT; fee schedules and footer content switch via the IN / OUT sheet tabs. Swap to an IN ZIP (e.g. <code class="code-inline">10022</code>) to confirm the alternate branch.</p>
+          </div></li>
+        </ol>
+
+        <div class="lh-compare" style="margin-top:8px;">
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">ZIP / BTA mock — authored sheet → published JSON <span>/cbol/zipcode-bta</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">DA sheet</span>
+                </div>
+                <img src="images/zipcode-bta-sheet.png" alt="Document Authoring zipcode-bta workbook showing zip, outOfBTA, and governingState columns">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">JSON response</span>
+                </div>
+                <img src="images/zipcode-bta-json-mock.png" alt="EDS Citigold Featured Offer page with Network panel showing zipcode-bta.json mock API response for zip 30301">
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="notice question">
-          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8 0a8 8 0 100 16A8 8 0 008 0zM6.05 6.05a1.95 1.95 0 113.31 1.4c-.42.42-.86.86-.86 1.55a.5.5 0 01-1 0c0-1.1.66-1.76 1.15-2.25a.95.95 0 10-1.6-.7.5.5 0 01-1 0zM8 11.5A.75.75 0 108 13a.75.75 0 000-1.5z"/></svg>
-          <span><strong>3. How do sessions and personalization work for an unauthenticated visitor?</strong> This page doesn't require login, so it isn't obvious what identity signal drives the segment-driven banners/pricing for an anonymous user — a device cookie, IP/geo, a prior-visit signal, something else? Need Citi to walk through the mechanism before "personalization at scale" can be scoped.</span>
-        </div>
+
+        <ul class="checklist" style="margin-top:16px;">
+          <li class="check-item">
+            <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 3a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 018 3zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Render the hosted ELP structure through EDS</div>
+              <div class="check-note"><strong>Partial.</strong> Zip-gated Citigold offer is live on preview at <code class="code-inline">/cbol/om/checking/citigold/featured-offer/default</code>. Full hosted-page parity and governance model still open.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 3a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 018 3zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Fetch and render dynamic ZIP / outOfBTA data</div>
+              <div class="check-note"><strong>Partial.</strong> DA sheet <code class="code-inline">zipcode-bta</code> → <code class="code-inline">/cbol/zipcode-bta.json</code> mocks the eligibility API; <code class="code-inline">bta.js</code> fetches it client-side and fee/footer content follows sheet status. Not the live Citi offer/eligibility backend.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Preserve session handling</div>
+              <div class="check-note">Confirm any session state the hosted page relies on carries across into the EDS-rendered page without breaking eligibility/offer logic.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-todo"><svg viewBox="0 0 16 16" fill="currentColor"><circle cx="8" cy="8" r="3"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Define the authoring &amp; governance model</div>
+              <div class="check-note">Decide who authors this page, what approvals are required, and how content release maps onto the existing hosted-page release process.</div>
+            </div>
+          </li>
+        </ul>
       </section>
+
+<!-- SCENARIO 2 - PEGA E2E GATE -->
+      <section class="doc-section" id="s2-pega-e2e">
+        <h2>
+          <span class="section-icon icon-orange">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8.22 1.754a.25.25 0 00-.44 0L1.698 13.132a.25.25 0 00.22.368h12.164a.25.25 0 00.22-.368L8.22 1.754zm-1.763-.707c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0114.082 15H1.918a1.75 1.75 0 01-1.543-2.575L6.457 1.047zM9 11a1 1 0 11-2 0 1 1 0 012 0zm-.25-5.25a.75.75 0 00-1.5 0v2.5a.75.75 0 001.5 0v-2.5z"/></svg>
+          </span>
+          Pega banner E2E gate — publish blocker
+        </h2>
+        <div class="section-rule"></div>
+        <p>This page carries a <strong>hard release requirement</strong>: it must be validated end-to-end with Pega banner testing before it is ever published live.</p>
+        <div class="notice warning">
+          <svg class="notice-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M8.22 1.754a.25.25 0 00-.44 0L1.698 13.132a.25.25 0 00.22.368h12.164a.25.25 0 00.22-.368L8.22 1.754zm-1.763-.707c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0114.082 15H1.918a1.75 1.75 0 01-1.543-2.575L6.457 1.047zM9 11a1 1 0 11-2 0 1 1 0 012 0zm-.25-5.25a.75.75 0 00-1.5 0v2.5a.75.75 0 001.5 0v-2.5z"/></svg>
+          <span><strong>Release gate.</strong> The EDS preview page must have its <strong>Apply Now</strong> click-through pointed at <strong>Citi UAT</strong> for Pega banner testing, and that end-to-end path must be verified <em>before</em> the page is published to live. Publish should be blocked until this test passes.</span>
+        </div>
+        <ol class="steps">
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Point preview's Apply Now to Citi UAT</div>
+            <p>Configure the EDS preview environment so the Apply Now CTA on the Pega banner routes to the Citi UAT environment, not production.</p>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Run the Pega banner E2E test on preview</div>
+            <p>Validate the banner renders correctly, the decisioning call resolves, and the Apply Now click-through completes against Citi UAT.</p>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Re-point to production before publish</div>
+            <p>Once the UAT-backed E2E test passes, switch the Apply Now target to production and only then promote the page to live.</p>
+          </div></li>
+        </ol>
+      </section>
+
+
+<!-- SCENARIO 3 -->
+      <section class="doc-section" id="scenario-3">
+        <h2>
+          <span class="section-icon icon-purple">
+            <svg width="14" height="14" viewBox="0 0 16 16" fill="currentColor"><path d="M4.5 2A2.5 2.5 0 002 4.5v7A2.5 2.5 0 004.5 14h7a2.5 2.5 0 002.5-2.5v-7A2.5 2.5 0 0011.5 2h-7zM5 5.5A.5.5 0 015.5 5h5a.5.5 0 010 1h-5A.5.5 0 015 5.5zm0 2.5a.5.5 0 01.5-.5h5a.5.5 0 010 1h-5A.5.5 0 015 8zm.5 2a.5.5 0 000 1h3a.5.5 0 000-1h-3z"/></svg>
+          </span>
+          Scenario 3 — Personalized Post-Login Banners
+          <span class="status-badge sb-done">Completed</span>
+        </h2>
+        <div class="section-rule"></div>
+        <p>Post-login personalized banners powered by Pega in production, rendered dynamically across placements. Because live authenticated Pega integration is out of prototype scope, the demo proves the pattern with a <strong>mocked login / offer decision</strong> and <strong>EDS-authored content</strong> (sheets + fragment variations) standing in for the live backend.</p>
+        <p><strong>EDS personalization demo:</strong> <a href="https://main--citibank--adobedrago.aem.page/credit-cards/aadvantage-mile-up-credit-card" target="_blank" rel="noopener" style="color:var(--citi-blue);">main--citibank--adobedrago.aem.page/credit-cards/aadvantage-mile-up-credit-card</a></p>
+
+        <h3>What this validates</h3>
+        <ul class="req-list">
+          <li><strong>Post-login context</strong> — banners/content vary after authentication; the demo simulates login and reads an ECID cookie to determine segment.</li>
+          <li><strong>Pega integration path</strong> — production content is driven by Pega decisioning; the demo stands in with mocked segment decisions so the EDS architecture can be proven first.</li>
+          <li><strong>Placement flexibility</strong> — segment-specific fragment pages and EDS sheet variations can be positioned independently across templates.</li>
+        </ul>
+
+        <h3>Demo architecture — two complementary paths</h3>
+        <ol class="steps">
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">User &amp; segment matching</div>
+            <p>At runtime, evaluate active user context: detect login profile, check the ECID cookie, and determine the segment value.</p>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Pre-created fragment pages / EDS sheet variations</div>
+            <p>Segment-specific experience variations authored as standalone fragment pages, and/or Excel-based content variation with EDS as the single source of truth (no Content Fragment or GraphQL required for that path). Authoring ease via the code-select extension.</p>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Dynamic fragment loading</div>
+            <p>Default state when no segment matches; otherwise an edge block dynamically mounts the targeted fragment into the DOM.</p>
+          </div></li>
+        </ol>
+
+        <h3>Segment fragments — authoring &amp; runtime</h3>
+        <p>On the AAdvantage Mile Up PDP, a <code class="code-inline">cc-fragment</code> block points at a folder of child fragment pages. Signed out loads the <code class="code-inline">*-default</code> variation; after simulated Sign On, the <code class="code-inline">ecid</code> cookie (e.g. <code class="code-inline">seg-a</code>) selects the matching child. Same pattern as production Pega segment offers — mocked with DA-authored fragments for the demo.</p>
+        <ol class="steps">
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Author fragment variations in DA</div>
+            <p>Under <code class="code-inline">/fragments/credit-cards/aadvantage-mile-up-credit-card/</code>: <code class="code-inline">…-default</code> (signed out), plus <code class="code-inline">…-seg-a</code>, <code class="code-inline">…-seg-b</code>, <code class="code-inline">…-seg-c</code> for signed-in segments.</p>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Embed the folder on the page</div>
+            <p>Authors drop a <code class="code-inline">cc-fragment</code> block and set the path to <code class="code-inline">/fragments/credit-cards/aadvantage-mile-up-credit-card</code>. <code class="code-inline">blocks/cc-fragment</code> resolves the child suffix from <code class="code-inline">ecid</code> (or <code class="code-inline">default</code> when unset).</p>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Signed out → default · Signed in → segment</div>
+            <p>With Sign On showing (no <code class="code-inline">ecid</code>), the hero shows the default MileUp offer. After Sign On, <code class="code-inline">ecid=seg-a</code> swaps in the segment-A fragment (e.g. “Logged in User Diamond Card”). Change the cookie to <code class="code-inline">seg-b</code> / <code class="code-inline">seg-c</code> to exercise the other variations.</p>
+          </div></li>
+        </ol>
+
+        <div class="lh-compare" style="margin-top:8px;">
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">DA fragment folder &amp; page authoring <span>/fragments/…/aadvantage-mile-up-credit-card</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Fragment variations</span>
+                </div>
+                <img src="images/fragments-da-browse.png" alt="Document Authoring browse view listing default, seg-a, seg-b, and seg-c fragment pages for AAdvantage Mile Up">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">cc-fragment on PDP</span>
+                </div>
+                <img src="images/cc-fragment-authoring.png" alt="Document Authoring page with cc-fragment block pointing at /fragments/credit-cards/aadvantage-mile-up-credit-card">
+              </div>
+            </div>
+          </div>
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">Runtime — signed out vs signed in (ecid) <span>/credit-cards/aadvantage-mile-up-credit-card</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Signed out · default</span>
+                </div>
+                <img src="images/fragment-signed-out-default.jpg" alt="AAdvantage MileUp PDP signed out showing default fragment offer Earn 20,000 AAdvantage bonus miles">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Signed in · seg-a</span>
+                </div>
+                <img src="images/fragment-signed-in-seg-a.png" alt="Same PDP signed in with ecid cookie set to seg-a showing Logged in User Diamond Card fragment">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3>Offer sheet + code-select — token personalization</h3>
+        <p>The complementary path to whole-fragment swaps: authors keep pricing/offer numbers in a shared DA workbook and place <code class="code-inline">{{token}}</code> placeholders in page copy. At runtime <code class="code-inline">scripts/offer-sheet.js</code> loads <code class="code-inline">/credit-cards/offerpricingpositioning.json</code>, picks the tab from <code class="code-inline">ecid</code> (<code class="code-inline">default</code> / <code class="code-inline">seg-a</code> / <code class="code-inline">seg-b</code> / <code class="code-inline">seg-c</code>), matches the row by page name, and fills tokens (used by <code class="code-inline">hero</code>, listing, etc.).</p>
+        <ol class="steps">
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Author segment tabs in the offer sheet</div>
+            <p>Workbook <code class="code-inline">offerpricingpositioning</code> under credit-cards has tabs <code class="code-inline">seg-a</code>, <code class="code-inline">seg-b</code>, <code class="code-inline">seg-c</code>, and <code class="code-inline">default</code>. Columns include Page Name, Bonus Amount, Spend Requirement, Annual Fee Amount, Liability — one row per card PDP.</p>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Insert tokens with Code Select</div>
+            <p>In DA, open the Code Select plugin and click fields (Bonus Amount, Spend Requirement, Annual Fee Amount, …). That inserts placeholders such as <code class="code-inline">{{bonusAmount}}</code>, <code class="code-inline">{{spendRequirement}}</code>, and <code class="code-inline">{{annualFeeAmount}}</code> into the block copy — no hand-typed JSON keys required.</p>
+          </div></li>
+          <li class="step"><div class="step-num"></div><div class="step-body">
+            <div class="step-title">Runtime fills tokens from the matching tab</div>
+            <p>Signed out (no <code class="code-inline">ecid</code>) uses the <code class="code-inline">default</code> tab; signed in with <code class="code-inline">ecid=seg-a</code> uses that tab’s values for the current page’s row. Same cookie signal as the fragment path — sheet tokens change numbers in place without swapping the whole hero.</p>
+          </div></li>
+        </ol>
+
+        <div class="lh-compare" style="margin-top:8px;">
+          <div class="lh-compare-page">
+            <div class="lh-compare-page-title">DA offer sheet → Code Select tokens <span>/credit-cards/offerpricingpositioning</span></div>
+            <div class="lh-compare-cols">
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Offer sheet · seg-a</span>
+                </div>
+                <img src="images/offerpricingpositioning-sheet.png" alt="Document Authoring offerpricingpositioning workbook with seg-a tab and columns Page Name, Bonus Amount, Spend Requirement, Annual Fee Amount, Liability">
+              </div>
+              <div class="lh-compare-side">
+                <div class="lh-compare-side-header">
+                  <span class="lh-compare-label">Code Select on page</span>
+                </div>
+                <img src="images/code-select-tokens.png" alt="DA authoring with Code Select plugin inserting bonusAmount, spendRequirement, and annualFeeAmount tokens into hero copy">
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <h3>Production target — AEM / Pega Content Endpoint</h3>
+        <p>Personalized offer content in production is fetched from a persisted GraphQL query against the <code class="code-inline">qa3</code> (QA/UAT) AEM instance:</p>
+        <div class="code-block"><span class="kw">GET</span> https://qa3.aemapi.citi.com/graphql/execute.json/pz/get-pz-offers<span class="str">;path=/content/dam/cfs/uspb/pz/en/offers/cbol/PLCTA01_2a</span>
+
+<span class="cmt"># persisted query:</span> pz/get-pz-offers
+<span class="cmt"># path selector:</span>   /content/dam/cfs/uspb/pz/en/offers/cbol/PLCTA01_2a
+<span class="cmt"># environment:</span>     qa3 (pre-production)
+<span class="cmt"># demo status:</span>      not yet wired — mock path used instead</div>
+
+        <ul class="checklist" style="margin-top:16px;">
+          <li class="check-item">
+            <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 3a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 018 3zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Fetch personalized banner / offer content post-login</div>
+              <div class="check-note"><strong>Partial (mocked).</strong> Demo resolves segment from login/ECID via fragment children <em>and</em> <code class="code-inline">offerpricingpositioning</code> sheet tokens (<code class="code-inline">offer-sheet.js</code> + Code Select). Live <code class="code-inline">get-pz-offers</code> call still todo.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 3a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 018 3zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Render into named, slot-based placements</div>
+              <div class="check-note"><strong>Partial.</strong> <code class="code-inline">cc-fragment</code> + DA child pages (<code class="code-inline">default</code> / <code class="code-inline">seg-a|b|c</code>) demonstrate placement on the AAdvantage Mile Up PDP. Production post-login slot map still open.</div>
+            </div>
+          </li>
+          <li class="check-item">
+            <span class="check-mark cm-partial"><svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 3a.75.75 0 01.75.75v4.5a.75.75 0 01-1.5 0v-4.5A.75.75 0 018 3zm0 8a1 1 0 100-2 1 1 0 000 2z"/></svg></span>
+            <div class="check-body">
+              <div class="check-title">Preserve session/identity context in EDS</div>
+              <div class="check-note"><strong>Partial (simulated).</strong> Mocked login + ECID cookie stands in for real Citi identity/SSO. Confirm cookie forwarding vs edge proxy before wiring <code class="code-inline">qa3</code>.</div>
+            </div>
+          </li>
+        </ul>
+      </section>
+
 
       <!-- CROSS-CUTTING THEMES -->
       <section class="doc-section" id="themes">
@@ -986,13 +1597,13 @@
         <div class="section-rule"></div>
         <p>Each scenario was chosen to cover specific, overlapping themes. Taken together, they form a realistic test bed rather than three isolated demos.</p>
         <table class="spec-table">
-          <thead><tr><th>Theme</th><th>Scenario 1 · Citigold ELP</th><th>Scenario 2 · Pega banners</th><th>Scenario 3 · Credit Cards</th></tr></thead>
+          <thead><tr><th>Theme</th><th>Scenario 1 · Credit Cards</th><th>Scenario 2 · Citigold ELP</th><th>Scenario 3 · Pega banners</th></tr></thead>
           <tbody>
-            <tr><td>Session handling</td><td>Pre-login, hosted-page session</td><td>Post-login, identity-bound</td><td>Session-aware header/footer</td></tr>
-            <tr><td>Personalization</td><td>Offer/eligibility data</td><td>Pega real-time decisioning</td><td>Segment-driven banners/pricing</td></tr>
-            <tr><td>Authoring governance</td><td>Hosted-page → EDS transition</td><td>—</td><td>Headless → block model</td></tr>
-            <tr><td>Content release workflows</td><td>Pega E2E gate before publish</td><td>—</td><td>Content/code decoupling — native to EDS, no custom sync needed</td></tr>
-            <tr><td>Dynamic API integration</td><td>Hosted-page backend API</td><td>AEM GraphQL (<code class="code-inline">get-pz-offers</code>)</td><td>Engagement-module signals</td></tr>
+            <tr><td>Session handling</td><td>Session-aware header/footer</td><td>Pre-login, hosted-page session</td><td>Mocked login / ECID → path to post-login identity</td></tr>
+            <tr><td>Personalization</td><td>Segment-driven banners/pricing on listing &amp; PDPs</td><td>Zip-gated offer (DA <code class="code-inline">outOfBTA</code> sheet)</td><td>EDS sheets/fragments stand-in · live Pega target</td></tr>
+            <tr><td>Authoring governance</td><td>Headless → block model · 26 PDPs · metadata blocks</td><td>Hosted-page → EDS · Excel IN/OUT tabs</td><td>Code-select · fragment variations</td></tr>
+            <tr><td>Content release workflows</td><td>Content/code decoupling — native to EDS, no custom sync needed</td><td>Pega E2E gate before publish</td><td>—</td></tr>
+            <tr><td>Dynamic API integration</td><td>Index query · search · engagement-module signals</td><td>DA ZIP sheet → live offer API TBD</td><td>AEM GraphQL (<code class="code-inline">get-pz-offers</code>) target</td></tr>
           </tbody>
         </table>
       </section>
@@ -1009,26 +1620,26 @@
         <div class="skills-grid">
           <div class="skill-card">
             <div class="skill-card-header"><span class="skill-tag tag-cfg">1</span><span class="skill-card-name">Resolve open questions</span></div>
-            <p class="skill-card-desc">Close the environment-switching, auth, and ownership questions raised in each scenario before scoping engineering work.</p>
+            <p class="skill-card-desc">Close the environment-switching, auth, and ownership questions raised in each scenario before treating mocks as production-ready.</p>
           </div>
           <div class="skill-card">
-            <div class="skill-card-header"><span class="skill-tag tag-cfg">2</span><span class="skill-card-name">Attach the Scenario 2 screenshot</span></div>
-            <p class="skill-card-desc">Get the referenced post-login banner screenshot into the repo so block layout can be modeled against it.</p>
+            <div class="skill-card-header"><span class="skill-tag tag-cfg">2</span><span class="skill-card-name">Wire live backends</span></div>
+            <p class="skill-card-desc">Replace the DA ZIP / <code class="code-inline">outOfBTA</code> sheet stand-in and mocked login/segment decisions with Citi's real offer API and <code class="code-inline">qa3</code> Pega GraphQL when access is available.</p>
           </div>
           <div class="skill-card">
-            <div class="skill-card-header"><span class="skill-tag tag-cfg">3</span><span class="skill-card-name">Pick a build order</span></div>
-            <p class="skill-card-desc">Recommend starting with Scenario 1 (single hosted page, clear release gate) before layering in Scenario 2's session dependency and Scenario 3's release-workflow complexity.</p>
+            <div class="skill-card-header"><span class="skill-tag tag-cfg">3</span><span class="skill-card-name">Expand Lighthouse sample</span></div>
+            <p class="skill-card-desc">Citigold Featured Offer, AAdvantage Mile Up, and Wayfair are captured in <a href="#lighthouse-compare" style="color:var(--citi-blue);">Lighthouse comparison</a>. Optionally add Explore Cards and more PDPs under <code class="code-inline">docs/images/</code>.</p>
           </div>
           <div class="skill-card">
             <div class="skill-card-header"><span class="skill-tag tag-cfg">4</span><span class="skill-card-name">Educate Citi on the branch model</span></div>
-            <p class="skill-card-desc">Walk Citi's team through how EDS's single content source + git branches already satisfy their prod/lower-env sync and release-isolation requirement, and confirm they didn't mean concurrent-author conflicts instead.</p>
+            <p class="skill-card-desc">Walk Citi's team through how EDS's single content source + git branches already satisfy their prod/lower-env sync and release-isolation requirement.</p>
           </div>
         </div>
       </section>
 
       <div class="doc-footer">
         <svg width="12" height="12" viewBox="0 0 16 16" fill="#b3b3b3"><path d="M8 .25a.75.75 0 01.673.418l1.882 3.815 4.21.612a.75.75 0 01.416 1.279l-3.046 2.97.719 4.192a.75.75 0 01-1.088.791L8 12.347l-3.766 1.98a.75.75 0 01-1.088-.79l.72-4.194L.818 6.374a.75.75 0 01.416-1.28l4.21-.611L7.327.668A.75.75 0 018 .25z"/></svg>
-        Citibank EDS Migration Pilot Proposal &nbsp;·&nbsp; Draft &nbsp;·&nbsp; Banking ELP + Pega Personalization &nbsp;·&nbsp; Generated August 2026
+        Citibank EDS Migration Pilot Proposal &nbsp;·&nbsp; Demo status refreshed Sep 2026 &nbsp;·&nbsp; Banking ELP + Pega Personalization
       </div>
 
     </div>

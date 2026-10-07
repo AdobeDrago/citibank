@@ -4,34 +4,57 @@
  * Values extracted from source computed styles (see migration-work/primary-benefits-extracted.css).
  */
 
+body.credit-card-pdp .primary-benefits-container:has(.primary-benefits-wrapper > div > ul > li) {
+  margin: 0;
+  padding: 24px 0;
+}
+
+.section.primary-benefits-container > .primary-benefits-wrapper {
+  padding: 0 12px;
+}
+
 .primary-benefits .primary-benefits-list {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 24px;
+  align-items: stretch;
 }
 
 .primary-benefits .primary-benefits-tile {
   position: relative;
-  aspect-ratio: 416 / 336;
+  width: 100%;
+  min-height: 336px;
   border-radius: 24px;
   overflow: hidden;
   background-color: #000;
   display: flex;
+  transition: background-color 0.7s ease;
+}
+
+.primary-benefits .primary-benefits-tile-no-image {
+  background-color: rgb(75 123 161);
+}
+
+.primary-benefits .primary-benefits-tile-no-image::after {
+  display: none;
 }
 
 .primary-benefits .primary-benefits-image {
   position: absolute;
   inset: 0;
   line-height: 0;
+  transition: opacity 0.7s ease;
 }
 
 .primary-benefits .primary-benefits-image img {
   width: 100%;
   height: 100%;
   object-fit: cover;
+  transform: scale(1.05);
+  transition: transform 0.3s ease-in;
 }
 
 /* flat dark scrim so the overlaid heading stays legible on any photo */
@@ -40,27 +63,36 @@
   position: absolute;
   inset: 0;
   background-color: rgb(0 0 0 / 54%);
+  transition: opacity 0.7s ease;
+  pointer-events: none;
+}
+
+/* collapsed hover: subtle photo zoom (source zoom keyframes 150% → 160%) */
+.primary-benefits .primary-benefits-tile:not(.primary-benefits-tile-open):hover .primary-benefits-image img {
+  transform: scale(1.12);
 }
 
 .primary-benefits .primary-benefits-content {
   position: relative;
   z-index: 1;
   width: 100%;
-  padding: 32px;
+  padding: 32px 40px;
   color: #fff;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
 }
 
 .primary-benefits .primary-benefits-heading {
   margin: 0;
   color: #fff;
   font-family: var(--heading-font-family);
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 400;
   line-height: 1.21;
   text-align: left;
   padding-right: 12px;
+  transition: color 0.7s ease;
 }
 
 .primary-benefits .primary-benefits-heading * {
@@ -69,10 +101,16 @@
   font: inherit;
 }
 
-/* white circular toggle with a Citi-blue "+" glyph, anchored bottom-right */
+.primary-benefits .primary-benefits-heading a {
+  color: inherit;
+}
+
+/* white circular toggle with a Citi-blue "+" glyph, anchored bottom-right.
+ * Whole button rotates -45° when open so the plus reads as an "×"
+ * (live ng-trigger-rotate, 0.7s with the tile fade). */
 .primary-benefits .primary-benefits-toggle {
   position: absolute;
-  right: 32px;
+  right: 40px;
   bottom: 32px;
   width: 44px;
   height: 44px;
@@ -82,6 +120,7 @@
   background: #fff;
   cursor: pointer;
   flex: none;
+  transition: transform 0.7s ease;
 }
 
 .primary-benefits .primary-benefits-toggle::before,
@@ -92,7 +131,6 @@
   left: 50%;
   background: rgb(4 32 143);
   transform: translate(-50%, -50%);
-  transition: transform 0.2s ease;
 }
 
 .primary-benefits .primary-benefits-toggle::before {
@@ -105,9 +143,8 @@
   height: 16px;
 }
 
-/* collapse the vertical bar of the "+" into a "-" when expanded */
-.primary-benefits .primary-benefits-toggle[aria-expanded='true']::after {
-  transform: translate(-50%, -50%) scaleY(0);
+.primary-benefits .primary-benefits-toggle[aria-expanded='true'] {
+  transform: rotate(-45deg);
 }
 
 .primary-benefits .primary-benefits-toggle:focus-visible {
@@ -115,15 +152,39 @@
   outline-offset: 2px;
 }
 
+.primary-benefits .primary-benefits-tile-open .primary-benefits-toggle:focus-visible {
+  outline-color: rgb(4 32 143);
+}
+
 /* static "+" marker (no expandable detail authored) — same circle, not interactive */
 .primary-benefits .primary-benefits-marker {
   cursor: default;
 }
 
+/* Detail reveals with the same 0.7s cadence as the photo/scrim fade (live pb-active).
+ * Collapsed: 0fr + inert (no focus trap). Open: 1fr + visible. */
 .primary-benefits .primary-benefits-detail {
+  display: grid;
+  grid-template-rows: 0fr;
+  margin: 0;
+  color: #5e676b;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.29;
+  max-width: 100%;
+  padding-right: 56px;
+  opacity: 0;
+  transition: grid-template-rows 0.7s ease, opacity 0.7s ease, margin 0.7s ease;
+}
+
+.primary-benefits .primary-benefits-detail-inner {
+  overflow: hidden;
+}
+
+.primary-benefits .primary-benefits-tile-open .primary-benefits-detail {
+  grid-template-rows: 1fr;
   margin: 12px 0 0;
-  color: #fff;
-  font-size: var(--body-font-size-xs);
+  opacity: 1;
 }
 
 .primary-benefits .primary-benefits-detail p {
@@ -131,12 +192,63 @@
   color: inherit;
 }
 
+.primary-benefits .primary-benefits-detail p:last-child {
+  margin-bottom: 0;
+}
+
 .primary-benefits .primary-benefits-detail a {
-  color: #fff;
+  color: inherit;
   text-decoration: underline;
 }
 
-@media (width >= 768px) {
+@media (prefers-reduced-motion: reduce) {
+  .primary-benefits .primary-benefits-tile,
+  .primary-benefits .primary-benefits-image,
+  .primary-benefits .primary-benefits-image img,
+  .primary-benefits .primary-benefits-tile::after,
+  .primary-benefits .primary-benefits-heading,
+  .primary-benefits .primary-benefits-toggle,
+  .primary-benefits .primary-benefits-detail {
+    transition: none;
+  }
+}
+
+/* ---- Expanded / pb-active ----
+ * Solid light panel; photo + scrim fade out; heading switches to dark. */
+.primary-benefits .primary-benefits-tile-open {
+  background-color: #f0f5f7;
+}
+
+.primary-benefits .primary-benefits-tile-open .primary-benefits-image {
+  opacity: 0;
+}
+
+.primary-benefits .primary-benefits-tile-open::after {
+  opacity: 0;
+}
+
+.primary-benefits .primary-benefits-tile-open .primary-benefits-heading {
+  color: #26292b;
+}
+
+.primary-benefits .primary-benefits-tile-open .primary-benefits-content {
+  color: #5e676b;
+
+  /* Clear the absolute 44px toggle (bottom: 32px) so long copy doesn't sit under it */
+  padding-bottom: 88px;
+}
+
+/* Tablet ≥768: still stacked — live uses Bootstrap flex-lg-row (992).
+ * Wide ≥1200: no extra tile geometry; section max-width 1296 owns the inset.
+ *
+ * ---------- Desktop ≥992 ----------
+ * Three equal tiles in a row, 24px gap (live .pb-wrapper-container gap). */
+@media (width >= 992px) {
+  body.credit-card-pdp .primary-benefits-container:has(.primary-benefits-wrapper > div > ul > li) {
+    padding: 0;
+    padding-bottom: 24px;
+  }
+
   .primary-benefits .primary-benefits-list {
     flex-direction: row;
     gap: 24px;
@@ -144,5 +256,42 @@
 
   .primary-benefits .primary-benefits-tile {
     flex: 1 1 0;
+    width: auto;
+    min-width: 0;
   }
+}
+
+/* ---- Dark theme ---- */
+body.dark .primary-benefits .primary-benefits-tile {
+  background-color: #000;
+}
+
+body.dark .primary-benefits .primary-benefits-tile-no-image {
+  background-color: rgb(75 123 161);
+}
+
+body.dark .primary-benefits .primary-benefits-heading,
+body.dark .primary-benefits .primary-benefits-content {
+  color: #fff;
+}
+
+body.dark .primary-benefits .primary-benefits-tile-open {
+  background-color: #f0f5f7;
+}
+
+body.dark .primary-benefits .primary-benefits-tile-open .primary-benefits-heading {
+  color: #26292b;
+}
+
+body.dark .primary-benefits .primary-benefits-tile-open .primary-benefits-content,
+body.dark .primary-benefits .primary-benefits-tile-open .primary-benefits-detail {
+  color: #5e676b;
+}
+
+body.dark .primary-benefits .primary-benefits-tile-open .primary-benefits-detail a {
+  color: rgb(4 32 143);
+}
+
+body.dark .primary-benefits .primary-benefits-tile-open .primary-benefits-toggle:focus-visible {
+  outline-color: rgb(4 32 143);
 }

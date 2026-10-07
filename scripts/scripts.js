@@ -77,6 +77,22 @@ function buildAutoBlocks(main) {
 }
 
 /**
+ * Adds the ZIP that products and pricing are based on, plus the control to
+ * change it, to the authored home-address band. Runs after decorateSections so
+ * the block joins the band's existing content wrapper — as a sibling wrapper it
+ * would split the band's two-column grid.
+ * @param {Element} main The container element
+ */
+function buildZipBanner(main) {
+  main.querySelectorAll('.section.landing-zip').forEach((section) => {
+    if (section.querySelector('.zip-banner')) return;
+    const heading = [...section.querySelectorAll('h1, h2, h3')]
+      .find((h) => /home address/i.test(h.textContent));
+    if (heading) heading.after(buildBlock('zip-banner', ''));
+  });
+}
+
+/**
  * Decorates formatted links to style them as buttons.
  * @param {HTMLElement} main The main container element
  */
@@ -126,6 +142,7 @@ export function decorateMain(main, brandBehavior) {
   buildAutoBlocks(main);
   brandBehavior?.decorateMainEarly?.(main);
   decorateSections(main);
+  buildZipBanner(main);
   decorateBlocks(main);
   brandBehavior?.decorateMainLate?.(main);
   decorateButtons(main);
@@ -159,6 +176,49 @@ async function loadEager(doc, brandBehavior) {
 }
 
 /**
+ * Citigold sticky apply bar
+ * Shows the `.landing-cta` strip at the top once the hero Get Started CTA
+ * scrolls out of view; hides again when the hero CTA returns.
+ */
+function initCitigoldStickyCta() {
+  if (!document.body.classList.contains('citigold-landing')) return;
+  const bar = document.querySelector('main .landing-cta');
+  if (!bar) return;
+
+  const cta = bar.querySelector('a[href]');
+  if (cta) {
+    const p = cta.closest('p');
+    if (p) p.classList.add('button-wrapper');
+    cta.classList.add('button', 'primary');
+  }
+
+  const heroCta = document.querySelector('main .landing-hero a.button');
+  if (!heroCta) {
+    bar.classList.add('sticky-visible');
+    return;
+  }
+
+  const sync = (inView) => {
+    bar.classList.toggle('sticky-visible', !inView);
+  };
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      sync(entry.isIntersecting);
+    });
+  }, { threshold: 0, rootMargin: '0px' });
+  observer.observe(heroCta);
+
+  const onScroll = () => {
+    const { top, bottom } = heroCta.getBoundingClientRect();
+    sync(bottom > 0 && top < window.innerHeight);
+  };
+  document.addEventListener('scroll', onScroll, { passive: true, capture: true });
+  window.addEventListener('resize', onScroll, { passive: true });
+  onScroll();
+}
+
+/**
  * Loads everything that doesn't need to be delayed.
  * @param {Element} doc The container element
  * @param {object} [brandBehavior] The resolved brand's behaviour module, if any
@@ -177,6 +237,7 @@ async function loadLazy(doc, brandBehavior) {
 
   loadCSS(`${window.hlx.codeBasePath}/styles/lazy-styles.css`);
   loadFonts();
+  initCitigoldStickyCta();
 
   brandBehavior?.init?.();
 }

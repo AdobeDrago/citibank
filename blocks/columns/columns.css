@@ -10,6 +10,11 @@
  */
 
 /* ---------- base layout (mobile-first: stacked) ---------- */
+
+/* Variant and template-scoped rules are mutually exclusive in practice. */
+/* stylelint-disable no-descending-specificity */
+
+/* ---------- base layout (mobile-first: stacked) ---------- */
 .columns > div {
   display: flex;
   flex-direction: column;
@@ -24,6 +29,343 @@
 .columns > div > .columns-img-col img {
   display: block;
 }
+
+body.credit-card-pdp .section.columns-container {
+  padding: 0 12px;
+  margin: 24px auto;
+}
+
+body.credit-card-pdp .section.columns-container > div {
+  padding: 0;
+}
+
+/* Css Start annual-fees */
+
+body.credit-card-pdp main > .section.columns-container .columns.annual-fees {
+  margin-top: 24px;
+  margin-bottom: 24px;
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp main > .section.columns-container .columns.annual-fees {
+    margin: 48px 0;
+  }
+}
+
+/* Css End annual-fees */
+
+/* Variant - Start Pdp Content */
+
+body.credit-card-pdp .columns-container:has(.columns.pdp-content) {
+  margin-top: 24px;
+  padding-bottom: 16px;
+}
+
+body.credit-card-pdp .columns.pdp-content {
+  display: flex;
+  flex-direction: column;
+  box-sizing: border-box;
+  padding: 0 16px;
+  border-radius: 16px;
+  box-shadow: 0 1px 10px 0 rgb(0 0 0 / 10%);
+  background-color: rgb(23 63 53);
+}
+
+body.credit-card-pdp .columns.pdp-content > div {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  box-sizing: border-box;
+  padding: 24px;
+  border-bottom: 1px solid rgb(255 255 255);
+  background-color: transparent;
+}
+
+body.credit-card-pdp .columns.pdp-content > div:last-child {
+  border-bottom: none;
+}
+
+body.credit-card-pdp .columns.pdp-content > div > div {
+  flex: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: rgb(255 255 255);
+}
+
+body.credit-card-pdp .columns.pdp-content > div > div:empty {
+  display: none;
+}
+
+body.credit-card-pdp .columns.pdp-content > div > .columns-img-col {
+  overflow: hidden;
+  line-height: 0;
+  margin-bottom: 8px;
+}
+
+body.credit-card-pdp .columns.pdp-content > div > .columns-img-col img {
+  display: block;
+  width: 40px;
+  height: 40px;
+  object-fit: contain;
+  margin-bottom: 0;
+}
+
+/* label (first paragraph) above the description, when a tile authors both
+   in the SAME cell (AT&T: "Gas & EV charging stations" + description).
+   Tiles with an h3 already have a title, so their first paragraph is body copy. */
+body.credit-card-pdp .columns.pdp-content > div:not(:has(h3)) p:first-child:not(:last-child) {
+  margin: 0 0 4px;
+  font-size: 20px;
+  line-height: 26px;
+}
+
+/* Multiplier tiles (no icon): large italic display number. Also matches a
+   number authored as plain text in its own cell (e.g. "3X" as
+   <div><p>3X</p></div> followed by a separate description cell — the same
+   two-cell shape as aa-tiles' multiplier cell) so authors don't need
+   heading markup just to get the big number treatment. */
+body.credit-card-pdp .columns.pdp-content h3,
+body.credit-card-pdp .columns.pdp-content > div > div:first-child > p:only-child {
+  margin: 0 0 8px;
+  font-family: var(--accent-font-family);
+  font-size: 40px;
+  font-weight: 400;
+  font-style: italic;
+  line-height: 46px;
+  letter-spacing: normal;
+  color: rgb(255 255 255);
+}
+
+/* Icon benefit tiles (Home Depot, etc.): 24px sans title */
+body.credit-card-pdp .columns.pdp-content:has(.columns-img-col) h3 {
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 30px;
+}
+
+/* Headline-only tiles (Secured Mastercard: no icon, no description) —
+   a short phrase heading, not a display multiplier number. */
+body.credit-card-pdp .columns.pdp-content > div:not(:has(p)) h3 {
+  font-family: var(--heading-font-family);
+  font-size: 28px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 33.6px;
+}
+
+/* Icon-inside-heading tiles (Diamond Preferred, Simplicity): a small icon
+   placed directly inside the <h3>, inline with the heading text — not a
+   separate image column. */
+body.credit-card-pdp .columns.pdp-content h3:has(img) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--heading-font-family);
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 42px;
+}
+
+body.credit-card-pdp .columns.pdp-content h3 img {
+  display: block;
+  width: 32px;
+  height: 32px;
+  object-fit: contain;
+  flex-shrink: 0;
+}
+
+body.credit-card-pdp .columns.pdp-content p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: normal;
+  color: rgb(255 255 255);
+}
+
+body.credit-card-pdp .columns.pdp-content:has(.columns-img-col) p {
+  line-height: 20px;
+}
+
+body.credit-card-pdp .columns.pdp-content a:any-link {
+  color: rgb(255 255 255);
+  text-decoration: underline;
+}
+
+body.credit-card-pdp .columns.pdp-content a:any-link:hover {
+  text-decoration: underline;
+}
+
+/* Footnote superscripts stay compact and elevated */
+body.credit-card-pdp .columns.pdp-content a:any-link:has(sup),
+body.credit-card-pdp .columns.pdp-content sup {
+  font-size: 0.7em;
+  vertical-align: super;
+  text-decoration: none;
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp .columns-container:has(.columns.pdp-content) {
+    margin-bottom: 64px;
+    padding-bottom: 0;
+  }
+
+  body.credit-card-pdp main > .section.columns-container .columns-wrapper .columns.pdp-content {
+    margin-top: -112px;
+    position: relative;
+    margin-bottom: 16px;
+    z-index: 1;
+  }
+
+  /* Secured Mastercard: the hero-overlap shift belongs on the banner
+     paragraph (it's a separate sibling before the block), so the banner +
+     tiles move up over the hero together as one unit. The box itself keeps
+     margin-top: 0 (set unconditionally below) to avoid double-shifting. */
+  body.credit-card-pdp .default-content-wrapper:has(+ .columns-wrapper .columns.pdp-content.navy) {
+    margin-top: -110px;
+    position: relative;
+    z-index: 1;
+  }
+
+  body.credit-card-pdp .columns.pdp-content {
+    flex-direction: row;
+    align-items: stretch;
+    padding: 24px 16px;
+  }
+
+  body.credit-card-pdp .columns.pdp-content > div {
+    flex: 1 1 0;
+    min-width: 0;
+    flex-direction: column;
+    padding: 0 24px;
+    border-bottom: none;
+    border-right: 1px solid rgb(255 255 255);
+  }
+
+  body.credit-card-pdp .columns.pdp-content > div:last-child {
+    border-right: none;
+  }
+
+  body.credit-card-pdp .columns.pdp-content h3,
+  body.credit-card-pdp .columns.pdp-content > div > div:first-child > p:only-child {
+    font-size: 48px;
+    line-height: 54px;
+  }
+
+  body.credit-card-pdp .columns.pdp-content:has(.columns-img-col) h3 {
+    font-size: 24px;
+    line-height: 30px;
+  }
+
+  body.credit-card-pdp .columns.pdp-content > div:not(:has(p)) h3 {
+    font-size: 32px;
+    line-height: 38.4px;
+  }
+}
+
+/* =========================================================
+ * Color variants via Section Metadata "Style: <color>"
+ * or block class "Columns (pdp-content, <color>)"
+ * ========================================================= */
+
+/* grey — Strata Premier */
+body.credit-card-pdp .section.grey .columns.pdp-content,
+body.credit-card-pdp .columns.pdp-content.grey {
+  background-color: rgb(99 102 106);
+}
+
+/* navy — Secured Mastercard (rgb(0 42 84)/#002A54).
+ * White text/dividers inherit from the default pdp-content styles. */
+body.credit-card-pdp .section.navy .columns.pdp-content,
+body.credit-card-pdp .columns.pdp-content.navy {
+  background-color: rgb(0 42 84);
+}
+
+/* blue — Strata (rgb(76 123 162)/#4C7BA2), steel-blue accelerator.
+ * White text/dividers inherit from the default pdp-content styles. */
+body.credit-card-pdp .section.blue .columns.pdp-content,
+body.credit-card-pdp .columns.pdp-content.blue {
+  background-color: rgb(76 123 162);
+}
+
+/* light-blue — AT&T PointsPlus: light container, dark text */
+body.credit-card-pdp .section.light-blue .columns.pdp-content,
+body.credit-card-pdp .columns.pdp-content.light-blue {
+  background-color: rgb(242 250 253);
+  box-shadow: none;
+}
+
+body.credit-card-pdp .section.light-blue .columns.pdp-content > div,
+body.credit-card-pdp .columns.pdp-content.light-blue > div {
+  border-bottom-color: rgb(150 150 150);
+}
+
+/* AT&T icons are wider illustrations (~118×60), not 40×40 tiles */
+body.credit-card-pdp .section.light-blue .columns.pdp-content > div > .columns-img-col img,
+body.credit-card-pdp .columns.pdp-content.light-blue > div > .columns-img-col img {
+  width: auto;
+  height: 60px;
+  max-width: 121px;
+  object-fit: contain;
+}
+
+body.credit-card-pdp .section.light-blue .columns.pdp-content h3,
+body.credit-card-pdp .section.light-blue .columns.pdp-content p,
+body.credit-card-pdp .section.light-blue .columns.pdp-content a:any-link,
+body.credit-card-pdp .section.light-blue .columns.pdp-content > div > div,
+body.credit-card-pdp .columns.pdp-content.light-blue h3,
+body.credit-card-pdp .columns.pdp-content.light-blue p,
+body.credit-card-pdp .columns.pdp-content.light-blue a:any-link,
+body.credit-card-pdp .columns.pdp-content.light-blue > div > div {
+  color: rgb(38 41 43);
+}
+
+/* cream — Home Depot (Pro Xtra + Consumer) */
+body.credit-card-pdp .section.cream .columns.pdp-content,
+body.credit-card-pdp .columns.pdp-content.cream {
+  background-color: rgb(246 243 239);
+}
+
+body.credit-card-pdp .section.cream .columns.pdp-content > div,
+body.credit-card-pdp .columns.pdp-content.cream > div {
+  border-bottom-color: rgb(230 235 237);
+}
+
+body.credit-card-pdp .section.cream .columns.pdp-content h3,
+body.credit-card-pdp .section.cream .columns.pdp-content > div > div,
+body.credit-card-pdp .columns.pdp-content.cream h3,
+body.credit-card-pdp .columns.pdp-content.cream > div > div {
+  color: rgb(38 41 43);
+}
+
+body.credit-card-pdp .section.cream .columns.pdp-content p,
+body.credit-card-pdp .columns.pdp-content.cream p {
+  color: rgb(58 62 64);
+}
+
+body.credit-card-pdp .section.cream .columns.pdp-content a:any-link,
+body.credit-card-pdp .columns.pdp-content.cream a:any-link {
+  color: var(--link-color, rgb(4 32 143));
+  text-decoration: none;
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp .section.light-blue .columns.pdp-content > div,
+  body.credit-card-pdp .columns.pdp-content.light-blue > div {
+    border-right-color: rgb(150 150 150);
+  }
+
+  body.credit-card-pdp .section.cream .columns.pdp-content > div,
+  body.credit-card-pdp .columns.pdp-content.cream > div {
+    border-right-color: rgb(230 235 237);
+  }
+}
+
 
 /* shared typography inside columns (source: Citi_Sans / Citi_Sans_Display) */
 .columns h2 {
@@ -68,11 +410,13 @@
     font-size: 48px;
     line-height: 53.76px;
   }
-}
 
-/* Variant rules below target mutually-exclusive columns-N-cols DOM, so
- * source order does not create real cascade conflicts. */
-/* stylelint-disable no-descending-specificity */
+  body.credit-card-pdp .columns.pdp-content.columns-2-cols:has(.columns-img-col) > div {
+    align-items: flex-start;
+    gap: 4px;
+    height: fit-content;
+  }
+}
 
 /* =========================================================
  * Variant - "Here's how it works" single text column (columns-1-cols)
@@ -177,6 +521,10 @@
  * Usually inside .section.pale-blue. Source: 50/50 grid, image radius 16px,
  * eyebrow 16px rgb(94,103,107), h2 48px rgb(38,41,43), text left / image right on desktop.
  * ========================================================= */
+
+/* .columns.columns-2-cols:has(.columns-img-col) img {
+  border-radius: 16px;
+} */
 .columns.columns-2-cols:has(.columns-img-col) img {
   border-radius: 16px;
 }
@@ -185,7 +533,6 @@
   color: rgb(38 41 43);
 }
 
-/* eyebrow label = the first paragraph above the h2 */
 .columns.columns-2-cols:has(.columns-img-col) > div > div > p:first-child {
   margin: 0 0 4px;
   font-size: 16px;
@@ -194,12 +541,22 @@
   color: rgb(94 103 107);
 }
 
-/* mobile: image on top, text below */
-.columns.columns-2-cols:has(.columns-img-col) > div > .columns-img-col {
+/* PDP: white eyebrow on image+text columns */
+body.credit-card-pdp .columns.columns-2-cols:has(.columns-img-col) > div > div > p:first-child {
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: .009rem;
+  padding: 4px 0;
+  color: #fff;
+  margin: 0;
+}
+
+/* mobile: image on top, text below — exclude feature-unlock framed overlay */
+.columns.columns-2-cols:has(.columns-img-col):not(.feature-unlock) > div > .columns-img-col {
   order: 0;
 }
 
-.columns.columns-2-cols:has(.columns-img-col) > div > div {
+.columns.columns-2-cols:has(.columns-img-col):not(.feature-unlock) > div > div {
   order: 1;
 }
 
@@ -226,64 +583,210 @@
 }
 
 @media (width >= 992px) {
-  .columns.columns-2-cols:has(.columns-img-col) > div {
+  .columns.columns-2-cols:has(.columns-img-col):not(.feature-unlock) > div {
     align-items: center;
     gap: 48px;
   }
 
   /* desktop: text left, image right (matches source recap-section) */
-  .columns.columns-2-cols:has(.columns-img-col) > div > .columns-img-col {
+  .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content, .feature-unlock) > div > .columns-img-col {
     order: 1;
   }
 
-  .columns.columns-2-cols:has(.columns-img-col) > div > div {
+  .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content, .feature-unlock) > div > div {
     order: 0;
   }
 }
 
-/* =========================================================
- * Variant - "Here's how it works" feature (columns-2-cols with an image
- * cell AND h3 benefit headings; the promo banner above has no h3, so
- * :has(h3) scopes this override to just this instance).
- * Source: full-bleed framed photo (radius 16px) with a translucent white
- * content card overlaid on top, floated to the right ~half.
- * card: rgba(255,255,255,0.8), radius 8px, padding 72px, 16px inset.
- * ========================================================= */
-@media (width >= 992px) {
-  .columns.columns-2-cols:has(.columns-img-col):has(h3) > div {
-    position: relative;
-    display: block; /* override the flex row; children are positioned */
-    gap: 0;
-    border-radius: 16px;
-    overflow: hidden;
-  }
+/* Css Start  feature-unlock */
+body.credit-card-pdp .columns.feature-unlock.columns-2-cols > div {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 24px;
+  box-sizing: border-box;
+  min-height: 500px;
+  padding: 16px;
+  border-radius: 16px;
+  overflow: hidden;
+  background-color: rgb(0 0 0 / 80%);
+  align-items: stretch;
+}
 
-  /* full-bleed background image fills the whole block */
-  .columns.columns-2-cols:has(.columns-img-col):has(h3) > div > .columns-img-col {
-    position: absolute;
-    inset: 0;
-    margin: 0;
-  }
+body.credit-card-pdp .columns.feature-unlock.columns-2-cols > div::before {
+  content: '';
+  display: block;
+  height: 250px;
+  grid-column: 1;
+}
 
-  .columns.columns-2-cols:has(.columns-img-col):has(h3) > div > .columns-img-col img {
-    width: 100%;
-    height: 100%;
-    border-radius: 0;
-    object-fit: cover;
-  }
+/* full-bleed lifestyle photo behind the framed layout */
+body.credit-card-pdp .columns.feature-unlock.columns-2-cols > div > .columns-img-col {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  margin: 0;
+  order: 0;
+  pointer-events: none;
+}
 
-  /* translucent content card overlaid on the right half */
-  .columns.columns-2-cols:has(.columns-img-col):has(h3) > div > div:not(.columns-img-col) {
-    position: relative;
-    z-index: 1;
-    box-sizing: border-box;
-    width: 50%;
-    margin: 16px 16px 16px auto;
-    padding: 72px;
-    border-radius: 8px;
-    background-color: rgb(255 255 255 / 80%);
+body.credit-card-pdp .columns.feature-unlock.columns-2-cols > div > .columns-img-col picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+body.credit-card-pdp .columns.feature-unlock.columns-2-cols > div > .columns-img-col img {
+  display: block;
+  width: 100%;
+  height: 512px;
+  max-height: none;
+  border-radius: 0;
+  object-fit: cover;
+  object-position: 50% 0%;
+}
+
+body.credit-card-pdp .columns.feature-unlock.columns-2-cols > div > div:not(.columns-img-col) {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  box-sizing: border-box;
+  width: 100%;
+  margin: 0;
+  padding: 24px;
+  border-radius: 8px;
+  background: rgb(255 255 255 / 80%);
+  backdrop-filter: blur(50px);
+  order: 1;
+}
+
+body.credit-card-pdp .columns.feature-unlock.columns-2-cols h2 {
+  margin: 0 0 16px;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 30px;
+  letter-spacing: normal;
+  color: rgb(38 41 43);
+}
+
+body.credit-card-pdp .columns.feature-unlock.columns-2-cols h2 strong {
+  font-weight: inherit;
+}
+
+body.credit-card-pdp .columns.feature-unlock.columns-2-cols h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0.2px;
+  color: rgb(38 41 43);
+}
+
+body.credit-card-pdp .columns.feature-unlock.columns-2-cols h3 strong {
+  font-weight: inherit;
+}
+
+body.credit-card-pdp .columns.feature-unlock.columns-2-cols p + h3 {
+  margin-top: 16px;
+}
+
+body.credit-card-pdp .columns.feature-unlock.columns-2-cols p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.14px;
+  color: rgb(58 62 64);
+}
+
+body.credit-card-pdp .columns.feature-unlock.columns-2-cols a:any-link {
+  color: var(--link-color, rgb(4 32 143));
+  text-decoration: none;
+}
+
+body.credit-card-pdp .columns.feature-unlock.columns-2-cols a:any-link:hover {
+  text-decoration: underline;
+}
+
+@media (width >= 768px) {
+  body.credit-card-pdp .columns.feature-unlock.columns-2-cols h2 {
+    font-size: 36px;
+    line-height: 42px;
   }
 }
+
+@media (width >= 992px) {
+  body.credit-card-pdp .columns.feature-unlock.columns-2-cols > div {
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+
+  body.credit-card-pdp .columns.feature-unlock.columns-2-cols > div::before {
+    content: none;
+    display: none;
+  }
+
+  body.credit-card-pdp .columns.feature-unlock.columns-2-cols > div > div:not(.columns-img-col) {
+    grid-column: 2;
+    width: auto;
+    height: 100%;
+    min-height: 0;
+    margin: 0;
+    padding: 72px;
+    order: 0;
+  }
+
+  body.credit-card-pdp .columns.feature-unlock.columns-2-cols > div > .columns-img-col img {
+    height: 100%;
+  }
+
+  body.credit-card-pdp .columns.feature-unlock.columns-2-cols h2 {
+    font-size: 48px;
+    line-height: 53.76px;
+    color: rgb(58 62 64);
+  }
+
+  body.credit-card-pdp .columns.feature-unlock.columns-2-cols h3 {
+    color: rgb(58 62 64);
+  }
+}
+
+/* ---- Dark theme */
+body.dark.credit-card-pdp .columns.feature-unlock.columns-2-cols > div {
+  background-color: rgb(0 0 0 / 90%);
+}
+
+body.dark.credit-card-pdp .columns.feature-unlock.columns-2-cols > div > div:not(.columns-img-col) {
+  background: rgb(38 41 43 / 80%);
+  color: rgb(255 255 255);
+}
+
+body.dark.credit-card-pdp .columns.feature-unlock.columns-2-cols h2,
+body.dark.credit-card-pdp .columns.feature-unlock.columns-2-cols h3,
+body.dark.credit-card-pdp .columns.feature-unlock.columns-2-cols p {
+  color: rgb(255 255 255);
+}
+
+body.dark.credit-card-pdp .columns.feature-unlock.columns-2-cols a:any-link {
+  color: rgb(255 255 255);
+  text-decoration: underline;
+}
+
+body.dark.credit-card-pdp .columns.feature-unlock.columns-2-cols a:any-link:hover {
+  text-decoration: underline;
+  opacity: 0.85;
+}
+
+@media (width >= 992px) {
+  body.dark.credit-card-pdp .columns.feature-unlock.columns-2-cols h2,
+  body.dark.credit-card-pdp .columns.feature-unlock.columns-2-cols h3 {
+    color: rgb(255 255 255);
+  }
+}
+
 
 /* =========================================================
  * Variant - Accelerator: two colored feature tiles
@@ -291,45 +794,46 @@
  * Source: .accelerator-bar - padding 24px, radius 16px, inner gap 4px,
  * tile 1 bg rgb(37,91,227), tile 2 bg rgb(0,42,84), white text.
  * ========================================================= */
-.columns.columns-2-cols:not(:has(.columns-img-col)) > div {
-  gap: 24px;
+
+/* Mobile/tablet: stacked tiles with overlap effect — excludes aa-* and single-container variants */
+.columns.columns-2-cols:not(:has(.columns-img-col), .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
 }
 
-.columns.columns-2-cols:not(:has(.columns-img-col)) > div > div {
+.columns.columns-2-cols:not(:has(.columns-img-col), .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div > div {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  padding: 32px;
+  padding: 24px;
   border-radius: 16px;
   color: rgb(255 255 255);
 }
 
-.columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:first-child {
-  background-color: var(--citi-blue); /* rgb(37,91,227) */
+/* Blue tile: top corners rounded only, extra bottom padding for the overlap */
+.columns.columns-2-cols:not(:has(.columns-img-col), .navy, .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div > div:first-child {
+  background-color: var(--citi-blue);
+  border-radius: 16px 16px 0 0;
+  padding-bottom: 56px;
 }
 
-.columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) {
+/* Navy tile: all corners rounded, pulls up to overlap the blue tile */
+.columns.columns-2-cols:not(:has(.columns-img-col), .navy, .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div > div:nth-child(2) {
   background-color: rgb(0 42 84);
+  margin-top: -32px;
 }
 
-.columns.columns-2-cols:not(:has(.columns-img-col)) h3 {
+.columns.columns-2-cols:not(:has(.columns-img-col), .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) h3 {
   margin: 0;
-  font-size: 28px; /* mobile */
-  font-weight: 400; /* source accelerator tile headings are light, not bold */
-  line-height: 1.2;
+  font-size: 36px;
+  font-weight: 400;
+  line-height: 43px;
   letter-spacing: normal;
   color: rgb(255 255 255);
 }
 
-@media (width >= 992px) {
-  /* source accelerator tile heading: 36px / 43px line-height */
-  .columns.columns-2-cols:not(:has(.columns-img-col)) h3 {
-    font-size: 36px;
-    line-height: 43px;
-  }
-}
-
-.columns.columns-2-cols:not(:has(.columns-img-col)) p {
+.columns.columns-2-cols:not(:has(.columns-img-col), .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) p {
   margin: 0;
   font-size: 16px;
   font-weight: 400;
@@ -338,10 +842,299 @@
   color: rgb(255 255 255);
 }
 
-.columns.columns-2-cols:not(:has(.columns-img-col)) a {
+.columns.columns-2-cols:not(:has(.columns-img-col), .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) a {
   color: rgb(255 255 255);
   text-decoration: underline;
 }
+
+/* Desktop: side by side, both tiles fully rounded */
+@media (width >= 992px) {
+  .columns.columns-2-cols:not(:has(.columns-img-col), .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div {
+    flex-direction: row;
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .columns.columns-2-cols:not(:has(.columns-img-col), .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div > div {
+    padding: 32px;
+  }
+
+  .columns.columns-2-cols:not(:has(.columns-img-col), .navy, .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div > div:first-child {
+    border-radius: 16px;
+    padding-bottom: 32px;
+  }
+
+  .columns.columns-2-cols:not(:has(.columns-img-col), .navy, .aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div > div:nth-child(2) {
+    margin-top: 0;
+  }
+}
+
+/* =========================================================
+ * Variant - Single-container accelerator with divider
+ * Simplicity: .columns.navy → navy container rgb(0,52,98)
+ * Any number of TILES IN ONE ROW: each is separated from the next by a
+ * white divider. Tiles may be icon+heading+description or a bare heading.
+ *
+ * A "dark"/black variant (Diamond Preferred) is not built yet — the page's
+ * light/dark treatment is decided later via page-level Metadata (template/
+ * theme), not a block color class. Every pdp-content page stays on a ligh
+ * (non-black) variant until that's in place.
+ *
+ * Detected structurally via :not(:has(> div + div)) — exactly ONE row —
+ * rather than by class, because Secured Mastercard ALSO authors
+ * "Columns (pdp-content, navy)" but as multiple rows (one tile per row,
+ * matching the pdp-content content shape). That shape keeps pdp-content's
+ * own "navy" color variant instead (see the Color variants section above).
+ * ========================================================= */
+.columns.navy:not(:has(> div + div)) > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  border-radius: 16px;
+  padding: 24px 16px;
+  background-color: rgb(0 52 98);
+}
+
+/* When combined with pdp-content (Simplicity authors "Columns (pdp-content,
+   navy)"), the row above is already the fully-styled box — strip the outer
+   pdp-content container's own background/padding/shadow so there's no
+   second, differently-shaded box nested around it. */
+body.credit-card-pdp .columns.pdp-content.navy:not(:has(> div + div)) {
+  padding: 0;
+  border-radius: 0;
+  box-shadow: none;
+  background-color: transparent;
+}
+
+/* Reset individual tile backgrounds and overlap from the default variant */
+.columns.navy:not(:has(> div + div)) > div > div {
+  background-color: transparent;
+  border-radius: 0;
+  padding: 16px 24px;
+  margin-top: 0;
+  color: rgb(255 255 255);
+}
+
+/* White divider between tiles (mobile: bottom border; desktop: right border) */
+.columns.navy:not(:has(> div + div)) > div > div:not(:last-child) {
+  border-bottom: 1px solid rgb(255 255 255);
+  padding-bottom: 16px;
+}
+
+.columns.navy:not(:has(> div + div)) h3 {
+  margin: 0 0 12px;
+  font-size: 32px;
+  font-weight: 400;
+  line-height: 42px;
+  color: rgb(255 255 255);
+}
+
+.columns.navy:not(:has(> div + div)) p {
+  margin: 0 0 8px;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 28px;
+  color: rgb(255 255 255);
+}
+
+.columns.navy:not(:has(> div + div)) p:last-child {
+  font-size: 14px;
+  line-height: 20px;
+}
+
+.columns.navy:not(:has(> div + div)) a {
+  color: rgb(255 255 255);
+  text-decoration: none;
+  vertical-align: super;
+  font-size: 0.7em;
+}
+
+/* Icon images placed inside headings — keep them small and inline */
+.columns.navy:not(:has(> div + div)) h3 img {
+  display: inline-block;
+  width: 32px;
+  height: 32px;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+@media (width >= 992px) {
+  .columns.navy:not(:has(> div + div)) > div {
+    flex-direction: row;
+    align-items: stretch;
+    padding: 24px;
+    gap: 0;
+  }
+
+  .columns.navy:not(:has(> div + div)) > div > div {
+    flex: 1;
+  }
+
+  /* Switch divider from bottom border to right border */
+  .columns.navy:not(:has(> div + div)) > div > div:not(:last-child) {
+    border-bottom: none;
+    border-right: 1px solid rgb(255 255 255);
+    padding-bottom: 16px;
+  }
+
+}
+
+/* Optional banner bar above a single-row "Columns (navy)" block: author a
+ * plain paragraph right before the block in the same section, and add
+ * Section Metadata "Style: navy" to that section. Squares off the tile
+ * box's top corners so the banner and tiles read as one seamless rounded
+ * container. */
+.section.navy > .default-content-wrapper > p {
+  margin: 0;
+  padding: 24px 40px;
+  border-radius: 16px 16px 0 0;
+  color: rgb(255 255 255);
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+  background-color: rgb(5 109 174);
+}
+
+.section.navy > .default-content-wrapper + .columns-wrapper > .columns.navy:not(:has(> div + div)) > div {
+  border-radius: 0 0 16px 16px;
+}
+
+/* Secured Mastercard actually authors "Columns (pdp-content, navy)" (a row
+ * per tile, matching the pdp-content content shape) rather than the
+ * single-row dark/navy shape above. Same banner treatment, keyed off the
+ * actual DOM adjacency since no Section Metadata is required here. */
+body.credit-card-pdp .default-content-wrapper:has(+ .columns-wrapper .columns.pdp-content.navy) > p {
+  margin: 0;
+  padding: 24px 40px;
+  border-radius: 16px 16px 0 0;
+  background-color: rgb(5 109 174);
+  color: rgb(255 255 255);
+  font-size: 14px;
+  line-height: 20px;
+  text-align: center;
+}
+
+body.credit-card-pdp .default-content-wrapper:has(+ .columns-wrapper .columns.pdp-content.navy) + .columns-wrapper .columns.pdp-content.navy {
+  margin-top: 0;
+  border-radius: 0 0 16px 16px;
+}
+
+
+/* =========================================================
+ * Variant - AAdvantage rewards multiplier tiles
+ * One shared structural class + a color-recipe modifier, same convention
+ * as pdp-content's "Style: <color>" variants:
+ *   platinum : 4 tiles — red / slate / charcoal / red        (dark page bg)
+ *   executive: 3 tiles — dark-navy / charcoal / dark-navy    (dark page bg)
+ *   business : 4 tiles — blue / slate / charcoal / blue      (dark page bg)
+ *   mile-up  : 3 tiles — charcoal / teal / charcoal          (light page bg)
+ * Author types "Columns (aa-tiles, platinum)" etc. in da.live, or
+ * "Columns (aa-tiles)" + Section Metadata "Style: platinum".
+ * Mobile: same stacked-overlap pattern as the 2-tile accelerator.
+ * Desktop (≥992px): all tiles side-by-side with equal flex width, 24px gap.
+ * ========================================================= */
+
+/*
+ * AAdvantage tile structure (authored as 2-col table, 1 row per tile):
+ *   .columns.aa-tiles          → block, becomes the flex container for tiles
+ *   .columns.aa-tiles > div    → ONE TILE (row); gets background color + padding
+ *   .columns.aa-tiles > div > div → cells within a tile (multiplier | description)
+ */
+
+/* Block: tiles stacked on mobile */
+.columns.aa-tiles {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 48px;
+}
+
+/* Each row = one tile */
+.columns.aa-tiles > div {
+  display: flex;
+  flex-direction: column; /* multiplier above description */
+  gap: 4px;
+  padding: 24px 40px 56px; /* extra bottom for overlap peek */
+  border-radius: 16px 16px 0 0;
+  margin-top: -32px;
+  color: rgb(255 255 255);
+}
+
+.columns.aa-tiles > div:first-child {
+  margin-top: 0;
+}
+
+.columns.aa-tiles > div:last-child {
+  border-radius: 16px;
+  padding-bottom: 24px;
+}
+
+/* Cells: strip any inherited padding / flex sizing */
+.columns.aa-tiles > div > div {
+  flex: none;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+  border-radius: 0;
+}
+
+/* Multiplier number — first cell paragraph (body prefix matches rates-fees specificity) */
+body .columns.aa-tiles > div > div:first-child > p {
+  margin: 0 0 4px;
+  font-size: 36px;
+  font-weight: 700;
+  line-height: 1.1;
+  color: rgb(255 255 255);
+}
+
+/* Description — second cell paragraph */
+body .columns.aa-tiles > div > div:last-child > p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.009rem;
+  color: rgb(255 255 255);
+}
+
+@media (width >= 992px) {
+  main > .section.columns-container .columns-wrapper .columns.aa-tiles {
+    margin-top: -96px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .columns.aa-tiles {
+    flex-direction: row;
+    gap: 24px;
+    align-items: stretch;
+  }
+
+  .columns.aa-tiles > div {
+    flex: 1;
+    flex-direction: column; /* keep multiplier above description */
+    border-radius: 16px;
+    padding: 24px;
+    margin-top: 0;
+  }
+}
+
+/* Color recipes — the only thing that differs per card */
+.columns.aa-tiles.platinum > div:nth-child(1) { background-color: rgb(230 30 39); }
+.columns.aa-tiles.platinum > div:nth-child(2) { background-color: rgb(80 101 124); }
+.columns.aa-tiles.platinum > div:nth-child(3) { background-color: rgb(38 41 43); }
+.columns.aa-tiles.platinum > div:nth-child(4) { background-color: rgb(230 30 39); }
+
+.columns.aa-tiles.executive > div:nth-child(odd)  { background-color: rgb(48 61 75); }
+.columns.aa-tiles.executive > div:nth-child(even) { background-color: rgb(52 52 52); }
+
+.columns.aa-tiles.business > div:nth-child(1) { background-color: rgb(0 98 151); }
+.columns.aa-tiles.business > div:nth-child(2) { background-color: rgb(80 101 124); }
+.columns.aa-tiles.business > div:nth-child(3) { background-color: rgb(38 41 43); }
+.columns.aa-tiles.business > div:nth-child(4) { background-color: rgb(0 98 151); }
+
+.columns.aa-tiles.mile-up > div:nth-child(odd)  { background-color: rgb(77 77 79); }
+.columns.aa-tiles.mile-up > div:nth-child(even) { background-color: rgb(0 108 104); }
 
 /* =========================================================
  * Variant - Rates & fees (credit-card-pdp) rendered as ONE-ROW-PER-TILE.
@@ -355,130 +1148,317 @@
  * and no image column. Scoped to the PDP body so it overrides the shared
  * accelerator rules above without disturbing the retail/citigold variants.
  * ========================================================= */
-body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) {
+
+body.credit-card-pdp .columns.annual-fees,
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) {
   display: flex;
-  flex-direction: column;
-  gap: 24px;
+  flex-flow: column nowrap;
+  gap: 16px;
+  padding-bottom: 12px;
 }
 
-/* Each source row becomes a tile: reset the accelerator panel treatment
-   (background/padding/radius/white text) and stack label+value then description. */
-body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div {
+/* Each fee tile: reset accelerator panels; stack label → value → description.
+ * Mobile: 16px padding-bottom before the horizontal divider. */
+body.credit-card-pdp .columns.annual-fees > div,
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div {
   display: flex;
   flex-direction: column;
   gap: 8px;
-}
-
-body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div > div {
-  display: block;
-  padding: 0;
+  box-sizing: border-box;
+  padding: 0 0 16px 24px;
+  margin: 0;
   border-radius: 0;
+  border-bottom: 1px solid rgb(188 197 201);
   background-color: transparent;
   color: rgb(58 62 64);
 }
 
-/* label (small, above the value) */
-body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) p {
-  margin: 0 0 4px;
+body.credit-card-pdp .columns.annual-fees > div:has(h3),
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(h3) {
+  gap: 4px;
+}
+
+body.credit-card-pdp .columns.annual-fees > div > div,
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div > div {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: none;
+  padding: 0;
+  margin: 0;
+  border-radius: 0;
+  background-color: transparent;
+  color: inherit;
+}
+
+body.credit-card-pdp .columns.annual-fees > div > div:first-child > p,
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div > div:first-child > p {
+  margin: 0;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.14px;
+  color: rgb(58 62 64);
+}
+
+body.credit-card-pdp .columns.annual-fees h3,
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) h3 {
+  margin: 0;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 26px;
+  letter-spacing: 0.2px;
+  color: rgb(58 62 64);
+}
+
+/* Description — second cell when the tile has an h3 value (may be bare text or <p>) */
+body.credit-card-pdp .columns.annual-fees > div:has(h3) > div:last-child,
+body.credit-card-pdp .columns.annual-fees > div:has(h3) > div:last-child > p,
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(h3) > div:last-child,
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(h3) > div:last-child > p {
+  margin: 0;
   font-size: 12px;
   font-weight: 400;
-  line-height: 16px;
+  line-height: 15.96px;
   letter-spacing: normal;
   color: rgb(58 62 64);
 }
 
-/* value (the big number/heading) */
-body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) h3 {
+body.credit-card-pdp .columns.annual-fees > div:not(:has(h3), :has(> div:last-child:empty)) > div:first-child,
+body.credit-card-pdp .columns.annual-fees > div:not(:has(h3), :has(> div:last-child:empty)) > div:first-child > p,
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:not(:has(h3), :has(> div:last-child:empty)) > div:first-child,
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:not(:has(h3), :has(> div:last-child:empty)) > div:first-child > p {
   margin: 0;
-  font-size: 20px;
-  font-weight: 700;
-  line-height: 26px;
-  letter-spacing: 0.2px;
-  color: rgb(38 41 43);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.14px;
+  color: rgb(58 62 64);
 }
 
-/* footnote superscript links stay inline, no button/underline treatment */
-body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) a:any-link {
+body.credit-card-pdp .columns.annual-fees > div:not(:has(h3), :has(> div:last-child:empty)) > div:last-child,
+body.credit-card-pdp .columns.annual-fees > div:not(:has(h3), :has(> div:last-child:empty)) > div:last-child > p,
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:not(:has(h3), :has(> div:last-child:empty)) > div:last-child,
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:not(:has(h3), :has(> div:last-child:empty)) > div:last-child > p {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 15.96px;
+  letter-spacing: normal;
   color: rgb(58 62 64);
+  text-align: start;
+}
+
+body.credit-card-pdp .columns.annual-fees a:any-link,
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) a:any-link {
+  color: inherit;
   text-decoration: none;
   vertical-align: super;
   font-size: 0.7em;
 }
 
+body.credit-card-pdp .columns.annual-fees > div:has(> div:empty) > div:empty,
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(> div:empty) > div:empty {
+  display: none;
+}
+
+/* Full-width disclaimer only: empty 2nd cell AND no fee value (h3).
+ * Value-only tiles (e.g. Annual Fee $350 with no description) keep row flex. */
+body.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty):not(:has(h3)),
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(> div:last-child:empty):not(:has(h3)) {
+  flex: 1 1 100%;
+  width: 100%;
+  padding: 0;
+  border-bottom: none;
+  border-left: none;
+  text-align: center;
+}
+
+body.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty):not(:has(h3)) > div:first-child,
+body.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty):not(:has(h3)) > div:first-child > p,
+body.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty):not(:has(h3)) > div > p,
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(> div:last-child:empty):not(:has(h3)) > div:first-child,
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(> div:last-child:empty):not(:has(h3)) > div:first-child > p,
+body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(> div:last-child:empty):not(:has(h3)) > div > p {
+  margin: 0;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 18px;
+  letter-spacing: 0.12px;
+  color: rgb(58 62 64);
+  text-align: center;
+}
+
 @media (width >= 992px) {
-  /* N tiles side by side with thin grey vertical dividers between them */
-  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) {
-    flex-direction: row;
+  body.credit-card-pdp .columns.annual-fees,
+  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) {
+    flex-flow: row wrap;
     align-items: stretch;
-    gap: 0;
+    gap: 24px;
+    padding-bottom: 8px;
   }
 
-  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div {
-    flex: 1;
-    padding: 0 24px;
+  body.credit-card-pdp .columns.annual-fees > div,
+  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div {
+    flex: 1 1 0;
+    min-width: 0;
+    border-bottom: none;
+    padding: 0 0 0 24px;
   }
 
-  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div + div {
-    border-left: 1px solid rgb(214 219 221);
+  /* Vertical dividers between fee tiles (skip only the full-width disclaimer) */
+  body.credit-card-pdp .columns.annual-fees > div:not(:has(> div:last-child:empty):not(:has(h3))) + div:not(:has(> div:last-child:empty):not(:has(h3))),
+  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:not(:has(> div:last-child:empty):not(:has(h3))) + div:not(:has(> div:last-child:empty):not(:has(h3))) {
+    border-left: 1px solid rgb(188 197 201);
   }
 
-  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div:first-child {
-    padding-left: 0;
+  body.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty):not(:has(h3)),
+  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(> div:last-child:empty):not(:has(h3)) {
+    flex: 1 1 100%;
+    width: 100%;
+    padding: 0;
+    border-left: none;
+  }
+}
+
+/* ---- Dark theme ---- */
+body.dark.credit-card-pdp .columns.annual-fees,
+body.dark.credit-card-pdp .columns.annual-fees > div,
+body.dark.credit-card-pdp .columns.annual-fees > div > div,
+body.dark.credit-card-pdp .columns.annual-fees > div > div:first-child > p,
+body.dark.credit-card-pdp .columns.annual-fees > div > div:last-child,
+body.dark.credit-card-pdp .columns.annual-fees > div > div:last-child > p,
+body.dark.credit-card-pdp .columns.annual-fees > div:has(h3) > div:last-child,
+body.dark.credit-card-pdp .columns.annual-fees > div:has(h3) > div:last-child > p,
+body.dark.credit-card-pdp .columns.annual-fees > div:not(:has(h3), :has(> div:last-child:empty)) > div:first-child,
+body.dark.credit-card-pdp .columns.annual-fees > div:not(:has(h3), :has(> div:last-child:empty)) > div:first-child > p,
+body.dark.credit-card-pdp .columns.annual-fees > div:not(:has(h3), :has(> div:last-child:empty)) > div:last-child,
+body.dark.credit-card-pdp .columns.annual-fees > div:not(:has(h3), :has(> div:last-child:empty)) > div:last-child > p,
+body.dark.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty):not(:has(h3)) > div:first-child,
+body.dark.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty):not(:has(h3)) > div:first-child > p,
+body.dark.credit-card-pdp .columns.annual-fees > div:has(> div:last-child:empty):not(:has(h3)) > div > p,
+body.dark.credit-card-pdp .columns.annual-fees h3,
+body.dark.credit-card-pdp .columns.annual-fees a:any-link,
+body.dark.credit-card-pdp .columns.annual-fees sup,
+body.dark.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div,
+body.dark.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div > div,
+body.dark.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div > div:first-child > p,
+body.dark.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div > div:last-child,
+body.dark.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div > div:last-child > p,
+body.dark.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(h3) > div:last-child,
+body.dark.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:has(h3) > div:last-child > p,
+body.dark.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) h3,
+body.dark.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) a:any-link,
+body.dark.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) sup {
+  color: rgb(255 255 255);
+}
+
+body.dark.credit-card-pdp .columns.annual-fees > div,
+body.dark.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div {
+  border-bottom-color: rgb(94 103 107);
+}
+
+@media (width >= 992px) {
+  body.dark.credit-card-pdp .columns.annual-fees > div:not(:has(> div:last-child:empty):not(:has(h3))) + div:not(:has(> div:last-child:empty):not(:has(h3))),
+  body.dark.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)):not(.aa-tiles, .strata-elite, .strata-premier, .att-points, .pdp-content, .annual-fees) > div:not(:has(> div:last-child:empty):not(:has(h3))) + div:not(:has(> div:last-child:empty):not(:has(h3))) {
+    border-left-color: rgb(94 103 107);
   }
 
-  body.credit-card-pdp .columns.columns-2-cols:not(:has(.columns-img-col)):has(> div:nth-child(3)) > div:last-child {
-    padding-right: 0;
-  }
+  body.dark.credit-card-pdp .columns.card-reverse.columns-2-cols:has(.columns-img-col):not(.feature-unlock) > div{
+  flex-direction: row-reverse;
+}
 }
 
 /* =========================================================
  * Retail "REWARDS AND PROGRAM DETAILS" (credit-card-retail-pdp)
- * A plain two-column layout: LEFT = reward items (bold title + copy),
- * RIGHT = benefit lines with a vertical divider. Scoped to the retail
- * body class so it overrides the tds-* accelerator-tile rules above
- * (which retail never renders) without affecting them. The retail apply
- * band is the OTHER columns block but it has a .columns-img-col, so the
- * :not(:has(.columns-img-col)) guard keeps these two apart.
- * Source: .rw-title 20px/500 rgb(45,45,45); body 16px rgb(51,51,51);
- * right column divider 2px rgb(204,204,204) with ~60px inset.
+ * Source app-rewards-section .reward-section:
+ *   LEFT  .text-container — .rw-title 1.25rem/1.625rem + body copy
+ *   RIGHT .reward-feature.text-border — benefit lines, divider on lef
+ * Stacked on mobile (border on top); side-by-side from 768px
+ * with equal flex columns and 3.75em gutters around the divider.
+ * The retail apply band is the OTHER columns block (has .columns-img-col).
  * ========================================================= */
+
 body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div {
-  gap: 32px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
 }
 
 body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
+  display: block;
+  flex: 1 1 50%;
   padding: 0;
   border-radius: 0;
   background-color: transparent;
   color: rgb(51 51 51);
 }
 
-/* reward item = a title followed by its paragraph; space between items */
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) {
+  margin-top: 30px;
+  padding-top: 30px;
+  border-top: 2px solid var(--citi-retail-divider-light);
+}
+
 body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) h3 {
   margin: 0 0 8px;
   font-family: var(--heading-font-family);
-  font-size: 20px;
+  font-size: 1.125rem;
   font-weight: 500;
-  line-height: 1.3;
+  line-height: 1.3125rem;
   letter-spacing: normal;
   color: rgb(45 45 45);
 }
 
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) h3 strong {
+  font-weight: 500;
+  color: inherit;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:first-child h3:not(:first-child) {
+  margin-top: 25px;
+}
+
 body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) p {
-  margin: 0 0 24px;
+  margin: 0 0 16px;
+  padding: 0;
   font-family: var(--body-font-family);
-  font-size: 16px;
+  font-size: 1rem;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.32rem;
   letter-spacing: normal;
   color: rgb(51 51 51);
 }
 
-body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) p:last-child {
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:first-child p:last-child {
   margin-bottom: 0;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) p {
+  margin: 0 0 15px;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) p:last-child {
+  margin-bottom: 0;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-family: var(--body-font-family);
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5rem;
+  color: var(--text-color);
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  font-size: 1rem;
+  line-height: 1.5rem;
 }
 
 body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) a:any-link {
@@ -486,18 +1466,1396 @@ body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) 
   text-decoration: none;
 }
 
-@media (width >= 992px) {
+@media (width >= 768px) {
   body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div {
+    flex-direction: row;
     align-items: stretch;
-    gap: 48px;
+    gap: 0;
   }
 
-  /* right (benefits) column: vertical divider on its left edge, content centered
-     vertically against the taller left column (matches source) */
+  body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:first-child {
+    padding-right: 3.75em;
+  }
+
   body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) {
-    justify-content: center;
+    margin-top: 0;
+    padding-top: 0;
+    padding-left: 2.75em;
+    border-top: none;
     border-left: 2px solid rgb(204 204 204);
-    padding-left: 48px;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) p {
+    line-height: 1.3125rem;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:first-child p {
+    padding-right: 10px;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) p {
+    margin-bottom: 25px;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) h3 {
+    font-size: 1.25rem;
+    line-height: 1.625rem;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) {
+    padding-left: 3.75em;
+  }
+}
+
+
+body.credit-card-retail-pdp .columns-wrapper:has(.columns-img-col):not(:has(.pdp-content)) {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin: 45px auto 0;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) {
+  margin: 24px 0;
+  text-align: center;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) > div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: static;
+  gap: 0;
+  border-radius: 0;
+  overflow: visible;
+  text-align: center;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) > div > div:not(.columns-img-col) {
+  display: contents;
+  position: static;
+  z-index: auto;
+  box-sizing: border-box;
+  width: auto;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+  border-radius: 0;
+  background: none;
+  backdrop-filter: none;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) > div > .columns-img-col {
+  position: static;
+  inset: auto;
+  order: 2;
+  margin: 0;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) img {
+  display: block;
+  width: 222px;
+  max-width: 100%;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 0;
+  object-fit: unset;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) h3 {
+  order: 1;
+  margin: 0 0 8px;
+  font-family: var(--heading-font-family);
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: normal;
+  color: var(--text-color);
+  text-align: center;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) p {
+  order: 3;
+  display: block;
+  width: 100%;
+  margin: 1.2rem 0 0;
+  padding: 0;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) a:any-link,
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) a.button:any-link {
+  display: inline-block;
+  box-sizing: border-box;
+  min-width: 220px;
+  width: 100%;
+  margin: 0;
+  padding: 11px 20px;
+  border: 1px solid var(--citi-retail-cta);
+  border-radius: 8px;
+  background-color: var(--citi-retail-cta);
+  color: #fff;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  letter-spacing: normal;
+  text-align: center;
+  text-decoration: none;
+}
+
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) a:any-link:hover,
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) a.button:any-link:hover,
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) a:any-link:focus-visible,
+body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) a.button:any-link:focus-visible {
+  background-color: var(--citi-retail-cta);
+  border-color: var(--citi-retail-cta);
+  color: #fff;
+  text-decoration: none;
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .columns-wrapper:has(.columns-img-col):not(:has(.pdp-content)) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) p {
+    width: auto;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) a:any-link,
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content) a.button:any-link {
+    width: auto;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .columns-wrapper:has(.columns-img-col):not(:has(.pdp-content)) {
+    padding-left: 5%;
+    padding-right: 5%;
+  }
+}
+
+@media (width >= 992px) {
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content):has(h3) > div {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+    border-radius: 0;
+    overflow: visible;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content):has(h3) > div > .columns-img-col {
+    position: static;
+    inset: auto;
+    margin: 0;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content):has(h3) > div > .columns-img-col img {
+    width: 222px;
+    height: auto;
+    border-radius: 0;
+    object-fit: unset;
+  }
+
+  body.credit-card-retail-pdp .columns.columns-2-cols:has(.columns-img-col):not(.pdp-content):has(h3) > div > div:not(.columns-img-col) {
+    position: static;
+    z-index: auto;
+    width: auto;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    border-radius: 0;
+    background: none;
+  }
+}
+
+/* start pale-blue columns-container */
+body.credit-card-pdp main .section.pale-blue {
+  background:none;
+}
+
+body.credit-card-pdp .pale-blue .columns div {
+display: flex;
+flex-direction: column;
+}
+
+body.credit-card-pdp .pale-blue .columns-img-col img {
+  width: 100%;
+    height: auto;
+    border-radius: 16px;
+    object-fit: cover;
+}
+
+body.credit-card-pdp .pale-blue .columns.columns-2-cols > div > div:not(.columns-img-col) {
+  padding: 24px;
+}
+
+body.credit-card-pdp .pale-blue .columns h2 {
+  margin-bottom: 16px;
+  font-size: 36px;
+}
+
+body.credit-card-pdp .pale-blue .columns h3 {
+  margin: 0;
+}
+
+body.credit-card-pdp .pale-blue .columns p {
+  margin-bottom: 16px;
+  line-height: 18px;
+}
+
+body.credit-card-pdp .pale-blue .hero-cta-color.columns:has(.columns-img-col) a.button:any-link {
+  background-color: rgb(4 32 143);
+  color: rgb(255 255 255);
+  border: 1px solid rgb(4 32 143);
+  padding: 12px 16px;
+  border-radius:8px
+}
+
+body.credit-card-pdp .pale-blue .hero-cta-color.columns:has(.columns-img-col) a.button:hover {
+background-color: rgb(68 0 204);
+}
+
+body.credit-card-pdp .pale-blue .heroctacolor-cscc.columns:has(.columns-img-col) p:last-child a {
+  background-color: rgb(4 32 143);
+  color: rgb(255 255 255);
+  border: 1px solid rgb(4 32 143);
+  padding: 12px 16px;
+  border-radius:8px
+}
+
+/* hero-cta-color-reverse: inverted palette of hero-cta-color (above) — a
+ * solid navy rounded panel with white copy and a white button, instead of a
+ * white panel with a navy button. Author-added as a SECOND class alongside
+ * hero-cta-color (e.g. "Costco Anywhere Visa"), so hero-cta-color's own
+ * rules (and the pages that only carry that one class, e.g. Double Cash)
+ * are untouched. */
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse {
+  background-color: rgb(4 32 143); /* fallback while the artwork loads */
+  background-image: url("https://aemapi.citi.com/content/dam/cfs/uspb/usmkt/cards/en/static/images/citi-costco-anywhere-visa-business-credit-card/features/feature-resale-background--XXL-L--costco-consumer.webp");
+  background-position: center;
+  background-size: cover;
+  border-radius: 24px;
+}
+
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse .columns-img-col {
+  padding: 24px 24px 0;
+}
+
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:has(.columns-img-col) h2,
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:has(.columns-img-col) > div > div > p:first-child,
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse p {
+  color: rgb(255 255 255);
+}
+
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:has(.columns-img-col) a.button:any-link {
+  background-color: rgb(255 255 255);
+  color: rgb(4 32 143);
+  border-color: rgb(255 255 255);
+}
+
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:has(.columns-img-col) a.button:hover {
+  background-color: rgb(232 236 238);
+}
+
+/* Desktop measurements from live costco-business-recap-section @1440:
+ * 379px band, 16px radius, copy column inset 88px / 472px wide, 40px heading,
+ * 379px card art. charcoal (AAdvantage) keeps its own sizing below. */
+@media (width >= 992px) {
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal) {
+    border-radius: 16px;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal) > div {
+    min-height: 379px;
+    gap: 0;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal).columns-2-cols > div > div:not(.columns-img-col) {
+    flex: 0 0 50%;
+    box-sizing: border-box;
+    justify-content: center;
+    padding: 24px 88px;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal) .columns-img-col {
+    align-items: center;
+    justify-content: center;
+    flex: 1 1 50%;
+    padding: 0 0 0 34px;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal) .columns-img-col img {
+    width: 379px;
+    max-width: 100%;
+    height: auto;
+    object-fit: contain;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal):has(.columns-img-col) > div > div > p:first-child {
+    margin: 0 0 4px;
+    padding: 0;
+    letter-spacing: 0.84px;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal) h2 {
+    margin: 0 0 20px;
+    font-size: 40px;
+    line-height: 46px;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal) p {
+    margin-bottom: 0;
+    line-height: 17.5px;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal) .button-wrapper {
+    margin-top: 23px;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse:not(.charcoal):has(.columns-img-col) a.button:any-link {
+    margin: 0;
+    padding: 11px 16px; /* + 1px border = live 48px */
+    font-weight: 400;
+    line-height: 24px;
+  }
+}
+
+/* charcoal: grey colourway of hero-cta-color-reverse (e.g. AAdvantage MileUp) —
+ * same layout/white button, panel uses the aa-tiles.mile-up grey. Added as a
+ * THIRD class: "Columns (hero-cta-color, hero-cta-color-reverse, charcoal)". */
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse.charcoal {
+  background-color: rgb(51 51 51);
+  background-image: url("https://aemapi.citi.com/content/dam/cfs/uspb/usmkt/cards/en/static/images/aadvantage-mile-up-credit-card/features/feature-resale-background--XXL-L--aa-mileup.webp");
+  background-position: center;
+  background-size: cover;
+}
+
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse.charcoal .columns-img-col {
+  align-items: center;
+  justify-content: center;
+}
+
+body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse.charcoal .columns-img-col img {
+  max-width: 470px;
+  border-radius: 12px;
+  object-fit: contain;
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse.charcoal > div {
+    min-height: 600px;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse.charcoal.columns-2-cols > div > div:not(.columns-img-col) {
+    padding: 48px 0 48px 64px;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse.charcoal h2 {
+    font-size: 56px;
+    line-height: 1.15;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.hero-cta-color.hero-cta-color-reverse.charcoal p {
+    font-size: 18px;
+    line-height: 1.4;
+  }
+}
+
+body.credit-card-pdp .pale-blue .heroctacolor-cscc.columns:has(.columns-img-col) p:last-child a:hover {
+  background-color: rgb(68 0 204);
+  text-decoration: none;
+}
+
+/*
+ * content-panel — bottom offer card (e.g. AT&T Points Plus).
+ * Already authored on the columns block. Reuses:
+ *   outer blue  = .pdp-content.blue (rgb(76 123 162))
+ *   inner panel = .hero.content-panel (rgb(242 250 253))
+ *   Apply navy  = same tokens as hero-cta-color / offer-cta
+ * Does not change heroctacolor-cscc, hero-cta-color, or offer-cta pages.
+ */
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) {
+  background-color: rgb(76 123 162);
+  border-radius: 24px;
+  padding: 24px;
+  box-sizing: border-box;
+}
+
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) > div {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) .columns-img-col img {
+  width: 100%;
+  height: auto;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) > div > div:not(.columns-img-col) {
+  background-color: rgb(242 250 253);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) > div > div > p:first-child {
+  color: rgb(94 103 107);
+}
+
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) a[title="Apply now"],
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) p > strong > a {
+  display: inline-block;
+  background-color: rgb(4 32 143);
+  color: rgb(255 255 255);
+  border: 1px solid rgb(4 32 143);
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  margin: 16px 0;
+}
+
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) a[title="Apply now"]:hover,
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) p > strong > a:hover {
+  background-color: rgb(68 0 204);
+  border-color: rgb(68 0 204);
+  color: rgb(255 255 255);
+  text-decoration: none;
+}
+
+body.credit-card-pdp .columns.content-panel:has(.columns-img-col) a:not([title="Apply now"]) {
+  display: inline;
+  background: none;
+  background-color: transparent;
+  color: var(--link-color);
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  font-weight: 400;
+  margin: 0;
+  text-decoration: underline;
+}
+
+@media (width >= 992px) {
+  /* keep stacked card layout; do not inherit pale-blue desktop row */
+  body.credit-card-pdp .pale-blue .columns.content-panel:has(.columns-img-col) > div,
+  body.credit-card-pdp .columns.content-panel:has(.columns-img-col) > div {
+    flex-direction: column;
+  }
+}
+
+/*
+ * offer-cta — additive EDS class on the columns block only.
+ * Handles both markup shapes:
+ *   A) h2 → p(Apply a) → footnotes
+ *   B) h2 → p(body) → p(strong>a Apply + footnotes)  ← Diamond Preferred
+ * Only a[title="Apply now"] / strong>a Apply become the navy button.
+ * Footnote anchors stay normal blue links. Other variants without this class are untouched.
+ */
+body.credit-card-pdp .columns.offer-cta:has(.columns-img-col) > div > div > p:first-child {
+  color: rgb(94 103 107);
+}
+
+/* Apply now — title attr is set by author or decorateButtons; strong>a covers pre-decoration */
+body.credit-card-pdp .columns.offer-cta:has(.columns-img-col) a[title="Apply now"],
+body.credit-card-pdp .columns.offer-cta:has(.columns-img-col) p > strong > a {
+  display: inline-block;
+  background-color: rgb(4 32 143);
+  color: rgb(255 255 255);
+  border: 1px solid rgb(4 32 143);
+  padding: 12px 16px;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 500;
+  margin: 16px 0;
+}
+
+body.credit-card-pdp .columns.offer-cta:has(.columns-img-col) a[title="Apply now"]:hover,
+body.credit-card-pdp .columns.offer-cta:has(.columns-img-col) p > strong > a:hover {
+  background-color: rgb(68 0 204);
+  border-color: rgb(68 0 204);
+  color: rgb(255 255 255);
+  text-decoration: none;
+}
+
+/*
+ * Every other anchor in this block stays a text link
+ * (beats pale-blue .heroctacolor-cscc p:last-child a when both classes are present).
+ */
+body.credit-card-pdp .pale-blue .heroctacolor-cscc.columns.offer-cta:has(.columns-img-col) a:not([title="Apply now"]),
+body.credit-card-pdp .columns.offer-cta:has(.columns-img-col) a:not([title="Apply now"]) {
+  display: inline;
+  background: none;
+  background-color: transparent;
+  color: var(--link-color);
+  border: none;
+  padding: 0;
+  border-radius: 0;
+  font-weight: 400;
+  margin: 0;
+  text-decoration: underline;
+}
+
+body.credit-card-pdp .pale-blue .heroctacolor-cscc.columns.offer-cta:has(.columns-img-col) a:not([title="Apply now"]):hover,
+body.credit-card-pdp .columns.offer-cta:has(.columns-img-col) a:not([title="Apply now"]):hover {
+  background: none;
+  background-color: transparent;
+  color: var(--link-hover-color, var(--link-color));
+  text-decoration: underline;
+}
+
+/* Footnote links authored as a list ("¹ Important Pricing…", "² Additional…")
+ * sit inline in one wrapping row on the source, not as a bulleted list. */
+body.credit-card-pdp .columns.offer-cta:has(.columns-img-col) ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  margin: 8px 0 0;
+  padding: 0;
+  list-style: none;
+  font-size: 14px;
+  line-height: 18px;
+}
+
+body.credit-card-pdp .columns.offer-cta:has(.columns-img-col) ul li {
+  margin: 0;
+}
+
+/*
+ * offer-dark — additive class next to offer-cta for the dark recap panel
+ * (tds-feature recap-section on the Home Depot PDPs): near-black rounded
+ * panel, white copy, white Apply button, green "Limited time offer" flag,
+ * card art centred above the copy (stacked) / right of it (desktop).
+ * Authoring: Columns (heroctacolor-cscc, offer-cta, offer-dark) — card art
+ * cell + text cell: <strong> flag, card name, h2, line, Apply now, sign-on,
+ * footnote list. Selectors carry `main .section` so they beat the pale-blue /
+ * heroctacolor-cscc rules when those classes are also present.
+ */
+
+/* pale-blue section around the panel: drop its band padding/margins */
+body.credit-card-pdp main .section.pale-blue:has(.columns.offer-dark) {
+  margin: 24px auto;
+  padding: 0 12px;
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) {
+  overflow: hidden;
+  border-radius: 16px;
+  background-color: rgb(18 18 18);
+  color: rgb(255 255 255);
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > .columns-img-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  order: 0;
+  padding: 59px 0 60px;
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > .columns-img-col img {
+  width: 257px;
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > div:not(.columns-img-col) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  order: 1;
+  padding: 40px 24px;
+  background: none;
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) h2 {
+  margin: 0 0 16px;
+  font-size: 28px;
+  line-height: 34px;
+  color: rgb(255 255 255);
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) h2 sup {
+  line-height: 0;
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) p {
+  margin: 0 0 16px;
+  font-size: 14px;
+  line-height: 18px;
+  letter-spacing: 0.14px;
+  color: rgb(255 255 255);
+}
+
+/* line under the headline */
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) h2 + p {
+  font-size: 16px;
+  line-height: 22px;
+  letter-spacing: 0.16px;
+}
+
+/* "Limited time offer" flag: first paragraph that is only bold text */
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > div > p:first-child:has(> strong:only-child) {
+  margin: 0 0 8px;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background-color: rgb(19 132 109);
+  font-size: 14px;
+  font-weight: 700;
+  line-height: 17px;
+  letter-spacing: -0.14px;
+}
+
+/* card name: first plain paragraph (after the flag, or first when no flag) */
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > div > p:first-child:has(> strong:only-child) + p,
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > div > p:first-child:not(:has(> strong:only-child)) {
+  margin: 0 0 8px;
+  letter-spacing: 0.84px;
+  text-transform: uppercase;
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) a[title="Apply now"],
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) p > strong > a {
+  margin: 8px 0;
+  padding: 15px;
+  border-color: rgb(255 255 255);
+  background-color: rgb(255 255 255);
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  color: rgb(4 32 143);
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) a[title="Apply now"]:hover,
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) p > strong > a:hover {
+  border-color: rgb(232 236 238);
+  background-color: rgb(232 236 238);
+  color: rgb(4 32 143);
+}
+
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) a:not([title="Apply now"]),
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) a:not([title="Apply now"]):hover,
+body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) ul {
+  color: rgb(255 255 255);
+}
+
+@media (width >= 768px) {
+  body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > div:not(.columns-img-col) {
+    padding: 24px 40px 48px;
+  }
+
+  body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) h2 {
+    font-size: 36px;
+    line-height: 44px;
+  }
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+  }
+
+  body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > .columns-img-col {
+    order: 1;
+    padding: 40px;
+  }
+
+  body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > .columns-img-col img {
+    width: 379px;
+    height: auto;
+    border-radius: 16px;
+  }
+
+  body.credit-card-pdp main .section .columns.offer-cta.offer-dark:has(.columns-img-col) > div > div:not(.columns-img-col) {
+    order: 0;
+    padding: 88px;
+  }
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp .section.pale-blue.columns-container {
+    margin-top: 56px;
+  }
+
+  body.credit-card-pdp .pale-blue .columns div {
+    flex-direction: row;
+  }
+
+  body.credit-card-pdp .pale-blue .columns.columns-2-cols > div > div:not(.columns-img-col) {
+    flex-direction: column;
+  }
+}
+
+/* end pale-blue columns-container */
+
+
+/* Faq Accordian column Start */
+
+body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper:has(> .columns > div > .columns-img-col > picture > img)
+  > .columns > div > .columns-img-col > picture > img {
+    width: 267px;
+    object-fit: contain;
+    margin: auto;
+    padding: 41px 0;
+  }
+
+  body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper > div > div > div:last-child {
+    padding: 24px;
+  }
+
+
+  body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper {
+  /* need to add image */
+  background-color: #3B3B3D;
+  border-radius: 16px;
+  }
+
+  body.credit-card-pdp .blue.accordion-container.section.columns-container .columns-wrapper {
+    background-color: #4c7ba2;
+  }
+
+  body.credit-card-pdp .blue.accordion-container.section.columns-container .columns-wrapper .columns.columns-2-cols > div > div:nth-child(2) > p:has(a[title="Apply now"]){
+    margin-top: 25px;
+  }
+
+
+  body.credit-card-pdp .blue.accordion-container.section.columns-container .columns-wrapper .columns.columns-2-cols > div > div:nth-child(2) > p > a[title="Apply now"]{
+    background-color: #fff;
+    color: var(--citi-navy);
+    padding: 16px 24px;
+    border-radius: 8px;
+  }
+
+  body.credit-card-pdp .blue.accordion-container.section.columns-container .columns-wrapper .columns ul li{
+    list-style: none;
+  }
+
+  body.credit-card-pdp .blue.accordion-container.section.columns-container .columns-wrapper .columns ul li sup{
+    color: #fff;
+  }
+
+  body.credit-card-pdp .accordion-container.section.columns-container .columns.columns-2-cols:has(.columns-img-col) h2 {
+    color: #fff;
+    line-height: 45px;
+    font-size: 36px;
+    padding-right: 36px;
+  }
+
+  body.credit-card-pdp .accordion-container.section.columns-container .columns p {
+    color: #fff;
+  }
+  
+  body.credit-card-pdp .accordion-container.section.columns-container .columns > div > div:last-child > p:last-child {
+    margin-top:30px;
+  }
+  
+  body.credit-card-pdp .accordion-container.section.columns-container .columns > div > div:last-child > p:last-child > a:any-link,
+  body.dark.credit-card-pdp .accordion-container.section.columns-container .columns p:has(> a){
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: 0.16px;
+    text-align: center;
+    padding: 16px 24px;
+    max-width: 100px;
+    background-color: #fff;
+    color: var(--citi-navy);
+    border-radius: 8px;
+    margin :16px 0;
+  }
+
+   @media (width >=992px) {
+      body.credit-card-pdp .accordion-container.section.columns-container .columns>div {
+        display: flex;
+        gap: 16px;
+      }
+
+      body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper > div > div > div:last-child {
+        padding: 88px;
+      }
+
+      body.credit-card-pdp .accordion-container.section.columns.columns-2-cols:has(.columns-img-col) > div > div > p:first-child {
+        padding: 8px 0;
+      }
+
+
+      body.credit-card-pdp .accordion-container.section.columns-container .columns.columns-2-cols:has(.columns-img-col) h2 {
+        padding-right: 260px;
+        margin-bottom: 20px;
+        font-size: 48px;
+      }
+
+      body.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper:has(> .columns > div > .columns-img-col > picture > img) > .columns > div > .columns-img-col > picture > img {
+        width: 379px;
+        height: 320px;
+      }
+    }
+
+/*
+ Costco rewards tiles  (section style = "costco-rewards")
+*/
+
+.section.costco-rewards .costco-rewards-tiles {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.section.costco-rewards .costco-rewards-pair {
+  display: flex;
+  flex-direction: column;
+}
+
+.section.costco-rewards .costco-rewards-pair-inner {
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- tiles (mobile-first stacked overlap) --- */
+
+.section.costco-rewards .costco-rewards-pair-inner > div,
+.section.costco-rewards .costco-rewards-tiles > div:not(.costco-rewards-pair) {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 1.5rem 2.5rem 3.5rem;
+  border-radius: 1rem 1rem 0 0;
+  margin-top: -2rem;
+  overflow: visible;
+  color: #fff;
+}
+
+.section.costco-rewards .costco-rewards-pair-inner > div:first-child {
+  margin-top: 0;
+}
+
+/* End-of-stack tiles (4% last in pair-inner, 1% last in tiles) */
+.section.costco-rewards .costco-rewards-pair-inner > div:last-child,
+.section.costco-rewards .costco-rewards-tiles > div:not(.costco-rewards-pair):last-child {
+  border-radius: 1rem;
+  padding-bottom: 1.5rem;
+}
+
+.section.costco-rewards .costco-rewards-pair-inner > div:nth-child(1) { background-color: rgb(3 73 153); }
+.section.costco-rewards .costco-rewards-pair-inner > div:nth-child(2) { background-color: rgb(53 134 64); }
+.section.costco-rewards .costco-rewards-tiles > div:nth-child(2) { background-color: rgb(31 122 184); } /* 3% */
+.section.costco-rewards .costco-rewards-tiles > div:nth-child(3) { background-color: rgb(200 16 46); } /* 2% */
+.section.costco-rewards .costco-rewards-tiles > div:nth-child(4) { background-color: rgb(88 89 91); } /* 1% */
+
+.section.costco-rewards .columns-img-col {
+  line-height: 0;
+  flex-shrink: 0;
+  order: 0;
+  min-height: 45px;
+}
+
+.section.costco-rewards .columns-img-col img,
+.section.costco-rewards .columns-img-col picture {
+  height: 5rem;
+  width: auto;
+  object-fit: contain;
+  object-position: left center;
+  max-width: none;
+  display: block;
+}
+
+.section.costco-rewards .costco-rewards-pair-inner > div > div:not(.columns-img-col),
+.section.costco-rewards .costco-rewards-tiles > div:not(.costco-rewards-pair) > div:not(.columns-img-col) {
+  padding: 0;
+  order: 1;
+}
+
+.section.costco-rewards .costco-rewards-pair-inner > div > div:not(.columns-img-col) p,
+.section.costco-rewards .costco-rewards-tiles > div:not(.costco-rewards-pair) > div:not(.columns-img-col) p {
+  font-size: 1.25rem;
+  font-weight: 400;
+  line-height: 1.625rem;
+  letter-spacing: 0.013rem;
+  color: #fff;
+  margin: 0;
+}
+
+/* --- optional heading above tiles --- */
+
+.section.costco-rewards > .default-content-wrapper h2 {
+  font-size: 1.75rem;
+  font-weight: 400;
+  line-height: 1.2;
+  color: rgb(38 41 43);
+  margin: 0 0 0.5rem;
+}
+
+.section.costco-rewards > .default-content-wrapper p {
+  font-size: 0.875rem;
+  color: rgb(58 62 64);
+  margin: 0 0 1.5rem;
+}
+
+/* --- benefits-explainer bracket --- */
+
+.section.costco-rewards .costco-rewards-explainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 0 3rem; /* costco-cards: 16px 0 48px */
+}
+
+.section.costco-rewards .costco-rewards-explainer-left,
+.section.costco-rewards .costco-rewards-explainer-right {
+  align-self: stretch;
+  width: 30%;
+  border-bottom: 1.5px solid rgb(204 204 204);
+}
+
+.section.costco-rewards .costco-rewards-explainer-left {
+  border-left: 1.5px solid rgb(204 204 204);
+  border-bottom-left-radius: 12px;
+}
+
+.section.costco-rewards .costco-rewards-explainer-right {
+  border-right: 1.5px solid rgb(204 204 204);
+  border-bottom-right-radius: 12px;
+}
+
+.section.costco-rewards .costco-rewards-explainer-center {
+  font-size: 0.875rem;
+  font-weight: 400;
+  line-height: 129%;
+  letter-spacing: 0.01em;
+  text-align: center;
+  color: rgb(102 102 102);
+  margin: 0;
+  flex: 1 1 auto;
+  padding: 0 0.5rem;
+}
+
+/* ≥768px — icon + text side-by-side inside each tile; still stacked */
+@media (width >= 768px) {
+  .section.costco-rewards .costco-rewards-pair-inner > div,
+  .section.costco-rewards .costco-rewards-tiles > div:not(.costco-rewards-pair) {
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 2.875rem; /* 46px */
+  }
+
+  .section.costco-rewards .costco-rewards-pair-inner > div > div:not(.columns-img-col) p,
+  .section.costco-rewards .costco-rewards-tiles > div:not(.costco-rewards-pair) > div:not(.columns-img-col) p {
+    padding-bottom: 0.25rem; /* 4px */
+  }
+
+  .section.costco-rewards .costco-rewards-explainer-left,
+  .section.costco-rewards .costco-rewards-explainer-right {
+    width: 20%;
+  }
+}
+
+/* ≥992px — desktop 5-col grid: [5%|4%+explainer] | 3% | 2% | 1%
+ * Specificity must beat `.columns.columns-2-cols:has(.columns-img-col) > div`
+ * (gap: 48px; align-items: center) which also matches .costco-rewards-tiles.
+ */
+@media (width >= 992px) {
+  /* Pull the tiles 56px up over the hero photo (live: tiles sit 40px under the
+     hero card; photo ends 96px under it). Same shift as .aa-tiles. */
+  main > .section.costco-rewards .columns-wrapper .columns {
+    position: relative;
+    z-index: 1;
+    margin-top: -96px;
+  }
+
+  .section.costco-rewards .columns.columns-2-cols > .costco-rewards-tiles {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+    gap: 24px; /* cards-marketing tile gap — not the 48px promo-banner gap */
+    align-items: stretch;
+  }
+
+  .section.costco-rewards .costco-rewards-pair {
+    grid-column: 1 / 3;
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+
+  .section.costco-rewards .costco-rewards-pair-inner {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    align-items: stretch;
+    flex: 1 1 auto;
+  }
+
+  .section.costco-rewards .costco-rewards-tiles > div:nth-child(2) { grid-column: 3; }
+  .section.costco-rewards .costco-rewards-tiles > div:nth-child(3) { grid-column: 4; }
+  .section.costco-rewards .costco-rewards-tiles > div:nth-child(4) { grid-column: 5; }
+
+  .section.costco-rewards .costco-rewards-pair-inner > div,
+  .section.costco-rewards .costco-rewards-tiles > div:not(.costco-rewards-pair) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+    border-radius: 1rem;
+    padding: 1.5rem;
+    margin-top: 0;
+    min-width: 0;
+    height: 100%;
+    box-sizing: border-box;
+  }
+
+  .section.costco-rewards .costco-rewards-pair-inner > div:last-child,
+  .section.costco-rewards .costco-rewards-tiles > div:not(.costco-rewards-pair):last-child {
+    padding-bottom: 1.5rem;
+  }
+
+  .section.costco-rewards .costco-rewards-pair-inner > div > div:not(.columns-img-col) p,
+  .section.costco-rewards .costco-rewards-tiles > div:not(.costco-rewards-pair) > div:not(.columns-img-col) p {
+    padding-bottom: 0.25rem;
+  }
+
+  /* live benefits-explainer-container: 16px 0 4px — anything taller stretches
+     the 3%/2%/1% tiles past the 5%/4% pair */
+  .section.costco-rewards .costco-rewards-explainer {
+    padding: 1rem 0 0.25rem;
+  }
+
+  .section.costco-rewards .costco-rewards-explainer-left,
+  .section.costco-rewards .costco-rewards-explainer-right {
+    width: 45%;
+  }
+}
+
+/* ≥1200px — bracket arm width */
+@media (width >= 1200px) {
+  .section.costco-rewards .costco-rewards-explainer-left,
+  .section.costco-rewards .costco-rewards-explainer-right {
+    width: 35%;
+  }
+}
+
+/* =========================================================
+ * Variant - media-feature: image + text feature (tds-feature inline_6_6)
+ * Authoring: Columns (media-feature), one row, image cell + text cell.
+ * Cell order sets the side on desktop (image first = image left).
+ * Optional card row in the text cell: one paragraph with a picture + link.
+ * ========================================================= */
+
+body.credit-card-pdp main > .section > .columns-wrapper:has(.columns.media-feature) {
+  padding: 0;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div {
+  box-sizing: border-box;
+  flex: 1 1 0;
+  min-width: 0;
+  order: 0;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > .columns-img-col {
+  display: block;
+  order: 0;
+  line-height: 0;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > .columns-img-col img {
+  display: block;
+  width: 100%;
+  height: 280px;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+/* mobile: image always on top */
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  order: 1;
+  padding: 24px;
+  border-radius: 24px;
+  background-color: transparent;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) h2 {
+  margin: 0 0 16px;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 30px;
+  text-align: left;
+  color: rgb(38 41 43);
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) h3 {
+  margin: 8px 0 4px;
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 26px;
+  color: rgb(38 41 43);
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p {
+  margin: 0 0 8px;
+  padding: 0;
+  font-size: 16px;
+  line-height: 21.92px;
+  letter-spacing: normal;
+  color: rgb(58 62 64);
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) > :last-child {
+  margin-bottom: 0;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) sup {
+  line-height: 0;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) a:any-link {
+  color: var(--citi-nav-navy, #04208f);
+  text-decoration: underline;
+}
+
+/* ---- card row: p > picture + a (tds-card-item) ---- */
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) {
+  position: relative;
+  display: flex;
+  align-items: center;
+  box-sizing: border-box;
+  gap: 12px;
+  min-height: 64px;
+  margin-top: 8px;
+  padding: 8px 0 8px 8px;
+  border-radius: 8px;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) img {
+  display: block;
+  flex: 0 0 64px;
+  width: 64px;
+  height: 40px;
+  border-radius: 0;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) > a:any-link {
+  flex: 1 1 auto;
+  font-size: 14px;
+  line-height: 18px;
+  color: rgb(38 41 43);
+  text-decoration: none;
+}
+
+/* whole row clickable via the card link */
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) > a::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) > a:hover {
+  text-decoration: underline;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) > a:focus-visible {
+  outline: none;
+}
+
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) > a:focus-visible::before {
+  outline: 2px solid var(--citi-nav-navy, #04208f);
+}
+
+/* chevron */
+body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a)::after {
+  content: '';
+  flex: 0 0 16px;
+  height: 16px;
+  margin-left: auto;
+  background-color: var(--citi-nav-navy, #04208f);
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M6.13 22.56c.31.316.82.32 1.136.011L18.1 12 7.266 1.429a.806.806 0 0 0-1.136.011.797.797 0 0 0 .011 1.131L15.804 12 6.14 21.429a.797.797 0 0 0-.011 1.131'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+@media (width >= 768px) {
+  body.credit-card-pdp main > .section > .columns-wrapper:has(.columns.media-feature) {
+    padding: 0 24px;
+  }
+
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) {
+    padding: 24px 40px;
+  }
+
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) h2 {
+    font-size: 36px;
+    line-height: 1.17;
+  }
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp main > .section > .columns-wrapper:has(.columns.media-feature) {
+    padding: 0 32px;
+  }
+
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    align-items: center;
+    min-height: 360px;
+  }
+
+  /* desktop: keep authored cell order (image first = image left) */
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div,
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) {
+    order: 0;
+  }
+
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div > .columns-img-col img {
+    height: 320px;
+  }
+
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) {
+    align-self: stretch;
+    padding: 40px;
+    border-radius: 16px;
+    background-color: rgb(255 255 255);
+  }
+
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) h2 {
+    line-height: 1.22;
+  }
+
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) > a:any-link {
+    font-size: 20px;
+    line-height: 26px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) {
+    padding: 40px 72px;
+  }
+}
+
+/* ---- Dark theme ---- */
+body.dark.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) {
+  background-color: transparent;
+}
+
+body.dark.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) h2,
+body.dark.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) h3,
+body.dark.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) > a:any-link {
+  color: rgb(255 255 255);
+}
+
+body.dark.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p,
+body.dark.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) a:any-link {
+  color: rgb(230 235 237);
+}
+
+body.dark.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a)::after {
+  background-color: rgb(230 235 237);
+}
+/* stylelint-enable no-descending-specificity */
+
+/* =========================================================
+ * Dark theme (page metadata "theme: dark") — Strata promo band.
+ * The section itself is transparent over the black page; only its copy
+ * needs inverting. Scoped to .pale-blue so light pages are untouched.
+ * ========================================================= */
+/* stylelint-disable no-descending-specificity -- theme override, scoped to body.dark */
+body.dark.credit-card-pdp main .section.pale-blue .columns :is(h2, h3) {
+  color: rgb(255 255 255);
+}
+
+body.dark.credit-card-pdp main .section.pale-blue .columns p {
+    color: rgb(232 236 238);
+}
+
+body.dark.credit-card-pdp main .section.pale-blue .columns p:has(a) {
+  border-radius: 8px;
+  background-color: #fff;
+  padding: 16px 24px;
+  width: 150px;
+  text-align: center;
+}
+
+/* Plain links stay legible until an author bolds them; once bolded,
+   decorateButtons promotes them and the button rule below applies. */
+body.dark.credit-card-pdp main .section.pale-blue .columns a:any-link {
+    color: #40c;
+  }
+
+body.dark.credit-card-pdp main .section.pale-blue .columns a.button {
+  border-color: rgb(255 255 255);
+  background-color: rgb(255 255 255);
+  color: rgb(4 32 143);
+}
+
+body.dark.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper {
+  background-color: inherit;
+}
+
+body.credit-card-pdp .accordion-container.section.columns-container .columns ul{
+padding: 0;
+}
+
+body.credit-card-pdp .accordion-container.section.columns-container .columns li a{
+  color: rgb(255 255 255);
+  text-decoration: underline;
+  font-size: 14px;
+  list-style: none;
+}
+
+@media (width > 992px) {
+  body.dark.credit-card-pdp .accordion-container.section.columns-container .columns-wrapper {
+    background-color: #3B3B3D;
+  }
+}
+
+/* =========================================================
+ * Dark theme (page metadata "theme: dark") — rewards-multiplier tiles
+ * (Strata Elite's "12x / 6x / 6x / 3x / 1.5x" band, .columns.pdp-content.grey). */
+@media (width < 992px) {
+  body.dark.credit-card-pdp .columns.pdp-content.grey {
+    gap: 16px;
+    padding: 0;
+    background-color: transparent;
+    box-shadow: none;
+  }
+
+  body.dark.credit-card-pdp .columns.pdp-content.grey > div {
+    border-bottom: none;
+    border-radius: 16px;
+    background-color: rgb(99 102 106);
   }
 }
 

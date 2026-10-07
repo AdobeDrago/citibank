@@ -1,3 +1,15 @@
+@font-face {
+  font-family: citigold-text-regular;
+  src: url("/fonts/Citi-Sans-Text-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: citigold-text-bold;
+  src: url("/fonts/Citi-Sans-Text-Bold.woff2") format("woff2");
+  font-display: swap;
+}
+
 /* Citi footer — dark charcoal mega-footer. Mobile-first; min-width breakpoints only.
    Bands: link columns (accordion on mobile, 5-col grid on desktop), app/social,
    copyright + legal links, legal disclosures + logo. */
@@ -13,13 +25,15 @@ footer {
   background-color: var(--citi-footer-bg);
   color: var(--citi-footer-text);
   font-size: 12px;
+  margin: 8px;
 }
 
 footer .footer-inner {
   margin: 0 auto;
   max-width: 1440px;
-  padding: 32px 24px 40px;
+  padding: 0 5%;
 }
+
 
 footer .footer-nav a {
   color: var(--citi-footer-text);
@@ -38,7 +52,8 @@ footer .footer-nav p { margin: 0; }
 footer .footer-columns {
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 0;
+  padding-top: 7px;
 }
 
 footer .footer-column h2 {
@@ -46,7 +61,7 @@ footer .footer-column h2 {
   align-items: center;
   justify-content: space-between;
   margin: 0;
-  padding: 14px 0;
+  padding: 20px 0;
   border-bottom: 1px solid var(--citi-footer-divider);
   font-size: 16px;
   font-weight: 500;
@@ -54,27 +69,43 @@ footer .footer-column h2 {
   cursor: pointer;
 }
 
-/* mobile: chevron indicator; column list collapsed until the heading is tapped */
-footer .footer-column h2::after {
-  content: '';
-  width: 8px;
-  height: 8px;
-  border-right: 2px solid #fff;
-  border-bottom: 2px solid #fff;
-  transform: rotate(45deg);
-  transition: transform 0.2s ease;
+footer .footer-column .footer-column-toggle {
+  flex: 1;
+  padding: 0;
+  margin: 0;
+  border: 0;
+  background: none;
+  color: inherit;
+  font: inherit;
+  text-align: start;
+  cursor: inherit;
 }
 
-footer .footer-column[aria-expanded='true'] h2::after { transform: rotate(-135deg); }
+footer .footer-column[aria-expanded='false'] h2 {
+  border-bottom: 1px solid var(--citi-footer-divider);
+}
+
+footer .footer-column[aria-expanded='true'] h2 {
+  border-bottom: 0;
+}
 
 footer .footer-column ul {
   display: none;
-  padding: 12px 0;
 }
 
 footer .footer-column[aria-expanded='true'] ul { display: block; }
 
 footer .footer-column li { margin-bottom: 12px; }
+
+footer .footer-column[aria-expanded='true'] li:last-child {
+  border-bottom: 1px solid #666;
+  margin-bottom: 0;
+  padding-bottom: 12px;
+}
+
+footer .footer-column[aria-expanded='false'] li:last-child {
+  border-bottom: 0;
+}
 
 footer .footer-column a {
   font-size: 12px;
@@ -82,10 +113,32 @@ footer .footer-column a {
 }
 
 footer .footer-column img {
-  width: 44px;
-  height: auto;
-  margin-top: 8px;
+  width: 51px;
+  height: 53px;
+  margin-bottom: -22px;
 }
+
+/* footer-other */
+
+footer .footer-other-main-wrapper {
+  display: block;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-top: 20px;
+  padding-bottom: 12px;
+}
+
+footer .footer-other-main-wrapper .footer-other-left-wrapper .footer-other,
+footer .footer-other-main-wrapper .footer-other-right-wrapper .footer-other {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding: 0 0 10px;
+}
+
+
+/* stylelint-disable no-descending-specificity */
 
 /* ---------- App + social band ---------- */
 footer .footer-social {
@@ -118,26 +171,32 @@ footer .footer-social p:last-child img {
 }
 
 /* ---------- Copyright + legal links ---------- */
-footer .footer-legal { margin-top: 24px; }
+footer .footer-legal{
+  padding-bottom: 24px;
+}
 
 footer .footer-legal p {
   margin-bottom: 12px;
   font-size: 12px;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
 footer .footer-legal ul {
+  padding: 20px 0;
+  border: 1px solid #666;
+  border-width: 1px 0;
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 footer .footer-legal a { font-size: 12px; }
 
-/* ---------- Legal disclosures + logo ---------- */
-footer .footer-disclosures { margin-top: 24px; }
 
-footer .footer-disclosures h4 {
+/* ---------- Legal disclosures + logo ---------- */
+
+/* footer .footer-disclosures { margin-top: 24px; } */
+
+footer .footer-disclosures h3 {
   margin: 0 0 12px;
   font-size: 12px;
   font-weight: 500;
@@ -150,7 +209,10 @@ footer .footer-disclosures p {
   line-height: 1.5;
 }
 
-/* stylelint-disable-next-line no-descending-specificity */
+footer .footer-disclosures p:last-child {
+  margin-bottom: 28px;
+}
+
 footer .footer-disclosures img {
   width: 64px;
   height: auto;
@@ -163,19 +225,59 @@ footer .footer-logo-duplicate { display: none; }
 /* link hover (placed after all link rules to satisfy specificity ordering) */
 footer .footer-nav a:hover { text-decoration: underline; }
 
-/* ---------- Tablet (>= 600px) ---------- */
-@media (width >= 768px) {
-  /* columns stay stacked accordions until desktop (matches source < 900px) */
+footer .footer-logo img {
+  margin: 0 0 0 8px;
+  width: 88px;
+  height: 57px;
+  margin-left: 15px;
+}
+
+footer .footer-logo {
+  padding-top: 35px;
+}
+
+.citigold-landing footer {
+    margin: 0;
+  }
+
+  /* stylelint-enable no-descending-specificity */
+
+/* ---------- Desktop (>= 900px) ---------- */
+@media (width >= 992px) {
+  footer {
+    margin: 0;
+  }
+
+  footer .footer-inner {
+    padding: 0;
+  }
+
+  footer .footer-other-main-wrapper {
+    display: flex;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  footer .footer-other-main-wrapper .footer-other-left-wrapper .footer-other,
+  footer .footer-other-main-wrapper .footer-other-right-wrapper .footer-other {
+    padding: 20px 0;
+  }
+
+  footer .footer-logo {
+    padding-top: 35px;
+  }
+
+  footer .footer-logo img {
+    margin-bottom: 0;
+  }
+
   footer .footer-social {
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
   }
-}
 
-/* ---------- Desktop (>= 900px) ---------- */
-@media (width >= 992px) {
-  footer .footer-inner { padding: 48px 96px 40px; }
+  footer .footer-nav { padding: 40px 9% 0 }
 
   footer .footer-columns {
     flex-flow: row nowrap;
@@ -194,6 +296,7 @@ footer .footer-nav a:hover { text-decoration: underline; }
     margin: 0 0 16px;
     border-bottom: 0;
     cursor: default;
+    font-size: 16px;
   }
 
   footer .footer-column h2::after { content: none; }
@@ -219,12 +322,6 @@ footer .footer-nav a:hover { text-decoration: underline; }
   footer .footer-legal p { margin-bottom: 16px; }
 }
 
-@media (width >= 1200px) {
-  footer .footer-inner {
-    padding-left: 96px;
-    padding-right: 96px;
-  }
-}
 
 /* ---------- cbol landing footer (banking.citi.com/cbol/…) ----------
    A distinct compact NAVY legal footer (matches source #0f1632): white Citi
@@ -234,58 +331,120 @@ footer .footer-nav a:hover { text-decoration: underline; }
    more specific than the retail rules above but are a separate, non-overlapping
    component, so descending-specificity is expected. */
 /* stylelint-disable no-descending-specificity */
+
+/* Outer <footer> is charcoal for the retail mega-footer; override when cbol. */
+footer:has(.footer-cbol),
 footer .footer-cbol {
   background: var(--citi-navy, #0f1632);
   color: #fff;
 }
 
+footer .footer-cbol {
+  padding-bottom: 50px; /* 3.125rem — live */
+}
+
 footer .footer-cbol-inner {
-  max-width: 1128px;
+  box-sizing: border-box;
+  width: 90%;
+  max-width: 1296px;
   margin: 0 auto;
-  padding: 30px 24px 40px;
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
 }
 
 footer .footer-cbol p { margin: 0; }
 
-/* Brand logo (white) */
-footer .footer-cbol-brand a { display: inline-block; }
-
-footer .footer-cbol-brand img {
-  display: block;
-  width: 64px;
-  height: auto;
-}
-
-/* Legal links: a single wrapping row — white, 14px, weight 400 (source) */
-footer .footer-cbol-legal ul {
+/* Nav: logo + social on first row; legal links full-width below (<1200) */
+footer .footer-cbol-nav {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px 24px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 24px 0 35px; /* live max-width 767 */
+  border-bottom: 1px solid #fff;
+}
+
+/* Brand logo — live svg is 3.9375rem × ~32px; source asset is 89×89 with
+   the wordmark clipped in the center, so crop to the live footprint. */
+footer .footer-cbol-brand {
+  width: 63px;
+  height: 32px;
+  overflow: hidden;
+  position: relative;
+}
+
+footer .footer-cbol-brand a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+}
+
+footer .footer-cbol-brand img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+
+  /* scale so the clipped wordmark (~56×32 in 89×89) ≈ 63×36 */
+  width: 100px;
+  height: auto;
+  max-width: none;
+  transform: translate(-50%, -50%);
+}
+
+/* Legal links — stacked on mobile (live max-width 1199) */
+footer .footer-cbol-legal {
+  order: 1;
+  width: 100%;
+  margin-top: 35px; /* 2.1875rem */
+}
+
+footer .footer-cbol-legal ul {
   margin: 0;
   padding: 0;
   list-style: none;
 }
 
+footer .footer-cbol-legal li {
+  margin-bottom: 20px; /* 1.25rem */
+  line-height: 0;
+}
+
+footer .footer-cbol-legal li:last-child { margin-bottom: 0; }
+
 footer .footer-cbol-legal a {
+  display: inline-block;
   color: #fff;
-  font-size: 14px;
+  font-size: 14px; /* 0.875rem */
   font-weight: 400;
+  font-family: citigold-text-bold, Helvetica, sans-serif;
+  line-height: 14px;
+  padding: 1px;
   text-decoration: none;
+  border-radius: 4px;
 }
 
 footer .footer-cbol-legal a:hover { text-decoration: underline; }
 
-/* Social icons row — white-fill SVGs render correctly on the navy band */
-footer .footer-cbol-social p {
+/* Social — top-right beside logo on mobile */
+footer .footer-cbol-social {
   display: flex;
   align-items: center;
-  gap: 20px;
 }
 
-footer .footer-cbol-social a { display: inline-flex; }
+footer .footer-cbol-social p {
+  display: inline-flex;
+  align-items: center;
+  margin: 0;
+}
+
+footer .footer-cbol-social p:first-child { margin-right: 21px; } /* 1.3125rem */
+footer .footer-cbol-social p:nth-child(2) { margin-right: 26px; } /* 1.625rem */
+footer .footer-cbol-social p:nth-child(3) { margin-right: 0; }
+
+footer .footer-cbol-social a {
+  display: inline-block;
+  height: 22px; /* 1.375rem */
+  border-radius: 4px;
+}
 
 footer .footer-cbol-social img {
   display: block;
@@ -293,106 +452,162 @@ footer .footer-cbol-social img {
   height: 22px;
 }
 
-/* Bottom band: badges + legal + copyright, above a subtle light divider */
-footer .footer-cbol-band {
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-  padding-top: 24px;
-  border-top: 1px solid rgb(255 255 255 / 20%);
-}
-
-footer .footer-cbol-band p:first-child {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-/* badges: FDIC mark is dark, Equal-Housing is white — force both white on navy */
-footer .footer-cbol-band img {
-  display: block;
-  height: 28px;
-  width: auto;
-  filter: brightness(0) invert(1);
-}
-
-footer .footer-cbol-band p {
-  font-size: 12px;
-  line-height: 1.5;
-  color: rgb(255 255 255 / 80%);
-}
-
-/* Legal disclosures: long-form T&C block, small muted text, above the badges */
+/* Terms / disclosures — live `.footer__terms` 14px / 1.5 */
 footer .footer-cbol-disclosures {
-  padding-top: 24px;
-  border-top: 1px solid rgb(255 255 255 / 20%);
+  padding-top: 30px; /* 1.875rem on mobile */
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #fff;
 }
 
 footer .footer-cbol-disclosures h4 {
   margin: 0 0 12px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 700;
   color: #fff;
 }
 
 footer .footer-cbol-disclosures p {
-  margin: 0 0 12px;
-  font-size: 11px;
+  margin: 1em 0 0;
+  font-size: 14px;
+  font-family: citigold-text-regular, Helvetica, sans-serif;
   line-height: 1.5;
-  color: rgb(255 255 255 / 70%);
+  color: #fff;
 }
 
-/* fee-schedule table */
+footer .footer-cbol-disclosures p:first-child { margin-top: 0; }
+
+/* Opening strong paragraph — live italic bold + extra top pad from tablet */
+footer .footer-cbol-disclosures > p:first-child {
+  font-weight: 700;
+  font-style: italic;
+  font-family: citigold-text-bold, Helvetica, sans-serif;
+}
+
+footer .footer-cbol-disclosures > p:first-child strong {
+  font-weight: 700;
+  font-style: italic;
+}
+
+footer .footer-cbol-disclosures a {
+  color: #fff;
+  text-decoration: underline;
+}
+
+/* fee-schedule table (deposit-account block renders a real <table>) */
 footer .footer-cbol-disclosures table {
   border-collapse: collapse;
-  margin: 12px 0;
-  font-size: 11px;
+  table-layout: fixed;
+  width: 100%;
+  margin: 48px auto; /* 3rem */
+  font-size: 14px;
+  line-height: 1.5;
 }
 
 footer .footer-cbol-disclosures th,
 footer .footer-cbol-disclosures td {
-  padding: 8px 16px;
-  border: 1px solid rgb(255 255 255 / 25%);
+  border: 1px solid #fff;
+  padding: 20px 5px 19px;
   text-align: left;
-  color: rgb(255 255 255 / 80%);
+  vertical-align: middle;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 400;
 }
 
-footer .footer-cbol-disclosures th { font-weight: 700; }
+footer .footer-cbol-disclosures thead th {
+  padding-top: 24px;
+  padding-bottom: 23px;
+}
 
-/* Desktop: logo + legal links share the top row, social to the right. */
-@media (width >= 992px) {
-  footer .footer-cbol-inner {
-    display: grid;
-    grid-template-columns: auto 1fr auto;
-    align-items: center;
-    gap: 16px 32px;
-  }
+/* Spacing comes from the table; do not border the block wrapper
+   (that drew an empty L-outline above the header). */
+footer .footer-cbol-disclosures .deposit-account {
+  margin: 0;
+  font-size: 14px;
+}
 
-  footer .footer-cbol-brand {
-    grid-column: 1;
-    grid-row: 1;
+/* Badges — live `.footer__icons` after all terms */
+footer .footer-cbol-badges {
+  display: flex;
+  align-items: center;
+  gap: 20px; /* fdic margin-right 1.25rem */
+  margin: 35px 0 0; /* 2.1875rem */
+  min-height: 30px;
+}
+
+footer .footer-cbol-badges img {
+  display: block;
+  height: 28px;
+  width: auto;
+
+  /* dark source assets → white on navy */
+  filter: brightness(0) invert(1);
+}
+
+/* ---------- Tablet (>= 768px) ---------- */
+@media (width >= 768px) {
+  footer .footer-cbol-nav {
+    padding: 24px 0 22px; /* padding-bottom 1.375rem */
+    margin-bottom: 30px; /* 1.875rem */
   }
 
   footer .footer-cbol-legal {
-    grid-column: 2;
-    grid-row: 1;
+    margin-top: 30px; /* 1.875rem */
   }
 
-  footer .footer-cbol-social {
-    grid-column: 3;
-    grid-row: 1;
+  footer .footer-cbol-legal ul {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
   }
 
-  /* disclosures + bottom band each span the full width on their own rows */
-  footer .footer-cbol-disclosures {
-    grid-column: 1 / -1;
-    grid-row: 2;
+  footer .footer-cbol-legal li {
+    margin-bottom: 20px;
+    padding-right: 10px; /* 0.625rem */
   }
 
-  footer .footer-cbol-band {
-    grid-column: 1 / -1;
-    grid-row: 3;
+  footer .footer-cbol-social p:first-child { margin-right: 31px; } /* 1.9375rem */
+  footer .footer-cbol-social p:nth-child(2) { margin-right: 34px; } /* 2.125rem */
+  footer .footer-cbol-social p:nth-child(3) { margin-right: 5px; } /* 0.3125rem */
+
+  footer .footer-cbol-disclosures { padding-top: 0; }
+
+  footer .footer-cbol-disclosures > p:first-child {
+    padding-top: 48px; /* 3rem — live tablet+ strong-text */
   }
+}
+
+/* ---------- Desktop (>= 1200px) — logo | centered 600px links | social ---------- */
+@media (width >= 1200px) {
+  /* Keep width:90% / max-width:1296px from base — live computes 1296 at 1440 */
+
+  footer .footer-cbol-nav {
+    padding: 30px 0; /* 1.875rem */
+    margin-bottom: 30px;
+  }
+
+  footer .footer-cbol-legal {
+    order: 0;
+    width: 600px; /* 37.5rem */
+    margin: 1px auto 0;
+  }
+
+  footer .footer-cbol-legal ul {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+  }
+
+  footer .footer-cbol-legal li {
+    margin-bottom: 0;
+    padding-right: 0;
+  }
+
+  footer .footer-cbol-social p:first-child { margin-right: 12px; } /* 0.75rem */
+  footer .footer-cbol-social p:nth-child(2) { margin-right: 16px; } /* 1rem */
+  footer .footer-cbol-social p:nth-child(3) { margin-right: -3px; }
 }
 
 /* stylelint-enable no-descending-specificity */

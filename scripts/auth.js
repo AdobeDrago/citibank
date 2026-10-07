@@ -20,10 +20,10 @@ const SIMULATION_HOSTS = /(^localhost$|\.aem\.page$|\.aem\.live$)/;
 const GATE_HEADINGS = ['log in to view content'];
 
 // Stand-in for a real Adobe ECID/segment signal — lets a logged-in visitor be
-// treated as segment B for Pega decisioning until real identity/ECID lands.
+// treated as segment A for CF GraphQL variations / Pega until real identity lands.
 // Its presence is also the simulated session flag itself: no separate flag.
 const SEGMENT_COOKIE = 'ecid';
-const SEGMENT_VALUE = 'seg-b';
+const SEGMENT_VALUE = 'seg-a';
 
 /**
  * @param {string} name the cookie to read
@@ -45,6 +45,10 @@ function syncSegmentCookie(authenticated) {
   } else {
     document.cookie = `${SEGMENT_COOKIE}=; path=/; max-age=0; samesite=lax${secure}`;
   }
+  document.dispatchEvent(new CustomEvent('authchange', {
+    bubbles: true,
+    detail: { authenticated },
+  }));
 }
 
 /**
@@ -58,7 +62,7 @@ export function isSimulationEnabled() {
  * @returns {boolean} whether the visitor is (simulated) authenticated
  */
 export function isAuthenticated() {
-  return isSimulationEnabled() && readCookie(SEGMENT_COOKIE) === SEGMENT_VALUE;
+  return isSimulationEnabled() && Boolean(readCookie(SEGMENT_COOKIE));
 }
 
 /**

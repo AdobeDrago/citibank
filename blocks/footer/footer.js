@@ -6,6 +6,11 @@
 //   then a legal-disclosures band: <h4> + <p>… + logo <p>
 // footer.js READS this DOM; it never invents copy.
 
+import { decorateBlock, loadBlock } from '../../scripts/aem.js';
+import {
+  getLocale, SPANISH_LOCALE, fetchTranslationDictionary, applyTranslations,
+} from '../../scripts/i18n.js';
+
 /**
  * The banking brand (banking.citi.com, served by the banking-citibank site) ships a
  * distinct compact legal footer — logo, a single row of legal links, social icons, and
@@ -54,41 +59,75 @@ async function loadFooterFragmentNamed(name) {
 /** Backwards-compatible loader for the default retail footer fragment. */
 const loadFooterFragment = () => loadFooterFragmentNamed('footer');
 
+function classifyCbolSection(sec) {
+  if (sec.querySelector(':scope > h4')) return 'disclosures';
+  if (sec.querySelector(':scope > ul')) return 'legal';
+  const links = sec.querySelectorAll(':scope > p > a');
+  if (links.length === 1 && sec.querySelectorAll(':scope > p').length === 1
+    && sec.querySelector(':scope > p > a img')) return 'brand';
+  if (links.length >= 1 && sec.querySelector(':scope > p > a img')
+    && sec.querySelectorAll(':scope > p').length > 1) return 'social';
+  return 'disclosures';
+}
+
+function extractCbolBadges(disclosures) {
+  const imgOnlyParas = [...disclosures.querySelectorAll(':scope > p')].filter(
+    (p) => p.querySelector('img') && !p.textContent.trim(),
+  );
+  if (!imgOnlyParas.length) return null;
+  const badges = document.createElement('div');
+  badges.className = 'footer-cbol-badges';
+  imgOnlyParas.forEach((p) => {
+    [...p.childNodes].forEach((node) => badges.append(node));
+    p.remove();
+  });
+  return badges;
+}
+
 /**
  * Render the compact cbol landing footer. Fragment sections, in order:
  *   [0] logo:        <p><a><img></a></p>
  *   [1] legal:       <ul> of legal links
  *   [2] social:      <p> of image links
- *   [3] disclosures: <h4> + long-form legal T&C (incl. the fee-schedule table)
- *   [4] band:        badges <p>(imgs) + legal <p> + copyright <p>
- * A single navy bar — no accordion columns.
+ *   [3] disclosures: long-form legal T&C (+ optional trailing badge imgs)
+ * Structure matches live: nav row (logo | links | social) → terms → badges.
+ *
+ * Do not convert `.deposit-account` into a static table here — that block
+ * loads IN/OUT fee rows from /cbol/zipcode-bta.json via deposit-account.js.
  */
 function renderCbolFooter(block, frag) {
   const sections = [...frag.children].filter((el) => el.tagName === 'DIV');
   const inner = document.createElement('div');
   inner.className = 'footer-cbol-inner';
 
-  const classFor = (sec) => {
-    // disclosures = the long-form "Important Legal Disclosures" T&C block (h4)
-    if (sec.querySelector(':scope > h4')) return 'footer-cbol-disclosures';
-    if (sec.querySelector(':scope > ul')) return 'footer-cbol-legal';
-    const links = sec.querySelectorAll(':scope > p > a');
-    // brand = a single linked logo image in a single paragraph
-    if (links.length === 1 && sec.querySelectorAll(':scope > p').length === 1
-      && sec.querySelector(':scope > p > a > img')) return 'footer-cbol-brand';
-    // social = a row of multiple linked icons
-    if (links.length > 1 && sec.querySelector(':scope > p > a > img')) return 'footer-cbol-social';
-    return 'footer-cbol-band';
-  };
+  const nav = document.createElement('div');
+  nav.className = 'footer-cbol-nav';
 
   sections.forEach((sec) => {
+    const type = classifyCbolSection(sec);
     const band = document.createElement('div');
-    band.className = classFor(sec);
+    band.className = `footer-cbol-${type}`;
     while (sec.firstChild) band.append(sec.firstChild);
+
+    if (type === 'brand' || type === 'legal' || type === 'social') {
+      nav.append(band);
+      return;
+    }
+
+    const badges = extractCbolBadges(band);
     inner.append(band);
+    if (badges) inner.append(badges);
   });
 
+  if (nav.children.length) inner.prepend(nav);
   block.append(inner);
+
+  // Fragment content never passes through decorateBlocks, so load the
+  // deposit-account fee schedule (ZIP → BTA IN/OUT sheet rows) here.
+  inner.querySelectorAll('.deposit-account').forEach((fees) => {
+    decorateBlock(fees);
+    loadBlock(fees);
+  });
 }
 
 /** Classify a top-level fragment section by its content shape. */
@@ -98,6 +137,175 @@ function classify(section) {
   if (section.querySelector(':scope > p > a > img')) return 'social';
   if (section.querySelector(':scope > ul')) return 'legal';
   return 'other';
+}
+
+// Cached across locale toggles so a rebuild re-reads the pristine authored
+// fragment instead of an already-mutated DOM (mirrors blocks/header/header.js).
+let cachedFooterFrag = null;
+let localeListenerAttached = false;
+let resizeListenerAttached = false;
+const isDesktopMql = window.matchMedia('(min-width: 900px)');
+
+/**
+ * Mobile: column headings act as accordion toggles (collapsed by default).
+ * On desktop the CSS keeps every list expanded and disables the toggle.
+ * @param {Element} columnsBand
+ */
+function wireFooterAccordion(columnsBand) {
+  columnsBand.querySelectorAll('.footer-column').forEach((col) => {
+    const heading = col.querySelector('h2');
+    const list = col.querySelector('ul');
+    if (!heading || !list) return;
+    // A real <button> inside the heading keeps the h2 semantics intact
+    // (role="button" on the h2 itself erases it from the heading outline).
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.className = 'footer-column-toggle';
+    button.setAttribute('aria-expanded', 'false');
+    button.append(...heading.childNodes);
+    heading.append(button);
+    const toggle = () => {
+      if (isDesktopMql.matches) return;
+      const open = col.getAttribute('aria-expanded') === 'true';
+      col.setAttribute('aria-expanded', open ? 'false' : 'true');
+      button.setAttribute('aria-expanded', open ? 'false' : 'true');
+    };
+    button.addEventListener('click', toggle);
+  });
+
+  // Registered once and delegated against whatever `.footer-column`s are
+  // currently live — a locale toggle replaces the footer content, so a
+  // listener closed over this specific columnsBand would keep firing on a
+  // detached element after the first switch.
+  if (resizeListenerAttached) return;
+  resizeListenerAttached = true;
+  isDesktopMql.addEventListener('change', () => {
+    document.querySelectorAll('.footer-column').forEach((col) => {
+      col.setAttribute('aria-expanded', 'false');
+      col.querySelector('.footer-column-toggle')?.setAttribute('aria-expanded', 'false');
+    });
+  });
+}
+
+/**
+ * Builds the full retail footer from a (never-mutated) parsed footer
+ * fragment. Callable more than once against the same `frag` — safe to call
+ * again after a locale switch to get back a clean, untranslated footer.
+ * @param {Element} frag
+ * @returns {DocumentFragment}
+ */
+function buildFooterContent(frag) {
+  // The section-grouping logic below MOVES nodes out of each section (not
+  // cloneNode) — clone the whole fragment up front so `frag` itself (cached
+  // for a later locale-switch rebuild) is never consumed/emptied.
+  const clone = frag.cloneNode(true);
+  const sections = [...clone.children].filter((el) => el.tagName === 'DIV');
+  const nav = document.createElement('div');
+  nav.className = 'footer-nav';
+
+  // Group the leading run of column sections into a single link-columns band.
+  const columnsBand = document.createElement('div');
+  columnsBand.className = 'footer-columns';
+  let i = 0;
+  while (i < sections.length && classify(sections[i]) === 'column') {
+    const col = document.createElement('div');
+    col.className = 'footer-column';
+    while (sections[i].firstChild) col.append(sections[i].firstChild);
+    columnsBand.append(col);
+    i += 1;
+  }
+  if (columnsBand.children.length) nav.append(columnsBand);
+
+  // Remaining sections: social/app, legal (copyright + links), disclosures.
+  let logoBand;
+  let otherMainWrapper;
+  let leftWrapper;
+  let rightWrapper;
+  for (; i < sections.length; i += 1) {
+    const type = classify(sections[i]);
+    const band = document.createElement('div');
+    band.className = `footer-${type}`;
+    while (sections[i].firstChild) band.append(sections[i].firstChild);
+    const hasImage = band.querySelector(
+      ':scope > picture, :scope > img, :scope > p > picture, :scope > p > img',
+    );
+    if (type === 'other' && hasImage) {
+      band.classList.replace('footer-other', 'footer-logo');
+      logoBand = band;
+    } else if (type === 'other') {
+      if (!otherMainWrapper) {
+        otherMainWrapper = document.createElement('div');
+        otherMainWrapper.className = 'footer-other-main-wrapper';
+
+        leftWrapper = document.createElement('div');
+        leftWrapper.className = 'footer-other-left-wrapper';
+
+        rightWrapper = document.createElement('div');
+        rightWrapper.className = 'footer-other-right-wrapper';
+
+        otherMainWrapper.append(leftWrapper, rightWrapper);
+        nav.append(otherMainWrapper);
+      }
+
+      if (!leftWrapper.firstElementChild) leftWrapper.append(band);
+      else rightWrapper.append(band);
+    } else {
+      nav.append(band);
+    }
+  }
+
+  // Source ships a responsive-duplicate logo node (two logo images) for content
+  // parity. Keep the first visible and hide the rest with a dedicated class
+  // (never a positional selector) so exactly one logo renders.
+  const disclosures = nav.querySelector('.footer-disclosures');
+  if (disclosures) {
+    const logoParas = [...disclosures.querySelectorAll(':scope > p')]
+      .filter((p) => p.querySelector('img'));
+    logoParas.slice(1).forEach((p) => p.classList.add('footer-logo-duplicate'));
+
+    // Authors use <h4> to mark this section (see sectionKind), but it follows
+    // the <h2> column headings — render it as <h3> so the outline doesn't skip.
+    disclosures.querySelectorAll(':scope > h4').forEach((h4) => {
+      const h3 = document.createElement('h3');
+      [...h4.attributes].forEach(({ name, value }) => h3.setAttribute(name, value));
+      h3.append(...h4.childNodes);
+      h4.replaceWith(h3);
+    });
+  }
+
+  const footer = document.createElement('div');
+  footer.className = 'footer-inner';
+  footer.append(nav);
+
+  const content = document.createDocumentFragment();
+  content.append(footer);
+  if (logoBand) content.append(logoBand);
+
+  wireFooterAccordion(columnsBand);
+  return content;
+}
+
+/** Applies the current locale's translations to a freshly-built footer. */
+async function applyCurrentLocale(root) {
+  const locale = getLocale();
+  const dict = locale === SPANISH_LOCALE ? await fetchTranslationDictionary() : {};
+  applyTranslations(root, dict, locale);
+}
+
+/**
+ * Once per page, reacts to a locale switch (fired by the header's toggle) by
+ * rebuilding the footer from the cached pristine fragment and re-applying
+ * translations for the new locale.
+ * @param {Element} block
+ */
+function wireLocaleReactivity(block) {
+  if (localeListenerAttached) return;
+  localeListenerAttached = true;
+  document.addEventListener('localechange', async () => {
+    if (!cachedFooterFrag || isBankingBrand()) return;
+    block.replaceChildren(buildFooterContent(cachedFooterFrag));
+    await applyCurrentLocale(block);
+  });
 }
 
 /**
@@ -120,76 +328,9 @@ export default async function decorate(block) {
 
   const frag = await loadFooterFragment();
   if (!frag) return;
+  cachedFooterFrag = frag;
 
-  const sections = [...frag.children].filter((el) => el.tagName === 'DIV');
-  const nav = document.createElement('div');
-  nav.className = 'footer-nav';
-
-  // Group the leading run of column sections into a single link-columns band.
-  const columnsBand = document.createElement('div');
-  columnsBand.className = 'footer-columns';
-  let i = 0;
-  while (i < sections.length && classify(sections[i]) === 'column') {
-    const col = document.createElement('div');
-    col.className = 'footer-column';
-    while (sections[i].firstChild) col.append(sections[i].firstChild);
-    columnsBand.append(col);
-    i += 1;
-  }
-  if (columnsBand.children.length) nav.append(columnsBand);
-
-  // Remaining sections: social/app, legal (copyright + links), disclosures.
-  for (; i < sections.length; i += 1) {
-    const type = classify(sections[i]);
-    const band = document.createElement('div');
-    band.className = `footer-${type}`;
-    while (sections[i].firstChild) band.append(sections[i].firstChild);
-    nav.append(band);
-  }
-
-  // Source ships a responsive-duplicate logo node (two logo images) for content
-  // parity. Keep the first visible and hide the rest with a dedicated class
-  // (never a positional selector) so exactly one logo renders.
-  const disclosures = nav.querySelector('.footer-disclosures');
-  if (disclosures) {
-    const logoParas = [...disclosures.querySelectorAll(':scope > p')]
-      .filter((p) => p.querySelector('img'));
-    logoParas.slice(1).forEach((p) => p.classList.add('footer-logo-duplicate'));
-  }
-
-  const footer = document.createElement('div');
-  footer.className = 'footer-inner';
-  footer.append(nav);
-  block.append(footer);
-
-  // Mobile: column headings act as accordion toggles (collapsed by default).
-  // On desktop the CSS keeps every list expanded and disables the toggle.
-  const isDesktop = window.matchMedia('(min-width: 900px)');
-  columnsBand.querySelectorAll('.footer-column').forEach((col) => {
-    const heading = col.querySelector('h2');
-    const list = col.querySelector('ul');
-    if (!heading || !list) return;
-    heading.setAttribute('role', 'button');
-    heading.setAttribute('tabindex', '0');
-    heading.setAttribute('aria-expanded', 'false');
-    const toggle = () => {
-      if (isDesktop.matches) return;
-      const open = col.getAttribute('aria-expanded') === 'true';
-      col.setAttribute('aria-expanded', open ? 'false' : 'true');
-      heading.setAttribute('aria-expanded', open ? 'false' : 'true');
-    };
-    heading.addEventListener('click', toggle);
-    heading.addEventListener('keydown', (e) => {
-      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggle(); }
-    });
-  });
-
-  // Reset accordion state when crossing the breakpoint so desktop is never left collapsed.
-  isDesktop.addEventListener('change', () => {
-    columnsBand.querySelectorAll('.footer-column').forEach((col) => {
-      col.setAttribute('aria-expanded', 'false');
-      const h = col.querySelector('h2');
-      if (h) h.setAttribute('aria-expanded', 'false');
-    });
-  });
+  block.append(buildFooterContent(frag));
+  await applyCurrentLocale(block);
+  wireLocaleReactivity(block);
 }

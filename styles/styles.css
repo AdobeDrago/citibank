@@ -10,6 +10,59 @@
  * governing permissions and limitations under the License.
  */
 
+ @font-face {
+  font-family: "Interstate_Bold";
+  src: url("/fonts/Interstate-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Interstate_Light";
+  src: url("/fonts/Interstate-Light.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+
+ @font-face {
+  font-family: citigold-display-bold;
+  src: url("/fonts/Citi-Sans-Display-Bold.woff2") format("woff2");
+  font-weight: 700;
+}
+
+ @font-face {
+  font-family: citigold-display-regular;
+  src: url("/fonts/Citi-Sans-Display-Regular.woff2") format("woff2");
+  font-weight: 400;
+}
+
+@font-face {
+  font-family: citigold-text-regular;
+  src: url("/fonts/Citi-Sans-Text-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: citigold-text-bold;
+  src: url("/fonts/Citi-Sans-Text-Bold.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: citigold-display-regular-italic;
+  src: url("/fonts/Citi-Serif-Display-Regular-Italic.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: citigold-condensed-regular;
+  src: url("/fonts/Citi-Sans-Condensed-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+
 :root {
   /* colors - Citigold Featured Offer (banking.citi.com), extracted 2026-08-11 */
   --background-color: white;
@@ -30,10 +83,20 @@
   --citi-card-radius: 20px;
   --citi-button-radius: 100px;
 
+  /* Retail credit-card PDP tokens */
+  --citi-retail-link: #056dae;
+  --citi-retail-navy: #043567;
+  --citi-retail-cta: #002d72;
+  --citi-retail-divider: #d8d8d8;
+  --citi-retail-divider-light: rgb(204 204 204);
+  --citi-retail-border: #e3e3e3;
+  --citi-retail-bg-light: #f7f7f7;
+
   /* fonts */
   --body-font-family: "Citi Sans Text", citi-sans-text-fallback, sans-serif;
   --heading-font-family: "Citi Sans Display", citi-sans-display-fallback, sans-serif;
   --accent-font-family: "Citi Serif Display", citi-serif-display-fallback, serif;
+  --bold-font-family: "Overpass", var(--body-font-family);
 
   /* body sizes */
   --body-font-size-m: 22px;
@@ -48,8 +111,9 @@
   --heading-font-size-s: 24px;
   --heading-font-size-xs: 22px;
 
-  /* nav height */
-  --nav-height: 64px;
+  /* nav height — rendered height of the two-row header (utility bar + main
+     nav); reserved up front so the lazily loaded header doesn't shift main */
+  --nav-height: 122px;
 
   /*
    * Multi-brand token contract. Each brand overrides these in
@@ -97,6 +161,8 @@
 
 @media (width >= 992px) {
   :root {
+    --nav-height: 148px;
+
     /* body sizes */
     --body-font-size-m: 18px;
     --body-font-size-s: 16px;
@@ -124,6 +190,11 @@ body {
 
 body.appear {
   display: block;
+}
+
+body.dark.credit-card-pdp:not(.header-wrapper){
+  background-color: #000;
+  color:#fff;
 }
 
 /* Two-row Citi header: reserve at least the fallback nav height to avoid CLS,
@@ -441,6 +512,15 @@ main .section.light-grey {
   padding: 40px 0;
 }
 
+/* On the dark theme this is the only band that is not transparent over the
+   black page, so it inverts to a faintly raised dark panel instead. */
+body.dark.credit-card-pdp main .section.light-grey {
+  background-color: #141618;
+}
+
+/* Disable descending specificity check across template-scoped sections */
+/* stylelint-disable no-descending-specificity */
+
 /*
  * Credit-cards PDP template overrides.
  * Scoped to body.credit-card-pdp (the class decorateTemplateAndTheme adds from the
@@ -457,7 +537,6 @@ body.credit-card-pdp main > .section > div {
 /* Citi credit-cards headings are light (weight 400), not the global 600.
  * These template-scoped rules intentionally appear after the section-color
  * heading rules above; specificity ordering is not a concern here. */
-/* stylelint-disable no-descending-specificity */
 body.credit-card-pdp main h1,
 body.credit-card-pdp main h2,
 body.credit-card-pdp main h3,
@@ -466,7 +545,6 @@ body.credit-card-pdp main h5,
 body.credit-card-pdp main h6 {
   font-weight: 400;
 }
-/* stylelint-enable no-descending-specificity */
 
 /* Section-level default-content headings render centered on the source.
  * Base size 28px (e.g. "Find the right card for you"). */
@@ -481,7 +559,94 @@ body.credit-card-pdp main > .section > div > h2 {
  * .default-content-wrapper; the .cards block is a sibling wrapper in the same
  * section, so scope to a section that contains a .cards block. */
 body.credit-card-pdp main > .section:has(.cards) > div > h2 {
-  font-size: 36px;
+  margin: 0 0 24px;
+  font-size: 28px;
+  line-height: 34px;
+  letter-spacing: 1.808px;
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp main > .section:has(.cards) > div > h2 {
+    margin-bottom: 48px;
+    font-size: 36px;
+    line-height: 42px;
+  }
+}
+
+body.credit-card-pdp .section.columns-container {
+  padding: 0 12px;
+  margin: 24px auto;
+}
+
+body.credit-card-pdp .section.columns-container > div {
+  padding: 0;
+}
+
+body.credit-card-retail-pdp strong,
+body.credit-card-retail-pdp b {
+  font-family: var(--bold-font-family);
+}
+
+/*
+ * Retail hero mega-section: keep offer cards + disclaimer on the same
+ * horizontal box as the hero (.citi-container / .box — max 1520, 5% sides).
+ * Without this, cards-wrapper falls back to the global 1200px / 32px inset and
+ * misaligns under the card-art column.
+ */
+body.credit-card-retail-pdp .section.hero-container > .cards-wrapper,
+body.credit-card-retail-pdp .section.hero-container > .cards-wrapper + .default-content-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .section.hero-container > .cards-wrapper,
+  body.credit-card-retail-pdp .section.hero-container > .cards-wrapper + .default-content-wrapper {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .section.hero-container > .cards-wrapper,
+  body.credit-card-retail-pdp .section.hero-container > .cards-wrapper + .default-content-wrapper {
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+}
+
+body.credit-card-retail-pdp .section.hero-container > .cards-wrapper + .default-content-wrapper {
+  margin-top: 8px;
+  padding-top: 16px;
+  padding-bottom: 0;
+}
+
+body.credit-card-retail-pdp .section.hero-container > .cards-wrapper + .default-content-wrapper > p {
+  margin: 0 0 16px;
+  color: rgb(74 74 74);
+  font-size: 16px;
+  font-weight: 100;
+  line-height: 22px;
+}
+
+body.credit-card-retail-pdp .section.hero-container > .cards-wrapper + .default-content-wrapper > p:last-child {
+  margin-bottom: 0;
+  padding-bottom: 24px;
+  color: rgb(5 109 174);
+  font-weight: 300;
+  line-height: 24px;
+  cursor: pointer;
+}
+
+body.credit-card-retail-pdp .section.hero-container > .cards-wrapper + .default-content-wrapper > p:last-child a:any-link {
+  color: rgb(5 109 174);
+  font-weight: 300;
+  text-decoration: none;
 }
 
 /*
@@ -497,9 +662,736 @@ body.credit-card-retail-pdp main > .section:not(.hero-container) > .default-cont
   margin-bottom: 24px;
 }
 
+body.credit-card-retail-pdp .section.hero-container.cards-container:has(+ .section) {
+  margin-bottom: 0;
+}
+
+body.credit-card-retail-pdp .section.rewards-section {
+  margin-top: 0;
+}
+
+body.credit-card-retail-pdp main > .section.rewards-section > .default-content-wrapper {
+  box-sizing: border-box;
+  display: flow-root;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+body.credit-card-retail-pdp main > .section.rewards-section > .default-content-wrapper::before {
+  content: '';
+  display: block;
+  margin: 30px 0;
+  border-top: 1px solid var(--citi-retail-divider);
+  border-bottom: 1px solid var(--text-color);
+  box-shadow: rgb(0 0 0 / 7%) 0 -6px 17px 4px;
+  background: rgb(0 0 0 / 25%);
+}
+
+body.credit-card-retail-pdp .section.rewards-section > .default-content-wrapper > h2 {
+  margin: 0 0 20px;
+  font-family: var(--heading-font-family);
+  font-size: 1rem;
+  font-weight: 700;
+  line-height: 1.5rem;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  color: var(--text-color);
+}
+
+body.credit-card-retail-pdp main > .section > .columns-wrapper:has(.columns-2-cols):not(:has(.columns-img-col)) {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin: 30px auto 0;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp main > .section.rewards-section > .default-content-wrapper {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  body.credit-card-retail-pdp main > .section.rewards-section > .default-content-wrapper::before {
+    margin: 45px 0;
+  }
+
+  body.credit-card-retail-pdp .section.rewards-section > .default-content-wrapper > h2 {
+    width: 80%;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    line-height: 2.5rem;
+  }
+
+  body.credit-card-retail-pdp main > .section > .columns-wrapper:has(.columns-2-cols):not(:has(.columns-img-col)) {
+    margin-top: 30px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp main > .section.rewards-section > .default-content-wrapper {
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+
+  body.credit-card-retail-pdp .section.rewards-section > .default-content-wrapper > h2 {
+    width: auto;
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    line-height: 2.5rem;
+  }
+
+  body.credit-card-retail-pdp main > .section > .columns-wrapper:has(.columns-2-cols):not(:has(.columns-img-col)) {
+    margin-top: 45px;
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+}
+
+body.credit-card-retail-pdp main > .section > .default-content-wrapper:has(+ .tabs-wrapper) {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+/* Beat main > .section … :first-child:not(:last-child) { margin-bottom: 24px }
+ * so H2’s own 20px is the only gap above the tabs (matches live .sub-heading). */
+body.credit-card-retail-pdp main > .section > .default-content-wrapper:has(+ .tabs-wrapper):first-child:not(:last-child) {
+  margin-bottom: 0;
+}
+
+body.credit-card-retail-pdp .default-content-wrapper:has(+ .tabs-wrapper) > h2 {
+  margin: 0 0 20px;
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  color: var(--text-color);
+}
+
+body.credit-card-retail-pdp .tabs-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > h2 {
+  margin: 0 0 20px;
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  color: var(--text-color);
+}
+
+body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > h2 strong {
+  font-family: var(--bold-font-family);
+  font-weight: 700;
+}
+
+body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > h2 sup {
+  font-size: 0.875em;
+  line-height: inherit;
+}
+
+body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > ol {
+  margin: 30px 0 16px;
+  padding: 0 0 0 32px;
+  list-style: decimal outside;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 100;
+  line-height: 24px;
+  color: var(--text-color);
+  opacity: 0.92;
+}
+
+body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > ol > li {
+  margin: 0;
+  padding: 0;
+  font-size: 16px;
+  font-weight: 100;
+  line-height: 24px;
+  color: var(--text-color);
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .section.benefits > .default-content-wrapper,
+  body.credit-card-retail-pdp main > .section > .default-content-wrapper:has(+ .tabs-wrapper) {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  body.credit-card-retail-pdp .section.benefits > .default-content-wrapper > h2,
+  body.credit-card-retail-pdp .default-content-wrapper:has(+ .tabs-wrapper) > h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    line-height: 34px;
+  }
+
+  body.credit-card-retail-pdp .tabs-wrapper {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > h2 {
+    margin-bottom: 10px;
+    font-size: 24px;
+    line-height: 34px;
+  }
+
+  body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > h2 sup {
+    font-size: 0.875rem;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .section.benefits > .default-content-wrapper,
+  body.credit-card-retail-pdp main > .section > .default-content-wrapper:has(+ .tabs-wrapper) {
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+
+  body.credit-card-retail-pdp .section.benefits > .default-content-wrapper > h2,
+  body.credit-card-retail-pdp .default-content-wrapper:has(+ .tabs-wrapper) > h2 {
+    margin-bottom: 20px;
+    line-height: 40px;
+  }
+
+  body.credit-card-retail-pdp .tabs-wrapper {
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+
+  body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper {
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+
+  body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > h2 {
+    margin-bottom: 20px;
+    line-height: 40px;
+  }
+
+  body.credit-card-retail-pdp .section.how-it-works > .default-content-wrapper > h2 sup {
+    font-size: 1.25rem;
+  }
+}
+
+body.credit-card-retail-pdp .section.benefits,
+body.credit-card-retail-pdp .section.how-it-works,
+body.credit-card-retail-pdp .section.faq,
+body.credit-card-retail-pdp .section.pricing-details,
+body.credit-card-retail-pdp .section.faq + .section {
+  /* Spacers (::before) own the vertical rhythm — drop default section stack */
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+body.credit-card-retail-pdp .section.benefits > :first-child::before,
+body.credit-card-retail-pdp .section.how-it-works > :first-child::before,
+body.credit-card-retail-pdp .section.faq > :first-child::before,
+body.credit-card-retail-pdp .section.pricing-details > :first-child::before,
+body.credit-card-retail-pdp .section.faq + .section > :first-child::before {
+  content: '';
+  display: block;
+  flex: 0 0 100%;
+  width: 100%;
+  margin: 30px 0;
+  border-bottom: 1px solid var(--citi-retail-divider);
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .section.benefits > :first-child::before,
+  body.credit-card-retail-pdp .section.how-it-works > :first-child::before,
+  body.credit-card-retail-pdp .section.faq > :first-child::before,
+  body.credit-card-retail-pdp .section.pricing-details > :first-child::before,
+  body.credit-card-retail-pdp .section.faq + .section > :first-child::before {
+    margin: 45px 0;
+  }
+}
+
+body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper) {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+
+  /* Live mobile: H2 mb 20 then Expand; row-gap recreates that stack gap.
+   * Column gap unused until tablet (Expand sits on the H2 row). */
+  gap: 20px 16px;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+
+  /* Live stacks Expand under H2; .rightSide mb 20 + ~15px parent chrome ≈ 35 */
+  margin-bottom: 0;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+/* Beat main > .section … :first-child:not(:last-child) { margin-bottom: 24px }.
+ * Re-asserted at each breakpoint so tablet 10px / desktop 20px can win. */
+body.credit-card-retail-pdp main > .section > .default-content-wrapper:has(+ .accordion-wrapper):first-child:not(:last-child) {
+  margin-bottom: 0;
+}
+
+body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper) > h2 {
+  flex: 1 1 100%;
+  margin: 0;
+  padding: 0 55px 0 0;
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  color: var(--text-color);
+  text-align: left;
+}
+
+body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper) .accordion-expand-all {
+  flex: 0 0 auto;
+
+  /* Live .rightSide: mb 20 + extra parent height ≈ expand→list 37px */
+  margin: 0 0 35px;
+  font-family: var(--body-font-family);
+  font-size: 12px;
+  font-weight: 300;
+  line-height: 13px;
+  color: var(--citi-retail-link);
+  text-align: right;
+  text-decoration: underline;
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper) .accordion-expand-all:hover,
+body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper) .accordion-expand-all:focus-visible {
+  color: var(--citi-retail-link);
+}
+
+body.credit-card-retail-pdp .accordion-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper),
+  body.credit-card-retail-pdp main > .section > .default-content-wrapper:has(+ .accordion-wrapper):first-child:not(:last-child) {
+    /* Live H2 mb 10 with Expand on the same row */
+    gap: 0 16px;
+    margin-bottom: 10px;
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper) > h2 {
+    flex: 1 1 auto;
+    padding-right: 0;
+    font-size: 24px;
+    line-height: 34px;
+  }
+
+  body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper) .accordion-expand-all {
+    /* Live .rightSide float:right; margin-right: 30px */
+    margin: 0 30px 0 0;
+    font-size: 16px;
+    font-weight: 100;
+    line-height: 24px;
+  }
+
+  body.credit-card-retail-pdp .accordion-wrapper {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper),
+  body.credit-card-retail-pdp main > .section > .default-content-wrapper:has(+ .accordion-wrapper):first-child:not(:last-child) {
+    margin-bottom: 20px;
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+
+  body.credit-card-retail-pdp .default-content-wrapper:has(+ .accordion-wrapper) > h2 {
+    line-height: 40px;
+  }
+
+  body.credit-card-retail-pdp .accordion-wrapper {
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+}
+
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 0 5.33%;
+}
+
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper h2 {
+  flex: 1 1 100%;
+  margin: 0 0 20px;
+  font-family: var(--heading-font-family);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  color: var(--text-color);
+  text-align: left;
+}
+
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p {
+  flex: 1 1 100%;
+  margin: 0 0 20px;
+  font-family: var(--body-font-family);
+  font-size: 14px;
+  font-weight: 100;
+  line-height: 24px;
+  color: var(--text-color);
+}
+
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper h2 strong,
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:not(:has(a)) > strong {
+  color: inherit;
+  font-family: var(--body-font-family);
+  font-weight: inherit;
+  text-decoration: none;
+}
+
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a),
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) + p {
+  margin: 30px 0 20px;
+  line-height: 13px;
+}
+
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) a:any-link,
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) > strong,
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) + p > strong,
+body.credit-card-retail-pdp .default-content-wrapper:has([id*="terms--conditions"]) > p:has(> sup) {
+  color: var(--citi-retail-link);
+  text-decoration: underline;
+  font-size: 16px;
+  font-weight: 100;
+  cursor: pointer;
+  font-family: var(--body-font-family);
+}
+
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) a:hover,
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) a:focus-visible {
+  color: var(--citi-retail-link);
+}
+
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) a sup,
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) strong sup,
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) + p > strong > sup,
+body.credit-card-retail-pdp .default-content-wrapper:has([id*="terms--conditions"]) > p:has(> sup) > sup {
+  font-size: 12px;
+  line-height: 1.19;
+  color: var(--citi-retail-link);
+  text-decoration: none;
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper {
+    padding: 0 40px;
+  }
+
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper h2 {
+    font-size: 24px;
+    line-height: 40px;
+  }
+
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p {
+    font-size: 16px;
+    line-height: 24px;
+  }
+
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a),
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) + p,
+  body.credit-card-retail-pdp .default-content-wrapper:has([id*="terms--conditions"]) > p:has(> sup) {
+    flex: 0 1 auto;
+    margin: 50px 70px 50px 0;
+    line-height: 1.19;
+  }
+
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a):last-child,
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) + p:last-child,
+  body.credit-card-retail-pdp .default-content-wrapper:has([id*="terms--conditions"]) > p:has(> sup):last-child {
+    margin-right: 0;
+  }
+
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > p:has(a) a:any-link {
+    margin-right: 70px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper {
+    padding: 0 calc(0.05 * min(100vw, 1520px));
+  }
+}
+
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > h2#disclosures,
+body.credit-card-retail-pdp .section.pricing-details > .default-content-wrapper > h2#disclosures strong {
+  font-weight: 900;
+}
+
+body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wrapper > h3 {
+  margin: 0 0 8px;
+  font-family: var(--heading-font-family);
+  font-size: 22px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: var(--text-color);
+}
+
+body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wrapper > h3 strong {
+  font-weight: 700;
+  color: inherit;
+}
+
+body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wrapper > p {
+  margin: 0 0 20px;
+  font-family: var(--body-font-family);
+  font-size: 16px;
+  font-weight: 100;
+  line-height: 24px;
+  color: var(--text-color);
+}
+
+body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wrapper > h3#no-annual-fee {
+  margin: 0;
+  padding: 20px 20px 0;
+  border: 1px solid var(--text-color);
+  border-bottom: 0;
+}
+
+body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wrapper > h3#no-annual-fee + p {
+  margin: 0 0 20px;
+  padding: 0 20px 20px;
+  border: 1px solid var(--text-color);
+  border-top: 0;
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wrapper {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wrapper > h3 {
+    font-size: 28px;
+    line-height: 33.6px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .section.no-annual-fee-section > .default-content-wrapper {
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+}
+
+/*
+ * Retail terms & conditions bundle (body.credit-card-retail-pdp).
+ * Source: Wayfair — a run of plain h3 + disclosure-paragraph pairs (no H2,
+ * no footnote-link row, no bordered box). Just the shared .box horizontal
+ * inset; headings/paragraphs use their ordinary typography, matching live
+ * (no divider above this section either — it sits flush under "No Annual Fee").
+ */
+body.credit-card-retail-pdp .section.terms-conditions > .default-content-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 5.33%;
+  padding-right: 5.33%;
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .section.terms-conditions > .default-content-wrapper {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .section.terms-conditions > .default-content-wrapper {
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+}
+
+/*
+ * Compare section chrome.
+ * Live source .box for COMPARE is full-bleed with content-table-mobile (<768),
+ * then 40px inset (≥768), then 5% of min(100vw, 1520) (≥1200) — same as other
+ * retail .box sections. Do NOT use 5.33% on compare at mobile (that insets the
+ * grid; live runs edge-to-edge). H2 keeps a small 8px left pad on mobile only.
+ */
+body.credit-card-retail-pdp .section.compare-cards > .default-content-wrapper,
+body.credit-card-retail-pdp .section.retail-compare-section > .retail-compare-wrapper {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 1520px;
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 0;
+  padding-right: 0;
+}
+
+/*
+ * Top gap + divider before COMPARE CARDS.
+ * Source: .header-section .spacer + .pdp-section .spacer (full-bleed of the
+ * 1520 citi-container; content sits in a sibling .box with side inset).
+ * EDS puts the H2 inside a padded wrapper, so ::before uses negative side
+ * margins (px / calc — not %) to cancel that inset and span the section.
+ *
+ * Live margins: 30px 0 (<768), 30px 0 45px (≥768).
+ * Live chrome: border-top #d8d8d8 + border-bottom #333 + soft shadow +
+ * rgba(0,0,0,0.25) fill (matches rewards spacer / source computed style).
+ */
+body.credit-card-retail-pdp .section.hero-container:has(+ .compare-cards),
+body.credit-card-retail-pdp .section.hero-container:has(+ .retail-compare-section) {
+  margin-bottom: 0;
+}
+
+body.credit-card-retail-pdp .section.compare-cards,
+body.credit-card-retail-pdp .section.retail-compare-section {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+/*
+ * Beat main > .section:not(.hero-container) > .default-content-wrapper:first-child:not(:last-child)
+ * { margin-bottom: 24px } — that selector wins on specificity without :first-child/:not.
+ */
+body.credit-card-retail-pdp main > .section.compare-cards > .default-content-wrapper:first-child:not(:last-child) {
+  margin-bottom: 0;
+  border-top: 0;
+}
+
+body.credit-card-retail-pdp .section.compare-cards > .default-content-wrapper::before {
+  content: '';
+  display: block;
+  margin: 30px 0;
+  border-top: 1px solid var(--citi-retail-divider);
+  border-bottom: 1px solid var(--text-color);
+  box-shadow: rgb(0 0 0 / 7%) 0 -6px 17px 4px;
+  background: rgb(0 0 0 / 25%);
+}
+
+body.credit-card-retail-pdp .section.compare-cards > .default-content-wrapper > h2 {
+  margin: 0 0 20px;
+  padding: 0 0 0 8px;
+  color: var(--text-color);
+  font-size: 16px;
+  font-weight: 700;
+  line-height: 24px;
+  text-align: left;
+  text-transform: uppercase;
+}
+
+@media (width >= 768px) {
+  body.credit-card-retail-pdp .section.compare-cards > .default-content-wrapper,
+  body.credit-card-retail-pdp .section.retail-compare-section > .retail-compare-wrapper {
+    padding-left: 40px;
+    padding-right: 40px;
+  }
+
+  body.credit-card-retail-pdp .section.compare-cards > .default-content-wrapper::before {
+    /* Source .pdp-section .spacer ≥768: 30 top / 45 bottom; cancel 40px inset */
+    margin: 30px -40px 45px;
+  }
+
+  /* Source tablet (768–1024): h2.sub-heading — 80% width, no extra left pad */
+  body.credit-card-retail-pdp .section.compare-cards > .default-content-wrapper > h2 {
+    width: 80%;
+    margin-bottom: 10px;
+    padding-left: 0;
+    font-size: 24px;
+    line-height: 34px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-retail-pdp .section.compare-cards > .default-content-wrapper,
+  body.credit-card-retail-pdp .section.retail-compare-section > .retail-compare-wrapper {
+    /* Match other retail .box insets — 5% of min(100vw, 1520), not flat 76px */
+    padding-left: calc(0.05 * min(100vw, 1520px));
+    padding-right: calc(0.05 * min(100vw, 1520px));
+  }
+
+  body.credit-card-retail-pdp .section.compare-cards > .default-content-wrapper::before {
+    margin: 30px calc(-0.05 * min(100vw, 1520px)) 45px;
+  }
+
+  /* Source desktop (>1024): h2.sub-heading */
+  body.credit-card-retail-pdp .section.compare-cards > .default-content-wrapper > h2 {
+    width: auto;
+    margin-bottom: 20px;
+    line-height: 40px;
+  }
+}
+
 /* These template-scoped rules are a separate, non-overlapping component; their
    source order is not a specificity concern (matches the citigold block below). */
-/* stylelint-disable no-descending-specificity */
 
 /*
  * Credit-cards EXPLORE landing template (body.credit-card-explore).
@@ -519,7 +1411,8 @@ body.credit-card-retail-pdp main > .section:not(.hero-container) > .default-cont
    component that isn't portable, so the imported strip is label-only. */
 body.credit-card-explore main > .section.explore-category-tabs ul {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
+  overflow-x: auto;
   margin: 0;
   padding: 0;
   border-radius: 16px;
@@ -529,7 +1422,7 @@ body.credit-card-explore main > .section.explore-category-tabs ul {
 }
 
 body.credit-card-explore main > .section.explore-category-tabs li {
-  flex: 1 1 0;
+  flex: 0 0 auto;
   margin: 0;
   text-align: center;
 }
@@ -539,11 +1432,12 @@ body.credit-card-explore main > .section.explore-category-tabs a {
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  padding: 16px 8px;
+  padding: 16px;
   color: rgb(51 51 51);
   font-size: 16px;
   font-weight: 400;
   text-decoration: none;
+  white-space: nowrap;
 }
 
 /* Category icon above each label (source shows a cds-icon per tab). Each icon is
@@ -596,20 +1490,19 @@ body.credit-card-explore main > .section.explore-category-tabs li:first-child a 
   color: rgb(37 91 227);
 }
 
-/* Mobile: the source collapses the bar into a horizontally scrollable row. */
-@media (width < 992px) {
+@media (width >= 992px) {
   body.credit-card-explore main > .section.explore-category-tabs ul {
-    flex-wrap: nowrap;
-    overflow-x: auto;
+    flex-wrap: wrap;
+    overflow-x: visible;
   }
 
   body.credit-card-explore main > .section.explore-category-tabs li {
-    flex: 0 0 auto;
+    flex: 1 1 0;
   }
 
   body.credit-card-explore main > .section.explore-category-tabs a {
-    padding: 16px;
-    white-space: nowrap;
+    padding: 16px 8px;
+    white-space: normal;
   }
 }
 
@@ -621,750 +1514,238 @@ body.credit-card-explore main > .section.explore-disclaimer > div {
   line-height: 1.5;
 }
 
-/* stylelint-enable no-descending-specificity */
-
-/*
- * Citigold featured-offer LANDING template (body.citigold-landing).
- * Scoped so it never affects the credit-card templates. Values measured from the
- * source banking.citi.com/cbol/om/checking/citigold/featured-offer/default.htm at
- * 1440px: navy #0f1632, gold band #8e6f32, white cards, pill CTAs.
- */
-
-/* Template-scoped block; source-order specificity is not a concern here. */
-/* stylelint-disable no-descending-specificity */
-body.citigold-landing {
-  --citi-navy: #0f1632;
-  --citi-gold: #8e6f32;
-}
-
-/* Content column matches the source's narrower measure (~1128px outer with
-   ~76px side gutters at desktop, vs the boilerplate's 1200px). border-box keeps
-   the section padding inside that cap so the true outer width is 1128px, not
-   1128+padding. */
-body.citigold-landing main > .section > div {
-  max-width: 1128px;
-  box-sizing: border-box;
-}
-
-/* section headings: 38px, regular weight, navy, centered (source h2) */
-body.citigold-landing main h1,
-body.citigold-landing main h2,
-body.citigold-landing main h3,
-body.citigold-landing main h4 {
-  color: var(--citi-navy);
-  font-weight: 400;
-}
-
-body.citigold-landing main > .section > div > h2 {
-  font-size: 38px;
-  line-height: 1.2;
-  text-align: center;
-}
-
-/* ---------- Hero ----------
-   Source hero: split background — white on the left (behind the copy), gold on
-   the right, with a photo anchored on the gold side. Base (mobile) is a simple
-   white panel; the white/gold split + right-image kick in at >=900px. */
-body.citigold-landing main .landing-hero {
-  background: #fff;
-}
-
-body.citigold-landing main .landing-hero > div {
-  max-width: 1200px;
-  text-align: center;
-}
-
-/* Source H1 is a large mixed-case display heading (citi-sans-display-bold,
-   48px, navy) — NOT the uppercase, body-font .hero-title treatment the block
-   applies by default. Override transform + family here. */
-body.citigold-landing main .landing-hero .hero h1 {
-  font-family: var(--heading-font-family);
-  font-size: 40px;
-  font-weight: 700;
-  line-height: 1.1;
-  color: var(--citi-navy);
-  letter-spacing: normal;
-  text-transform: none;
-}
-
-body.citigold-landing main .landing-hero .hero p { font-size: 18px; }
-
-/* The hero decorator tags the first text paragraph as a green ".hero-eyebrow"
-   badge (a retail-PDP treatment). The source Citigold hero offer copy is plain
-   text, so neutralize the badge styling here. */
-body.citigold-landing main .landing-hero .hero .hero-eyebrow {
-  display: block;
-  margin: 0 0 16px;
-  padding: 0;
-  border-radius: 0;
-  background: none;
-  color: var(--text-color);
-  font-family: var(--body-font-family);
-  font-size: 18px;
-  font-weight: 400;
-  line-height: 1.5;
-  letter-spacing: normal;
-}
-
-/* primary CTA: navy pill (matches source .hero__cta — 20px/70px padding, 24px
-   text, ~275x60 rendered). Match the .button.primary classes so this beats the
-   generic hero-block button rule (.hero a.button.primary:any-link). */
-body.citigold-landing main .landing-hero .hero a.button,
-body.citigold-landing main .landing-hero .hero a.button.primary,
-body.citigold-landing main .landing-cta a.button,
-body.citigold-landing main .landing-cta a.button.primary {
-  display: inline-block;
+/* CSS Start For citi---aadvantage--globe--mastercard--pricing-details  */
+body.credit-card-pdp .section:has(> .default-content-wrapper > h3 ~ p ~ ul) {
   margin-top: 24px;
-  padding: 20px 70px;
-  border-radius: 100px;
-  background: var(--citi-navy);
-  color: #fff;
-  font-size: 24px;
-  font-weight: 400;
-  text-decoration: none;
-}
-
-/* The boilerplate puts a 40px margin between every section; on this landing that
-   shows the white page body as gaps between the gold bands (a white stripe above
-   "Explore" and another between "Explore" and "See what"). The source is one
-   continuous gold surface, so drop the inter-section margins and give each band
-   its own internal vertical padding instead. */
-body.citigold-landing main > .section {
-  margin: 0;
-}
-
-/* ---------- "Explore features" gold band ---------- */
-body.citigold-landing main .landing-features {
-  position: relative;
-  padding: 64px 0 56px;
-  background: var(--citi-gold);
-}
-
-/* The hero→gold transition is handled entirely by the hero's own white card
-   (see the >=900px .landing-hero::before rule): that card is flush to the left
-   page edge and rounds only its right corners, so the white sweeps to the far
-   left at the hero's bottom exactly as in the source. No separate notch here. */
-
-body.citigold-landing main .landing-features h2,
-body.citigold-landing main .landing-features .cards strong,
-body.citigold-landing main .landing-features .cards p {
-  color: #fff;
-}
-
-/* bold display heading, centered (source) */
-body.citigold-landing main .landing-features > div > h2 {
-  font-weight: 700;
-}
-
-/* items: left-aligned, each led by a white checkmark (source list style) */
-body.citigold-landing main .landing-features .cards > ul {
-  display: flex;
-  flex-direction: column;
-  gap: 24px;
-}
-
-body.citigold-landing main .landing-features .cards > ul > li {
-  position: relative;
-  background: transparent;
-  border: 0;
-  padding: 0 0 0 34px;
-  text-align: left;
-}
-
-body.citigold-landing main .landing-features .cards > ul > li::before {
-  content: "";
-  position: absolute;
-  top: 8px;
-  left: 0;
-  width: 16px;
-  height: 9px;
-  border-left: 3px solid #fff;
-  border-bottom: 3px solid #fff;
-  transform: rotate(-45deg);
-}
-
-/* tight internal rhythm: title sits close to its description line */
-body.citigold-landing main .landing-features .cards > ul > li p {
-  margin: 0;
-  line-height: 1.3;
-}
-
-body.citigold-landing main .landing-features .cards > ul > li p + p {
-  margin-top: 2px;
-}
-
-/* item titles bold display type on the gold band (source) */
-body.citigold-landing main .landing-features .cards strong {
-  font-family: var(--heading-font-family);
-  font-size: 20px;
-  font-weight: 700;
-}
-
-/* ---------- "See what Citigold" — white rounded panel on the continuing gold
-   band, with borderless transparent cards (matches source). ---------- */
-body.citigold-landing main .landing-offer-cards {
-  padding: 0 0 56px;
-  background: var(--citi-gold);
-}
-
-/* The section renders as TWO stacked wrappers (default-content-wrapper = the
-   heading, cards-wrapper = the feature grid). They must read as ONE white panel
-   with 24px rounded corners around the whole thing — not two separate rounded
-   boxes. So: both are white and share the horizontal padding; the first rounds
-   only its top corners (top padding, no bottom), the last rounds only its bottom
-   corners (bottom padding, no top), and they sit flush against each other. */
-body.citigold-landing main .landing-offer-cards > div {
-  max-width: 1200px;
-  background: #fff;
-  border-radius: 0;
-  padding: 0 64px;
-}
-
-body.citigold-landing main .landing-offer-cards > div:first-child {
-  padding-top: 56px;
-  padding-bottom: 40px;
-  border-radius: 24px 24px 0 0;
-}
-
-body.citigold-landing main .landing-offer-cards > div:last-child {
-  padding-bottom: 64px;
-  border-radius: 0 0 24px 24px;
-}
-
-/* centered navy display heading (source). No bottom margin — the heading
-   wrapper carries the spacing as padding so it stays inside the white panel and
-   doesn't open a gold gap between the two stacked wrappers. */
-body.citigold-landing main .landing-offer-cards h2 {
-  text-align: center;
-  color: var(--citi-navy);
+  padding: 48px 0;
   margin-bottom: 0;
 }
 
-body.citigold-landing main .landing-offer-cards .cards > ul {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 48px;
-}
 
-/* left-aligned cards (source): icon in a left gutter, title + body indented
-   beside it, no fill/border */
-body.citigold-landing main .landing-offer-cards .cards > ul > li {
-  position: relative;
-  padding: 0 0 0 34px;
-  text-align: left;
-  background: transparent;
-  border: 0;
-  border-radius: 0;
-}
-
-/* feature icons in the left gutter — mapped to source card order */
-body.citigold-landing main .landing-offer-cards .cards > ul > li::before {
-  content: "";
-  position: absolute;
-  top: 1px;
-  left: 0;
-  width: 22px;
-  height: 22px;
-  background-repeat: no-repeat;
-  background-position: left center;
-  background-size: contain;
-}
-
-body.citigold-landing main .landing-offer-cards .cards > ul > li:nth-child(1)::before {
-  background-image: url("/icons/citigold-feat-waived.svg");
-}
-
-body.citigold-landing main .landing-offer-cards .cards > ul > li:nth-child(2)::before {
-  background-image: url("/icons/citigold-feat-pricing.svg");
-}
-
-body.citigold-landing main .landing-offer-cards .cards > ul > li:nth-child(3)::before {
-  background-image: url("/icons/citigold-feat-investment.svg");
-}
-
-body.citigold-landing main .landing-offer-cards .cards > ul > li:nth-child(4)::before {
-  background-image: url("/icons/citigold-feat-planning.svg");
-}
-
-body.citigold-landing main .landing-offer-cards .cards > ul > li:nth-child(5)::before {
-  background-image: url("/icons/citigold-feat-research.svg");
-}
-
-/* card title bold near-navy, body regular grey (source) */
-body.citigold-landing main .landing-offer-cards .cards strong {
-  display: block;
-  margin-bottom: 4px;
-  font-size: 15px;
-  font-weight: 700;
-  line-height: 1.3;
-  color: var(--citi-navy);
-}
-
-body.citigold-landing main .landing-offer-cards .cards p {
-  margin: 0;
-  font-size: 15px;
-  line-height: 1.4;
-  color: #555;
-  text-align: left;
-}
-
-/* ---------- Bonus: deposit amounts + steps ----------
-   Source: white section; the two "tiles" are transparent — big gold serif $
-   amounts stacked over a small navy "Minimum Balance" line, split by a divider. */
-body.citigold-landing main .landing-bonus {
-  background: #fff;
-}
-
-body.citigold-landing main .landing-bonus .columns > div {
-  gap: 0;
-}
-
-/* Override the global accelerator tile fills (blue/navy) — the source deposit
-   amounts are transparent. High-specificity selectors to beat
-   .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:first-child. */
-body.citigold-landing main .landing-bonus .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div,
-body.citigold-landing main .landing-bonus .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:first-child,
-body.citigold-landing main .landing-bonus .columns.columns-2-cols:not(:has(.columns-img-col)) > div > div:nth-child(2) {
-  background: transparent;
-  border-radius: 0;
-  padding: 16px 40px;
-  color: var(--citi-navy);
-  text-align: center;
-}
-
-/* divider between the two amounts, with a centered "OR" badge on the seam */
-body.citigold-landing main .landing-bonus .columns > div > div + div {
-  position: relative;
-  border-left: 1px solid #ccc;
-}
-
-body.citigold-landing main .landing-bonus .columns > div > div + div::before {
-  content: "OR";
-  position: absolute;
-  top: 50%;
-  left: 0;
-  transform: translate(-50%, -50%);
-  padding: 6px 4px;
-  background: #fff;
-  color: var(--citi-navy);
-  font-weight: 700;
-  font-size: 18px;
-  letter-spacing: 0.5px;
-}
-
-/* Deposit cell stacks: "EARN" label, big $amount, "Minimum Balance:" label,
-   small $amount. Paragraphs 1 & 3 are navy labels; 2 & 4 hold the $ amounts. */
-body.citigold-landing main .landing-bonus .columns p {
-  margin: 0;
-  color: var(--citi-navy);
-}
-
-body.citigold-landing main .landing-bonus .columns p:first-child {
-  font-size: 20px;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-}
-
-body.citigold-landing main .landing-bonus .columns p:nth-child(3) {
-  margin-top: 8px;
-  font-size: 16px;
-}
-
-/* the $ amounts — large gold serif; by cell position: 2nd child = big offer
-   amount, 4th child = smaller minimum-balance amount. */
-body.citigold-landing main .landing-bonus .columns strong {
-  display: inline-block;
-  color: var(--citi-gold);
-  font-family: var(--accent-font-family);
-  font-size: 40px;
-  font-weight: 400;
-  line-height: 1.05;
-}
-
-body.citigold-landing main .landing-bonus .columns p:nth-child(2) strong {
-  font-size: 64px;
-}
-
-/* the leading "$" is a superscript */
-body.citigold-landing main .landing-bonus .columns strong sup {
-  font-size: 0.45em;
-  vertical-align: super;
-}
-
-/* ---------- Bonus steps: one white rounded panel holding 3 steps ----------
-   Source: single bordered panel; each step is left-aligned with a gold circular
-   icon, a small gold "Step N" label, then a navy bold title and grey body. */
-body.citigold-landing main .landing-bonus .cards > ul {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 32px;
-  max-width: 1100px;
-  margin: 8px auto 0;
-  padding: 40px;
-  border: 1px solid #e0e0e0;
-  border-radius: 20px;
-}
-
-/* each step: borderless, transparent, left-aligned, room for the icon above */
-body.citigold-landing main .landing-bonus .cards > ul > li {
+body.credit-card-pdp .section.pd-zero:has(> .default-content-wrapper > h3 ~ p ~ ul){
   padding: 0;
-  text-align: left;
-  background: transparent;
-  border: 0;
 }
 
-/* gold circular step icon, mapped to source order (star / calendar / money) */
-body.citigold-landing main .landing-bonus .cards > ul > li::before {
-  content: "";
-  display: block;
-  width: 44px;
-  height: 44px;
-  margin-bottom: 16px;
-  background-repeat: no-repeat;
-  background-position: left center;
-  background-size: contain;
-}
-
-body.citigold-landing main .landing-bonus .cards > ul > li:nth-child(1)::before {
-  background-image: url("/icons/citigold-step-star.svg");
-}
-
-body.citigold-landing main .landing-bonus .cards > ul > li:nth-child(2)::before {
-  background-image: url("/icons/citigold-step-calendar.svg");
-}
-
-body.citigold-landing main .landing-bonus .cards > ul > li:nth-child(3)::before {
-  background-image: url("/icons/citigold-step-money.svg");
-}
-
-/* "Step N" label: small gold caps line above the title */
-body.citigold-landing main .landing-bonus .cards p {
-  margin: 0;
-  color: #555;
-  font-size: 15px;
-  line-height: 1.45;
-  text-align: left;
-}
-
-body.citigold-landing main .landing-bonus .cards p:first-child {
-  margin-bottom: 4px;
-  color: var(--citi-gold);
-  font-size: 14px;
-  font-weight: 700;
-}
-
-/* step title: navy bold, its own line */
-body.citigold-landing main .landing-bonus .cards strong {
-  display: block;
-  margin-bottom: 10px;
-  color: var(--citi-navy);
-  font-family: var(--heading-font-family);
-  font-size: 22px;
-  font-weight: 400;
-  line-height: 1.2;
-}
-
-/* ---------- Relationship tiers: navy band, white cards ---------- */
-body.citigold-landing main .landing-tiers {
-  background: var(--citi-navy);
-}
-
-body.citigold-landing main .landing-tiers > div > h2,
-body.citigold-landing main .landing-tiers > div > p {
-  color: #fff;
-}
-
-/* "Citi Relationship Tiers" tab label — small centered caps line */
-body.citigold-landing main .landing-tiers > div > p em {
-  display: block;
-  margin: 8px auto 0;
-  font-size: 14px;
-  font-style: normal;
-  letter-spacing: 0.5px;
-  text-align: center;
-}
-
-body.citigold-landing main .landing-tiers .cards > ul {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 24px;
-}
-
-/* cards are left-aligned in the source */
-body.citigold-landing main .landing-tiers .cards > ul > li {
-  padding: 32px 28px;
-  text-align: left;
-  background: #fff;
-  border-radius: 20px;
-}
-
-/* tier card heading (tier name) — serif, larger; scoped to the first line so
-   the bold CAMB range below is not affected. Per-tier accent colors below. */
-body.citigold-landing main .landing-tiers .cards p:first-child strong {
-  color: var(--citi-blue);
-  font-family: var(--heading-font-family);
+body.credit-card-pdp .section>.default-content-wrapper:has(> h3, > p, > ul)>h3 {
   font-size: 24px;
+  color: rgb(38 41 43);
+}
+
+body.dark.credit-card-pdp .section>.default-content-wrapper:has(> h3, > p, > ul)>h3{
+  color: #fff;
+}
+
+body.credit-card-pdp .section>.default-content-wrapper:has(> h3, > p, > ul)>p {
+  font-size: 14px;
+  margin: 0 0 8px;
+  color: rgb(94 103 107);
+}
+
+body.dark.credit-card-pdp .section>.default-content-wrapper:has(> h3, > p, > ul)>p {
+color: #fff;
+}
+
+body.credit-card-pdp .section>.default-content-wrapper:has(> h3, > p, > ul)>ul {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding: 8px 0;
+  margin-top: 0;
+  list-style: none;
+  font-size: 14px;
+  margin-bottom: 0;
+}
+
+body.credit-card-pdp .section.txt-underline>.default-content-wrapper:has(> h3, > p, > ul)>ul li a {
+text-decoration: underline;
+color: #255be3;
+}
+
+body.credit-card-pdp .section.txt-underline>.default-content-wrapper:has(> h3, > p, > ul)>ul li sup {
+color: #255be3;
+}
+
+
+body.credit-card-pdp .pd-zero.pd-24.section>.default-content-wrapper:has(> h3, > p, > ul)>ul  li a{
+  text-decoration: underline;
+  color: #111;
+}
+
+/*
+ * Pricing details authored with an h2 (h2 → p → ul, e.g. Home Depot Pro Xtra
+ * under the offer panel): source renders it like the h3 variant — 24px heading
+ * left-aligned, regular-weight 14/21 grey copy, navy footnote links in a row
+ * from tablet. Inset 36px mobile / 76px tablet / 96px desktop.
+ */
+body.credit-card-pdp main > .section.txt-underline:has(> .default-content-wrapper > h2 + p + ul) {
+  margin: 24px 0 0;
+  padding: 0;
+}
+
+body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) {
+  padding: 0 36px;
+}
+
+body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) > h2 {
+  margin: 0 0 4px;
+  font-size: 24px;
+  line-height: 30px;
+  text-align: left;
+  color: rgb(38 41 43);
+}
+
+body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) > p {
+  margin: 0 0 16px;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: 0.14px;
+  color: rgb(94 103 107);
+}
+
+body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) > p strong {
   font-weight: 400;
 }
 
-/* per-tier heading accent: 1=Everyday(blue), 2=Priority(navy), 3=Citigold(gold),
-   4=Private Client(dark) — matches source */
-body.citigold-landing main .landing-tiers .cards > ul > li:nth-child(2) p:first-child strong {
-  color: var(--citi-navy);
-}
-
-body.citigold-landing main .landing-tiers .cards > ul > li:nth-child(3) p:first-child strong {
-  color: var(--citi-gold);
-}
-
-body.citigold-landing main .landing-tiers .cards > ul > li:nth-child(4) p:first-child strong {
-  color: var(--citi-private-client);
-}
-
-/* CAMB line: label grey, dollar range bold navy */
-body.citigold-landing main .landing-tiers .cards p:nth-child(2) {
-  color: #555;
-  font-size: 14px;
-}
-
-body.citigold-landing main .landing-tiers .cards p:nth-child(2) strong {
-  display: block;
-  margin-top: 2px;
-  color: var(--citi-navy);
-  font-size: 15px;
-  font-weight: 700;
-}
-
-/* "Includes all … Benefits" — bold label with a thin divider rule above it */
-body.citigold-landing main .landing-tiers .cards p em {
-  display: block;
-  margin-top: 16px;
-  padding-top: 16px;
-  border-top: 1px solid #e0e0e0;
-  color: var(--citi-navy);
-  font-style: normal;
-  font-weight: 700;
-}
-
-/* benefit bullets: navy checkmarks, left-aligned */
-body.citigold-landing main .landing-tiers .cards ul {
-  margin: 12px 0 0;
+body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) > ul {
+  gap: 16px 24px;
   padding: 0;
-  list-style: none;
+  line-height: 18px;
 }
 
-body.citigold-landing main .landing-tiers .cards ul li {
-  position: relative;
-  margin-bottom: 12px;
-  padding-left: 26px;
-  color: #333;
-  font-size: 14px;
-  line-height: 1.4;
+body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) > ul li,
+body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) > ul li a,
+body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) > ul li sup {
+  color: rgb(4 32 143);
 }
 
-body.citigold-landing main .landing-tiers .cards ul li::before {
-  content: "";
-  position: absolute;
-  top: 4px;
-  left: 4px;
-  width: 12px;
-  height: 7px;
-  border-left: 2px solid var(--citi-navy);
-  border-bottom: 2px solid var(--citi-navy);
-  transform: rotate(-45deg);
+/*
+ * Standalone pricing note: a section that is only h3 + p (e.g. Home Depot
+ * Pro Xtra under the media feature). Same inset as the pricing block above,
+ * 14/21 copy, 24px to the next section (96px on desktop).
+ */
+body.credit-card-pdp main > .section:has(> .default-content-wrapper:only-child > h3:first-child + p:last-child) {
+  margin: 24px 0;
+  padding: 0;
 }
 
-/* ---------- ZIP / Have Questions band — pale blue (source #ecf6fe) ----------
-   Source: two columns — pricing heading left, "Have Questions?" + branch link
-   right. Small uppercase headings, each with a thin divider rule above. */
-body.citigold-landing main .landing-zip {
-  background: var(--citi-pale-blue-bg);
-  text-align: center;
+body.credit-card-pdp main > .section:has(> .default-content-wrapper:only-child > h3:first-child + p:last-child) + .section {
+  margin-top: 0;
 }
 
-body.citigold-landing main .landing-zip > div {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 8px 48px;
-  max-width: 1100px;
-  margin: 0 auto;
+body.credit-card-pdp main > .section > .default-content-wrapper:only-child:has(> h3:first-child + p:last-child) {
+  padding: 0 36px;
 }
 
-/* small uppercase headings with a divider rule above each */
-body.citigold-landing main .landing-zip h2 {
+body.credit-card-pdp main > .section > .default-content-wrapper:only-child:has(> h3:first-child + p:last-child) > h3 {
+  margin: 0 0 4px;
+  line-height: 30px;
+}
+
+body.credit-card-pdp main > .section > .default-content-wrapper:only-child:has(> h3:first-child + p:last-child) > p {
   margin: 0;
-  padding-top: 20px;
-  border-top: 1px solid #c9d9e8;
-  color: var(--citi-navy);
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+  line-height: 21px;
+  letter-spacing: 0.14px;
 }
 
-body.citigold-landing main .landing-zip p {
-  margin: 8px 0 0;
+@media (width >= 768px) {
+  body.credit-card-pdp main > .section > .default-content-wrapper:only-child:has(> h3:first-child + p:last-child) {
+    padding: 0 76px;
+  }
 }
 
-body.citigold-landing main .landing-zip a {
-  color: var(--citi-blue);
-  font-weight: 600;
-  text-decoration: none;
-}
-
-/* solid filled "Open an Account" CTA (source uses filled navy/gold, not outline) */
-body.citigold-landing main .landing-tiers .cards a {
-  display: inline-block;
-  margin-top: 12px;
-  padding: 12px 32px;
-  border: 0;
-  border-radius: 100px;
-  background: var(--citi-navy);
-  color: #fff;
-  font-weight: 600;
-  text-decoration: none;
-}
-
-/* ---------- Disclaimers + Terms ---------- */
-body.citigold-landing main .landing-miranda,
-body.citigold-landing main .landing-terms {
-  font-size: 12px;
-  color: #555;
-}
-
-body.citigold-landing main .landing-terms table {
-  border-collapse: collapse;
-  margin: 16px 0;
-}
-
-body.citigold-landing main .landing-terms table th,
-body.citigold-landing main .landing-terms table td {
-  border: 1px solid #ccc;
-  padding: 8px 16px;
-  text-align: left;
-}
-
-/* ---------- Tablet / desktop grids ---------- */
 @media (width >= 992px) {
-  body.citigold-landing main .landing-offer-cards .cards > ul {
-    grid-template-columns: repeat(3, 1fr);
+  body.credit-card-pdp main > .section:has(> .default-content-wrapper:only-child > h3:first-child + p:last-child) {
+    margin: 48px 0 96px;
   }
 
-  body.citigold-landing main .landing-tiers .cards > ul {
-    grid-template-columns: repeat(4, 1fr);
+  body.credit-card-pdp main > .section > .default-content-wrapper:only-child:has(> h3:first-child + p:last-child) {
+    max-width: 1248px;
+    padding: 0 32px;
   }
-
-  /* ZIP / Questions band: two columns — pricing left, questions right. The
-     first heading + any following p span the left column; the second heading +
-     its p span the right. */
-  body.citigold-landing main .landing-zip > div {
-    grid-template-columns: 1fr 1fr;
-    align-items: start;
-  }
-
-  body.citigold-landing main .landing-zip h2:nth-of-type(1) {
-    grid-column: 1;
-  }
-
-  body.citigold-landing main .landing-zip h2:nth-of-type(2) {
-    grid-column: 2;
-    grid-row: 1;
-  }
-
-  body.citigold-landing main .landing-zip p {
-    grid-column: 2;
-  }
-
-  /* 3 steps side by side inside the single white panel */
-  body.citigold-landing main .landing-bonus .cards > ul {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 40px;
-  }
-
-  /* two-column checkmark grid: source fills DOWN column 1 (items 1-3) then
-     column 2 (items 4-5), so use column auto-flow with 3 rows. */
-  body.citigold-landing main .landing-features .cards > ul {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(3, auto);
-    grid-auto-flow: column;
-    gap: 18px 64px;
-    max-width: 860px;
-    margin: 0 auto;
-  }
-
-  /* Hero (source): a full-bleed GOLD field with a WHITE card sitting on top of
-     it. The white card is flush to the LEFT page edge (x=0) and rounds only its
-     bottom-right corner, so the white sweeps all the way to the far-left edge at
-     the hero's bottom — matching the source — while the gold shows on the right
-     and along the bottom-right where the card curves away. The copy sits on the
-     white card; the photo floats over the white/gold boundary. */
-  body.citigold-landing main .landing-hero {
-    position: relative;
-    background: var(--citi-gold);
-  }
-
-  /* The white card: anchored top-left, ~72% wide, full hero height, with a large
-     rounded bottom-right corner. Left/bottom-left stay square so white reaches
-     the left page edge at the bottom. */
-  body.citigold-landing main .landing-hero::before {
-    content: "";
-    position: absolute;
-    inset: 0 auto 0 0;
-    width: 72%;
-    background: #fff;
-    border-radius: 0 0 90px;
-  }
-
-  /* Constrain the hero content to the same ~1128px column as the rest of the
-     page (the hero block's .hero-wrapper is full-bleed by default) and lay the
-     copy on the left with the photo card floating on the right. z-index lifts
-     the content above the white card ::before. */
-  body.citigold-landing main .landing-hero .hero.block {
-    position: relative;
-    z-index: 1;
-    max-width: 1128px;
-    min-height: 460px;
-    margin-inline: auto;
-    padding: 40px 24px;
-  }
-
-  body.citigold-landing main .landing-hero .hero .hero-content {
-    max-width: 50%;
-    text-align: left;
-  }
-
-  /* Photo as a rounded card floating on the right of the white hero, inset from
-     the content column's right edge (source card ≈ 414px / 37% wide, 402px tall,
-     ~35px top inset). */
-  body.citigold-landing main .landing-hero .hero.block::after {
-    content: "";
-    position: absolute;
-    top: 35px;
-    right: 24px;
-    width: 37%;
-    height: 402px;
-    background-image: url("/icons/citigold-hero-dsk.webp");
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
-    border-radius: 24px;
-  }
-
-  body.citigold-landing main .landing-hero .hero h1 { font-size: 48px; }
 }
 
+@media (width >= 768px) {
+  body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) {
+    padding: 0 76px;
+  }
+
+  body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) > ul {
+    flex-direction: row;
+  }
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp main > .section.txt-underline > .default-content-wrapper:has(> h2 + p + ul) {
+    max-width: 1248px;
+    padding: 0 32px;
+  }
+}
+
+@media (width >=992px) {
+  body.credit-card-pdp .section .default-content-wrapper:has(> h3):has(> p):has(> ul) {
+    padding: 0 40px;
+  }
+
+  body.credit-card-pdp .section>.default-content-wrapper:has(> h3, > p, > ul)>ul {
+    flex-direction: row;
+    padding: 0;
+  }
+
+  body.credit-card-pdp .pd-zero.pd-24.section:has(> .default-content-wrapper > h3 ~ p ~ ul){
+    margin-top: 48px;
+ }
+
+}
+
+/* CSS End For citi---aadvantage--globe--mastercard--pricing-details  */
+
+/* CSS Start For category nav default container */
+body.credit-card-pdp .section.category-nav-container {
+  display: flex;
+  gap: 24px;
+  padding: 0 12px;
+  flex-direction: column;
+  margin: 48px auto 0;
+}
+
+body.dark.credit-card-pdp .section.category-nav-container .default-content-wrapper {
+  letter-spacing: 11px;
+}
+
+body.credit-card-pdp .section.head-letter-spacing.category-nav-container > .default-content-wrapper:nth-child(1) > h2 {
+  letter-spacing: 11px;
+  text-transform: uppercase;
+  font-size: 18px
+}
+
+
+body.credit-card-pdp .section.head-small-letter.category-nav-container > .default-content-wrapper:nth-child(1) > h2 {
+  text-transform:none;
+  letter-spacing: 9px;
+}
+
+
+@media (width >=992px) {
+  body.credit-card-pdp .section.category-nav-container > .default-content-wrapper > h2 {
+    letter-spacing: 14px;
+    text-transform: uppercase;
+  }
+
+  body.credit-card-pdp .section.head-letter-spacing.category-nav-container > .default-content-wrapper:nth-child(1) > h2 {
+   letter-spacing: 14px;
+   text-transform: uppercase;
+  }
+}
+
+/* CSS End For category nav default container */
 /* stylelint-enable no-descending-specificity */
 
-/* Simulated auth gating (scripts/auth.js decorateAuthGate): a "Log in to view
-   content" heading and everything after it are tagged data-auth so the
-   heading shows to anonymous visitors and the guarded content shows once
-   ?loggedIn=true is set — e.g. a Post-Login Pega Banners test page. Kept
-   critical (not lazy-styles.css) so gated content never flashes on load. */
-[data-auth='anonymous'] { display: none; }
-
-[data-auth='authenticated'] { display: none; }
-
-body.auth-anonymous [data-auth='anonymous'] { display: block; }
-
-body.auth-authenticated [data-auth='authenticated'] { display: block; }
+/* Default (non-block) content on the dark theme: the global link blue fails
+   contrast on black, so authored links follow the inverted body copy.
+   Scoped to .default-content-wrapper so every block keeps its own treatment. */
+   
+/* stylelint-disable-next-line no-descending-specificity */
+body.dark.credit-card-pdp main .section .default-content-wrapper a:any-link {
+  color: rgb(255 255 255);
+  text-decoration: underline;
+}

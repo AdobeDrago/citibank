@@ -4,8 +4,91 @@
 // and — when authored — Log In).
 
 import { isSimulationEnabled, decorateAuthControl } from '../../scripts/auth.js';
+import {
+  getLocale, setLocale, syncDocumentLang, DEFAULT_LOCALE, SPANISH_LOCALE,
+  fetchTranslationDictionary, applyTranslations,
+} from '../../scripts/i18n.js';
+import { createModal } from '../modal/modal.js';
 
 const isDesktop = window.matchMedia('(min-width: 900px)');
+
+// Real bilingual legal copy captured from citi.com's own language-switch
+// disclaimer — Citi's legal/brand team should confirm final wording before
+// this ships to production (same caveat as the licensed fonts in fonts.css).
+const DISCLAIMER_ES = 'Por favor, tenga en cuenta que es posible que las comunicaciones futuras del banco, ya sean verbales o escritas, sean únicamente en inglés. Estas comunicaciones podrían incluir, entre otras, contratos de cuentas, estados de cuenta y divulgaciones, así como cambios en términos o cargos o cualquier tipo de servicio para su cuenta. Además, es posible que algunas secciones de este website permanezcan en inglés.';
+const DISCLAIMER_EN = 'Please be advised that future verbal and written communications from the bank may be in English only. These communications may include, but are not limited to, account agreements, statements and disclosures, changes in terms or fees; or any servicing of your account. Additionally, some sections of this site may remain in English.';
+
+/** Bilingual disclaimer shown once, before switching to Spanish (matches citi.com). */
+function buildDisclaimerContent() {
+  const wrapper = document.createElement('div');
+  wrapper.className = 'i18n-disclaimer';
+  const heading = document.createElement('h3');
+  heading.textContent = 'Important Information';
+  const esPara = document.createElement('p');
+  esPara.lang = 'es';
+  esPara.textContent = DISCLAIMER_ES;
+  const enPara = document.createElement('p');
+  enPara.lang = 'en';
+  enPara.textContent = DISCLAIMER_EN;
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'button primary i18n-continue';
+  button.textContent = 'Continuar';
+  wrapper.append(heading, esPara, enPara, button);
+  return [wrapper];
+}
+
+/** Sets the toggle's label/lang/aria-label to reflect the locale it switches TO. */
+function updateLangToggleLabel(button, span) {
+  const toSpanish = getLocale() === DEFAULT_LOCALE;
+  span.textContent = toSpanish ? 'ESPAÑOL' : 'ENGLISH';
+  button.lang = toSpanish ? 'es' : 'en';
+  button.setAttribute('aria-label', toSpanish
+    ? 'Haz clic para cambiar la página al español'
+    : 'Click to change the page to English');
+}
+
+/**
+ * Replaces the authored "ESPAÑOL" utility link (icon + static label, pointed
+ * at a dead https://www.citi.com/?lang=es href) with a single interactive
+ * control that drives the cookie-based locale switch in place — same icon,
+ * same position, no page navigation.
+ * @param {Element} li the authored utility list item
+ */
+function transformLangToggle(li) {
+  const picture = li.querySelector('picture');
+  const button = document.createElement('button');
+  button.type = 'button';
+  button.className = 'nav-lang-toggle';
+  if (picture) button.append(picture.cloneNode(true));
+  const span = document.createElement('span');
+  button.append(span);
+  updateLangToggleLabel(button, span);
+
+  button.addEventListener('click', async () => {
+    if (getLocale() === DEFAULT_LOCALE) {
+      const { showModal, block: modalBlock } = await createModal(buildDisclaimerContent());
+      modalBlock.querySelector('.i18n-continue')?.addEventListener('click', () => {
+        modalBlock.querySelector('dialog')?.close();
+        setLocale(SPANISH_LOCALE);
+      });
+      showModal();
+    } else {
+      setLocale(DEFAULT_LOCALE);
+    }
+  });
+
+  li.replaceChildren(button);
+}
+
+/** Finds every clone of the authored "ESPAÑOL" utility item (desktop + mobile) and wires it up. */
+function wireLangToggles(nav) {
+  nav.querySelectorAll('.nav-utility-links > li, .nav-mobile-utility').forEach((li) => {
+    if (li.textContent.replace(/\s+/g, ' ').trim().toLowerCase() === 'español') {
+      transformLangToggle(li);
+    }
+  });
+}
 
 /**
  * The banking brand (banking.citi.com, served by the banking-citibank site) ships a
@@ -64,6 +147,16 @@ const loadNavFragment = () => loadNavFragmentNamed('nav');
  *   <p><img Citigold></p>                   → Citigold brand mark (right)
  * No nav items / mega-menu — a static branded bar.
  */
+function isBrandLogoParagraph(p) {
+  const img = p.querySelector('img');
+  if (!img) return false;
+  const alt = (img.getAttribute('alt') || '').trim();
+  if (/^citi$/i.test(alt)) return true;
+  if (alt) return false;
+  const text = p.textContent.replace(/\s+/g, ' ').trim();
+  return !text && !!p.querySelector('picture, img');
+}
+
 function renderCbolHeader(block, frag) {
   const section = [...frag.children].find((el) => el.tagName === 'DIV') || frag;
   const paras = [...section.querySelectorAll(':scope > p')];
@@ -81,9 +174,15 @@ function renderCbolHeader(block, frag) {
   mark.className = 'nav-cbol-mark';
 
   paras.forEach((p) => {
-    if (p.querySelector('img[alt="Citi" i]')) brand.append(p);
-    else if (p.querySelector('img[alt="Citigold" i]')) mark.append(p);
-    else fdic.append(p);
+    if (isBrandLogoParagraph(p)) {
+      const img = p.querySelector('img');
+      if (img && !(img.getAttribute('alt') || '').trim()) img.setAttribute('alt', 'Citi');
+      brand.append(p);
+    } else if (p.querySelector('img[alt="Citigold" i]')) {
+      mark.append(p);
+    } else {
+      fdic.append(p);
+    }
   });
 
   nav.append(brand, fdic, mark);
@@ -182,10 +281,16 @@ function buildNavItem(sourceLi) {
     back.addEventListener('click', (e) => {
       if (isDesktop.matches) return;
       e.stopPropagation();
-      li.setAttribute('aria-expanded', 'false');
-      btn.setAttribute('aria-expanded', 'false');
       const nav = li.closest('nav');
-      if (nav) nav.classList.remove('nav-subpanel-open');
+      if (!nav) return;
+
+      nav.classList.add('nav-subpanel-closing');
+      const finishClose = () => {
+        li.setAttribute('aria-expanded', 'false');
+        btn.setAttribute('aria-expanded', 'false');
+        nav.classList.remove('nav-subpanel-open', 'nav-subpanel-closing');
+      };
+      nav.addEventListener('animationend', finishClose, { once: true });
     });
 
     li.addEventListener('mouseenter', () => {
@@ -218,27 +323,49 @@ function buildNavItem(sourceLi) {
   return li;
 }
 
+// Cached across locale toggles so a rebuild (see wireLocaleReactivity below)
+// re-reads the pristine authored fragment instead of an already-mutated DOM.
+let cachedNavFrag = null;
+let localeListenerAttached = false;
+let globalNavListenersAttached = false;
+
 /**
- * loads and decorates the header
- * @param {Element} block The header block element
+ * Close desktop dropdowns on outside click / escape. Registered once and
+ * delegated against whatever `#nav` is currently live — a locale toggle
+ * replaces the nav element, so a listener closed over one specific instance
+ * would silently stop matching after the first switch.
  */
-export default async function decorate(block) {
-  block.textContent = '';
+function wireGlobalNavListeners() {
+  if (globalNavListenersAttached) return;
+  globalNavListenersAttached = true;
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('#nav')) closeAllMenus(document.querySelector('.nav-list'));
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key !== 'Escape') return;
+    const nav = document.querySelector('#nav');
+    closeAllMenus(document.querySelector('.nav-list'));
+    nav?.querySelector('.nav-hamburger')?.setAttribute('aria-expanded', 'false');
+    nav?.classList.remove('nav-open', 'nav-subpanel-open');
+  });
+  // Viewport resize handling: reset menus/hamburger when crossing the breakpoint.
+  isDesktop.addEventListener('change', () => {
+    const nav = document.querySelector('#nav');
+    closeAllMenus(document.querySelector('.nav-list'));
+    nav?.querySelector('.nav-hamburger')?.setAttribute('aria-expanded', 'false');
+    nav?.classList.remove('nav-open', 'nav-subpanel-open');
+  });
+}
 
-  // cbol landing pages get a distinct minimal header from their own fragment.
-  if (isBankingBrand()) {
-    const cbolFrag = await loadNavFragmentNamed('cbol-nav');
-    if (cbolFrag) {
-      block.classList.add('header-cbol');
-      renderCbolHeader(block, cbolFrag);
-      return;
-    }
-    // fall through to the default nav if the cbol fragment is unavailable
-  }
-
-  const frag = await loadNavFragment();
-  if (!frag) return;
-
+/**
+ * Builds the full retail nav from a (never-mutated) parsed nav fragment.
+ * Callable more than once against the same `frag` — every step below reads
+ * from `frag` via cloneNode/createElement, so calling it again (e.g. after a
+ * locale switch, to get back a clean, untranslated nav) is safe.
+ * @param {Element} frag
+ * @returns {Element} the assembled <nav>
+ */
+function buildNav(frag) {
   const sections = [...frag.children].filter((el) => el.tagName === 'DIV');
   const [brandSec, navSec, toolsSec] = sections;
 
@@ -257,6 +384,15 @@ export default async function decorate(block) {
     const tools = document.createElement('ul');
     tools.className = 'nav-utility-links';
     if (utilLinks) [...utilLinks.children].forEach((li) => tools.append(li.cloneNode(true)));
+    // Icon-only utility links (e.g. location finder) are authored with an
+    // empty image alt — give them an accessible name derived from the path.
+    tools.querySelectorAll('a').forEach((a) => {
+      if (a.textContent.trim() || a.querySelector('img[alt]:not([alt=""])')) return;
+      const slug = new URL(a.href, window.location.href).pathname.split('/').filter(Boolean).pop();
+      if (!slug) return;
+      const label = slug.replace(/[-_]+/g, ' ');
+      a.setAttribute('aria-label', label.charAt(0).toUpperCase() + label.slice(1));
+    });
     util.append(brand, tools);
   }
 
@@ -270,6 +406,9 @@ export default async function decorate(block) {
   hamburger.setAttribute('aria-label', 'Menu');
   hamburger.setAttribute('aria-expanded', 'false');
   hamburger.innerHTML = '<span class="nav-hamburger-icon"></span>';
+
+  const mobileActions = document.createElement('div');
+  mobileActions.className = 'nav-mobile-actions';
 
   const sectionsWrap = document.createElement('div');
   sectionsWrap.className = 'nav-sections';
@@ -305,11 +444,34 @@ export default async function decorate(block) {
         }
         item.append(link);
         navList.append(item);
+
+        if (index > 0) {
+          const mobileLink = link.cloneNode(true);
+          mobileLink.classList.add('nav-mobile-action');
+          if (mobileActions.children.length > 0) {
+            const divider = document.createElement('span');
+            divider.className = 'nav-mobile-divider';
+            divider.setAttribute('aria-hidden', 'true');
+            mobileActions.append(divider);
+          }
+          mobileActions.append(mobileLink);
+        }
+      });
+    }
+  }
+
+  if (brandSec) {
+    const utilLinks = brandSec.querySelector(':scope > ul');
+    if (utilLinks) {
+      [...utilLinks.children].forEach((sourceItem) => {
+        const mobileItem = sourceItem.cloneNode(true);
+        mobileItem.classList.add('nav-mobile-utility');
+        navList.insertBefore(mobileItem, navList.querySelector('.nav-tool'));
       });
     }
   }
   sectionsWrap.append(navList);
-  main.append(hamburger, sectionsWrap);
+  main.append(hamburger, mobileActions, sectionsWrap);
 
   hamburger.addEventListener('click', () => {
     const open = hamburger.getAttribute('aria-expanded') === 'true';
@@ -336,25 +498,61 @@ export default async function decorate(block) {
     nav.classList.toggle('nav-subpanel-open', !open);
   });
 
-  // Close desktop dropdowns on outside click / escape.
-  document.addEventListener('click', (e) => {
-    if (!nav.contains(e.target)) closeAllMenus(navList);
-  });
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      closeAllMenus(navList);
-      hamburger.setAttribute('aria-expanded', 'false');
-      nav.classList.remove('nav-open', 'nav-subpanel-open');
-    }
-  });
-
-  // Viewport resize handling: reset menus/hamburger when crossing the breakpoint.
-  isDesktop.addEventListener('change', () => {
-    closeAllMenus(navList);
-    hamburger.setAttribute('aria-expanded', 'false');
-    nav.classList.remove('nav-open', 'nav-subpanel-open');
-  });
-
   nav.append(util, main);
+  wireLangToggles(nav);
+  wireGlobalNavListeners();
+  return nav;
+}
+
+/** Applies the current locale's translations to a freshly-built nav element. */
+async function applyCurrentLocale(nav) {
+  const locale = getLocale();
+  const dict = locale === SPANISH_LOCALE ? await fetchTranslationDictionary() : {};
+  applyTranslations(nav, dict, locale);
+}
+
+/**
+ * Once per page, reacts to a locale switch (fired by the toggle built in
+ * wireLangToggles, from anywhere on the page) by rebuilding the nav from the
+ * cached pristine fragment and re-applying translations for the new locale —
+ * rebuilding avoids needing to "undo" a previous translation pass.
+ */
+function wireLocaleReactivity(block) {
+  if (localeListenerAttached) return;
+  localeListenerAttached = true;
+  document.addEventListener('localechange', async () => {
+    if (!cachedNavFrag || isBankingBrand()) return;
+    const nav = buildNav(cachedNavFrag);
+    block.replaceChildren(nav);
+    await applyCurrentLocale(nav);
+  });
+}
+
+/**
+ * loads and decorates the header
+ * @param {Element} block The header block element
+ */
+export default async function decorate(block) {
+  block.textContent = '';
+  syncDocumentLang();
+
+  // cbol landing pages get a distinct minimal header from their own fragment.
+  if (isBankingBrand()) {
+    const cbolFrag = await loadNavFragmentNamed('cbol-nav');
+    if (cbolFrag) {
+      block.classList.add('header-cbol');
+      renderCbolHeader(block, cbolFrag);
+      return;
+    }
+    // fall through to the default nav if the cbol fragment is unavailable
+  }
+
+  const frag = await loadNavFragment();
+  if (!frag) return;
+  cachedNavFrag = frag;
+
+  const nav = buildNav(frag);
   block.append(nav);
+  await applyCurrentLocale(nav);
+  wireLocaleReactivity(block);
 }

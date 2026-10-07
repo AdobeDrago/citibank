@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>{{properties.title}}</title>
+    <meta name="description" content="{{properties.description}}">
+    <meta name="template" content="feature-benefit-cf">
+    <meta name="source" content="content-fragment-overlay">
+  </head>
+  <body>
+    <header></header>
+    <main>
+      <div>
+        <div class="hero">
+          <div>
+            <div>
+              {{#properties.elements.image.value}}
+              <p>
+                <picture>
+                  <img src="{{{properties.elements.image.value}}}" alt="{{properties.title}}">
+                </picture>
+              </p>
+              {{/properties.elements.image.value}}
+              {{{properties.elements.title.value}}}
+            </div>
+          </div>
+        </div>
+        {{{properties.elements.body.value}}}
+      </div>
+    </main>
+    <footer></footer>
+  </body>
+</html>
