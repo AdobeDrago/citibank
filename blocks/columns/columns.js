@@ -1,3 +1,5 @@
+import { buildBlock, decorateBlock, loadBlock } from '../../scripts/aem.js';
+
 function decorateRetailApplyBand(block) {
   if (!block.querySelector('.columns-img-col')) return;
 
@@ -77,6 +79,112 @@ function decorateCostcoRewards(block) {
   block.replaceChildren(tiles);
 }
 
+/** @param {Element} link */
+function unwrapLinkSup(link) {
+  link.querySelectorAll('sup').forEach((sup) => {
+    sup.replaceWith(...sup.childNodes);
+  });
+}
+
+/** @param {ParentNode} root @returns {Element[]} */
+function cardLinks(root) {
+  return [...root.querySelectorAll('a')].filter((a) => {
+    const label = a.textContent.replace(/\s+/g, ' ').trim();
+    return label.length > 2;
+  });
+}
+
+/**
+ * Build <p><picture>+<a></p> rows from pictures + links (document order).
+ * @param {Element[]} pictures
+ * @param {Element[]} links
+ * @param {Element|null} heading
+ * @returns {Element[]}
+ */
+function buildCardRowElements(pictures, links, heading) {
+  const elems = heading ? [heading] : [];
+  const pairs = Math.min(pictures.length, links.length);
+  for (let i = 0; i < pairs; i += 1) {
+    unwrapLinkSup(links[i]);
+    const row = document.createElement('p');
+    row.append(pictures[i], links[i]);
+    elems.push(row);
+  }
+  return elems;
+}
+
+/**
+ * Ensure media-feature text cell card rows are p > picture + a.
+ * No-op when already correct (Home Depot / Costco).
+ * @param {Element} block
+ */
+function decorateMediaFeature(block) {
+  if (!block.classList.contains('media-feature')) return;
+
+  const textCol = [...block.querySelectorAll(':scope > div > div')]
+    .find((col) => !col.classList.contains('columns-img-col'));
+  if (!textCol) return;
+
+  const ready = [...textCol.querySelectorAll(':scope > p')].filter(
+    (p) => p.querySelector(':scope > picture') && p.querySelector(':scope > a'),
+  );
+  if (ready.length) {
+    ready.forEach((row) => {
+      const link = row.querySelector(':scope > a');
+      if (link) unwrapLinkSup(link);
+    });
+    return;
+  }
+
+  const heading = [...textCol.children].find(
+    (el) => /^H[1-6]$/.test(el.tagName) && !el.querySelector('picture'),
+  );
+  const pictures = [...textCol.querySelectorAll('picture')];
+  const links = cardLinks(textCol);
+  if (!pictures.length || !links.length) return;
+
+  textCol.replaceChildren(...buildCardRowElements(pictures, links, heading));
+}
+
+/**
+ * Section style `strata-other-balance-cards` (default content) → Columns media-feature.
+ * Once per page; layout CSS is scoped to that section class.
+ */
+let strataOtherBalanceBuilt = false;
+
+function buildStrataOtherBalanceCards() {
+  if (strataOtherBalanceBuilt) return;
+
+  const sections = [...document.querySelectorAll('.section.strata-other-balance-cards')];
+  if (!sections.length) return;
+  strataOtherBalanceBuilt = true;
+
+  sections.forEach((section) => {
+    if (section.querySelector('.columns')) return;
+    const wrap = section.querySelector(':scope > .default-content-wrapper');
+    if (!wrap) return;
+
+    const mediaP = [...wrap.children].find((el) => el.tagName === 'P' && el.querySelector('picture'));
+    const heading = [...wrap.querySelectorAll(':scope > h2')].find((h) => !h.querySelector('picture'));
+    const mediaPic = mediaP?.querySelector('picture');
+    if (!mediaPic || !heading) return;
+
+    const pictures = [...wrap.querySelectorAll('picture')].filter((pic) => pic !== mediaPic);
+    const links = cardLinks(wrap);
+    const textElems = buildCardRowElements(pictures, links, heading);
+    if (textElems.length < 2) return;
+
+    const block = buildBlock('columns', [[{ elems: [mediaPic] }, { elems: textElems }]]);
+    block.classList.add('media-feature');
+
+    const wrapper = document.createElement('div');
+    wrapper.append(block);
+    wrap.replaceWith(wrapper);
+    decorateBlock(block);
+    loadBlock(block);
+  });
+}
+
 export default function decorate(block) {
   const cols = [...block.firstElementChild.children];
   block.classList.add(`columns-${cols.length}-cols`);
@@ -100,6 +208,8 @@ export default function decorate(block) {
   });
 
   decorateCostcoRewards(block);
+  decorateMediaFeature(block);
+  buildStrataOtherBalanceCards();
 
   if (document.body.classList.contains('credit-card-retail-pdp')) {
     decorateRetailApplyBand(block);
