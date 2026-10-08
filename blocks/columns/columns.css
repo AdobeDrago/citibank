@@ -2827,7 +2827,7 @@ body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.
 
 body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) h2 {
   margin: 0 0 8px;
-  font-size: 24px;
+  font-size: 26px;
   font-weight: 500;
   line-height: 30px;
   text-align: left;
@@ -2836,7 +2836,7 @@ body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.
 }
 
 body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) {
-  gap: 16px;
+  gap: 5px;
   min-height: 64px;
   margin: 0;
   padding: 12px 8px;
@@ -2876,7 +2876,7 @@ body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.
   }
 
   body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) h2 {
-    font-size: 28px;
+    font-size: 26px;
     line-height: 34px;
   }
 }
@@ -2901,13 +2901,13 @@ body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.
   }
 
   body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) {
-    padding: 16px 0;
+    padding: 72px 0;
     background-color: transparent;
   }
 
   body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) h2 {
     margin-bottom: 16px;
-    font-size: 36px;
+    font-size:48px;
     line-height: 1.22;
   }
 
@@ -2928,7 +2928,7 @@ body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.
   }
 
   body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) {
-    padding: 24px 0;
+    padding: 72px 0;
   }
 }
 /* stylelint-enable no-descending-specificity */
