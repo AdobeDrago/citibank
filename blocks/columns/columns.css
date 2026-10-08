@@ -1688,15 +1688,15 @@ body.credit-card-pdp main .section.pale-blue {
 }
 
 body.credit-card-pdp .pale-blue .columns div {
-display: flex;
-flex-direction: column;
+  display: flex;
+  flex-direction: column;
 }
 
 body.credit-card-pdp .pale-blue .columns-img-col img {
   width: 100%;
-    height: auto;
-    border-radius: 16px;
-    object-fit: cover;
+  height: auto;
+  border-radius: 16px;
+  object-fit: cover;
 }
 
 body.credit-card-pdp .pale-blue .columns.columns-2-cols > div > div:not(.columns-img-col) {
@@ -2783,6 +2783,153 @@ body.dark.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(
 
 body.dark.credit-card-pdp .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a)::after {
   background-color: rgb(230 235 237);
+}
+
+/* Section style: strata-other-balance-cards */
+body.credit-card-pdp .section.strata-other-balance-cards {
+  margin: 24px auto;
+  padding: 0 16px;
+  background: none;
+}
+
+body.credit-card-pdp .section.strata-other-balance-cards > .columns-wrapper {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0;
+}
+
+body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  align-items: stretch;
+}
+
+body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div {
+  flex-direction: column;
+}
+
+body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > .columns-img-col img {
+  width: 100%;
+  max-width: 320px;
+  height: auto;
+  margin: 0 auto;
+  border-radius: 0;
+  object-fit: contain;
+}
+
+body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) {
+  justify-content: flex-start;
+  padding: 0;
+  border-radius: 0;
+  background-color: transparent;
+}
+
+body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) h2 {
+  margin: 0 0 8px;
+  font-size: 26px;
+  font-weight: 500;
+  line-height: 30px;
+  text-align: left;
+  text-transform: none;
+  color: rgb(38 41 43);
+}
+
+body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) {
+  gap: 5px;
+  min-height: 64px;
+  margin: 0;
+  padding: 12px 8px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+}
+
+body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) img {
+  flex: 0 0 80px;
+  width: 80px;
+  height: 50px;
+  border-radius: 0;
+  object-fit: contain;
+}
+
+body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) > a:any-link {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 22px;
+  color: rgb(38 41 43);
+  text-decoration: none;
+}
+
+body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) > a:hover {
+  text-decoration: none;
+}
+
+body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a)::after {
+  flex: 0 0 12px;
+  width: 12px;
+  height: 12px;
+}
+
+@media (width >= 768px) {
+  body.credit-card-pdp .section.strata-other-balance-cards {
+    padding: 0 24px;
+  }
+
+  body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) h2 {
+    font-size: 26px;
+    line-height: 34px;
+  }
+}
+
+@media (width >= 992px) {
+  body.credit-card-pdp .section.strata-other-balance-cards {
+    margin: 48px auto;
+    padding: 0 32px;
+  }
+
+  body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 48px;
+    min-height: 0;
+    align-items: center;
+  }
+
+  body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > .columns-img-col img {
+    max-width: none;
+    height: auto;
+  }
+
+  body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) {
+    padding: 72px 0;
+    background-color: transparent;
+  }
+
+  body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) h2 {
+    margin-bottom: 16px;
+    font-size:48px;
+    line-height: 1.22;
+  }
+
+  body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) {
+    min-height: 72px;
+    padding: 12px 16px 12px 8px;
+  }
+
+  body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) p:has(> picture):has(> a) > a:any-link {
+    font-size: 18px;
+    line-height: 24px;
+  }
+}
+
+@media (width >= 1200px) {
+  body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div {
+    gap: 64px;
+  }
+
+  body.credit-card-pdp .section.strata-other-balance-cards .columns.media-feature.columns-2-cols > div > div:not(.columns-img-col) {
+    padding: 72px 0;
+  }
 }
 /* stylelint-enable no-descending-specificity */
 
