@@ -1,0 +1,45 @@
+/*
+ * Token overrides for the `banking` brand - banking.citi.com.
+ *
+ * Loaded only when <html data-brand="banking">, which includes every `/cbol/...` page on
+ * the citibank hostname (see PATH_BRANDS in scripts/brand.js).
+ *
+ * DELIBERATELY NO PALETTE OVERRIDES. The shared :root palette in styles/styles.css was
+ * extracted from the Citigold Featured Offer page itself, so the cbol pages already
+ * render correctly with it. Overriding --link-color / --background-color here would
+ * change the appearance of a page that is already published live, which is a regression,
+ * not a feature. Add overrides here only once the real banking.citi.com palette differs
+ * from the shared one and that change is intended.
+ */
+
+:root[data-brand="banking"] {
+  /* contract tokens restated unchanged, as the documented place to diverge later */
+  --brand-primary: #255be3;
+  --brand-secondary: #0f1632;
+  --brand-font-heading: "Citi Sans Display", citi-sans-display-fallback, sans-serif;
+  --brand-logo-url: none;
+  --brand-radius: 100px;
+}
+
+/* preview-only marker added by scripts/banking/banking.js - never renders on live */
+:root[data-brand="banking"] .brand-marker {
+  position: fixed;
+  z-index: 100;
+  right: 8px;
+  bottom: 8px;
+  padding: 4px 10px;
+  border-radius: 4px;
+  background-color: var(--brand-secondary);
+  color: white;
+  font-family: var(--body-font-family);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+/*
+ * Shared 404 page, marked by this brand's init() rather than by any check inside
+ * 404.html. Keeps the error page a single shared file with no brand or path logic in it.
+ */
+:root[data-brand="banking"] body.error-page-banking main .section {
+  border-top: 4px solid var(--brand-secondary);
+}
